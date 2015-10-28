@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="it.fff.business.service.webapp">
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/WebContent/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="it.fff.business.common-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.business.common/it.fff.business.common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="it.fff.business.facade-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.business.facade/it.fff.business.facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="it.fff.business-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.business/it.fff.business">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="it.fff.persistence.facade-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.persistence.facade/it.fff.persistence.facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="it.fff.persistence-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.persistence/it.fff.persistence">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/it.fff.business.service.webapp/build/classes"/>
+        <property name="component.exclusion.patterns" value="WEB-INF/ibm-web-bnd.xmi,WEB-INF/ibm-web-ext.xmi"/>
+        <property name="context-root" value="it.fff.business.service.webapp"/>
+    </wb-module>
+</project-modules>
