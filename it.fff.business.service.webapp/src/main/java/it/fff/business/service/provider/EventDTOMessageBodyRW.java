@@ -17,6 +17,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +31,7 @@ import it.fff.business.common.dto.EventDTO;
 @Produces(MediaType.APPLICATION_JSON)
 public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, MessageBodyReader<EventDTO>{
 
+	private static final Logger logger = LogManager.getLogger(EventDTOMessageBodyRW.class);
 	/*
 	 * MessageBodyWriter methods
 	 */
@@ -52,9 +56,10 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 						MultivaluedMap<String, Object> httpHeaders, 
 						OutputStream entityStream) throws IOException, WebApplicationException {
 
+		StringBuilder typeSubtype = new StringBuilder();
+		typeSubtype.append(mediaType.getType()).append("/").append(mediaType.getSubtype());
+		logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
 		try {
-			StringBuilder typeSubtype = new StringBuilder();
-			typeSubtype.append(mediaType.getType()).append("/").append(mediaType.getSubtype());
 			switch (typeSubtype.toString()) {
 			case MediaType.APPLICATION_XML:
 				toXML(event, entityStream);				
@@ -68,18 +73,21 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 				
 			}
 		} catch (JAXBException e) {
+			logger.error("Errore durante la conversione di EventDTO in {}; Message: ",typeSubtype,e.getMessage());
 			e.printStackTrace();
 		}
 		
 	}
 
 	private void toJSON(EventDTO event, OutputStream entityStream) throws JsonGenerationException, JsonMappingException, IOException {
+		logger.debug("JSON conversion of DTO");
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, false);
 		objectMapper.writeValue(entityStream, event);
 	}
 
 	private void toXML(EventDTO event, OutputStream entityStream) throws JAXBException {
+		logger.debug("XML conversion of DTO");
 		JAXBContext jaxbContext = JAXBContext.newInstance(EventDTO.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 		marshaller.marshal(event, entityStream);

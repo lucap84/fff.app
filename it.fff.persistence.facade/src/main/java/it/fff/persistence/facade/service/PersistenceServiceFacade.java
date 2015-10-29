@@ -1,10 +1,11 @@
 package it.fff.persistence.facade.service;
 
 import it.fff.business.common.bo.EventBO;
+import it.fff.persistence.facade.exception.PersistenceException;
 
 public interface PersistenceServiceFacade {
 
-	public EventBO retrieveEvent(int eventId);
+	public EventBO retrieveEvent(int eventId) throws PersistenceException;
 	
 
 }
