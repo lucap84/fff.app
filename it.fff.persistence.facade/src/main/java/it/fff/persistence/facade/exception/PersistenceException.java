@@ -1,6 +1,8 @@
 package it.fff.persistence.facade.exception;
 
-public class PersistenceException extends Exception {
+import it.fff.business.common.exception.ApplicationException;
+
+public class PersistenceException extends ApplicationException {
 	
 	/**
 	 * 

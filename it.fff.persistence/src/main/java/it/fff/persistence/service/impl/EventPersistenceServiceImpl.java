@@ -1,5 +1,7 @@
 package it.fff.persistence.service.impl;
 
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +14,7 @@ public class EventPersistenceServiceImpl implements EventPersistenceService{
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceMock.class);
 	
 	@Override
-	public EventDAO retrieveEvent(int eventId) throws Exception{
+	public EventDAO retrieveEvent(int eventId) throws SQLException{
 		logger.info("retrieveEvent ({})",eventId);
 		EventDAO outputDao = null;
 		//		TODO retrieve in DB
@@ -20,7 +22,7 @@ public class EventPersistenceServiceImpl implements EventPersistenceService{
 			logger.info("Event ({}) retrieved",eventId);
 		}
 		else{
-			throw new Exception("Errore leggendo il DB per ID: "+eventId);
+			throw new SQLException("Errore leggendo il DB per ID: "+eventId);
 		}
 		return outputDao;
 	}

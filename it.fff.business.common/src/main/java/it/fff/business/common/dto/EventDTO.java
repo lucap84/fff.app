@@ -1,12 +1,11 @@
 package it.fff.business.common.dto;
 
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class EventDTO implements DataTransferObject, Serializable{
+public class EventDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = -6847395962948284696L;
 	private int eventId;
@@ -14,7 +13,7 @@ public class EventDTO implements DataTransferObject, Serializable{
 	private String descrizione;
 	
 	public EventDTO(){
-		
+		super();
 	}
 
 	public EventDTO(int eventId, String nome, String descrizione){

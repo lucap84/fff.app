@@ -6,6 +6,7 @@ import it.fff.business.facade.exception.BusinessException;
 
 public interface BusinessServiceFacade {
 	
-	public EventDTO getEvent(IdentifierDTO getEventInput) throws BusinessException; 
+//	public EventDTO getEvent(IdentifierDTO getEventInput) throws BusinessException;
+	public EventDTO getEvent(int eventId) throws BusinessException;
 
 }

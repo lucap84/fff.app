@@ -5,8 +5,8 @@
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </Console>
 	<RollingFile name="RollingFile" 
-				fileName="C:/Users/lpelosi/git/repo/it.fff.business.service.webapp/src/main/resources/logs/fff-app.log"  
-				filePattern="C:/Users/lpelosi/git/repo/it.fff.business.service.webapp/src/main/resources/logs/archive/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.zip">
+				fileName="/fff-temp/logs/fff-app.log"  
+				filePattern="/fff-temp/logs/archive/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.zip">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
       <Policies>
         <TimeBasedTriggeringPolicy />

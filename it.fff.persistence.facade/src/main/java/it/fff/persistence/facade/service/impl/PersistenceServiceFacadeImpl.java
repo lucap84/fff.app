@@ -1,11 +1,14 @@
 package it.fff.persistence.facade.service.impl;
 
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.business.common.mapper.EventMapper;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.dao.EventDAO;
+import it.fff.business.common.util.ErrorCodes;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 import it.fff.persistence.service.EventPersistenceService;
@@ -25,10 +28,17 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eventDAO = eventPersistenceService.retrieveEvent(eventId);
 		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
+			throw persistenceException;
+		}
 		catch(Exception e){
-			String errMsg = ""+e.getMessage();
-			logger.error(errMsg);
-			throw new PersistenceException(errMsg,e);
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
+			throw persistenceException;			
 		}
 		if(eventDAO!=null){
 			logger.debug("event ({}) retrieved",eventId);

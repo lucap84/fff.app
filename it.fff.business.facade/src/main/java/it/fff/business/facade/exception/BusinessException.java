@@ -1,6 +1,8 @@
 package it.fff.business.facade.exception;
 
-public class BusinessException extends Exception {
+import it.fff.business.common.exception.ApplicationException;
+
+public class BusinessException extends ApplicationException {
 	
 	/**
 	 * 

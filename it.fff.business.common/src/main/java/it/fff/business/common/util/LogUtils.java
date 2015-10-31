@@ -3,7 +3,7 @@ package it.fff.business.common.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class Util {
+public class LogUtils {
 	
 	public static String stackTrace2String(Throwable t){
 		StringWriter sw = new StringWriter();

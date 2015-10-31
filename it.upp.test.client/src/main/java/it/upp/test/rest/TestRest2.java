@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.fff.business.common.dto.IdentifierDTO;
-import it.fff.business.common.util.UtilDTO;
+import it.fff.business.common.util.DtoUtils;
 
 public class TestRest2 {
 	
@@ -25,7 +25,7 @@ public class TestRest2 {
 		IdentifierDTO identifierDTO = new IdentifierDTO();
 		identifierDTO.setId(1);
 		
-		String dto2EncodedJSONString = UtilDTO.dto2EncodedJSONString(identifierDTO);
+		String dto2EncodedJSONString = DtoUtils.dto2EncodedJSONString(identifierDTO);
 		Response response = webTarget.path("events").queryParam("json", dto2EncodedJSONString)
                 .request().accept(MediaType.APPLICATION_JSON).get();
 		System.out.println(response.getStatus());

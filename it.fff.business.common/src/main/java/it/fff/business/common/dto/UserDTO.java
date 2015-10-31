@@ -1,13 +1,11 @@
 package it.fff.business.common.dto;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
 @XmlType(propOrder={"userId","nome","cognome"})
-public class UserDTO implements DataTransferObject, Serializable {
+public class UserDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -1979200792665108748L;
 	private int userId;

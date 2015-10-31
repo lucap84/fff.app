@@ -1,12 +1,10 @@
 package it.fff.business.common.dto;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlType(propOrder={"posizione","categoria","partecipanti"})
-public class SearchCriteriaDTO implements DataTransferObject, Serializable {
+public class SearchCriteriaDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -207857158233822226L;
 	private int posizione;

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import it.fff.business.common.dto.EventDTO;
+import it.fff.business.service.util.ServiceUtils;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
@@ -56,8 +57,7 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 						MultivaluedMap<String, Object> httpHeaders, 
 						OutputStream entityStream) throws IOException, WebApplicationException {
 
-		StringBuilder typeSubtype = new StringBuilder();
-		typeSubtype.append(mediaType.getType()).append("/").append(mediaType.getSubtype());
+		String typeSubtype = ServiceUtils.mediaType2String(mediaType);
 		logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
 		try {
 			switch (typeSubtype.toString()) {

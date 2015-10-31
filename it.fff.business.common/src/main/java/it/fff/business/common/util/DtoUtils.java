@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.fff.business.common.dto.DataTransferObject;
 
-public class UtilDTO {
+public class DtoUtils {
 	
 	public static ObjectMapper mapper = new ObjectMapper();
 	
@@ -61,7 +61,7 @@ public class UtilDTO {
 		DataTransferObject dto = null;
 		try {
 			String decodedJsonString=URLDecoder.decode(encodedJsonString,  StandardCharsets.UTF_8.name());
-			dto = UtilDTO.jsonString2DTO(decodedJsonString, className);
+			dto = DtoUtils.jsonString2DTO(decodedJsonString, className);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("UnsupportedEncodingException!");
 			return null;
