@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import it.business.common.mapper.EventMapper;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.GetEventInputDTO;
+import it.fff.business.common.dto.IdentifierDTO;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.business.service.EventBusinessService;
@@ -22,7 +22,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public EventDTO getEvent(GetEventInputDTO getEventDTO) throws BusinessException {
+	public EventDTO getEvent(IdentifierDTO identifierDTO) throws BusinessException {
 		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di business
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		if(eventBusinessService!=null){
@@ -30,7 +30,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		EventBO eventBO;
 		try {
-			eventBO = eventBusinessService.getEvent(getEventDTO.getEventId());
+			eventBO = eventBusinessService.getEvent(identifierDTO.getId());
 		} catch (PersistenceException e) {
 			String errMess = "Errore da strato di persistenza. Message:"+e.getMessage();
 			logger.error(errMess);

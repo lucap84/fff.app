@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.GetEventInputDTO;
+import it.fff.business.common.dto.IdentifierDTO;
 import it.fff.business.common.util.Util;
 import it.fff.business.common.util.UtilDTO;
 import it.fff.business.facade.exception.BusinessException;
@@ -37,7 +37,7 @@ public class EventService {
 	@Produces({MediaType.APPLICATION_JSON})
 	public EventDTO getEvent(@QueryParam("json") String json) throws BusinessException {
 		logger.info("Receiving getEvent request with param: {}",json);
-		GetEventInputDTO inputDTO = (GetEventInputDTO)UtilDTO.encodedJSONString2DTO(json, GetEventInputDTO.class.getName());
+		IdentifierDTO inputDTO = (IdentifierDTO)UtilDTO.encodedJSONString2DTO(json, IdentifierDTO.class.getName());
 		EventDTO outputDTO = null;
 		try {
 			outputDTO = businessServiceFacade.getEvent(inputDTO);
