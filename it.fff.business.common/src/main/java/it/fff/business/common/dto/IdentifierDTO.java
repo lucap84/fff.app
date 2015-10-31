@@ -6,22 +6,24 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class GetEventInputDTO  implements DataTransferObject, Serializable{
+public class IdentifierDTO  implements DataTransferObject, Serializable{
 	
 	private static final long serialVersionUID = 6098032825366060640L;
-	private int eventId;
+	private int id;
 	
-	public GetEventInputDTO() {
+	public IdentifierDTO() {
 	}
 
 	@XmlElement
-	public int getEventId() {
-		return eventId;
+	public int getId() {
+		return id;
 	}
 
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
+	public void setId(int id) {
+		this.id = id;
 	}
+
+
 	
 
 }
