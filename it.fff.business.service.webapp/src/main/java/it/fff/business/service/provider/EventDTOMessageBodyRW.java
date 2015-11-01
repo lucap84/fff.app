@@ -29,7 +29,7 @@ import it.fff.business.common.dto.EventDTO;
 import it.fff.business.service.util.ServiceUtils;
 
 @Provider
-@Produces(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, MessageBodyReader<EventDTO>{
 
 	private static final Logger logger = LogManager.getLogger(EventDTOMessageBodyRW.class);

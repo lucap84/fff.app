@@ -1,15 +1,11 @@
 package it.fff.business.service.wsrest;
 
 
-import java.awt.Event;
-import java.util.ResourceBundle;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -17,19 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.IdentifierDTO;
 import it.fff.business.common.util.LogUtils;
-import it.fff.business.common.util.DtoUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
-import it.fff.business.service.util.ResourceBundleProvider;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;	
 
 @Component("eventService")
 @Path("/events")
-public class EventService {
+public class EventService extends ApplicationService{
 	
 	private static final Logger logger = LogManager.getLogger(EventService.class);
 	
@@ -42,14 +34,14 @@ public class EventService {
 
 	
 	@GET
-	@Path("json/{eventId}")
+	@Path("{eventId}/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public EventDTO getEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
 	}
 	
 	@GET
-	@Path("xml/{eventId}")
+	@Path("{eventId}/xml")
 	@Produces( MediaType.APPLICATION_XML)
 	public EventDTO getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
@@ -62,14 +54,8 @@ public class EventService {
 		int eventIdInt = Integer.valueOf(eventId);
 			outputDTO = businessServiceFacade.getEvent(eventIdInt);
 		} catch (BusinessException e) {
-			ResourceBundle resourceBundle = ResourceBundleProvider.getInstance().getResourceBundle(request.getLocale());
-			
 			outputDTO = new EventDTO();
-			outputDTO.setErrorsPresent(true);
-			for (String code : e.getErrorCodes()) {
-				outputDTO.putErrorInMap(code, resourceBundle.getString(code));
-				logger.error(resourceBundle.getString(code));
-			}
+			super.manageErrors(e, outputDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		catch (NumberFormatException e){
