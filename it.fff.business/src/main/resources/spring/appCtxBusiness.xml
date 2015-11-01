@@ -12,5 +12,11 @@
 	<bean name="eventBusinessService" class="it.business.service.impl.EventBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
 	</bean>
+
+	<bean name="userBusinessService" class="it.business.service.impl.UserBusinessServiceImpl" scope="prototype">
+		<property name="persistenceFacade" ref="persistenceFacade"/>
+	</bean>
+	
+	
 	
 </beans>
