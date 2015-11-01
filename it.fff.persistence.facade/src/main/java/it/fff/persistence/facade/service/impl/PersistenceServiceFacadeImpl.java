@@ -6,12 +6,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.business.common.mapper.EventMapper;
+import it.business.common.mapper.UserMapper;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.dao.EventDAO;
+import it.fff.business.common.dao.UserDAO;
+import it.fff.business.common.dto.CreateUserDTO;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 import it.fff.persistence.service.EventPersistenceService;
+import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.PersistenceServiceProvider;
 
 public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
@@ -49,6 +54,39 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("Event ({}) mapped in BO",eventId);
 		}
 		return eventBO;
+	}
+
+	@Override
+	public UserBO registerUser(UserBO userBO) throws PersistenceException {
+		logger.debug("registrando utente ...");
+		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
+
+		UserDAO userDAO = null;
+		try{
+			userDAO = userPersistenceService.registerUser(userBO);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
+			throw persistenceException;
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
+			throw persistenceException;			
+		}
+		if(userDAO!=null){
+			logger.debug("user created");
+		}
+		UserMapper mapper = new UserMapper();
+		UserBO userBOCreated = mapper.mapDao2Bo(userDAO);
+		if(userBO!=null){
+			logger.debug("Usermapped in BO");
+		}
+		return userBOCreated;
 	}
 
 }
