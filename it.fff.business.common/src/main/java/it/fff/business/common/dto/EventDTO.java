@@ -22,22 +22,21 @@ public class EventDTO extends DataTransferObject {
 		this.descrizione = descrizione;
 	}
 	
-	@XmlElement
-	public int getEventId() {
+	@XmlElement	public int getEventId() {
 		return eventId;
 	}
 	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-	@XmlElement
-	public String getNome() {
+	
+	@XmlElement	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	@XmlElement
-	public String getDescrizione() {
+
+	@XmlElement public String getDescrizione() {
 		return descrizione;
 	}
 	public void setDescrizione(String descrizione) {

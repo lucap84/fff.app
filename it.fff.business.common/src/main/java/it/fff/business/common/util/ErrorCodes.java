@@ -8,6 +8,7 @@ public class ErrorCodes {
 
 	//Codici errore business
 	public static final String ERR_BUSIN_GENERIC = "2001";
-	public static final String ERR_BUSIN_NOEVENT = "2002";
+	public static final String ERR_BUSIN_GETEVENT = "2002";
+	public static final String ERR_BUSIN_CREATEUSER = "2003";
 
 }
