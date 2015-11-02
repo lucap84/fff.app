@@ -14,7 +14,7 @@ public class SearchCriteriaDTO extends DataTransferObject {
 	public SearchCriteriaDTO(){
 	}
 
-	public int getPosizione() {
+	@XmlElement public int getPosizione() {
 		return posizione;
 	}
 
@@ -22,7 +22,7 @@ public class SearchCriteriaDTO extends DataTransferObject {
 		this.posizione = posizione;
 	}
 
-	public String getCategoria() {
+	@XmlElement public String getCategoria() {
 		return categoria;
 	}
 
@@ -30,7 +30,7 @@ public class SearchCriteriaDTO extends DataTransferObject {
 		this.categoria = categoria;
 	}
 
-	public int getPartecipanti() {
+	@XmlElement public int getPartecipanti() {
 		return partecipanti;
 	}
 

@@ -43,14 +43,5 @@ public class EventDTO extends DataTransferObject {
 		this.descrizione = descrizione;
 	}
 	
-	@Override
-	public String toString() {
-		return "EventDTO{" +
-	            "eventId='" + eventId + '\'' +
-	            ", nome=" + nome +
-	             ", descrizione=" + descrizione +
-	            '}';
-	}
-	
 	
 }

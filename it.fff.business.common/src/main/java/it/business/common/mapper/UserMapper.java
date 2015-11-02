@@ -9,20 +9,35 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserDAO> {
 
 	@Override
 	public UserBO mapDto2Bo(UserDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+		UserBO bo = new UserBO();
+		bo.setId(dto.getId());
+		bo.setCognome(dto.getCognome());
+		bo.setDataNascita(dto.getDataNascita());
+		bo.setDescrizione(dto.getDescrizione());
+		bo.setEmail(dto.getEmail());
+		return bo;
 	}
 
 	@Override
 	public UserDTO mapBo2Dto(UserBO bo) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDTO dto = new UserDTO();
+		dto.setId(bo.getId());
+		dto.setCognome(bo.getCognome());
+		dto.setDataNascita(bo.getDataNascita());
+		dto.setDescrizione(bo.getDescrizione());
+		dto.setEmail(bo.getEmail());
+		return dto;
 	}
 
 	@Override
 	public UserDAO mapBo2Dao(UserBO bo) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDAO dao = new UserDAO();
+		dao.setId(bo.getId());
+		dao.setCognome(bo.getCognome());
+		dao.setDataNascita(bo.getDataNascita());
+		dao.setDescrizione(bo.getDescrizione());
+		dao.setEmail(bo.getEmail());
+		return dao;
 	}
 
 	@Override
