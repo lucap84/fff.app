@@ -62,9 +62,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
 
-		UserDAO userDAO = null;
+		UserDAO userDAOoutput = null;
 		try{
-			userDAO = userPersistenceService.registerUser(userBO);
+			UserMapper mapper = new UserMapper();
+			UserDAO userDAOinput = mapper.mapBo2Dao(userBO); 
+			userDAOoutput = userPersistenceService.registerUser(userDAOinput);
 		}
 		catch(SQLException e){
 			logger.error(e.getMessage());
@@ -78,11 +80,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
 			throw persistenceException;			
 		}
-		if(userDAO!=null){
+		if(userDAOoutput!=null){
 			logger.debug("user created");
 		}
 		UserMapper mapper = new UserMapper();
-		UserBO userBOCreated = mapper.mapDao2Bo(userDAO);
+		UserBO userBOCreated = mapper.mapDao2Bo(userDAOoutput);
 		if(userBO!=null){
 			logger.debug("Usermapped in BO");
 		}
