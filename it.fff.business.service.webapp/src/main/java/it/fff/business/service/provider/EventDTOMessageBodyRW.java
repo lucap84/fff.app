@@ -13,24 +13,16 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import it.fff.business.common.dto.EventDTO;
-import it.fff.business.service.util.ServiceUtils;
 
 @Provider
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, MessageBodyReader<EventDTO>{
+public class EventDTOMessageBodyRW extends ApplicationProvider implements MessageBodyWriter<EventDTO>, MessageBodyReader<EventDTO>{
 
 	private static final Logger logger = LogManager.getLogger(EventDTOMessageBodyRW.class);
 	/*
@@ -57,7 +49,7 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 						MultivaluedMap<String, Object> httpHeaders, 
 						OutputStream entityStream) throws IOException, WebApplicationException {
 
-		String typeSubtype = ServiceUtils.mediaType2String(mediaType);
+		String typeSubtype = super.mediaType2String(mediaType);
 		logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
 		try {
 			switch (typeSubtype.toString()) {
@@ -79,20 +71,6 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 		
 	}
 
-	private void toJSON(EventDTO event, OutputStream entityStream) throws JsonGenerationException, JsonMappingException, IOException {
-		logger.debug("JSON conversion of DTO");
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, false);
-		objectMapper.writeValue(entityStream, event);
-	}
-
-	private void toXML(EventDTO event, OutputStream entityStream) throws JAXBException {
-		logger.debug("XML conversion of DTO");
-		JAXBContext jaxbContext = JAXBContext.newInstance(EventDTO.class);
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.marshal(event, entityStream);
-	}
-
 	
 	/*
 	 * MessageBodyReader methods
@@ -104,15 +82,34 @@ public class EventDTOMessageBodyRW implements MessageBodyWriter<EventDTO>, Messa
 	}
 
 	@Override
-	public EventDTO readFrom(	Class<EventDTO> type, 
+	public EventDTO readFrom(	Class<EventDTO> classType, 
 								Type genericType, 
 								Annotation[] annotations, 
 								MediaType mediaType,
 								MultivaluedMap<String, String> httpHeaders, 
-								InputStream entityStream)
+								InputStream inputStream)
 					throws IOException, WebApplicationException {
-		System.out.println("MessageBodyReader.readFrom");
-		return null;
+		EventDTO eventDTO = null;
+		try {
+			String typeSubtype = super.mediaType2String(mediaType);
+			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
+			switch (typeSubtype) {
+			case MediaType.APPLICATION_XML:
+				eventDTO = (EventDTO)fromXML(inputStream,classType);				
+				break;
+
+			case MediaType.APPLICATION_JSON:
+				eventDTO = (EventDTO)fromJSON(inputStream,classType);
+				break;
+			default:
+				eventDTO = (EventDTO)fromXML(inputStream,classType);
+				
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		
+		return eventDTO;
 	}
 
 }

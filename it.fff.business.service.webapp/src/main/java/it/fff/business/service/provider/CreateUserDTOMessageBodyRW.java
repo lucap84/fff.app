@@ -14,27 +14,18 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import it.fff.business.common.dto.CreateUserDTO;
-import it.fff.business.common.dto.UserDTO;
-import it.fff.business.service.util.ServiceUtils;
 
 @Provider
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class CreateUserDTOMessageBodyRW implements MessageBodyWriter<CreateUserDTO>, MessageBodyReader<CreateUserDTO>{
+public class CreateUserDTOMessageBodyRW extends ApplicationProvider implements MessageBodyWriter<CreateUserDTO>, MessageBodyReader<CreateUserDTO>{
 	
 	private static final Logger logger = LogManager.getLogger(CreateUserDTOMessageBodyRW.class);
 
@@ -51,7 +42,7 @@ public class CreateUserDTOMessageBodyRW implements MessageBodyWriter<CreateUserD
 							MediaType mediaType,
 							MultivaluedMap<String, Object> httpHeaders, 
 							OutputStream entityStream) throws IOException, WebApplicationException {
-		String typeSubtype = ServiceUtils.mediaType2String(mediaType);
+		String typeSubtype = super.mediaType2String(mediaType);
 		logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
 		try {
 			switch (typeSubtype.toString()) {
@@ -91,18 +82,18 @@ public class CreateUserDTOMessageBodyRW implements MessageBodyWriter<CreateUserD
 									InputStream inputStream) throws IOException, WebApplicationException {
 		CreateUserDTO createUserDTO = null;
 		try {
-			String typeSubtype = ServiceUtils.mediaType2String(mediaType);
+			String typeSubtype = super.mediaType2String(mediaType);
 			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
 			switch (typeSubtype) {
 			case MediaType.APPLICATION_XML:
-				createUserDTO = fromXML(inputStream);				
+				createUserDTO = (CreateUserDTO)fromXML(inputStream,classType);				
 				break;
 
 			case MediaType.APPLICATION_JSON:
-				createUserDTO = fromJSON(inputStream);
+				createUserDTO = (CreateUserDTO)fromJSON(inputStream,classType);
 				break;
 			default:
-				createUserDTO = fromXML(inputStream);
+				createUserDTO = (CreateUserDTO)fromXML(inputStream,classType);
 				
 			}
 		} catch (JAXBException e) {
@@ -118,33 +109,5 @@ public class CreateUserDTOMessageBodyRW implements MessageBodyWriter<CreateUserD
 		return 0;
 	}
 	
-	/*
-	 *  utility methods	
-	 */
-		
-		private void toJSON(CreateUserDTO user, OutputStream entityStream) throws JsonGenerationException, JsonMappingException, IOException {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, false);
-			objectMapper.writeValue(entityStream, user);
-		}
-		
-		private CreateUserDTO fromJSON(InputStream entityStream) throws JsonGenerationException, JsonMappingException, IOException {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, false);
-			CreateUserDTO readValue = objectMapper.readValue(entityStream, CreateUserDTO.class);
-			return readValue;
-		}	
 
-		private void toXML(CreateUserDTO user, OutputStream entityStream) throws JAXBException {
-			JAXBContext jaxbContext = JAXBContext.newInstance(CreateUserDTO.class);
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.marshal(user, entityStream);
-		}
-		
-		private CreateUserDTO fromXML(InputStream entityStream) throws JAXBException {
-			JAXBContext jaxbContext = JAXBContext.newInstance(UserDTO.class);
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			CreateUserDTO myBean = (CreateUserDTO)unmarshaller.unmarshal(entityStream);
-	        return myBean;
-		}	
 }
