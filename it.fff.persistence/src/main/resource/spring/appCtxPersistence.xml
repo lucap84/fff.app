@@ -8,9 +8,10 @@
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
 	<!-- 
-	<bean name="eventPersistenceService" class="it.fff.persistence.service.mock.EventPersistenceServiceMock" scope="prototype" />
-	 -->
 	<bean name="eventPersistenceService" class="it.fff.persistence.service.impl.EventPersistenceServiceImpl" scope="prototype" />
 	<bean name="userPersistenceService" class="it.fff.persistence.service.impl.UserPersistenceServiceImpl" scope="prototype" />
+	 -->
+	<bean name="eventPersistenceService" class="it.fff.persistence.service.mock.EventPersistenceServiceMock" scope="prototype" />
+	<bean name="userPersistenceService" class="it.fff.persistence.service.mock.UserPersistenceServiceMock" scope="prototype" />
 	
 </beans>

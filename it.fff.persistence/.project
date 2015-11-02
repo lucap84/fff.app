@@ -3,6 +3,7 @@
 	<name>it.fff.persistence</name>
 	<comment></comment>
 	<projects>
+		<project>it.fff.business.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

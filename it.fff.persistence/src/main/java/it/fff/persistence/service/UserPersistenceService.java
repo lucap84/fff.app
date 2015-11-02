@@ -7,6 +7,6 @@ import it.fff.business.common.dao.UserDAO;
 
 public interface UserPersistenceService  extends PersistenceService{
 
-	UserDAO registerUser(UserBO userBO) throws SQLException;
+	UserDAO registerUser(UserDAO userDAO) throws SQLException;
 
 }
