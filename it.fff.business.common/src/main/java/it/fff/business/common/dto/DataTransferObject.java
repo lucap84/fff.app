@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public abstract class DataTransferObject implements Serializable{
+public class DataTransferObject implements Serializable{
 	
 	private static final long serialVersionUID = -7693503814004588654L;
 	private boolean isErrorsPresent;

@@ -1,7 +1,5 @@
 package it.fff.business.common.dto;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,8 +13,6 @@ public class CreateUserDTO extends DataTransferObject {
 	private String dataNascita;
 	private String sesso;
 	private String nazionalita;
-	private List<String> lingue;
-	private String descrizione;
 	
 	@XmlElement public String getEmail() {
 		return email;
@@ -54,19 +50,6 @@ public class CreateUserDTO extends DataTransferObject {
 	public void setNazionalita(String nazionalita) {
 		this.nazionalita = nazionalita;
 	}
-	@XmlElement public List<String> getLingue() {
-		return lingue;
-	}
-	public void setLingue(List<String> lingue) {
-		this.lingue = lingue;
-	}
-	@XmlElement public String getDescrizione() {
-		return descrizione;
-	}
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-	
 	
 
 }
