@@ -1,10 +1,6 @@
 package it.fff.business.service.wsrest;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -14,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import it.fff.business.common.dto.CreateUserDTO;
+import it.fff.business.common.dto.ProfileImageDTO;
 import it.fff.business.common.dto.UserDTO;
+import it.fff.business.common.dto.WriteResultDTO;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -34,7 +31,6 @@ import it.fff.business.facade.service.BusinessServiceFacade;
 public class UserService extends ApplicationService{
 	
 	private static final Logger logger = LogManager.getLogger(UserService.class);
-	private static final String SERVER_UPLOAD_LOCATION_FOLDER = "C://Users/lpelosi/Upload_Files/";
 	
 	@Autowired
 	private BusinessServiceFacade businessServiceFacade;	
@@ -43,7 +39,7 @@ public class UserService extends ApplicationService{
 	@Path("json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserDTO createUserJSON(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
+	public WriteResultDTO createUserJSON(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
 		return createUser(request, createUserDTO);
 	}
 	
@@ -51,24 +47,30 @@ public class UserService extends ApplicationService{
 	@Path("xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public UserDTO createUserXML(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
+	public WriteResultDTO createUserXML(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
 		return createUser(request, createUserDTO);
 	}	
 	
+	@POST
+	@Path("{userId}/images/json")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO updateProfileImageJSON(	@Context HttpServletRequest request,
+													@FormDataParam("file") InputStream uploadedInputStream, 
+							 						@FormDataParam("file") FormDataContentDisposition fileDetail,
+							 						@PathParam("userId") String userId) throws BusinessException {
+		return this.updateProfileImage(request,uploadedInputStream,fileDetail,userId);
+	}
 	
 	@POST
-	@Path("{userId}/images")
+	@Path("{userId}/images/xml")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String uploadFile(@FormDataParam("file") InputStream uploadedInputStream, 
-							 @FormDataParam("file") FormDataContentDisposition fileDetail,
-							 @PathParam("userId") String userId) throws BusinessException {
-
-		String filePath = SERVER_UPLOAD_LOCATION_FOLDER +userId+"/"+fileDetail.getFileName();
-		saveFile(uploadedInputStream, filePath);
-		String output = "File saved to server location : " + filePath;
-//		return Response.status(200).entity(output).build();
-		return output;
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO updateProfileImageXML(	@Context HttpServletRequest request,
+													@FormDataParam("file") InputStream uploadedInputStream, 
+							 						@FormDataParam("file") FormDataContentDisposition fileDetail,
+							 						@PathParam("userId") String userId) throws BusinessException {
+		return this.updateProfileImage(request,uploadedInputStream,fileDetail,userId);
 	}	
 	
 	
@@ -77,42 +79,48 @@ public class UserService extends ApplicationService{
 	 *	Delegating methods 
 	 */
 	
-	private UserDTO createUser(HttpServletRequest request, CreateUserDTO createUserDTO){
+	private WriteResultDTO createUser(HttpServletRequest request, CreateUserDTO createUserDTO){
 		logger.info("Receiving createUser request");
-		UserDTO outputDTO = null;
+		WriteResultDTO writeResultDTO = new WriteResultDTO();
+		
 		try {
-			outputDTO = businessServiceFacade.createUser(createUserDTO);
+			UserDTO userdto = businessServiceFacade.createUser(createUserDTO);
+			if(userdto!=null && userdto.getId()>0){
+				writeResultDTO.setAffectedRecords(1);
+				writeResultDTO.setIdentifier(String.valueOf(userdto.getId()));
+			}
+			
 		} catch (BusinessException e) {
-			outputDTO = new UserDTO();
-			super.manageErrors(e, outputDTO, request.getLocale());
+			super.manageErrors(e, writeResultDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));			
 		}
-		if(outputDTO!=null){
-			logger.info("Sending back the user retrieved");
-		}
-		return outputDTO;		
+		logger.info("Sending back the result");
+		return writeResultDTO;		
 	}
 	
-	// save uploaded file to a defined location on the server
-	    private void saveFile(InputStream uploadedInputStream,
-	            String serverLocation) {
-	        try {
-	            OutputStream outpuStream = new FileOutputStream(new File(serverLocation));
-	            int read = 0;
-	            byte[] bytes = new byte[1024];
-	 
-	            outpuStream = new FileOutputStream(new File(serverLocation));
-	            while ((read = uploadedInputStream.read(bytes)) != -1) {
-	                outpuStream.write(bytes, 0, read);
-	            }
-	            outpuStream.flush();
-	            outpuStream.close();
-	        } catch (IOException e) {
-	 
-	            e.printStackTrace();
-	        }
-	 
-	    }
-	
+	private WriteResultDTO updateProfileImage(	HttpServletRequest request,
+												InputStream uploadedInputStream, 
+												FormDataContentDisposition fileDetail,
+												String userId
+												) {
+		ProfileImageDTO imgDTOinput = new ProfileImageDTO();
+		imgDTOinput.setImageInputStream(uploadedInputStream);
+		imgDTOinput.setUserId(Integer.valueOf(userId));
+		imgDTOinput.setFileName(fileDetail.getFileName());
+		imgDTOinput.setName(fileDetail.getName());
+		imgDTOinput.setParameters(fileDetail.getParameters());
+		imgDTOinput.setSize(fileDetail.getSize());
+		imgDTOinput.setType(fileDetail.getType());
 
+		WriteResultDTO resultDTO = new WriteResultDTO();
+		try {
+			resultDTO = businessServiceFacade.updateProfileImage(imgDTOinput);
+		} catch (BusinessException e) {
+			super.manageErrors(e, resultDTO, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		
+		return resultDTO;
+	}	
+	
 }
