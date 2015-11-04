@@ -25,7 +25,7 @@ public class UploadFileTest {
 
 	  public static void main(String[] args) {
 		  HttpClient httpclient = new DefaultHttpClient();
-		  HttpPost httpPost = new HttpPost("http://localhost:8080/it.fff.business.service.webapp/restapi/users/1/images");
+		  HttpPost httpPost = new HttpPost("http://localhost:8080/it.fff.business.service.webapp/restapi/users/1/images/json");
 
 		  File f = new File("D:\\Users\\lpelosi\\Desktop\\imagetest.jpg");
 		  FileBody uploadFilePart = new FileBody(f);
