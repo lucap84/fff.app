@@ -8,8 +8,10 @@ import org.apache.logging.log4j.Logger;
 import it.business.common.mapper.EventMapper;
 import it.business.common.mapper.UserMapper;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.dao.EventDAO;
+import it.fff.business.common.dao.ProfileImageDAO;
 import it.fff.business.common.dao.UserDAO;
 import it.fff.business.common.dto.CreateUserDTO;
 import it.fff.business.common.util.ErrorCodes;
@@ -89,6 +91,41 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("Usermapped in BO");
 		}
 		return userBOCreated;
+	}
+
+	@Override
+	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException {
+		logger.debug("aggiornando img utente ...");
+		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
+
+		ProfileImageDAO daoOutput = null;
+		try{
+			UserMapper mapper = new UserMapper();
+			ProfileImageDAO daoInput = mapper.mapProfileImageBo2Dao(imgBO);
+			daoOutput = userPersistenceService.updateProfileImage(daoInput);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
+			throw persistenceException;
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
+			throw persistenceException;			
+		}
+		if(daoOutput!=null){
+			logger.debug("user img created");
+		}
+		UserMapper mapper = new UserMapper();
+		ProfileImageBO boCreated = mapper.mapProfileImageDao2Bo(daoOutput);
+		if(boCreated!=null){
+			logger.debug("img mapped in BO");
+		}
+		return boCreated;
 	}
 
 }
