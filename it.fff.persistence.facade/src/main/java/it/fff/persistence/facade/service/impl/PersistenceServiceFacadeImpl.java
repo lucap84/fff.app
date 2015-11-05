@@ -5,15 +5,15 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.business.common.mapper.EventMapper;
-import it.business.common.mapper.UserMapper;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dao.EventDAO;
-import it.fff.business.common.dao.ProfileImageDAO;
-import it.fff.business.common.dao.UserDAO;
 import it.fff.business.common.dto.CreateUserDTO;
+import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
+import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
@@ -31,9 +31,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getBusinessService("eventPersistenceService");
 
-		EventDAO eventDAO = null;
+		EventEO eventEO = null;
 		try{
-			eventDAO = eventPersistenceService.retrieveEvent(eventId);
+			eventEO = eventPersistenceService.retrieveEvent(eventId);
 		}
 		catch(SQLException e){
 			logger.error(e.getMessage());
@@ -47,11 +47,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
 			throw persistenceException;			
 		}
-		if(eventDAO!=null){
+		if(eventEO!=null){
 			logger.debug("event ({}) retrieved",eventId);
 		}
 		EventMapper mapper = new EventMapper();
-		EventBO eventBO = mapper.mapDao2Bo(eventDAO);
+		EventBO eventBO = mapper.mapEo2Bo(eventEO);
 		if(eventBO!=null){
 			logger.debug("Event ({}) mapped in BO",eventId);
 		}
@@ -64,11 +64,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
 
-		UserDAO userDAOoutput = null;
+		UserEO userEOoutput = null;
 		try{
 			UserMapper mapper = new UserMapper();
-			UserDAO userDAOinput = mapper.mapBo2Dao(userBO); 
-			userDAOoutput = userPersistenceService.registerUser(userDAOinput);
+			UserEO userEOinput = mapper.mapBo2Eo(userBO); 
+			userEOoutput = userPersistenceService.registerUser(userEOinput);
 		}
 		catch(SQLException e){
 			logger.error(e.getMessage());
@@ -82,11 +82,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
 			throw persistenceException;			
 		}
-		if(userDAOoutput!=null){
+		if(userEOoutput!=null){
 			logger.debug("user created");
 		}
 		UserMapper mapper = new UserMapper();
-		UserBO userBOCreated = mapper.mapDao2Bo(userDAOoutput);
+		UserBO userBOCreated = mapper.mapEo2Bo(userEOoutput);
 		if(userBO!=null){
 			logger.debug("Usermapped in BO");
 		}
@@ -99,11 +99,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
 
-		ProfileImageDAO daoOutput = null;
+		ProfileImageEO eoOutput = null;
 		try{
 			UserMapper mapper = new UserMapper();
-			ProfileImageDAO daoInput = mapper.mapProfileImageBo2Dao(imgBO);
-			daoOutput = userPersistenceService.updateProfileImage(daoInput);
+			ProfileImageEO eoInput = mapper.mapProfileImageBo2Eo(imgBO);
+			eoOutput = userPersistenceService.updateProfileImage(eoInput);
 		}
 		catch(SQLException e){
 			logger.error(e.getMessage());
@@ -117,11 +117,11 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
 			throw persistenceException;			
 		}
-		if(daoOutput!=null){
+		if(eoOutput!=null){
 			logger.debug("user img created");
 		}
 		UserMapper mapper = new UserMapper();
-		ProfileImageBO boCreated = mapper.mapProfileImageDao2Bo(daoOutput);
+		ProfileImageBO boCreated = mapper.mapProfileImageEo2Bo(eoOutput);
 		if(boCreated!=null){
 			logger.debug("img mapped in BO");
 		}
