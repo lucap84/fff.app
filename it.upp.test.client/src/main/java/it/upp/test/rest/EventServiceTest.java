@@ -2,7 +2,9 @@ package it.upp.test.rest;
 
 import java.net.URI;
 import it.fff.business.common.dto.*;
+import it.fff.business.service.provider.CreateUserDTOMessageBodyRW;
 import it.fff.business.service.provider.EventDTOMessageBodyRW;
+import it.fff.business.service.provider.WriteResultDTOMessageBodyRW;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,35 +13,31 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-public class EventServiceTest {
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class EventServiceTest extends ServiceTest{
 	
-	public static void main(String[] args) {
+	@Test
+	public void getEventShouldReturnOneEvent(){
 		Client client = ClientBuilder.newBuilder().build();
 		client.register(EventDTOMessageBodyRW.class);
-		
-		
-		WebTarget targetGetEventJSON = client.target(getBaseURI());
-		Response responseGetEventJSON = targetGetEventJSON.path("events").path("1").path("json").
-				request(MediaType.APPLICATION_JSON).
-				get();
-		final EventDTO responseGetEventJSONEntity = responseGetEventJSON.readEntity(EventDTO.class);
-		System.out.println("*************");
-		System.out.println(responseGetEventJSON.getStatus());
-		System.out.println(responseGetEventJSON.getMediaType());
-		System.out.println(responseGetEventJSONEntity);
-		
-		WebTarget targetGetEventXML = client.target(getBaseURI());
-		Response responseGetEventXML = targetGetEventXML.path("events").path("1").path("xml").
-				request(MediaType.APPLICATION_XML).
-				get();
-		final EventDTO responseGetEventXMLEntity = responseGetEventXML.readEntity(EventDTO.class);
-		System.out.println("*************");
-		System.out.println(responseGetEventXML.getStatus());
-		System.out.println(responseGetEventXML.getMediaType());
-		System.out.println(responseGetEventXMLEntity);		
-	}
 
-	  private static URI getBaseURI() {
-		    return UriBuilder.fromUri("http://localhost:8080/it.fff.business.service.webapp/restapi").build();
-		  }
+		String requestedEventId = "1";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(requestedEventId).path("json");
+		Response responseGetEventJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
+		assertEquals(200, responseGetEventJSON.getStatus());
+		final EventDTO entityFromJSON = responseGetEventJSON.readEntity(EventDTO.class);
+		assertNotNull(entityFromJSON);
+		assertEquals(entityFromJSON.getEventId(), requestedEventId);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(requestedEventId).path("xml");
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
+		assertEquals(200, responseXML.getStatus());
+		final EventDTO entityFromXML = responseXML.readEntity(EventDTO.class);
+		assertNotNull(entityFromXML);
+		assertEquals(entityFromXML.getEventId(), requestedEventId);
+	}	
+	
 }
