@@ -30,6 +30,10 @@ public class WriteResultDTO extends DataTransferObject {
 		this.identifier = identifier;
 	}
 
-	
+	@Override
+	public String toString() {
+		
+		return super.toString()+" --> "+this.getClass().getName()+"(affectedRecords: "+affectedRecords+"; identifier: "+identifier+")";
+	}
 
 }

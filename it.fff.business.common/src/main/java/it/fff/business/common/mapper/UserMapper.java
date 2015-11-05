@@ -1,14 +1,14 @@
-package it.business.common.mapper;
+package it.fff.business.common.mapper;
 
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dao.ProfileImageDAO;
-import it.fff.business.common.dao.UserDAO;
 import it.fff.business.common.dto.CreateUserDTO;
 import it.fff.business.common.dto.ProfileImageDTO;
 import it.fff.business.common.dto.UserDTO;
+import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
 
-public class UserMapper implements BeanMapper<UserDTO, UserBO, UserDAO> {
+public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 
 	@Override
 	public UserBO mapDto2Bo(UserDTO dto) {
@@ -33,24 +33,24 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserDAO> {
 	}
 
 	@Override
-	public UserDAO mapBo2Dao(UserBO bo) {
-		UserDAO dao = new UserDAO();
-		dao.setId(bo.getId());
-		dao.setCognome(bo.getCognome());
-		dao.setDataNascita(bo.getDataNascita());
-		dao.setDescrizione(bo.getDescrizione());
-		dao.setEmail(bo.getEmail());
-		return dao;
+	public UserEO mapBo2Eo(UserBO bo) {
+		UserEO eo = new UserEO();
+		eo.setId(bo.getId());
+		eo.setCognome(bo.getCognome());
+		eo.setDataNascita(bo.getDataNascita());
+		eo.setDescrizione(bo.getDescrizione());
+		eo.setEmail(bo.getEmail());
+		return eo;
 	}
 
 	@Override
-	public UserBO mapDao2Bo(UserDAO dao) {
+	public UserBO mapEo2Bo(UserEO eo) {
 		UserBO bo = new UserBO();
-		bo.setId(dao.getId());
-		bo.setCognome(dao.getCognome());
-		bo.setDataNascita(dao.getDataNascita());
-		bo.setDescrizione(dao.getDescrizione());
-		bo.setEmail(dao.getEmail());
+		bo.setId(eo.getId());
+		bo.setCognome(eo.getCognome());
+		bo.setDataNascita(eo.getDataNascita());
+		bo.setDescrizione(eo.getDescrizione());
+		bo.setEmail(eo.getEmail());
 		return bo;
 	}
 
@@ -80,21 +80,21 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserDAO> {
 		return dto;
 	}
 
-	public ProfileImageDAO mapProfileImageBo2Dao(ProfileImageBO bo) {
-		ProfileImageDAO dao = new ProfileImageDAO();
-		dao.setImageInputStream(bo.getImageInputStream());
-		dao.setFileName(bo.getFileName());
-		dao.setUserId(bo.getUserId());
-		dao.setImgHashCode(bo.getImgHashCode());
-		return dao;
+	public ProfileImageEO mapProfileImageBo2Eo(ProfileImageBO bo) {
+		ProfileImageEO eo = new ProfileImageEO();
+		eo.setImageInputStream(bo.getImageInputStream());
+		eo.setFileName(bo.getFileName());
+		eo.setUserId(bo.getUserId());
+		eo.setImageIdentifier(bo.getImgHashCode());
+		return eo;
 	}
 
-	public ProfileImageBO mapProfileImageDao2Bo(ProfileImageDAO dao) {
+	public ProfileImageBO mapProfileImageEo2Bo(ProfileImageEO eo) {
 		ProfileImageBO bo = new ProfileImageBO();
-		bo.setImageInputStream(dao.getImageInputStream());
-		bo.setFileName(dao.getFileName());
-		bo.setUserId(dao.getUserId());
-		bo.setImgHashCode(dao.getImgHashCode());
+		bo.setImageInputStream(eo.getImageInputStream());
+		bo.setFileName(eo.getFileName());
+		bo.setUserId(eo.getUserId());
+		bo.setImgHashCode(eo.getImageIdentifier());
 		return bo;
 	}	
 }

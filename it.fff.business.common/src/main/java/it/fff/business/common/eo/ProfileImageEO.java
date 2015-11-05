@@ -1,9 +1,9 @@
-package it.fff.business.common.dao;
+package it.fff.business.common.eo;
 
 import java.io.InputStream;
 import java.util.Map;
 
-public class ProfileImageDAO implements DataAccessObject {
+public class ProfileImageEO implements EntityObject {
 
 	private int userId;
 	private InputStream imageInputStream;
@@ -12,7 +12,7 @@ public class ProfileImageDAO implements DataAccessObject {
 	private Map<String,String> parameters;
 	private long size;
 	private String type;
-	private String imgHashCode;
+	private String imageIdentifier;
 	
 	public int getUserId() {
 		return userId;
@@ -56,11 +56,15 @@ public class ProfileImageDAO implements DataAccessObject {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getImgHashCode() {
-		return imgHashCode;
+	public String getImageIdentifier() {
+		return imageIdentifier;
 	}
-	public void setImgHashCode(String imgHashCode) {
-		this.imgHashCode = imgHashCode;
+	public void setImageIdentifier(String imageIdentifier) {
+		this.imageIdentifier = imageIdentifier;
 	}
+	@Override
+	public String toString() {
+		return this.getClass().getName()+"("+imageIdentifier+")";
+	}	
 	
 }

@@ -36,6 +36,9 @@ public class DataTransferObject implements Serializable{
 		this.errorsMap.put(code, value);
 	}
 	
-	
+	@Override
+	public String toString() {
+		return this.getClass().getName()+"(isErrorsPresent: "+isErrorsPresent+"; errorMap: "+errorsMap.toString()+")";
+	}
 
 }
