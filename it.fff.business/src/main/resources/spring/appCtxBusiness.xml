@@ -9,13 +9,16 @@
 	
 	<import resource="classpath:spring/appCtxPersistenceFacade.xml"/>
 	
-	<bean name="eventBusinessService" class="it.business.service.impl.EventBusinessServiceImpl" scope="prototype">
+	<bean name="eventBusinessService" class="it.fff.business.service.impl.EventBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
 	</bean>
 
-	<bean name="userBusinessService" class="it.business.service.impl.UserBusinessServiceImpl" scope="prototype">
+	<bean name="userBusinessService" class="it.fff.business.service.impl.UserBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="imageValidationStrategy" ref="imageValidationStrategy"/>
 	</bean>
+	
+	<bean name="imageValidationStrategy" class="it.fff.business.strategy.impl.ImageSizeValidationStrategy" />
 	
 	
 	
