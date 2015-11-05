@@ -11,8 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.bcel.classfile.Constant;
 
-import it.fff.business.common.dao.ProfileImageDAO;
-import it.fff.business.common.dao.UserDAO;
+import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.ConfigurationProvider;
 import it.fff.persistence.util.Constants;
@@ -22,38 +22,38 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceImpl.class);
 	
 	@Override
-	public UserDAO registerUser(UserDAO userDAO) throws SQLException {
+	public UserEO registerUser(UserEO userEO) throws SQLException {
 		logger.info("registering user");
-		UserDAO outputDao = null;
+		UserEO outputEo = null;
 		//		TODO create in DB
-		if(outputDao!=null){
+		if(outputEo!=null){
 			logger.info("User created");
 		}
 		else{
 			throw new SQLException("Errore creando lo user su DB");
 		}
-		return outputDao;
+		return outputEo;
 	}
 
 	@Override
-	public ProfileImageDAO updateProfileImage(ProfileImageDAO daoInput) throws SQLException {
+	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws SQLException {
 		logger.info("creando img user");
-		ProfileImageDAO outputDao = null;
+		ProfileImageEO outputEo = null;
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 		String uploadFolder = configurationProvider.getProperty(Constants.PROP_UPLOAD_LOCATION);
-		String filePath = uploadFolder+"/"+daoInput.getUserId()+"/"+daoInput.getFileName();
-		boolean isSavedFile = saveFile(daoInput.getImageInputStream(), filePath);
+		String filePath = uploadFolder+"/"+eoInput.getUserId()+"/"+eoInput.getFileName();
+		boolean isSavedFile = saveFile(eoInput.getImageInputStream(), filePath);
 		if(isSavedFile){
-			outputDao = daoInput;
-			outputDao.setImgHashCode(String.valueOf(daoInput.getImageInputStream().hashCode()));
+			outputEo = eoInput;
+			outputEo.setImageIdentifier(String.valueOf(eoInput.getImageInputStream().hashCode()));
 		}
-		if(outputDao!=null){
+		if(outputEo!=null){
 			logger.info("Img user created");
 		}
 		else{
 			throw new SQLException("Errore creando su File system");
 		}
-		return outputDao;
+		return outputEo;
 	}
 	
 	// save uploaded file to a defined location on the server

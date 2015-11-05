@@ -2,13 +2,13 @@ package it.fff.persistence.service;
 
 import java.sql.SQLException;
 
-import it.fff.business.common.dao.ProfileImageDAO;
-import it.fff.business.common.dao.UserDAO;
+import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
 
 public interface UserPersistenceService  extends PersistenceService{
 
-	UserDAO registerUser(UserDAO userDAO) throws SQLException;
+	UserEO registerUser(UserEO userEO) throws SQLException;
 
-	ProfileImageDAO updateProfileImage(ProfileImageDAO daoInput) throws SQLException;;
+	ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws SQLException;;
 
 }

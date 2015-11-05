@@ -3,26 +3,26 @@ package it.fff.persistence.service.mock;
 import java.sql.SQLException;
 
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dao.ProfileImageDAO;
-import it.fff.business.common.dao.UserDAO;
+import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
 
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public UserDAO registerUser(UserDAO userDAO) throws SQLException {
-		UserDAO dao = new UserDAO();
-		dao.setId(1);
-		dao.setNome(userDAO.getNome()+" persistente");
-		dao.setCognome(userDAO.getCognome()+" persistente");
-		dao.setEmail(userDAO.getEmail());
-		return dao;
+	public UserEO registerUser(UserEO userEO) throws SQLException {
+		UserEO eo = new UserEO();
+		eo.setId(1);
+		eo.setNome(userEO.getNome()+" persistente");
+		eo.setCognome(userEO.getCognome()+" persistente");
+		eo.setEmail(userEO.getEmail());
+		return eo;
 	}
 
 	@Override
-	public ProfileImageDAO updateProfileImage(ProfileImageDAO daoInput) throws SQLException {
-		daoInput.setImgHashCode("0101010101010");
-		return daoInput;
+	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws SQLException {
+		eoInput.setImageIdentifier("0101010101010");
+		return eoInput;
 	}
 
 }
