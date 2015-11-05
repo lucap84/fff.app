@@ -3,8 +3,6 @@ package it.fff.business.facade.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.business.common.mapper.EventMapper;
-import it.business.common.mapper.UserMapper;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
@@ -13,6 +11,8 @@ import it.fff.business.common.dto.EventDTO;
 import it.fff.business.common.dto.ProfileImageDTO;
 import it.fff.business.common.dto.UserDTO;
 import it.fff.business.common.dto.WriteResultDTO;
+import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -31,9 +31,8 @@ public class BusinessServiceFacadeImpl extends BusinessServiceFacade{
 
 	@Override
 	public EventDTO getEvent(int eventId) throws BusinessException {
-		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di business
-		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		EventBO eventBO = null;
+		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		try {
 			eventBO = eventBusinessService.getEvent(eventId);
 		} catch (PersistenceException e) {
