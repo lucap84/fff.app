@@ -14,7 +14,7 @@ public class DataTransferObject implements Serializable{
 	
 	public DataTransferObject(){
 		this.errorsMap = new HashMap<String,String>();
-		isOk = false;
+		isOk = true;
 	}
 	
 	@XmlElement public boolean isOk() {

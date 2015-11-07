@@ -13,7 +13,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 	@Override
 	public UserBO mapDto2Bo(UserDTO dto) {
 		UserBO bo = new UserBO();
-		bo.setId(dto.getId());
+		bo.setId(Integer.valueOf(dto.getId()));
 		bo.setCognome(dto.getCognome());
 		bo.setDataNascita(dto.getDataNascita());
 		bo.setDescrizione(dto.getDescrizione());
@@ -24,7 +24,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 	@Override
 	public UserDTO mapBo2Dto(UserBO bo) {
 		UserDTO dto = new UserDTO();
-		dto.setId(bo.getId());
+		dto.setId(String.valueOf(bo.getId()));
 		dto.setCognome(bo.getCognome());
 		dto.setDataNascita(bo.getDataNascita());
 		dto.setDescrizione(bo.getDescrizione());

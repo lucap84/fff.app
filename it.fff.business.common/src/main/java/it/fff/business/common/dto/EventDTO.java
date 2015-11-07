@@ -11,6 +11,7 @@ public class EventDTO extends DataTransferObject {
 	private String eventId;
 	private String nome;
 	private String descrizione;
+	private UserDTO userOrganizer;
 	
 	public EventDTO(){
 		super();
@@ -42,6 +43,16 @@ public class EventDTO extends DataTransferObject {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+
+	@XmlElement public UserDTO getUserOrganizer() {
+		return userOrganizer;
+	}
+
+	public void setUserOrganizer(UserDTO userOrganizer) {
+		this.userOrganizer = userOrganizer;
+	}
+	
+	
 	
 	
 }

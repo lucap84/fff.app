@@ -11,6 +11,7 @@ public class WriteResultDTO extends DataTransferObject {
 	private String identifier;
 	
 	public WriteResultDTO() {
+		this.identifier = "-1";
 		this.affectedRecords = -1;
 	}
 

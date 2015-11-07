@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class UserDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -1979200792665108748L;
-	private int id;
+	private String id;
 	private String email;
 	private String nome;
 	private String cognome;
@@ -21,13 +21,13 @@ public class UserDTO extends DataTransferObject {
 	private String imgProfileHashCode;
 	
 	public UserDTO() {
-		this.id = -1;
 	}
 	
-	@XmlElement public int getId() {
+
+	@XmlElement public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	@XmlElement public String getEmail() {
