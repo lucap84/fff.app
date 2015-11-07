@@ -18,7 +18,7 @@ public class ServiceTest{
 		assertEquals(200,responseJSON.getStatus());
 		assertEquals(MediaType.APPLICATION_JSON.toString(), responseJSON.getMediaType().toString());
 		final WriteResultDTO writeResultFromJSON = (WriteResultDTO)responseJSON.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromJSON.isErrorsPresent(), false);
+		assertEquals(writeResultFromJSON.isOk(), false);
 		assertNotEquals("-1", writeResultFromJSON.getIdentifier());		
 	}
 	
@@ -26,7 +26,7 @@ public class ServiceTest{
 		assertEquals(200, responseXML.getStatus());
 		assertEquals(MediaType.APPLICATION_XML.toString(), responseXML.getMediaType().toString());
 		final WriteResultDTO writeResultFromXML = (WriteResultDTO)responseXML.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromXML.isErrorsPresent(), false);
+		assertEquals(writeResultFromXML.isOk(), false);
 		assertNotEquals("-1", writeResultFromXML.getIdentifier());			
 	}	
 	
