@@ -14,19 +14,19 @@ import it.fff.business.common.dto.WriteResultDTO;
 public class ServiceTest{
 	
 	
-	protected void checkWriteResultJSON(Response responseJSON){
+	protected void checkEntityWriteResultJSON(Response responseJSON){
 		assertEquals(200,responseJSON.getStatus());
 		assertEquals(MediaType.APPLICATION_JSON.toString(), responseJSON.getMediaType().toString());
 		final WriteResultDTO writeResultFromJSON = (WriteResultDTO)responseJSON.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromJSON.isOk(), false);
+		assertEquals(writeResultFromJSON.isOk(), true);
 		assertNotEquals("-1", writeResultFromJSON.getIdentifier());		
 	}
 	
-	protected void checkWriteResultXML(Response responseXML){
+	protected void checkEntityWriteResultXML(Response responseXML){
 		assertEquals(200, responseXML.getStatus());
 		assertEquals(MediaType.APPLICATION_XML.toString(), responseXML.getMediaType().toString());
 		final WriteResultDTO writeResultFromXML = (WriteResultDTO)responseXML.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromXML.isOk(), false);
+		assertEquals(writeResultFromXML.isOk(), true);
 		assertNotEquals("-1", writeResultFromXML.getIdentifier());			
 	}	
 	
