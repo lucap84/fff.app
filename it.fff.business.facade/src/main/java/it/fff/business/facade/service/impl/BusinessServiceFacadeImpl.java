@@ -90,6 +90,7 @@ public class BusinessServiceFacadeImpl extends BusinessServiceFacade{
 		ProfileImageDTO dtoResult = mapper.mapProfileImageBo2Dto(imgBO);
 		
 		if(dtoResult!=null){
+			resultDTO.setOk(true);
 			resultDTO.setAffectedRecords(1);
 			resultDTO.setIdentifier(dtoResult.getImgHashCode());
 			logger.debug("Mapping bo2dto completed");
