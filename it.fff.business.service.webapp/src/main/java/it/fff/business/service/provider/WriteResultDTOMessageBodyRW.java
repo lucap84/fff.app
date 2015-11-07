@@ -14,7 +14,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import javax.xml.bind.JAXBException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,44 +27,13 @@ public class WriteResultDTOMessageBodyRW extends ApplicationProvider implements 
 
 	private static final Logger logger = LogManager.getLogger(WriteResultDTOMessageBodyRW.class);
 	
-	@Override
-	public boolean isReadable(Class<?> classType, Type arg1, Annotation[] arg2, MediaType arg3) {
-		return classType==WriteResultDTO.class;
-	}
-
-	@Override
-	public WriteResultDTO readFrom(Class<WriteResultDTO> classType, 
-									Type type, 
-									Annotation[] annotations, 
-									MediaType mediaType,
-									MultivaluedMap<String, String> httpHeaders, 
-									InputStream inputStream) throws IOException, WebApplicationException {
-		WriteResultDTO writeResultDTO = null;
-		try {
-			String typeSubtype = super.mediaType2String(mediaType);
-			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-			switch (typeSubtype) {
-			case MediaType.APPLICATION_XML:
-				writeResultDTO = (WriteResultDTO)fromXML(inputStream,classType);				
-				break;
-
-			case MediaType.APPLICATION_JSON:
-				writeResultDTO = (WriteResultDTO)fromJSON(inputStream,classType);
-				break;
-			default:
-				writeResultDTO = (WriteResultDTO)fromXML(inputStream,classType);
-				
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
-		return writeResultDTO;
-	}
-
+	/*
+	 * MessageBodyWriter methods
+	 */
+	
 	@Override
 	public long getSize(WriteResultDTO arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		return 0;
+		return 0;// deprecated by JAX-RS 2.0 and ignored by Jersey runtime
 	}
 
 	@Override
@@ -82,24 +50,29 @@ public class WriteResultDTOMessageBodyRW extends ApplicationProvider implements 
 						MultivaluedMap<String, Object> httpHeaders, 
 						OutputStream entityStream)
 				throws IOException, WebApplicationException {
-		try{
-			String typeSubtype = super.mediaType2String(mediaType);
-			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-			switch (typeSubtype) {
-			case MediaType.APPLICATION_XML:
-				toXML(writeResultDTO, entityStream);				
-				break;
-	
-			case MediaType.APPLICATION_JSON:
-				toJSON(writeResultDTO, entityStream);
-				break;
-			default:
-				toXML(writeResultDTO, entityStream);
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
+		logger.debug("writeTo <---- "+classType);
+		super.writeToStream(mediaType, writeResultDTO, entityStream);
 	}
+	
+	/*
+	 * MessageBodyReader methods
+	 */
+	
+	@Override
+	public boolean isReadable(Class<?> classType, Type arg1, Annotation[] arg2, MediaType arg3) {
+		return classType==WriteResultDTO.class;
+	}
+
+	@Override
+	public WriteResultDTO readFrom(Class<WriteResultDTO> classType, 
+									Type type, 
+									Annotation[] annotations, 
+									MediaType mediaType,
+									MultivaluedMap<String, String> httpHeaders, 
+									InputStream inputStream) throws IOException, WebApplicationException {
+		logger.debug("readFrom ----> "+classType);
+		return (WriteResultDTO) super.readFromStream(mediaType, inputStream, classType);
+	}
+	
 
 }

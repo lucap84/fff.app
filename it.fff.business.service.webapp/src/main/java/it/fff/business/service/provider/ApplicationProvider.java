@@ -10,16 +10,20 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import it.fff.business.common.dto.DataTransferObject;
+import it.fff.business.common.dto.UserDTO;
 
 public abstract class ApplicationProvider{
 
-	
+	private static final Logger logger = LogManager.getLogger(ApplicationProvider.class);
 	/*
 	 *  utility methods	
 	 */
@@ -55,5 +59,62 @@ public abstract class ApplicationProvider{
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			DataTransferObject myBean = (DataTransferObject)unmarshaller.unmarshal(entityStream);
 	        return myBean;
+		}
+
+
+		public void writeToStream(MediaType mediaType, DataTransferObject dto, OutputStream entityStream) {
+			String typeSubtype = this.mediaType2String(mediaType);
+			logger.debug("Class {} conversion in {} ...",dto.getClass().getName(), typeSubtype);
+			try {
+				switch (typeSubtype) {
+				case MediaType.APPLICATION_XML:
+						toXML(dto, entityStream);
+					break;
+	
+				case MediaType.APPLICATION_JSON:
+					toJSON(dto, entityStream);
+					break;
+				default:
+					toXML(dto, entityStream);
+				}
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}				
+		}
+
+
+		public DataTransferObject readFromStream(MediaType mediaType, InputStream inputStream, Class classType) {
+			DataTransferObject dto = null;
+			String typeSubtype = this.mediaType2String(mediaType);
+			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
+			try {
+				switch (typeSubtype) {
+				case MediaType.APPLICATION_XML:
+						dto = fromXML(inputStream,classType);
+					break;
+	
+				case MediaType.APPLICATION_JSON:
+					dto = fromJSON(inputStream,classType);
+					break;
+				default:
+					dto = fromXML(inputStream,classType);
+					
+				}
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}				
+			return dto;
 		}		
 }

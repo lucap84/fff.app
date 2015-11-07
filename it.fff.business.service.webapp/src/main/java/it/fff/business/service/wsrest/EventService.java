@@ -1,11 +1,16 @@
 package it.fff.business.service.wsrest;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -32,6 +37,26 @@ public class EventService extends ApplicationService{
 		logger.debug("Service created");
 	}
 
+	@GET
+	@Path("json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<EventDTO> searchEventsJSON(	@Context HttpServletRequest request, 
+											@QueryParam("posizione") String posizione,
+											@QueryParam("categoria") String categoria,
+											@QueryParam("partecipanti") int partecipanti) throws BusinessException {
+		return this.searchEvents(request, posizione, categoria, partecipanti);
+	}
+	
+	@GET
+	@Path("xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<EventDTO> searchEventsXML(	@Context HttpServletRequest request, 
+											@QueryParam("posizione") String posizione,
+											@QueryParam("categoria") String categoria,
+											@QueryParam("partecipanti") int partecipanti) throws BusinessException {
+		return this.searchEvents(request, posizione, categoria, partecipanti);
+	}	
+	
 	
 	@GET
 	@Path("{eventId}/json")
@@ -45,6 +70,29 @@ public class EventService extends ApplicationService{
 	@Produces( MediaType.APPLICATION_XML)
 	public EventDTO getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
+	}	
+	
+	
+	/*
+	 *	
+	 *
+	 *
+	 *
+	 *		Delegating methods 
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
+	
+	private List<EventDTO> searchEvents(HttpServletRequest request, String posizione, String categoria, int partecipanti) {
+		//		TODO
+		ArrayList<EventDTO> arrayList = new ArrayList<EventDTO>();
+		EventDTO e1 = new EventDTO();
+		e1.setEventId("999");
+		arrayList.add(e1);
+		return arrayList;
 	}	
 	
 	private EventDTO getEvent(HttpServletRequest request, String eventId){
@@ -67,23 +115,6 @@ public class EventService extends ApplicationService{
 		return outputDTO;		
 	}
 	
-	
-//	@GET
-//	@Produces({MediaType.APPLICATION_JSON})
-//	public EventDTO getEvent(@QueryParam("json") String json) throws BusinessException {
-//		logger.info("Receiving getEvent request with param: {}",json);
-//		IdentifierDTO inputDTO = (IdentifierDTO)UtilDTO.encodedJSONString2DTO(json, IdentifierDTO.class.getName());
-//		EventDTO outputDTO = null;
-//		try {
-//			outputDTO = businessServiceFacade.getEvent(inputDTO);
-//		} catch (BusinessException e) {
-//			logger.error(Util.stackTrace2String(e));
-//		}
-//		if(outputDTO!=null){
-//			logger.info("Sending back the event retrieved");
-//		}
-//		return outputDTO;
-//	}
 
 	public BusinessServiceFacade getBusinessServiceFacade() {
 		return businessServiceFacade;

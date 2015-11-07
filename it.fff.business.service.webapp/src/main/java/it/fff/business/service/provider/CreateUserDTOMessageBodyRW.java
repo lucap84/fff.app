@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import it.fff.business.common.dto.CreateUserDTO;
+import it.fff.business.common.dto.EventDTO;
 
 @Provider
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -29,6 +30,15 @@ public class CreateUserDTOMessageBodyRW extends ApplicationProvider implements M
 	
 	private static final Logger logger = LogManager.getLogger(CreateUserDTOMessageBodyRW.class);
 
+	/*
+	 * MessageBodyWriter methods
+	 */
+	
+	@Override
+	public long getSize(CreateUserDTO arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+		return 0;// deprecated by JAX-RS 2.0 and ignored by Jersey runtime
+	}	
+	
 	@Override
 	public boolean isWriteable(Class<?> classType, Type arg1, Annotation[] arg2, MediaType arg3) {
 		return classType==CreateUserDTO.class;
@@ -42,26 +52,8 @@ public class CreateUserDTOMessageBodyRW extends ApplicationProvider implements M
 							MediaType mediaType,
 							MultivaluedMap<String, Object> httpHeaders, 
 							OutputStream entityStream) throws IOException, WebApplicationException {
-		String typeSubtype = super.mediaType2String(mediaType);
-		logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-		try {
-			switch (typeSubtype.toString()) {
-			case MediaType.APPLICATION_XML:
-				toXML(createUserDTO, entityStream);				
-				break;
-
-			case MediaType.APPLICATION_JSON:
-				toJSON(createUserDTO, entityStream);
-				break;
-			default:
-				toXML(createUserDTO, entityStream);
-				
-			}
-		} catch (JAXBException e) {
-			logger.error("Errore durante la conversione di CreateUserDTO in {}; Message: ",typeSubtype,e.getMessage());
-			e.printStackTrace();
-		}
-		
+		logger.debug("writeTo <---- "+classType);
+		super.writeToStream(mediaType, createUserDTO, entityStream);
 	}
 
 	/*
@@ -80,34 +72,10 @@ public class CreateUserDTOMessageBodyRW extends ApplicationProvider implements M
 									MediaType mediaType,
 									MultivaluedMap<String, String> httpHeaders, 
 									InputStream inputStream) throws IOException, WebApplicationException {
-		CreateUserDTO createUserDTO = null;
-		try {
-			String typeSubtype = super.mediaType2String(mediaType);
-			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-			switch (typeSubtype) {
-			case MediaType.APPLICATION_XML:
-				createUserDTO = (CreateUserDTO)fromXML(inputStream,classType);				
-				break;
-
-			case MediaType.APPLICATION_JSON:
-				createUserDTO = (CreateUserDTO)fromJSON(inputStream,classType);
-				break;
-			default:
-				createUserDTO = (CreateUserDTO)fromXML(inputStream,classType);
-				
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
-		return createUserDTO;
+		logger.debug("readFrom ----> "+classType);
+		return (CreateUserDTO) super.readFromStream(mediaType, inputStream, classType);
 	}
 
-	@Override
-	public long getSize(CreateUserDTO arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 
 }
