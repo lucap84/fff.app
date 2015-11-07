@@ -11,7 +11,7 @@ public class ApplicationService {
 	
 	public void manageErrors(BusinessException e, DataTransferObject dto, Locale locale){
 		ResourceBundle resourceBundle = ResourceBundleProvider.getInstance().getResourceBundle(locale);
-		dto.setErrorsPresent(true);
+		dto.setOk(true);
 		for (String code : e.getErrorCodes()) {
 			dto.putErrorInMap(code, resourceBundle.getString(code));
 		}		

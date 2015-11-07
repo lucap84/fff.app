@@ -1,45 +1,79 @@
 package it.upp.test.rest;
 
-import java.net.URI;
 import it.fff.business.common.dto.*;
 import it.fff.business.service.provider.EventDTOMessageBodyRW;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 
-public class EventServiceTest {
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventServiceTest extends ServiceTest{
 	
-	public static void main(String[] args) {
+	@Test
+	public void getEventShouldReturnOneEvent(){
+		Client client = ClientBuilder.newBuilder().build();
+		client.register(EventDTOMessageBodyRW.class);
+
+		String requestedEventId = "1";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(requestedEventId).path("json");
+		Response responseGetEventJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
+		assertEquals(200, responseGetEventJSON.getStatus());
+		final EventDTO entityFromJSON = responseGetEventJSON.readEntity(EventDTO.class);
+		assertNotNull(entityFromJSON);
+		assertEquals(entityFromJSON.getEventId(), requestedEventId);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(requestedEventId).path("xml");
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
+		assertEquals(200, responseXML.getStatus());
+		final EventDTO entityFromXML = responseXML.readEntity(EventDTO.class);
+		assertNotNull(entityFromXML);
+		assertEquals(entityFromXML.getEventId(), requestedEventId);
+	}
+	
+	@Test
+	public void searchEventsShouldReturnAtLeastOneEvent(){
 		Client client = ClientBuilder.newBuilder().build();
 		client.register(EventDTOMessageBodyRW.class);
 		
+		String posizione = "posizione1";
+		String categoria = "categoria1";
+		int partecipanti = 3;
 		
-		WebTarget targetGetEventJSON = client.target(getBaseURI());
-		Response responseGetEventJSON = targetGetEventJSON.path("events").path("1").path("json").
-				request(MediaType.APPLICATION_JSON).
-				get();
-		final EventDTO responseGetEventJSONEntity = responseGetEventJSON.readEntity(EventDTO.class);
-		System.out.println("*************");
-		System.out.println(responseGetEventJSON.getStatus());
-		System.out.println(responseGetEventJSON.getMediaType());
-		System.out.println(responseGetEventJSONEntity);
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path("json").
+				queryParam("posizione", posizione).
+				queryParam("categoria", categoria).
+				queryParam("partecipanti", partecipanti);
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
+		assertEquals(200, responseJSON.getStatus());
+		final List<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<EventDTO>>(){});
+		assertNotNull(entityFromJSON);
+		assertTrue(entityFromJSON.size()>0);
 		
-		WebTarget targetGetEventXML = client.target(getBaseURI());
-		Response responseGetEventXML = targetGetEventXML.path("events").path("1").path("xml").
-				request(MediaType.APPLICATION_XML).
-				get();
-		final EventDTO responseGetEventXMLEntity = responseGetEventXML.readEntity(EventDTO.class);
-		System.out.println("*************");
-		System.out.println(responseGetEventXML.getStatus());
-		System.out.println(responseGetEventXML.getMediaType());
-		System.out.println(responseGetEventXMLEntity);		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path("xml").
+				queryParam("posizione", posizione).
+				queryParam("categoria", categoria).
+				queryParam("partecipanti", partecipanti);
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
+		assertEquals(200, responseXML.getStatus());
+		List<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<List<EventDTO>>(){});
+		assertNotNull(entityFromXML);
+		assertTrue(entityFromXML.size()>0);
+	}	
+	
+	public static void main(String[] args) {
+		EventServiceTest eventServiceTest = new EventServiceTest();
+		eventServiceTest.searchEventsShouldReturnAtLeastOneEvent();
 	}
-
-	  private static URI getBaseURI() {
-		    return UriBuilder.fromUri("http://localhost:8080/it.fff.business.service.webapp/restapi").build();
-		  }
+	
 }

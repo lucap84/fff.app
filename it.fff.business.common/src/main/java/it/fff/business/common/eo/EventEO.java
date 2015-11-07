@@ -1,17 +1,26 @@
-package it.fff.business.common.dao;
+package it.fff.business.common.eo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class EventDAO implements DataAccessObject{
+@Entity
+@Table(name="Evento")
+public class EventEO implements EntityObject{
 
+	@Id
+	@Column(name="ID")
 	private int eventId;
+	
 	private String nome;
 	private String descrizione;
 	
-	public EventDAO(){
+	public EventEO(){
 		
 	}
 
-	public EventDAO(int eventId, String nome, String descrizione){
+	public EventEO(int eventId, String nome, String descrizione){
 		this.eventId = eventId;
 		this.nome = nome;
 		this.descrizione = descrizione;
@@ -38,11 +47,7 @@ public class EventDAO implements DataAccessObject{
 	
 	@Override
 	public String toString() {
-		return "EventDAO{" +
-	            "eventId='" + eventId + '\'' +
-	            ", nome=" + nome +
-	             ", descrizione=" + descrizione +
-	            '}';
+		return this.getClass().getName()+"("+eventId+")";
 	}
 	
 	

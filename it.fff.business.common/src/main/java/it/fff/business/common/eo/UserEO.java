@@ -1,8 +1,8 @@
-package it.fff.business.common.dao;
+package it.fff.business.common.eo;
 
 import java.util.List;
 
-public class UserDAO implements DataAccessObject {
+public class UserEO implements EntityObject {
 	
 	private int	id;
 	private String email;

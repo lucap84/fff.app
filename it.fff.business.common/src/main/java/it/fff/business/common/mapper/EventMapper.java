@@ -1,13 +1,13 @@
-package it.business.common.mapper;
+package it.fff.business.common.mapper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.EventBO;
-import it.fff.business.common.dao.EventDAO;
 import it.fff.business.common.dto.EventDTO;
+import it.fff.business.common.eo.EventEO;
 
-public class EventMapper implements BeanMapper<EventDTO,EventBO,EventDAO>{
+public class EventMapper implements BeanMapper<EventDTO,EventBO,EventEO>{
 	
 	private static final Logger logger = LogManager.getLogger(EventMapper.class);
 	
@@ -19,7 +19,7 @@ public class EventMapper implements BeanMapper<EventDTO,EventBO,EventDAO>{
 	public EventBO mapDto2Bo(EventDTO dto) {
 		logger.debug("mapDto2Bo");
 		EventBO bo = new EventBO();
-		bo.setEventId(dto.getEventId());
+		bo.setEventId(Integer.valueOf(dto.getEventId()));
 		bo.setNome(dto.getNome());
 		bo.setDescrizione(dto.getDescrizione());
 		return bo;
@@ -29,29 +29,29 @@ public class EventMapper implements BeanMapper<EventDTO,EventBO,EventDAO>{
 	public EventDTO mapBo2Dto(EventBO bo) {
 		logger.debug("mapBo2Dto");
 		EventDTO dto = new EventDTO();
-		dto.setEventId(bo.getEventId());
+		dto.setEventId(String.valueOf(bo.getEventId()));
 		dto.setNome(bo.getNome());
 		dto.setDescrizione(bo.getDescrizione());
 		return dto;
 	}
 
 	@Override
-	public EventDAO mapBo2Dao(EventBO bo) {
-		logger.debug("mapBo2Dao");
-		EventDAO dao = new EventDAO();
-		dao.setEventId(bo.getEventId());
-		dao.setNome(bo.getNome());
-		dao.setDescrizione(bo.getDescrizione());
-		return dao;
+	public EventEO mapBo2Eo(EventBO bo) {
+		logger.debug("mapBo2Eo");
+		EventEO eo = new EventEO();
+		eo.setEventId(bo.getEventId());
+		eo.setNome(bo.getNome());
+		eo.setDescrizione(bo.getDescrizione());
+		return eo;
 	}
 
 	@Override
-	public EventBO mapDao2Bo(EventDAO dao) {
-		logger.debug("mapDAO2BO");
+	public EventBO mapEo2Bo(EventEO eo) {
+		logger.debug("mapEO2BO");
 		EventBO bo = new EventBO();
-		bo.setEventId(dao.getEventId());
-		bo.setNome(dao.getNome());
-		bo.setDescrizione(dao.getDescrizione());
+		bo.setEventId(eo.getEventId());
+		bo.setNome(eo.getNome());
+		bo.setDescrizione(eo.getDescrizione());
 		return bo;
 	}
 

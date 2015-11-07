@@ -3,8 +3,7 @@ package it.fff.business.common.dto;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.sun.xml.internal.txw2.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlRootElement
 public class UserDTO extends DataTransferObject {
@@ -19,7 +18,11 @@ public class UserDTO extends DataTransferObject {
 	private String nazionalita;
 	private List<String> lingue;
 	private String descrizione;
+	private String imgProfileHashCode;
 	
+	public UserDTO() {
+		this.id = -1;
+	}
 	
 	@XmlElement public int getId() {
 		return id;
@@ -78,6 +81,14 @@ public class UserDTO extends DataTransferObject {
 	}
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
+	}
+
+	@XmlElement public String getImgProfileHashCode() {
+		return imgProfileHashCode;
+	}
+
+	public void setImgProfileHashCode(String imgProfileHashCode) {
+		this.imgProfileHashCode = imgProfileHashCode;
 	}
 	
 	

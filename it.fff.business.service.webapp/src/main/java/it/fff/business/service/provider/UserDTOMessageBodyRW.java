@@ -14,7 +14,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import javax.xml.bind.JAXBException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +27,11 @@ public class UserDTOMessageBodyRW extends ApplicationProvider implements Message
 	
 	private static final Logger logger = LogManager.getLogger(UserDTOMessageBodyRW.class);
 
+	
+	/*
+	 * MessageBodyWriter methods
+	 */
+	
 	@Override
 	public boolean isWriteable(Class<?> classType, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return classType==UserDTO.class;
@@ -35,8 +39,7 @@ public class UserDTOMessageBodyRW extends ApplicationProvider implements Message
 
 	@Override
 	public long getSize(UserDTO t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0;// deprecated by JAX-RS 2.0 and ignored by Jersey runtime
 	}
 
 	@Override
@@ -48,26 +51,8 @@ public class UserDTOMessageBodyRW extends ApplicationProvider implements Message
 							MultivaluedMap<String, Object> httpHeaders, 
 							OutputStream entityStream)
 					throws IOException, WebApplicationException {
-
-		try {
-			String typeSubtype = super.mediaType2String(mediaType);
-			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-			switch (typeSubtype) {
-			case MediaType.APPLICATION_XML:
-				toXML(userDTO, entityStream);				
-				break;
-
-			case MediaType.APPLICATION_JSON:
-				toJSON(userDTO, entityStream);
-				break;
-			default:
-				toXML(userDTO, entityStream);
-				
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
+		logger.debug("writeTo <---- "+classType);
+		super.writeToStream(mediaType, userDTO, entityStream);
 	}
 
 	
@@ -87,27 +72,8 @@ public class UserDTOMessageBodyRW extends ApplicationProvider implements Message
 								MediaType mediaType,
 								MultivaluedMap<String, String> httpHeaders, 
 								InputStream inputStream) throws IOException, WebApplicationException {
-		UserDTO userDTO = null;
-		try {
-			String typeSubtype = super.mediaType2String(mediaType);
-			logger.debug("Class {} conversion in {} ...",classType, typeSubtype);
-			switch (typeSubtype) {
-			case MediaType.APPLICATION_XML:
-				userDTO = (UserDTO)fromXML(inputStream,classType);				
-				break;
-
-			case MediaType.APPLICATION_JSON:
-				userDTO = (UserDTO)fromJSON(inputStream,classType);
-				break;
-			default:
-				userDTO = (UserDTO)fromXML(inputStream,classType);
-				
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
-		return userDTO;
+		logger.debug("readFrom ----> "+classType);
+		return (UserDTO) super.readFromStream(mediaType, inputStream, classType);
 	}
 	
 }
