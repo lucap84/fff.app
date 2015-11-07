@@ -9,23 +9,22 @@ import javax.xml.bind.annotation.XmlElement;
 public class DataTransferObject implements Serializable{
 	
 	private static final long serialVersionUID = -7693503814004588654L;
-	private boolean isErrorsPresent;
+	private boolean isOk;
 	private Map<String,String> errorsMap;
 	
 	public DataTransferObject(){
 		this.errorsMap = new HashMap<String,String>();
-		isErrorsPresent = false;
+		isOk = false;
 	}
 	
-	@XmlElement
-	public boolean isErrorsPresent() {
-		return isErrorsPresent;
+	@XmlElement public boolean isOk() {
+		return isOk;
 	}
-	public void setErrorsPresent(boolean isErrorsPresent) {
-		this.isErrorsPresent = isErrorsPresent;
+	public void setOk(boolean isOk) {
+		this.isOk = isOk;
 	}
-	@XmlElement
-	public Map<String, String> getErrorsMap() {
+
+	@XmlElement public Map<String, String> getErrorsMap() {
 		return errorsMap;
 	}
 	public void setErrorsMap(Map<String, String> errorsMap) {
@@ -38,7 +37,7 @@ public class DataTransferObject implements Serializable{
 	
 	@Override
 	public String toString() {
-		return this.getClass().getName()+"(isErrorsPresent: "+isErrorsPresent+"; errorMap: "+errorsMap.toString()+")";
+		return this.getClass().getName()+"(isErrorsPresent: "+isOk+"; errorMap: "+errorsMap.toString()+")";
 	}
 
 }
