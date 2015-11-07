@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,7 +19,10 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import it.fff.business.common.dto.AttendanceDTO;
 import it.fff.business.common.dto.EventDTO;
+import it.fff.business.common.dto.FeedbackDTO;
+import it.fff.business.common.dto.WriteResultDTO;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -36,6 +41,83 @@ public class EventService extends ApplicationService{
 	public EventService() {
 		logger.debug("Service created");
 	}
+	
+	@POST
+	@Path("{eventID}/attendances/{attendanceId}/feedbacks/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO addFeedbackJSON(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
+		return addFeedback(request, attendance);
+	}	
+	@POST
+	@Path("{eventID}/attendances/{attendanceId}/feedbacks/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO addFeedbackXML(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
+		return addFeedback(request, attendance);
+	}	
+	
+	@POST
+	@Path("{eventId}/attendances/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public AttendanceDTO joinEventJSON(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
+		return joinEvent(request, attendanceToCreate);
+	}	
+	@POST
+	@Path("{eventId}/attendances/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public AttendanceDTO joinEventXML(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
+		return joinEvent(request, attendanceToCreate);
+	}	
+	
+	@DELETE
+	@Path("{eventId}/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO cancelEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+		return cancelEvent(request, eventId);
+	}	
+	@DELETE
+	@Path("{eventId}/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO cancelEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+		return cancelEvent(request, eventId);
+	}	
+	
+	@POST
+	@Path("json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO createEventJSON(@Context HttpServletRequest request, EventDTO eventToCreate) throws BusinessException {
+		return createEvent(request, eventToCreate);
+	}	
+	@POST
+	@Path("xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO createEventXML(@Context HttpServletRequest request, EventDTO eventToCreate) throws BusinessException {
+		return createEvent(request, eventToCreate);
+	}	
+	
+	@GET
+	@Path("{eventId}/attendaces/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<AttendanceDTO> getAttendancesByEventJSON(@Context HttpServletRequest request, 
+														 @PathParam("eventId") String eventId) throws BusinessException {
+		return this.getAttendancesByEvent(request, eventId);
+	}
+	
+	@GET
+	@Path("{eventId}/attendaces/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<AttendanceDTO> getAttendancesByEventXML(@Context HttpServletRequest request, 
+														@PathParam("eventId") String eventId) throws BusinessException {
+		return this.getAttendancesByEvent(request, eventId);
+	}	
+
 
 	@GET
 	@Path("json")
@@ -46,7 +128,6 @@ public class EventService extends ApplicationService{
 											@QueryParam("partecipanti") int partecipanti) throws BusinessException {
 		return this.searchEvents(request, posizione, categoria, partecipanti);
 	}
-	
 	@GET
 	@Path("xml")
 	@Produces(MediaType.APPLICATION_XML)
@@ -85,6 +166,55 @@ public class EventService extends ApplicationService{
 	 *
 	 *
 	 */
+	
+	private WriteResultDTO addFeedback(HttpServletRequest request, AttendanceDTO attendance) {
+		//feedback saved, return confirm
+		
+		WriteResultDTO result = new WriteResultDTO();
+		result.setOk(true);
+		result.setIdentifier(String.valueOf(attendance.getId()));
+		
+		return result;
+	}		
+	
+	private AttendanceDTO joinEvent(HttpServletRequest request, AttendanceDTO attendanceToCreate) {
+		AttendanceDTO createdAttendance = new AttendanceDTO();
+		createdAttendance.setEvent(attendanceToCreate.getEvent());
+		createdAttendance.setUser(attendanceToCreate.getUser());
+		createdAttendance.setValid(true);
+		
+		return createdAttendance;
+	}
+	
+	private WriteResultDTO cancelEvent(HttpServletRequest request, String eventId) {
+		EventDTO deletedEvent = new EventDTO();
+		deletedEvent.setEventId("1");
+		
+		WriteResultDTO result = new WriteResultDTO();
+		result.setOk(true);
+		result.setIdentifier(deletedEvent.getEventId());
+		return result;
+	}	
+	
+	private WriteResultDTO createEvent(HttpServletRequest request, EventDTO eventToCreate) {
+		
+		EventDTO e1 = new EventDTO();
+		e1.setEventId("1");
+		
+		WriteResultDTO result = new WriteResultDTO();
+		result.setOk(true);
+		result.setIdentifier(e1.getEventId());
+		return result;
+	}
+	
+	private List<AttendanceDTO> getAttendancesByEvent(HttpServletRequest request, String eventId) {
+		ArrayList<AttendanceDTO> arrayList = new ArrayList<AttendanceDTO>();
+		AttendanceDTO a1 = new AttendanceDTO();
+		a1.setValid(true);
+		a1.setNumPartecipanti(100);
+		arrayList.add(a1);
+		return arrayList;
+	}	
 	
 	private List<EventDTO> searchEvents(HttpServletRequest request, String posizione, String categoria, int partecipanti) {
 		//		TODO
