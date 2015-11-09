@@ -3,10 +3,8 @@ package it.fff.business.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dto.CreateUserDTO;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.persistence.facade.exception.PersistenceException;
