@@ -28,6 +28,11 @@
 			<artifactId>it.fff.business.common</artifactId>
 			<version>1.0</version>
 		</dependency>
+		  <dependency>
+		  	<groupId>it.fff.clientserver.common</groupId>
+		  	<artifactId>it.fff.clientserver.common</artifactId>
+		  	<version>1.0</version>
+		  </dependency>		
 		<dependency>
 			<groupId>it.fff.business</groupId>
 			<artifactId>it.fff.business</artifactId>
@@ -42,7 +47,7 @@
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
 		    <version>2.4.1</version>
-		  </dependency>			
+		  </dependency>
 	</dependencies>
 	  
 </project>

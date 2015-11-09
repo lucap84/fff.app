@@ -6,11 +6,6 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dto.CreateUserDTO;
-import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.ProfileImageDTO;
-import it.fff.business.common.dto.UserDTO;
-import it.fff.business.common.dto.WriteResultDTO;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ErrorCodes;
@@ -19,6 +14,7 @@ import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.business.service.EventBusinessService;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.util.BusinessServiceProvider;
+import it.fff.clientserver.common.dto.*;
 import it.fff.persistence.facade.exception.PersistenceException;
 
 public class BusinessServiceFacadeImpl extends BusinessServiceFacade{
@@ -50,12 +46,12 @@ public class BusinessServiceFacadeImpl extends BusinessServiceFacade{
 	}
 
 	@Override
-	public UserDTO createUser(CreateUserDTO createUserDTO) throws BusinessException {
+	public UserDTO createUser(UserDTO userDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
 		try {
 			UserMapper mapper = new UserMapper();
-			userBO = mapper.mapCreateUserDto2Bo(createUserDTO);
+			userBO = mapper.mapDto2Bo(userDTO);
 			userBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			super.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
