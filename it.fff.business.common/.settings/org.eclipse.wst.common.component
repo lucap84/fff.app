@@ -2,5 +2,8 @@
     <wb-module deploy-name="it.fff.business.common">
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/resources"/>
+        <dependent-module archiveName="it.fff.clientserver.common.jar" deploy-path="/" handle="module:/resource/it.fff.clientserver.common/it.fff.clientserver.common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

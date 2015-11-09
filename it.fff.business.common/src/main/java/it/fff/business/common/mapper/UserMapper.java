@@ -2,18 +2,18 @@ package it.fff.business.common.mapper;
 
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dto.CreateUserDTO;
-import it.fff.business.common.dto.ProfileImageDTO;
-import it.fff.business.common.dto.UserDTO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
+import it.fff.clientserver.common.dto.*;
 
 public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 
 	@Override
 	public UserBO mapDto2Bo(UserDTO dto) {
 		UserBO bo = new UserBO();
-		bo.setId(Integer.valueOf(dto.getId()));
+		if(dto.getId()!=null){
+			bo.setId(Integer.valueOf(dto.getId()));
+		}
 		bo.setCognome(dto.getCognome());
 		bo.setDataNascita(dto.getDataNascita());
 		bo.setDescrizione(dto.getDescrizione());
@@ -54,14 +54,6 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return bo;
 	}
 
-	public UserBO mapCreateUserDto2Bo(CreateUserDTO dto) {
-		UserBO bo = new UserBO();
-		bo.setCognome(dto.getCognome());
-		bo.setDataNascita(dto.getDataNascita());
-		bo.setEmail(dto.getEmail());
-		return bo;
-	}
-	
 	public ProfileImageBO mapProfileImageDto2Bo(ProfileImageDTO dto) {
 		ProfileImageBO bo = new ProfileImageBO();
 		bo.setImageInputStream(dto.getImageInputStream());

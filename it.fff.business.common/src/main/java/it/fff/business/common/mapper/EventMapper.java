@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.EventBO;
-import it.fff.business.common.dto.EventDTO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.clientserver.common.dto.EventDTO;
 
 public class EventMapper implements BeanMapper<EventDTO,EventBO,EventEO>{
 	
