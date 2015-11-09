@@ -12,7 +12,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -23,14 +22,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.fff.business.common.dto.AttendanceDTO;
-import it.fff.business.common.dto.CreateUserDTO;
-import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.FeedbackDTO;
-import it.fff.business.common.dto.PlaceDTO;
-import it.fff.business.common.dto.ProfileImageDTO;
-import it.fff.business.common.dto.UserDTO;
-import it.fff.business.common.dto.WriteResultDTO;
+import it.fff.clientserver.common.dto.*;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -117,15 +109,15 @@ public class UserService extends ApplicationService{
 	@Path("json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO createUserJSON(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
-		return createUser(request, createUserDTO);
+	public WriteResultDTO createUserJSON(@Context HttpServletRequest request, UserDTO userDTO) throws BusinessException {
+		return createUser(request, userDTO);
 	}
 	@POST
 	@Path("xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO createUserXML(@Context HttpServletRequest request, CreateUserDTO createUserDTO) throws BusinessException {
-		return createUser(request, createUserDTO);
+	public WriteResultDTO createUserXML(@Context HttpServletRequest request, UserDTO userDTO) throws BusinessException {
+		return createUser(request, userDTO);
 	}	
 	
 	@POST
@@ -192,17 +184,17 @@ public class UserService extends ApplicationService{
 		return dto;
 	}
 	
-	private WriteResultDTO createUser(HttpServletRequest request, CreateUserDTO createUserDTO){
+	private WriteResultDTO createUser(HttpServletRequest request, UserDTO userDTOinput){
 		logger.info("Receiving createUser request");
 		WriteResultDTO writeResultDTO = new WriteResultDTO();
 		
 		try {
-			UserDTO userdto = businessServiceFacade.createUser(createUserDTO);
-			Integer id = Integer.valueOf(userdto.getId());
-			if(userdto!=null && id>0){
+			UserDTO userdtoOutout = businessServiceFacade.createUser(userDTOinput);
+			Integer id = Integer.valueOf(userdtoOutout.getId());
+			if(userdtoOutout!=null && id>0){
 				writeResultDTO.setOk(true);
 				writeResultDTO.setAffectedRecords(1);
-				writeResultDTO.setIdentifier(String.valueOf(userdto.getId()));
+				writeResultDTO.setIdentifier(String.valueOf(id));
 			}
 			
 		} catch (BusinessException e) {

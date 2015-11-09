@@ -50,7 +50,12 @@
 			<groupId>it.fff.business.facade</groupId>
 			<artifactId>it.fff.business.facade</artifactId>
 			<version>1.0</version>
-		</dependency>			
+		</dependency>
+		  <dependency>
+		  	<groupId>it.fff.clientserver.common</groupId>
+		  	<artifactId>it.fff.clientserver.common</artifactId>
+		  	<version>1.0</version>
+		  </dependency>					
 		<dependency>
 		    <groupId>org.glassfish.jersey.containers</groupId>
 		    <artifactId>jersey-container-servlet</artifactId>
@@ -84,22 +89,38 @@
 			</exclusions>		    
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-multipart</artifactId>
-			<version>2.22.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.glassfish.jersey.bundles</groupId>
 			<artifactId>jaxrs-ri</artifactId>
 			<version>2.22.1</version>
 		</dependency>
+		<!-- 
+		MOXy utile per mappare LISTE in oggetti JSON in entrata/uscita (MessageBodyReader/Writer)
+		MOXy media module is one of the modules where you don't need to explicitly register it's Features (MoxyJsonFeature) 
+		A manual registration of any other Jersey JSON provider feature (except for Java API for JSON Processing (JSON-P)) disables the automated enabling and configuration of MoxyJsonFeature.
+		In order to make MoxyJsonConfig visible for MOXy you need to create and register ContextResolver<T> in your client/server code.
+		-->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId><!-- utile per mappare LISTE in oggetti JSON in entrata/uscita (MessageBodyReader/Writer) -->
+			<artifactId>jersey-media-moxy</artifactId>
 			<version>2.22.1</version>
 		</dependency>
-		
-		<!-- dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-processing</artifactId>
+            <version>2.22.1</version>
+        </dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <version>2.22.1</version>
+        </dependency>        		
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>2.22.1</version>
+		</dependency>		
+		<!-- do not use Jackson because moxy is jersey default
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.6.3</version>
@@ -131,7 +152,6 @@
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
 		    <version>2.4.1</version>
-		  </dependency>		
-		
+		  </dependency>
 	</dependencies>
 </project>

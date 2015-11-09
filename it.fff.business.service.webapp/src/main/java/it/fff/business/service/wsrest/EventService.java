@@ -19,10 +19,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.fff.business.common.dto.AttendanceDTO;
-import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.FeedbackDTO;
-import it.fff.business.common.dto.WriteResultDTO;
+import it.fff.clientserver.common.dto.*;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -43,14 +40,14 @@ public class EventService extends ApplicationService{
 	}
 	
 	@POST
-	@Path("{eventID}/attendances/{attendanceId}/feedbacks/json")
+	@Path("{eventID}/attendances/{attendanceId}/feedback/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public WriteResultDTO addFeedbackJSON(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
 		return addFeedback(request, attendance);
 	}	
 	@POST
-	@Path("{eventID}/attendances/{attendanceId}/feedbacks/xml")
+	@Path("{eventID}/attendances/{attendanceId}/feedback/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	public WriteResultDTO addFeedbackXML(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
@@ -142,14 +139,14 @@ public class EventService extends ApplicationService{
 	@GET
 	@Path("{eventId}/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public EventDTO getEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public ReadResultDTO<EventDTO> getEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
 	}
 	
 	@GET
 	@Path("{eventId}/xml")
 	@Produces( MediaType.APPLICATION_XML)
-	public EventDTO getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public ReadResultDTO<EventDTO> getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
 	}	
 	
@@ -225,24 +222,26 @@ public class EventService extends ApplicationService{
 		return arrayList;
 	}	
 	
-	private EventDTO getEvent(HttpServletRequest request, String eventId){
+	private ReadResultDTO<EventDTO> getEvent(HttpServletRequest request, String eventId){
 		logger.info("Receiving getEvent request with param: {}",eventId);
-		EventDTO outputDTO = null;
+		ReadResultDTO<EventDTO> resultDto = new ReadResultDTO<EventDTO>();
+		EventDTO eventDTO = null;
 		try {
 		int eventIdInt = Integer.valueOf(eventId);
-			outputDTO = businessServiceFacade.getEvent(eventIdInt);
+			eventDTO = businessServiceFacade.getEvent(eventIdInt);
+			resultDto.setDto(eventDTO);
 		} catch (BusinessException e) {
-			outputDTO = new EventDTO();
-			super.manageErrors(e, outputDTO, request.getLocale());
+			eventDTO = new EventDTO();
+			super.manageErrors(e, resultDto, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		catch (NumberFormatException e){
 			logger.error(LogUtils.stackTrace2String(e));
 		}
-		if(outputDTO!=null){
+		if(eventDTO!=null){
 			logger.info("Sending back the event retrieved");
 		}
-		return outputDTO;		
+		return resultDto;		
 	}
 	
 
