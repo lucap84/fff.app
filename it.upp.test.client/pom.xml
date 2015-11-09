@@ -24,8 +24,8 @@
 	</build> 
 	 <dependencies>
 		<dependency>
-			<groupId>it.fff.business.common</groupId>
-			<artifactId>it.fff.business.common</artifactId>
+			<groupId>it.fff.clientserver.common</groupId>
+			<artifactId>it.fff.clientserver.common</artifactId>
 			<version>1.0</version>
 		</dependency>	
 		<dependency>
@@ -42,8 +42,19 @@
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId><!-- utile per mappare LISTE in oggetti JSON in entrata/uscita (MessageBodyReader/Writer) -->
 			<version>2.22.1</version>
-		</dependency>		
-		<!-- dependency>
+		</dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-processing</artifactId>
+            <version>2.22.1</version>
+        </dependency>
+		<dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <version>2.22.1</version>
+        </dependency>        				
+		<!-- do not use Jackson because moxy is jersey default
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.6.3</version>
@@ -58,6 +69,16 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.4.1</version>
+		  </dependency>
+		  <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.4.1</version>
+		  </dependency>			
 	</dependencies>
 	  
 </project>

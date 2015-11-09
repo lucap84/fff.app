@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -17,28 +16,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Test;
 
-import it.fff.business.common.dto.CreateUserDTO;
-import it.fff.business.common.dto.EventDTO;
-import it.fff.business.common.dto.PlaceDTO;
-import it.fff.business.common.dto.UserDTO;
-import it.fff.business.service.provider.CreateUserDTOMessageBodyRW;
-import it.fff.business.service.provider.EventDTOMessageBodyRW;
-import it.fff.business.service.provider.PlaceDTOMessageBodyRW;
-import it.fff.business.service.provider.UserDTOMessageBodyRW;
-import it.fff.business.service.provider.WriteResultDTOMessageBodyRW;
+import it.fff.clientserver.common.dto.*;
 
 public class UserServiceTest extends ServiceTest{
 
 	
 	@Test
 	public void modifyUserDataShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(UserDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		UserDTO  user = new UserDTO();
 		user.setId("1");
@@ -56,9 +44,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void setCurrentPositionShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(PlaceDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		String userId = "1";
 		String eventId = "1";
@@ -77,8 +63,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void getEventsByUserShouldReturnAtLeastOneEvent(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(EventDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		String userId = "1";
 		
@@ -99,8 +84,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void getUserShouldReturnOneUser(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(UserDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 
 		String requestedUserId = "1";
 		
@@ -121,9 +105,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void updateProfileImageShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(WriteResultDTOMessageBodyRW.class);
-		client.register(MultiPartFeature.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		URL url = getClass().getResource("imagetest.jpg");
 		File f = null;;
@@ -144,11 +126,9 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void createUserShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(CreateUserDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
-		CreateUserDTO createUserDTO = new CreateUserDTO();
+		UserDTO createUserDTO = new UserDTO();
 		createUserDTO.setNome("Luca");
 		createUserDTO.setCognome("Pelosi");
 		createUserDTO.setEmail("lucap84@gmail.com");
@@ -164,7 +144,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	public static void main(String[] args) {
 		UserServiceTest test = new UserServiceTest();
-		test.modifyUserDataShouldReturnConfirm();
+		test.createUserShouldReturnConfirm();
 	}
 	
 }

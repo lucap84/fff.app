@@ -1,25 +1,17 @@
 package it.upp.test.rest;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import it.fff.business.common.dto.PlaceDTO;
-import it.fff.business.service.provider.PlaceDTOMessageBodyRW;
-import it.fff.business.service.provider.WriteResultDTOMessageBodyRW;
-
 public class SecurityServiceTest extends ServiceTest{
 	
 	@Test
 	public void loginShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(PlaceDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		String username = "lucap84@gmail.com";
 		String password = "mypassword";

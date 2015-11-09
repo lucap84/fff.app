@@ -1,12 +1,8 @@
 package it.upp.test.rest;
 
-import it.fff.business.common.dto.*;
-import it.fff.business.service.provider.AttendanceDTOMessageBodyRW;
-import it.fff.business.service.provider.EventDTOMessageBodyRW;
-import it.fff.business.service.provider.WriteResultDTOMessageBodyRW;
+import it.fff.clientserver.common.dto.*;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -24,9 +20,7 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void addFeedbackShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(AttendanceDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
 		event.setEventId("1");
@@ -42,12 +36,12 @@ public class EventServiceTest extends ServiceTest{
 		attendanceToAddFeedback.setNumPartecipanti(22);
 		attendanceToAddFeedback.setFeedback(feedback);
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedbacks").path("json");
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_JSON));
 		assertEquals(200, responseJSON.getStatus());
 		checkEntityWriteResultJSON(responseJSON);
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedbacks").path("xml");
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_XML));
 		assertEquals(200, responseXML.getStatus());
 		checkEntityWriteResultXML(responseXML);	
@@ -55,8 +49,7 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void joinEventShouldReturnAnAttendance(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(AttendanceDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
 		event.setEventId("1");
@@ -87,9 +80,7 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void deleteEventShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(EventDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		String eventToDelete = "1";
 		
@@ -104,9 +95,7 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void createEventShouldReturnConfirm(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(EventDTOMessageBodyRW.class);
-		client.register(WriteResultDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		UserDTO organizer = new UserDTO();
 		organizer.setId("1");
@@ -128,8 +117,7 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void getAttendacesByEventShouldReturnAtLeastOneAttendance(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(AttendanceDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 
 		String requestedEventId = "1";
 		
@@ -150,30 +138,29 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void getEventShouldReturnOneEvent(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(EventDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 
 		String requestedEventId = "1";
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(requestedEventId).path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
 		assertEquals(200, responseJSON.getStatus());
-		final EventDTO entityFromJSON = responseJSON.readEntity(EventDTO.class);
+		final ReadResultDTO<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
 		assertNotNull(entityFromJSON);
-		assertEquals(entityFromJSON.getEventId(), requestedEventId);
+		assertNotNull(entityFromJSON.getDto());
+		assertEquals(entityFromJSON.getDto().getEventId(), requestedEventId);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path(requestedEventId).path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
 		assertEquals(200, responseXML.getStatus());
-		final EventDTO entityFromXML = responseXML.readEntity(EventDTO.class);
+		final ReadResultDTO<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
 		assertNotNull(entityFromXML);
-		assertEquals(entityFromXML.getEventId(), requestedEventId);
+		assertEquals(entityFromXML.getDto().getEventId(), requestedEventId);
 	}
 	
 	@Test
 	public void searchEventsShouldReturnAtLeastOneEvent(){
-		Client client = ClientBuilder.newBuilder().build();
-		client.register(EventDTOMessageBodyRW.class);
+		Client client = ServiceTest.getClientInstance();
 		
 		String posizione = "posizione1";
 		String categoria = "categoria1";
@@ -203,7 +190,7 @@ public class EventServiceTest extends ServiceTest{
 	public static void main(String[] args) {
 		EventServiceTest eventServiceTest = new EventServiceTest();
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-		eventServiceTest.addFeedbackShouldReturnConfirm();
+		eventServiceTest.getEventShouldReturnOneEvent();
 	}
 	
 }
