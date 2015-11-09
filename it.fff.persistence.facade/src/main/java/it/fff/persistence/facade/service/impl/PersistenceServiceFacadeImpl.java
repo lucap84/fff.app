@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.dto.CreateUserDTO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
