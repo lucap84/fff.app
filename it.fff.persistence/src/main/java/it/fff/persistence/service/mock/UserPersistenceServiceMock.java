@@ -2,7 +2,6 @@ package it.fff.persistence.service.mock;
 
 import java.sql.SQLException;
 
-import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
