@@ -21,12 +21,12 @@ import org.junit.Test;
 
 import it.fff.clientserver.common.dto.*;
 
-public class UserServiceTest extends ServiceTest{
+public class UserServiceTest extends WebServiceRestTest{
 
 	
 	@Test
 	public void modifyUserDataShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		UserDTO  user = new UserDTO();
 		user.setId("1");
@@ -35,16 +35,16 @@ public class UserServiceTest extends ServiceTest{
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(user.getId()).path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).put(Entity.entity(user, MediaType.APPLICATION_JSON));
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("users").path(user.getId()).path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).put(Entity.entity(user, MediaType.APPLICATION_XML));
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 	}	
 	
 	@Test
 	public void setCurrentPositionShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		String userId = "1";
 		String eventId = "1";
@@ -54,16 +54,16 @@ public class UserServiceTest extends ServiceTest{
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(userId).path("events").path(eventId).path("position").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(currentPlace, MediaType.APPLICATION_JSON));
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("users").path(userId).path("events").path(eventId).path("position").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(currentPlace, MediaType.APPLICATION_XML));
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 	}	
 	
 	@Test
 	public void getEventsByUserShouldReturnAtLeastOneEvent(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		String userId = "1";
 		
@@ -84,7 +84,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void getUserShouldReturnOneUser(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 
 		String requestedUserId = "1";
 		
@@ -105,7 +105,7 @@ public class UserServiceTest extends ServiceTest{
 	
 	@Test
 	public void updateProfileImageShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		URL url = getClass().getResource("imagetest.jpg");
 		File f = null;;
@@ -116,17 +116,17 @@ public class UserServiceTest extends ServiceTest{
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("users").path("1").path("images").path("json");
 		Response responseJSON = targetJSON.request().post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
-		checkEntityWriteResultJSON(responseJSON);	
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);	
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("users").path("1").path("images").path("xml");
 		Response responseXML = targetXML.request().post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 
 	}
 	
 	@Test
 	public void createUserShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		UserDTO createUserDTO = new UserDTO();
 		createUserDTO.setNome("Luca");
@@ -135,11 +135,11 @@ public class UserServiceTest extends ServiceTest{
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("users").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(createUserDTO, MediaType.APPLICATION_JSON));
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("users").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(createUserDTO, MediaType.APPLICATION_XML));
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 	}
 	
 	public static void main(String[] args) {

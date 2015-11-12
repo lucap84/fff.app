@@ -14,15 +14,19 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.ContextResolver;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 
+import it.fff.business.service.impl.EventBusinessServiceImpl;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
 
-public class ServiceTest{
+public class WebServiceRestTest{
+	private static final Logger logger = LogManager.getLogger(WebServiceRestTest.class);
 	
 	private static Client client;
 	
@@ -65,21 +69,18 @@ public class ServiceTest{
 	}
 	
 	
-	protected void checkEntityWriteResultJSON(Response responseJSON){
-		assertEquals(200,responseJSON.getStatus());
-		assertEquals(MediaType.APPLICATION_JSON.toString(), responseJSON.getMediaType().toString());
-		final WriteResultDTO writeResultFromJSON = (WriteResultDTO)responseJSON.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromJSON.isOk(), true);
-		assertNotEquals("-1", writeResultFromJSON.getIdentifier());		
+	protected void checkEntityWriteResult(Response response, String mediaType){
+		assertEquals(200,response.getStatus());
+		assertEquals(mediaType, response.getMediaType().toString());
+		final WriteResultDTO writeResult = (WriteResultDTO)response.readEntity(WriteResultDTO.class);
+		if(!writeResult.isOk()){
+			for (Map.Entry<String, String> entry : writeResult.getErrorsMap().entrySet())			{
+				logger.error(entry.getKey() + " -->" + entry.getValue());
+			}
+		}
+		assertEquals(writeResult.isOk(), true);
+		assertNotEquals("-1", writeResult.getIdentifier());
 	}
-	
-	protected void checkEntityWriteResultXML(Response responseXML){
-		assertEquals(200, responseXML.getStatus());
-		assertEquals(MediaType.APPLICATION_XML.toString(), responseXML.getMediaType().toString());
-		final WriteResultDTO writeResultFromXML = (WriteResultDTO)responseXML.readEntity(WriteResultDTO.class);
-		assertEquals(writeResultFromXML.isOk(), true);
-		assertNotEquals("-1", writeResultFromXML.getIdentifier());			
-	}	
 	
 	protected static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/it.fff.business.service.webapp/restapi").build();

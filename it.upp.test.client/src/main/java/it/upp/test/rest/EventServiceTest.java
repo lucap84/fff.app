@@ -15,12 +15,89 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-public class EventServiceTest extends ServiceTest{
+public class EventServiceTest extends WebServiceRestTest{
 
 	
 	@Test
+	public void getEventMessagesShouldReturnAtLeastOneMessaget(){
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		String eventId = "1";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(eventId).path("messages").path("json");
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
+		assertEquals(200, responseJSON.getStatus());
+		final List<MessageDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<MessageDTO>>(){});
+		assertNotNull(entityFromJSON);
+		assertTrue(entityFromJSON.size()>0);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(eventId).path("messages").path("xml");
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
+		assertEquals(200, responseXML.getStatus());
+		List<MessageDTO> entityFromXML = responseXML.readEntity(new GenericType<List<MessageDTO>>(){});
+		assertNotNull(entityFromXML);
+		assertTrue(entityFromXML.size()>0);
+	}	
+	
+	@Test
+	public void postEventStandardMessageShouldReturnConfirm(){
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		String eventId = "1";
+		String attendanceId = "1";
+		String sdtMsgId = "1";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceId).path("messages").path("standard").path("json")
+				.queryParam("sdtMsgId", sdtMsgId);
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(null, MediaType.APPLICATION_JSON));
+		assertEquals(200, responseJSON.getStatus());
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceId).path("messages").path("standard").path("xml")
+				.queryParam("sdtMsgId", sdtMsgId);
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(null, MediaType.APPLICATION_XML));
+		assertEquals(200, responseXML.getStatus());
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+	}
+	
+	@Test
+	public void postEventMessageShouldReturnConfirm(){
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		String eventId = "1";
+		String attendanceId = "1";
+		String message = "Very long message posted to server Very long message posted to server Very long message posted to server Very long message posted to server...";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceId).path("messages").path("json");
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(message, MediaType.APPLICATION_JSON));
+		assertEquals(200, responseJSON.getStatus());
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceId).path("messages").path("xml");
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(message, MediaType.APPLICATION_XML));
+		assertEquals(200, responseXML.getStatus());
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+	}	
+	
+	@Test
+	public void cancelAttendanceShouldReturnConfirm(){//annulla partecipazione da parte di uno partecipante
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		String eventId = "1";
+		String attendanceToDel = "1";
+		
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceToDel).path("json");
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).delete();
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(eventId).path("attendances").path(attendanceToDel).path("xml");
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).delete();
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+	}	
+	
+	@Test
 	public void addFeedbackShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
 		event.setEventId("1");
@@ -39,17 +116,17 @@ public class EventServiceTest extends ServiceTest{
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_JSON));
 		assertEquals(200, responseJSON.getStatus());
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_XML));
 		assertEquals(200, responseXML.getStatus());
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 	}	
 	
 	@Test
 	public void joinEventShouldReturnAnAttendance(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
 		event.setEventId("1");
@@ -62,40 +139,34 @@ public class EventServiceTest extends ServiceTest{
 		attendanceToCreate.setOrganizer(false);
 		attendanceToCreate.setNumPartecipanti(22);
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(attendee.getId()).path("attendances").path("json");
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_JSON));
 		assertEquals(200, responseJSON.getStatus());
-		AttendanceDTO entityFromJSON = responseJSON.readEntity(AttendanceDTO.class);
-		assertNotNull(entityFromJSON);
-		assertNotEquals(entityFromJSON.getId(), "-1");
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("events").path(attendee.getId()).path("attendances").path("xml");
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_XML));
-		assertEquals(200, responseXML.getStatus());
-		AttendanceDTO entityFromXML = responseXML.readEntity(AttendanceDTO.class);
-		assertNotNull(entityFromXML);
-		assertNotEquals(entityFromXML.getId(), "-1");
-		
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 	}	
 	
 	@Test
-	public void deleteEventShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+	public void cancelEventShouldReturnConfirm(){ //annulla evento da parte dell'organizzatore
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		String eventToDelete = "1";
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(eventToDelete).path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).delete();
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path(eventToDelete).path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).delete();
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 	}	
 	
 	@Test
 	public void createEventShouldReturnConfirm(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		UserDTO organizer = new UserDTO();
 		organizer.setId("1");
@@ -108,16 +179,16 @@ public class EventServiceTest extends ServiceTest{
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(dto, MediaType.APPLICATION_JSON));
-		checkEntityWriteResultJSON(responseJSON);
+		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(dto, MediaType.APPLICATION_XML));
-		checkEntityWriteResultXML(responseXML);	
+		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 	}	
 	
 	@Test
 	public void getAttendacesByEventShouldReturnAtLeastOneAttendance(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 
 		String requestedEventId = "1";
 		
@@ -138,29 +209,30 @@ public class EventServiceTest extends ServiceTest{
 	
 	@Test
 	public void getEventShouldReturnOneEvent(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 
 		String requestedEventId = "1";
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(requestedEventId).path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
 		assertEquals(200, responseJSON.getStatus());
-		final ReadResultDTO<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
+//		final ReadResultDTO<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
+		final EventDTO entityFromJSON = responseJSON.readEntity(EventDTO.class);
 		assertNotNull(entityFromJSON);
-		assertNotNull(entityFromJSON.getDto());
-		assertEquals(entityFromJSON.getDto().getEventId(), requestedEventId);
+		assertEquals(entityFromJSON.getEventId(), requestedEventId);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path(requestedEventId).path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
 		assertEquals(200, responseXML.getStatus());
-		final ReadResultDTO<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
+//		final ReadResultDTO<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
+		final EventDTO entityFromXML = responseXML.readEntity(EventDTO.class);
 		assertNotNull(entityFromXML);
-		assertEquals(entityFromXML.getDto().getEventId(), requestedEventId);
+		assertEquals(entityFromXML.getEventId(), requestedEventId);
 	}
 	
 	@Test
 	public void searchEventsShouldReturnAtLeastOneEvent(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		String posizione = "posizione1";
 		String categoria = "categoria1";
@@ -190,7 +262,7 @@ public class EventServiceTest extends ServiceTest{
 	public static void main(String[] args) {
 		EventServiceTest eventServiceTest = new EventServiceTest();
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-		eventServiceTest.getEventShouldReturnOneEvent();
+		eventServiceTest.postEventStandardMessageShouldReturnConfirm();
 	}
 	
 }

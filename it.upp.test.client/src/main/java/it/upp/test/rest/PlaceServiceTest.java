@@ -16,12 +16,12 @@ import org.junit.Test;
 
 import it.fff.clientserver.common.dto.*;
 
-public class PlaceServiceTest extends ServiceTest{
+public class PlaceServiceTest extends WebServiceRestTest{
 	
 	
 	@Test
 	public void getPlacesByDescriptionShouldReturnAtLeastOnePlace(){
-		Client client = ServiceTest.getClientInstance();
+		Client client = WebServiceRestTest.getClientInstance();
 		
 		String description = "chiringuito";
 		

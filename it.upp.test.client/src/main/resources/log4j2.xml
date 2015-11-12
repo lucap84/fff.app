@@ -6,7 +6,7 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="it.upp" level="debug" additivity="false">
+    <Logger name="it.upp" level="debug" additivity="true">
       <AppenderRef ref="Console"/>
     </Logger>
     <Root level="error">
