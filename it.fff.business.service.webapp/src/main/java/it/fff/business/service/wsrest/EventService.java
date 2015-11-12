@@ -39,6 +39,64 @@ public class EventService extends ApplicationService{
 		logger.debug("Service created");
 	}
 	
+	@GET
+	@Path("{eventId}/messages/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<MessageDTO> getEventMessagesJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+		return this.getEventMessages(request, eventId);
+	}
+	@GET
+	@Path("{eventId}/messages/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<MessageDTO> getEventMessagesXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+		return this.getEventMessages(request, eventId);
+	}	
+	
+	@POST
+	@Path("{eventId}/attendances/{attendanceId}/messages/standard/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO postEventStandardMessageJSON(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @QueryParam("sdtMsgId") String sdtMsgId) throws BusinessException {
+		return postEventStandardMessage(request, attendanceId, sdtMsgId);
+	}	
+	@POST
+	@Path("{eventId}/attendances/{attendanceId}/messages/standard/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO postEventStandardMessageXML(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @QueryParam("sdtMsgId") String sdtMsgId) throws BusinessException {
+		return postEventStandardMessage(request, attendanceId, sdtMsgId);
+	}	
+	
+	@POST
+	@Path("{eventId}/attendances/{attendanceId}/messages/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO postEventMessageJSON(@Context HttpServletRequest request, @PathParam("attendanceId") String attendanceId, String message) throws BusinessException {
+		return postEventMessage(request, attendanceId, message);
+	}	
+	@POST
+	@Path("{eventId}/attendances/{attendanceId}/messages/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO postEventMessageXML(@Context HttpServletRequest request, @PathParam("attendanceId") String attendanceId, String message) throws BusinessException {
+		return postEventMessage(request, attendanceId, message);
+	}	
+	
+	@DELETE
+	@Path("{eventId}/attendances/{attendanceId}/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO cancelAttendanceJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId, @PathParam("attendanceId") String attendanceId) throws BusinessException {
+		return cancelAttendance(request, eventId, attendanceId);
+	}	
+	@DELETE
+	@Path("{eventId}/attendances/{attendanceId}/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO cancelAttendanceXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId, @PathParam("attendanceId") String attendanceId) throws BusinessException {
+		return cancelAttendance(request, eventId, attendanceId);
+	}	
+	
 	@POST
 	@Path("{eventID}/attendances/{attendanceId}/feedback/json")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -58,14 +116,14 @@ public class EventService extends ApplicationService{
 	@Path("{eventId}/attendances/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public AttendanceDTO joinEventJSON(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
+	public WriteResultDTO joinEventJSON(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
 		return joinEvent(request, attendanceToCreate);
 	}	
 	@POST
 	@Path("{eventId}/attendances/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public AttendanceDTO joinEventXML(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
+	public WriteResultDTO joinEventXML(@Context HttpServletRequest request, AttendanceDTO attendanceToCreate) throws BusinessException {
 		return joinEvent(request, attendanceToCreate);
 	}	
 	
@@ -106,7 +164,6 @@ public class EventService extends ApplicationService{
 														 @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getAttendancesByEvent(request, eventId);
 	}
-	
 	@GET
 	@Path("{eventId}/attendaces/xml")
 	@Produces(MediaType.APPLICATION_XML)
@@ -114,7 +171,6 @@ public class EventService extends ApplicationService{
 														@PathParam("eventId") String eventId) throws BusinessException {
 		return this.getAttendancesByEvent(request, eventId);
 	}	
-
 
 	@GET
 	@Path("json")
@@ -139,14 +195,14 @@ public class EventService extends ApplicationService{
 	@GET
 	@Path("{eventId}/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ReadResultDTO<EventDTO> getEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public EventDTO getEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
 	}
 	
 	@GET
 	@Path("{eventId}/xml")
 	@Produces( MediaType.APPLICATION_XML)
-	public ReadResultDTO<EventDTO> getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public EventDTO getEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEvent(request, eventId);
 	}	
 	
@@ -164,75 +220,132 @@ public class EventService extends ApplicationService{
 	 *
 	 */
 	
+	private List<MessageDTO> getEventMessages(HttpServletRequest request, String eventId) {
+		ArrayList<MessageDTO> messages;
+		try {
+			messages = businessServiceFacade.getEventMessages(eventId);
+		} catch (BusinessException e) {
+			messages = new ArrayList<MessageDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return messages;
+	}	
+	
+	private WriteResultDTO postEventStandardMessage(HttpServletRequest request, String attendanceId,	String stdMsgId) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.postStandardEventMessage(attendanceId, stdMsgId);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}	
+	
+	private WriteResultDTO postEventMessage(HttpServletRequest request, String attendanceId, String message) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.postEventMessage(attendanceId, message);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}	
+	
+	private WriteResultDTO cancelAttendance(HttpServletRequest request, String eventId, String attendanceId) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.cancelAttendance(eventId, attendanceId);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}	
+	
 	private WriteResultDTO addFeedback(HttpServletRequest request, AttendanceDTO attendance) {
-		//feedback saved, return confirm
-		
-		WriteResultDTO result = new WriteResultDTO();
-		result.setOk(true);
-		result.setIdentifier(String.valueOf(attendance.getId()));
-		
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.addFeedback(attendance);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}		
 	
-	private AttendanceDTO joinEvent(HttpServletRequest request, AttendanceDTO attendanceToCreate) {
-		AttendanceDTO createdAttendance = new AttendanceDTO();
-		createdAttendance.setEvent(attendanceToCreate.getEvent());
-		createdAttendance.setUser(attendanceToCreate.getUser());
-		createdAttendance.setValid(true);
-		
-		return createdAttendance;
+	private WriteResultDTO joinEvent(HttpServletRequest request, AttendanceDTO attendanceToCreate) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.joinEvent(attendanceToCreate);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
 	}
 	
 	private WriteResultDTO cancelEvent(HttpServletRequest request, String eventId) {
-		EventDTO deletedEvent = new EventDTO();
-		deletedEvent.setEventId("1");
-		
-		WriteResultDTO result = new WriteResultDTO();
-		result.setOk(true);
-		result.setIdentifier(deletedEvent.getEventId());
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.cancelEvent(eventId);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}	
 	
 	private WriteResultDTO createEvent(HttpServletRequest request, EventDTO eventToCreate) {
-		
-		EventDTO e1 = new EventDTO();
-		e1.setEventId("1");
-		
-		WriteResultDTO result = new WriteResultDTO();
-		result.setOk(true);
-		result.setIdentifier(e1.getEventId());
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.createEvent(eventToCreate);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}
 	
 	private List<AttendanceDTO> getAttendancesByEvent(HttpServletRequest request, String eventId) {
-		ArrayList<AttendanceDTO> arrayList = new ArrayList<AttendanceDTO>();
-		AttendanceDTO a1 = new AttendanceDTO();
-		a1.setValid(true);
-		a1.setNumPartecipanti(100);
-		arrayList.add(a1);
-		return arrayList;
+		List<AttendanceDTO> attendances;
+		try {
+			attendances = businessServiceFacade.getAttendancesByEvent(eventId);
+		} catch (BusinessException e) {
+			attendances = new ArrayList<AttendanceDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return attendances;
 	}	
 	
 	private List<EventDTO> searchEvents(HttpServletRequest request, String posizione, String categoria, int partecipanti) {
-		//		TODO
-		ArrayList<EventDTO> arrayList = new ArrayList<EventDTO>();
-		EventDTO e1 = new EventDTO();
-		e1.setEventId("999");
-		arrayList.add(e1);
-		return arrayList;
+		ArrayList<EventDTO> events = null;
+		try {
+			events = businessServiceFacade.searchEvents(posizione, categoria, partecipanti);
+		} catch (BusinessException e) {
+			events = new ArrayList<EventDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return events;
 	}	
 	
-	private ReadResultDTO<EventDTO> getEvent(HttpServletRequest request, String eventId){
+	private EventDTO getEvent(HttpServletRequest request, String eventId){
 		logger.info("Receiving getEvent request with param: {}",eventId);
-		ReadResultDTO<EventDTO> resultDto = new ReadResultDTO<EventDTO>();
 		EventDTO eventDTO = null;
 		try {
 		int eventIdInt = Integer.valueOf(eventId);
 			eventDTO = businessServiceFacade.getEvent(eventIdInt);
-			resultDto.setDto(eventDTO);
 		} catch (BusinessException e) {
 			eventDTO = new EventDTO();
-			super.manageErrors(e, resultDto, request.getLocale());
+			super.manageErrors(e, eventDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		catch (NumberFormatException e){
@@ -241,7 +354,7 @@ public class EventService extends ApplicationService{
 		if(eventDTO!=null){
 			logger.info("Sending back the event retrieved");
 		}
-		return resultDto;		
+		return eventDTO;		
 	}
 	
 

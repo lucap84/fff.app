@@ -157,30 +157,22 @@ public class UserService extends ApplicationService{
 	 */
 	
 	private WriteResultDTO updateUserData(HttpServletRequest request, UserDTO user) {
-		WriteResultDTO result = new WriteResultDTO();
-		result.setOk(true);
-		result.setIdentifier(user.getId());
+		WriteResultDTO result = businessServiceFacade.updateUserData(user);
 		return result;
 	}
 	
 	private WriteResultDTO setCurrentPosition(HttpServletRequest request, String userId, String eventId, PlaceDTO place) {
-		WriteResultDTO result = new WriteResultDTO();
-		result.setOk(true);
-		result.setIdentifier(userId);
+		WriteResultDTO result = businessServiceFacade.setCurrentPosition(userId, eventId, place);
 		return result;
 	}
 	
 	private List<EventDTO> getEventsByUser(HttpServletRequest request, String userId) {
-		ArrayList<EventDTO> arrayList = new ArrayList<EventDTO>();
-		EventDTO e1 = new EventDTO();
-		e1.setEventId("1");
-		arrayList.add(e1);
-		return arrayList;
+		List<EventDTO> events = businessServiceFacade.getEventsByUser(userId);
+		return events;
 	}	
 	
 	private UserDTO getUser(HttpServletRequest request, int userId) {
-		UserDTO dto = new UserDTO();
-		dto.setId("1");
+		UserDTO dto = businessServiceFacade.getUser(userId);
 		return dto;
 	}
 	

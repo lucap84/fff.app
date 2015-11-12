@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
 
@@ -62,19 +63,13 @@ public class PlaceService extends ApplicationService{
 	 */	
 	
 	private List<PlaceDTO> getPlacesByDescription(HttpServletRequest request, String description) {
-		PlaceDTO dto1 = new PlaceDTO();
-		dto1.setNome("place1");
-		dto1.setGpsLat("001");
-		dto1.setGpsLat("002");
-		
-		PlaceDTO dto2 = new PlaceDTO();
-		dto1.setNome("place2");
-		dto1.setGpsLat("003");
-		dto1.setGpsLat("004");		
-		
-		List<PlaceDTO> places = new ArrayList<PlaceDTO>();
-		places.add(dto1);
-		places.add(dto2);
+		List<PlaceDTO> places;
+		try {
+			places = businessServiceFacade.getPlacesByDescription(description);
+		} catch (BusinessException e) {
+			places = new ArrayList<PlaceDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return places;
 	}	
 }

@@ -26,7 +26,7 @@ public class JsonMoxyConfigurationContextResolver implements ContextResolver<Mox
         
         config = new MoxyJsonConfig()
 //        		.setIncludeRoot(true)
-//        		.setMarshalEmptyCollections(true)
+//        		.setMarshalEmptyCollections(false)
 //        		.property(JAXBContextProperties.XML_ACCESSOR_FACTORY_SUPPORT, true)
 //	            .setNamespacePrefixMapper(namespacePrefixMapper)
 //	            .setNamespaceSeparator(':');
