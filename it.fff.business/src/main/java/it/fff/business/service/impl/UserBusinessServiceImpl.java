@@ -1,9 +1,12 @@
 package it.fff.business.service.impl;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
@@ -38,6 +41,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}
 	
 	
+
+
+
 	public PersistenceServiceFacade getPersistenceFacade() {
 		return persistenceFacade;
 	}
@@ -46,14 +52,24 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		this.persistenceFacade = persistenceFacade;
 	}
 	
-
+	
 	public ImageValidationStrategy getImageValidationStrategy() {
 		return imageValidationStrategy;
 	}
-
+	
 	public void setImageValidationStrategy(ImageValidationStrategy imageValidationStrategy) {
 		this.imageValidationStrategy = imageValidationStrategy;
-	}	
+	}
 
-	
+
+	@Override
+	public CreateResultBO upgradeToPremium(int userIdInt, SubscriptionBO subscriptionBO) throws PersistenceException {
+		CreateResultBO createResultBO = new CreateResultBO();
+		createResultBO.setCreatedKey(1);
+		createResultBO.setSuccess(true);
+		createResultBO.setNumRecordsCreated(1);
+		return createResultBO;
+	}
+
+
 }
