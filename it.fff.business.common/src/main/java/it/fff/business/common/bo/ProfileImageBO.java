@@ -3,7 +3,7 @@ package it.fff.business.common.bo;
 import java.io.InputStream;
 import java.util.Map;
 
-public class ProfileImageBO {
+public class ProfileImageBO implements BusinessObject{
 	private int userId;
 	private InputStream imageInputStream;
 	private String fileName;

@@ -19,7 +19,9 @@ public class EventMapper implements BeanMapper<EventDTO,EventBO,EventEO>{
 	public EventBO mapDto2Bo(EventDTO dto) {
 		logger.debug("mapDto2Bo");
 		EventBO bo = new EventBO();
-		bo.setEventId(Integer.valueOf(dto.getEventId()));
+		if(dto.getEventId()!=null && !"".equals(dto.getEventId())){
+			bo.setEventId(Integer.valueOf(dto.getEventId()));
+		}
 		bo.setNome(dto.getNome());
 		bo.setDescrizione(dto.getDescrizione());
 		return bo;

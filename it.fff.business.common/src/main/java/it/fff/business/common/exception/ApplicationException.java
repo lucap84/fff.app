@@ -9,12 +9,19 @@ public class ApplicationException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Exception nestedException;
 	private List<String> errorCodes;
 	
 	public ApplicationException(){
 		super();
 		this.errorCodes = new ArrayList<String>();
 	}
+
+	public ApplicationException(Exception e){
+		this();
+		this.nestedException = e;
+	}
+	
 
 	public ApplicationException(String message, Exception innerException){
 		super(message, innerException);

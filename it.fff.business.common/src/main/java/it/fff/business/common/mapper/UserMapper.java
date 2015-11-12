@@ -11,7 +11,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 	@Override
 	public UserBO mapDto2Bo(UserDTO dto) {
 		UserBO bo = new UserBO();
-		if(dto.getId()!=null){
+		if(dto.getId()!=null && !"".equals(dto.getId())){
 			bo.setId(Integer.valueOf(dto.getId()));
 		}
 		bo.setCognome(dto.getCognome());
