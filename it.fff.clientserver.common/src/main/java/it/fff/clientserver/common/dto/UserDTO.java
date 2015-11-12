@@ -19,6 +19,7 @@ public class UserDTO extends DataTransferObject {
 	private List<String> lingue;
 	private String descrizione;
 	private String imgProfileHashCode;
+	private SubscriptionDTO subscription;
 	
 	public UserDTO() {
 	}
@@ -90,8 +91,14 @@ public class UserDTO extends DataTransferObject {
 	public void setImgProfileHashCode(String imgProfileHashCode) {
 		this.imgProfileHashCode = imgProfileHashCode;
 	}
-	
-	
-	
+
+
+	@XmlElement public SubscriptionDTO getSubscription() {
+		return subscription;
+	}
+
+	public void setSubscription(SubscriptionDTO subscription) {
+		this.subscription = subscription;
+	}
 
 }

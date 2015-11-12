@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class WriteResultDTO extends ResultDTO {
+public class WriteResultDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -2437136485588097533L;
 	private int affectedRecords;
@@ -30,6 +30,7 @@ public class WriteResultDTO extends ResultDTO {
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
+	
 
 	@Override
 	public String toString() {
@@ -37,4 +38,5 @@ public class WriteResultDTO extends ResultDTO {
 		return super.toString()+" --> "+this.getClass().getName()+"(affectedRecords: "+affectedRecords+"; identifier: "+identifier+")";
 	}
 
+	
 }
