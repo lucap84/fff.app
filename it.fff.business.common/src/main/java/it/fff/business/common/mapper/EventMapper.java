@@ -1,5 +1,9 @@
 package it.fff.business.common.mapper;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,7 +11,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.clientserver.common.dto.EventDTO;
 
-public class EventMapper implements BeanMapper<EventDTO,EventBO,EventEO>{
+public class EventMapper implements Mapper{
 	
 	private static final Logger logger = LogManager.getLogger(EventMapper.class);
 	
@@ -15,48 +19,51 @@ public class EventMapper implements BeanMapper<EventDTO,EventBO,EventEO>{
 		
 	}
 
-	@Override
-	public EventBO mapDto2Bo(EventDTO dto) {
+	public static EventBO map2BO(EventDTO dto) {
 		logger.debug("mapDto2Bo");
 		EventBO bo = new EventBO();
-		if(dto.getEventId()!=null && !"".equals(dto.getEventId())){
-			bo.setEventId(Integer.valueOf(dto.getEventId()));
+		if(dto.getId()!=null && !"".equals(dto.getId())){
+			bo.setId(Integer.valueOf(dto.getId()));
 		}
 		bo.setNome(dto.getNome());
 		bo.setDescrizione(dto.getDescrizione());
 		return bo;
 	}
 
-	@Override
-	public EventDTO mapBo2Dto(EventBO bo) {
+	public static EventDTO map2DTO(EventBO bo) {
 		logger.debug("mapBo2Dto");
 		EventDTO dto = new EventDTO();
-		dto.setEventId(String.valueOf(bo.getEventId()));
+		dto.setId(String.valueOf(bo.getId()));
 		dto.setNome(bo.getNome());
 		dto.setDescrizione(bo.getDescrizione());
 		return dto;
 	}
 
-	@Override
-	public EventEO mapBo2Eo(EventBO bo) {
+	public static EventEO map2EO(EventBO bo) {
 		logger.debug("mapBo2Eo");
 		EventEO eo = new EventEO();
-		eo.setEventId(bo.getEventId());
+		eo.setId(bo.getId());
 		eo.setNome(bo.getNome());
 		eo.setDescrizione(bo.getDescrizione());
 		return eo;
 	}
 
-	@Override
-	public EventBO mapEo2Bo(EventEO eo) {
+	public static EventBO map2BO(EventEO eo) {
 		logger.debug("mapEO2BO");
 		EventBO bo = new EventBO();
-		bo.setEventId(eo.getEventId());
+		bo.setId(eo.getId());
 		bo.setNome(eo.getNome());
 		bo.setDescrizione(eo.getDescrizione());
 		return bo;
 	}
 
+	public static List<EventDTO> map2DTO(List<EventBO> eventsBO) {
+		List<EventDTO> dtos = new ArrayList<EventDTO>();
+		for (EventBO bo : eventsBO) {
+			dtos.add(EventMapper.map2DTO(bo));
+		}
+		return dtos;
+	}
 
 
 }

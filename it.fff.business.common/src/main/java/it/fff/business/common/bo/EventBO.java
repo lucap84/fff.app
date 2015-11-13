@@ -3,7 +3,7 @@ package it.fff.business.common.bo;
 
 public class EventBO implements BusinessObject{
 
-	private int eventId;
+	private int id;
 	private String nome;
 	private String descrizione;
 	
@@ -12,17 +12,20 @@ public class EventBO implements BusinessObject{
 	}
 
 	public EventBO(int eventId, String nome, String descrizione){
-		this.eventId = eventId;
+		this.id = eventId;
 		this.nome = nome;
 		this.descrizione = descrizione;
 	}
 	
-	public int getEventId() {
-		return eventId;
+	
+	public int getId() {
+		return id;
 	}
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
+
+	public void setId(int id) {
+		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -39,7 +42,7 @@ public class EventBO implements BusinessObject{
 	@Override
 	public String toString() {
 		return "EventBO{" +
-	            "eventId='" + eventId + '\'' +
+	            "eventId='" + id + '\'' +
 	            ", nome=" + nome +
 	             ", descrizione=" + descrizione +
 	            '}';

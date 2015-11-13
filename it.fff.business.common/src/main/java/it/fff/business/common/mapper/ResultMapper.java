@@ -4,9 +4,9 @@ import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
-public class ResultMapper {
+public class ResultMapper implements Mapper{
 
-	public WriteResultDTO map2Dto(CreateResultBO bo) {
+	public static WriteResultDTO map2DTO(CreateResultBO bo) {
 		WriteResultDTO dto = new WriteResultDTO();
 		dto.setAffectedRecords(bo.getNumRecordsCreated());
 		dto.setOk(bo.isSuccess());
@@ -14,7 +14,7 @@ public class ResultMapper {
 		return dto;
 	}
 
-	public WriteResultDTO map2Dto(UpdateResultBO bo) {
+	public static WriteResultDTO map2DTO(UpdateResultBO bo) {
 		WriteResultDTO dto = new WriteResultDTO();
 		dto.setAffectedRecords(bo.getNumRecordsUpdated());
 		dto.setOk(bo.isSuccess());

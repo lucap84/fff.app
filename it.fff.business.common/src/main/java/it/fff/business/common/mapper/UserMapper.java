@@ -6,10 +6,9 @@ import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.*;
 
-public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
+public class UserMapper implements Mapper {
 
-	@Override
-	public UserBO mapDto2Bo(UserDTO dto) {
+	public static UserBO map2BO(UserDTO dto) {
 		UserBO bo = new UserBO();
 		if(dto.getId()!=null && !"".equals(dto.getId())){
 			bo.setId(Integer.valueOf(dto.getId()));
@@ -21,8 +20,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return bo;
 	}
 
-	@Override
-	public UserDTO mapBo2Dto(UserBO bo) {
+	public static UserDTO map2DTO(UserBO bo) {
 		UserDTO dto = new UserDTO();
 		dto.setId(String.valueOf(bo.getId()));
 		dto.setCognome(bo.getCognome());
@@ -32,8 +30,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return dto;
 	}
 
-	@Override
-	public UserEO mapBo2Eo(UserBO bo) {
+	public static UserEO map2EO(UserBO bo) {
 		UserEO eo = new UserEO();
 		eo.setId(bo.getId());
 		eo.setCognome(bo.getCognome());
@@ -43,8 +40,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return eo;
 	}
 
-	@Override
-	public UserBO mapEo2Bo(UserEO eo) {
+	public static UserBO map2BO(UserEO eo) {
 		UserBO bo = new UserBO();
 		bo.setId(eo.getId());
 		bo.setCognome(eo.getCognome());
@@ -54,7 +50,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return bo;
 	}
 
-	public ProfileImageBO mapProfileImageDto2Bo(ProfileImageDTO dto) {
+	public static ProfileImageBO map2BO(ProfileImageDTO dto) {
 		ProfileImageBO bo = new ProfileImageBO();
 		bo.setImageInputStream(dto.getImageInputStream());
 		bo.setFileName(dto.getFileName());
@@ -63,7 +59,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return bo;
 	}
 
-	public ProfileImageDTO mapProfileImageBo2Dto(ProfileImageBO bo) {
+	public static ProfileImageDTO map2DTO(ProfileImageBO bo) {
 		ProfileImageDTO dto = new ProfileImageDTO();
 		dto.setImageInputStream(bo.getImageInputStream());
 		dto.setFileName(bo.getFileName());
@@ -72,7 +68,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return dto;
 	}
 
-	public ProfileImageEO mapProfileImageBo2Eo(ProfileImageBO bo) {
+	public ProfileImageEO map2EO(ProfileImageBO bo) {
 		ProfileImageEO eo = new ProfileImageEO();
 		eo.setImageInputStream(bo.getImageInputStream());
 		eo.setFileName(bo.getFileName());
@@ -81,7 +77,7 @@ public class UserMapper implements BeanMapper<UserDTO, UserBO, UserEO> {
 		return eo;
 	}
 
-	public ProfileImageBO mapProfileImageEo2Bo(ProfileImageEO eo) {
+	public ProfileImageBO map2BO(ProfileImageEO eo) {
 		ProfileImageBO bo = new ProfileImageBO();
 		bo.setImageInputStream(eo.getImageInputStream());
 		bo.setFileName(eo.getFileName());

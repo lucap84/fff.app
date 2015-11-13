@@ -19,5 +19,18 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_POSTMSG = "2009";
 	public static final String ERR_BUSIN_POSTSTDMSG = "2010";
 	public static final String ERR_BUSIN_UPGRADE_TO_PREMIUM = "2011";
+	public static final String ERR_BUSIN_UPDATE_USERDATA = "2012";
+	public static final String ERR_BUSIN_JOINEVENT = "2013";
+	public static final String ERR_BUSIN_ADDFEEDBACK = "2014";
+	public static final String ERR_BUSIN_GETEVENTMSG = "2015";
+	public static final String ERR_BUSIN_SEACRHEVENTS =  "2016";
+	public static final String ERR_BUSIN_GETPLACES = "2017";
+	public static final String ERR_BUSIN_LOGIN = "2018";
+	public static final String ERR_BUSIN_CHECK_VERIFICATIONCODE = "2019";
+	public static final String ERR_BUSIN_UPDATEPSW = "2020";
+	public static final String ERR_BUSIN_SEND_VERIFICATIONCODE = "2021";
+	public static final String ERR_BUSIN_SET_CURRENTPOSITION = "2022";
+	public static final String ERR_BUSIN_GET_EVENTSBYUSER = "2023";
+	public static final String ERR_BUSIN_GET_USER = "2024";
 
 }
