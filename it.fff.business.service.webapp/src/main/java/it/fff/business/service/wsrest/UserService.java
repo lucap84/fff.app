@@ -157,44 +157,73 @@ public class UserService extends ApplicationService{
 	 */
 	
 	private WriteResultDTO updateUserData(HttpServletRequest request, UserDTO user) {
-		WriteResultDTO result = businessServiceFacade.updateUserData(user);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.updateUserData(user);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}
 	
 	private WriteResultDTO setCurrentPosition(HttpServletRequest request, String userId, String eventId, PlaceDTO place) {
-		WriteResultDTO result = businessServiceFacade.setCurrentPosition(userId, eventId, place);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.setCurrentPosition(userId, eventId, place);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}
 	
 	private List<EventDTO> getEventsByUser(HttpServletRequest request, String userId) {
-		List<EventDTO> events = businessServiceFacade.getEventsByUser(userId);
+		List<EventDTO> events = null;
+		try {
+			events = businessServiceFacade.getEventsByUser(userId);
+		} catch (BusinessException e) {
+			events = new ArrayList<EventDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return events;
 	}	
 	
 	private UserDTO getUser(HttpServletRequest request, int userId) {
-		UserDTO dto = businessServiceFacade.getUser(userId);
+		UserDTO dto = null;
+		try {
+			dto = businessServiceFacade.getUser(userId);
+		} catch (BusinessException e) {
+			dto = new UserDTO();
+			super.manageErrors(e, dto, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return dto;
 	}
 	
 	private WriteResultDTO createUser(HttpServletRequest request, UserDTO userDTOinput){
 		logger.info("Receiving createUser request");
-		WriteResultDTO writeResultDTO = new WriteResultDTO();
+		WriteResultDTO result = null;
 		
 		try {
 			UserDTO userdtoOutout = businessServiceFacade.createUser(userDTOinput);
 			Integer id = Integer.valueOf(userdtoOutout.getId());
 			if(userdtoOutout!=null && id>0){
-				writeResultDTO.setOk(true);
-				writeResultDTO.setAffectedRecords(1);
-				writeResultDTO.setIdentifier(String.valueOf(id));
+				result = new WriteResultDTO();
+				result.setOk(true);
+				result.setAffectedRecords(1);
+				result.setIdentifier(String.valueOf(id));
 			}
 			
 		} catch (BusinessException e) {
-			super.manageErrors(e, writeResultDTO, request.getLocale());
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));			
 		}
 		logger.info("Sending back the result");
-		return writeResultDTO;		
+		return result;		
 	}
 	
 	private WriteResultDTO updateProfileImage(	HttpServletRequest request,
@@ -211,10 +240,11 @@ public class UserService extends ApplicationService{
 		imgDTOinput.setSize(fileDetail.getSize());
 		imgDTOinput.setType(fileDetail.getType());
 
-		WriteResultDTO resultDTO = new WriteResultDTO();
+		WriteResultDTO resultDTO = null;
 		try {
 			resultDTO = businessServiceFacade.updateProfileImage(imgDTOinput);
 		} catch (BusinessException e) {
+			resultDTO = new WriteResultDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}

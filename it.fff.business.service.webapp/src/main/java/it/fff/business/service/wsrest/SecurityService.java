@@ -126,22 +126,50 @@ public class SecurityService extends ApplicationService {
 	 *
 	 */
 	private WriteResultDTO updatePassword(HttpServletRequest request, String email, String encodedPassword) {
-		WriteResultDTO result = businessServiceFacade.updatePassword(email, encodedPassword);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.updatePassword(email, encodedPassword);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}	
 	
 	private WriteResultDTO checkVerificationCode(HttpServletRequest request, String email, String verificationcode) {
-		WriteResultDTO result = businessServiceFacade.checkVerificationCode(email, verificationcode);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.checkVerificationCode(email, verificationcode);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}
 	
 	private WriteResultDTO sendVerificationCode(HttpServletRequest request, String email) {
-		WriteResultDTO result = businessServiceFacade.sendVerificationCode(email);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.sendVerificationCode(email);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}	
 	
 	private WriteResultDTO logout(HttpServletRequest request, String userId) {
-		WriteResultDTO result = businessServiceFacade.logout(userId);
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.logout(userId);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
 		return result;
 	}	
 	

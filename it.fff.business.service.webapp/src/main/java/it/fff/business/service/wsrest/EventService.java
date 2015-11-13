@@ -176,20 +176,22 @@ public class EventService extends ApplicationService{
 	@Path("json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<EventDTO> searchEventsJSON(	@Context HttpServletRequest request, 
-											@QueryParam("posizione") String posizione,
-											@QueryParam("categoria") String categoria,
-											@QueryParam("partecipanti") int partecipanti) throws BusinessException {
-		return this.searchEvents(request, posizione, categoria, partecipanti);
+											@QueryParam("gpsLat") String gpsLat,
+											@QueryParam("gpsLong") String gpsLong,
+											@QueryParam("idCategoria") String idCategoria,
+											@QueryParam("partecipanti") String partecipanti) throws BusinessException {
+		return this.searchEvents(request, gpsLat, gpsLong, idCategoria,partecipanti);
 	}
 	@GET
 	@Path("xml")
 	@Produces(MediaType.APPLICATION_XML)
 	public List<EventDTO> searchEventsXML(	@Context HttpServletRequest request, 
-											@QueryParam("posizione") String posizione,
-											@QueryParam("categoria") String categoria,
-											@QueryParam("partecipanti") int partecipanti) throws BusinessException {
-		return this.searchEvents(request, posizione, categoria, partecipanti);
-	}	
+											@QueryParam("gpsLat") String gpsLat,
+											@QueryParam("gpsLong") String gpsLong,
+											@QueryParam("idCategoria") String idCategoria,
+											@QueryParam("partecipanti") String partecipanti) throws BusinessException {
+		return this.searchEvents(request, gpsLat, gpsLong, idCategoria,partecipanti);
+}	
 	
 	
 	@GET
@@ -221,7 +223,7 @@ public class EventService extends ApplicationService{
 	 */
 	
 	private List<MessageDTO> getEventMessages(HttpServletRequest request, String eventId) {
-		ArrayList<MessageDTO> messages;
+		List<MessageDTO> messages;
 		try {
 			messages = businessServiceFacade.getEventMessages(eventId);
 		} catch (BusinessException e) {
@@ -325,11 +327,10 @@ public class EventService extends ApplicationService{
 		}
 		return attendances;
 	}	
-	
-	private List<EventDTO> searchEvents(HttpServletRequest request, String posizione, String categoria, int partecipanti) {
-		ArrayList<EventDTO> events = null;
+	private List<EventDTO> searchEvents(HttpServletRequest request, String gpsLat, String gpsLong, String idCategoria, String partecipanti) {
+		List<EventDTO> events = null;
 		try {
-			events = businessServiceFacade.searchEvents(posizione, categoria, partecipanti);
+			events = businessServiceFacade.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
 		} catch (BusinessException e) {
 			events = new ArrayList<EventDTO>();
 			logger.error(LogUtils.stackTrace2String(e));
