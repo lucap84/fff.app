@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.EventBusinessService;
 import it.fff.persistence.facade.exception.PersistenceException;
@@ -95,6 +96,69 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 		createResultBO.setSuccess(true);
 		createResultBO.setNumRecordsCreated(1);
 		return createResultBO;
+	}
+
+	@Override
+	public CreateResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
+		CreateResultBO createResultBO = new CreateResultBO();
+		createResultBO.setCreatedKey(1);
+		createResultBO.setSuccess(true);
+		createResultBO.setNumRecordsCreated(1);
+		return createResultBO;
+	}
+
+	@Override
+	public CreateResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
+		CreateResultBO createResultBO = new CreateResultBO();
+		createResultBO.setCreatedKey(1);
+		createResultBO.setSuccess(true);
+		createResultBO.setNumRecordsCreated(1);
+		return createResultBO;
+	}
+
+	@Override
+	public List<MessageBO> getEventMessages(int eventIdInt) throws PersistenceException {
+		List<MessageBO> bos = new ArrayList<MessageBO>();
+		MessageBO bo1 = new MessageBO();
+		bo1.setId(1);
+		bo1.setText("aaaaaaaaaaaaa");
+		MessageBO bo2 = new MessageBO();
+		bo2.setId(2);
+		bo2.setText("bbbbbbbbbbbbb");		
+		bos.add(bo1);
+		bos.add(bo2);
+		
+		return bos;
+	}
+
+	@Override
+	public List<EventBO> searchEvents(double gpsLatDouble, double gpsLongDouble, int idCategoriaInt, int partecipantiInt) throws PersistenceException {
+		List<EventBO> bos = new ArrayList<EventBO>();
+		EventBO bo1 = new EventBO();
+		bo1.setId(1);
+		bo1.setNome("ev1");
+		EventBO bo2 = new EventBO();
+		bo2.setId(2);
+		bo2.setNome("ev2");		
+		bos.add(bo1);
+		bos.add(bo2);
+		
+		return bos;
+	}
+
+	@Override
+	public List<EventBO> getEventsByUser(int userIdInt) throws PersistenceException {
+		List<EventBO> bos = new ArrayList<EventBO>();
+		EventBO bo1 = new EventBO();
+		bo1.setId(1);
+		bo1.setNome("ev1");
+		EventBO bo2 = new EventBO();
+		bo2.setId(2);
+		bo2.setNome("ev2");		
+		bos.add(bo1);
+		bos.add(bo2);
+		
+		return bos;
 	}
 	
 	

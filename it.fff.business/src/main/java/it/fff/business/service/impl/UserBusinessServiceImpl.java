@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SubscriptionBO;
+import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
@@ -69,6 +70,26 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		createResultBO.setSuccess(true);
 		createResultBO.setNumRecordsCreated(1);
 		return createResultBO;
+	}
+
+
+	@Override
+	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException {
+		UpdateResultBO updateResultBO = new UpdateResultBO();
+		updateResultBO.setUpdatedKey(1);
+		updateResultBO.setSuccess(true);
+		updateResultBO.setNumRecordsUpdated(1);
+		return updateResultBO;
+	}
+
+
+	@Override
+	public UserBO getUser(int userIdInt) throws PersistenceException {
+		UserBO bo = new UserBO();
+		bo.setId(1);
+		bo.setNome("nome1");
+		bo.setCognome("cognome1");
+		return bo;
 	}
 
 
