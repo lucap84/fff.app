@@ -14,7 +14,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	public EventEO retrieveEvent(int eventId){
 		logger.info("retrieveEvent ({})",eventId);
 		EventEO event = new EventEO();
-		event.setEventId(eventId);
+		event.setId(eventId);
 		event.setNome("nome persistente");
 		event.setDescrizione("descr persisente");
 		logger.info("Mocked event ({}) retrieved",eventId);

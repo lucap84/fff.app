@@ -13,7 +13,7 @@ public class ConfigurationProvider {
 	
 	private ConfigurationProvider(){
 		 configurationProperties = new Properties();
-		 configurationPropertiesFileName = Constants.PERS_CONF_FILENAME;
+		 configurationPropertiesFileName = Constants.PERSISTENCE_CONF_FILENAME;
 		 try {
 			this.loadConfigurationFromFile();
 		} catch (FileNotFoundException e) {

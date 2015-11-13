@@ -50,7 +50,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("event ({}) retrieved",eventId);
 		}
 		EventMapper mapper = new EventMapper();
-		EventBO eventBO = mapper.mapEo2Bo(eventEO);
+		EventBO eventBO = EventMapper.map2BO(eventEO);
 		if(eventBO!=null){
 			logger.debug("Event ({}) mapped in BO",eventId);
 		}
@@ -66,7 +66,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		UserEO userEOoutput = null;
 		try{
 			UserMapper mapper = new UserMapper();
-			UserEO userEOinput = mapper.mapBo2Eo(userBO); 
+			UserEO userEOinput = mapper.map2EO(userBO); 
 			userEOoutput = userPersistenceService.registerUser(userEOinput);
 		}
 		catch(SQLException e){
@@ -85,7 +85,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("user created");
 		}
 		UserMapper mapper = new UserMapper();
-		UserBO userBOCreated = mapper.mapEo2Bo(userEOoutput);
+		UserBO userBOCreated = mapper.map2BO(userEOoutput);
 		if(userBO!=null){
 			logger.debug("Usermapped in BO");
 		}
@@ -101,7 +101,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		ProfileImageEO eoOutput = null;
 		try{
 			UserMapper mapper = new UserMapper();
-			ProfileImageEO eoInput = mapper.mapProfileImageBo2Eo(imgBO);
+			ProfileImageEO eoInput = mapper.map2EO(imgBO);
 			eoOutput = userPersistenceService.updateProfileImage(eoInput);
 		}
 		catch(SQLException e){
@@ -120,7 +120,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("user img created");
 		}
 		UserMapper mapper = new UserMapper();
-		ProfileImageBO boCreated = mapper.mapProfileImageEo2Bo(eoOutput);
+		ProfileImageBO boCreated = mapper.map2BO(eoOutput);
 		if(boCreated!=null){
 			logger.debug("img mapped in BO");
 		}

@@ -144,7 +144,7 @@ public class UserServiceTest extends WebServiceRestTest{
 	
 	public static void main(String[] args) {
 		UserServiceTest test = new UserServiceTest();
-		test.createUserShouldReturnConfirm();
+		test.updateProfileImageShouldReturnConfirm();
 	}
 	
 }

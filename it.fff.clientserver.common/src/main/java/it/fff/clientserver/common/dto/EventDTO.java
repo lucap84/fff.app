@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class EventDTO  extends DataTransferObject{
 
 	private static final long serialVersionUID = -6847395962948284696L;
-	private String eventId;
+	private String id;
 	private String nome;
 	private String descrizione;
 	private UserDTO userOrganizer;
@@ -18,18 +18,19 @@ public class EventDTO  extends DataTransferObject{
 	}
 
 	public EventDTO(String eventId, String nome, String descrizione){
-		this.eventId = eventId;
+		this.id = eventId;
 		this.nome = nome;
 		this.descrizione = descrizione;
 	}
 	
-	@XmlElement	public String getEventId() {
-		return eventId;
+	@XmlElement	public String getId() {
+		return id;
 	}
-	public void setEventId(String eventId) {
-		this.eventId = eventId;
+
+	public void setId(String id) {
+		this.id = id;
 	}
-	
+
 	@XmlElement	public String getNome() {
 		return nome;
 	}

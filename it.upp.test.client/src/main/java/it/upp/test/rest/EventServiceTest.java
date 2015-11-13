@@ -100,7 +100,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
-		event.setEventId("1");
+		event.setId("1");
 		UserDTO attendee = new UserDTO();
 		attendee.setId("1");
 		FeedbackDTO feedback = new FeedbackDTO();
@@ -113,12 +113,12 @@ public class EventServiceTest extends WebServiceRestTest{
 		attendanceToAddFeedback.setNumPartecipanti(22);
 		attendanceToAddFeedback.setFeedback(feedback);
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("json");
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_JSON));
 		assertEquals(200, responseJSON.getStatus());
 		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("xml");
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getId()).path("attendances").path(attendanceToAddFeedback.getId()).path("feedback").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_XML));
 		assertEquals(200, responseXML.getStatus());
 		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
@@ -129,7 +129,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 		
 		EventDTO event = new EventDTO();
-		event.setEventId("1");
+		event.setId("1");
 		UserDTO attendee = new UserDTO();
 		attendee.setId("1");
 		AttendanceDTO attendanceToCreate = new AttendanceDTO();
@@ -139,12 +139,12 @@ public class EventServiceTest extends WebServiceRestTest{
 		attendanceToCreate.setOrganizer(false);
 		attendanceToCreate.setNumPartecipanti(22);
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path("json");
+		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getId()).path("attendances").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_JSON));
 		assertEquals(200, responseJSON.getStatus());
 		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getEventId()).path("attendances").path("xml");
+		WebTarget targetXML = client.target(getBaseURI()).path("events").path(event.getId()).path("attendances").path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_XML));
 		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 	}	
@@ -219,7 +219,7 @@ public class EventServiceTest extends WebServiceRestTest{
 //		final ReadResultDTO<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
 		final EventDTO entityFromJSON = responseJSON.readEntity(EventDTO.class);
 		assertNotNull(entityFromJSON);
-		assertEquals(entityFromJSON.getEventId(), requestedEventId);
+		assertEquals(entityFromJSON.getId(), requestedEventId);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path(requestedEventId).path("xml");
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
@@ -227,20 +227,22 @@ public class EventServiceTest extends WebServiceRestTest{
 //		final ReadResultDTO<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
 		final EventDTO entityFromXML = responseXML.readEntity(EventDTO.class);
 		assertNotNull(entityFromXML);
-		assertEquals(entityFromXML.getEventId(), requestedEventId);
+		assertEquals(entityFromXML.getId(), requestedEventId);
 	}
 	
 	@Test
 	public void searchEventsShouldReturnAtLeastOneEvent(){
 		Client client = WebServiceRestTest.getClientInstance();
 		
-		String posizione = "posizione1";
-		String categoria = "categoria1";
-		int partecipanti = 3;
+		String gpsLat = "1.1234";
+		String gpsLong = "2.4567";
+		String idCategoria = "1";
+		String partecipanti = "3";
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path("json").
-				queryParam("posizione", posizione).
-				queryParam("categoria", categoria).
+				queryParam("gpsLat", gpsLat).
+				queryParam("gpsLong", gpsLong).
+				queryParam("idCategoria", idCategoria).
 				queryParam("partecipanti", partecipanti);
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
 		assertEquals(200, responseJSON.getStatus());
@@ -249,8 +251,9 @@ public class EventServiceTest extends WebServiceRestTest{
 		assertTrue(entityFromJSON.size()>0);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("events").path("xml").
-				queryParam("posizione", posizione).
-				queryParam("categoria", categoria).
+				queryParam("gpsLat", gpsLat).
+				queryParam("gpsLong", gpsLong).
+				queryParam("idCategoria", idCategoria).
 				queryParam("partecipanti", partecipanti);
 		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
 		assertEquals(200, responseXML.getStatus());
