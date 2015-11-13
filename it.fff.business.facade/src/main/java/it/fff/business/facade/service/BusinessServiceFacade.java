@@ -1,6 +1,6 @@
 package it.fff.business.facade.service;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.List;
 
 import it.fff.business.facade.exception.BusinessException;
@@ -30,9 +30,9 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO postStandardEventMessage(String attendanceId, String stdMsgId) throws BusinessException;
 
-	public ArrayList<MessageDTO> getEventMessages(String eventId) throws BusinessException;
+	public List<MessageDTO> getEventMessages(String eventId) throws BusinessException;
 
-	public ArrayList<EventDTO> searchEvents(String posizione, String categoria, int partecipanti) throws BusinessException;
+	public List<EventDTO> searchEvents(String gpsLat, String gpsLong, String idCategoria, String partecipanti) throws BusinessException;
 
 	public List<PlaceDTO> getPlacesByDescription(String description) throws BusinessException;
 
@@ -40,20 +40,20 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO login(String username, String password) throws BusinessException;
 
-	public WriteResultDTO updatePassword(String email, String encodedPassword);
+	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException;
 
-	public WriteResultDTO checkVerificationCode(String email, String verificationcode);
+	public WriteResultDTO checkVerificationCode(String email, String verificationcode) throws BusinessException;
 
-	public WriteResultDTO sendVerificationCode(String email);
+	public WriteResultDTO sendVerificationCode(String email) throws BusinessException;
 
-	public WriteResultDTO logout(String userId);
+	public WriteResultDTO logout(String userId) throws BusinessException;
 
-	public WriteResultDTO updateUserData(UserDTO user);
+	public WriteResultDTO updateUserData(UserDTO user) throws BusinessException;
 
-	public WriteResultDTO setCurrentPosition(String userId, String eventId, PlaceDTO place);
+	public WriteResultDTO setCurrentPosition(String userId, String eventId, PlaceDTO place) throws BusinessException;
 
-	public List<EventDTO> getEventsByUser(String userId);
+	public List<EventDTO> getEventsByUser(String userId) throws BusinessException;
 
-	public UserDTO getUser(int userId);
+	public UserDTO getUser(int userId) throws BusinessException;
 
 }
