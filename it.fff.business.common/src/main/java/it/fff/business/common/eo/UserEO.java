@@ -54,6 +54,12 @@ public class UserEO implements EntityObject {
 	@Column(name = "Gps_Longitudine")
 	private double lastPositionLong;
 
+	
+	@Column(name = "Count_Aggiornamento")
+	private int numUpdate;	
+	
+	@Column(name = "Data_Aggiornamento")
+	private String dataLastUpdate;	
 
 	public Integer getId() {
 		return id;
@@ -118,6 +124,23 @@ public class UserEO implements EntityObject {
 		this.lastPositionLong = lastPositionLong;
 	}
 	
+	
+	public int getNumUpdate() {
+		return numUpdate;
+	}
+
+	public void setNumUpdate(int numUpdate) {
+		this.numUpdate = numUpdate;
+	}
+	
+	public String getDataLastUpdate() {
+		return dataLastUpdate;
+	}
+
+	public void setDataLastUpdate(String dataLastUpdate) {
+		this.dataLastUpdate = dataLastUpdate;
+	}
+
 	@Override
 	public String toString() {
 		return "Utente: " + this.id + ", " + this.nome + ", " + this.cognome;

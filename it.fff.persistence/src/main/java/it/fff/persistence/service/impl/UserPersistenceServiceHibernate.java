@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,6 +84,11 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		UserEO eoTOUpdate = (UserEO) session.get(UserEO.class, eo.getId());
 		eoTOUpdate.setNome(eo.getNome());
 		eoTOUpdate.setCognome(eo.getCognome());
+		eoTOUpdate.setNumUpdate(eoTOUpdate.getNumUpdate()+1);
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String formattedDate = df.format(new Date());
+		eoTOUpdate.setDataLastUpdate(formattedDate);
 //		session.merge(eoTOUpdate);
         session.getTransaction().commit();
         session.close();
