@@ -128,23 +128,25 @@ public class UserServiceTest extends WebServiceRestTest{
 	public void createUserShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
 		
-		UserDTO createUserDTO = new UserDTO();
-		createUserDTO.setNome("Luca");
-		createUserDTO.setCognome("Pelosi");
-		createUserDTO.setEmail("lucap84@gmail.com");
+		UserDTO userDTO = new UserDTO();
+		userDTO.setNome("Luca");
+		userDTO.setCognome("Pelosi");
+		userDTO.setEmail("lucap84@gmail.com");
+		userDTO.setSesso("M");
+		userDTO.setDataNascita("1984-02-09");
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("users").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(createUserDTO, MediaType.APPLICATION_JSON));
+		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON));
 		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		
 		WebTarget targetXML = client.target(getBaseURI()).path("users").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(createUserDTO, MediaType.APPLICATION_XML));
+		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(userDTO, MediaType.APPLICATION_XML));
 		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 	}
 	
 	public static void main(String[] args) {
 		UserServiceTest test = new UserServiceTest();
-		test.updateProfileImageShouldReturnConfirm();
+		test.modifyUserDataShouldReturnConfirm();
 	}
 	
 }

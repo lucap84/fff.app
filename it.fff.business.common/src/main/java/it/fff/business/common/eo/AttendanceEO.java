@@ -1,43 +1,25 @@
-package it.fff.business.common.bo;
+package it.fff.business.common.eo;
 
-public class AttendanceBO implements BusinessObject{
-	
+import it.fff.clientserver.common.dto.FeedbackDTO;
+
+public class AttendanceEO implements EntityObject {
+
 	int id;
-	UserBO user;
-	EventBO event;
 	boolean isOrganizer;
 	int numPartecipanti;
-	FeedbackBO feedback;
 	boolean isValid;
 	int statusId;
 	
+	public boolean isOrganizer() {
+		return isOrganizer;
+	}
 	
-	public UserBO getUser() {
-		return user;
-	}
-	public void setUser(UserBO user) {
-		this.user = user;
-	}
-	public EventBO getEvent() {
-		return event;
-	}
-	public void setEvent(EventBO event) {
-		this.event = event;
-	}
-	public FeedbackBO getFeedback() {
-		return feedback;
-	}
-	public void setFeedback(FeedbackBO feedback) {
-		this.feedback = feedback;
-	}
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public boolean isOrganizer() {
-		return isOrganizer;
 	}
 	public void setOrganizer(boolean isOrganizer) {
 		this.isOrganizer = isOrganizer;

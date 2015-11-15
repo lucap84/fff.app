@@ -1,6 +1,5 @@
 package it.fff.business.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,15 +29,8 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}	
 	
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) {
-		
-//		List<AttendanceBO> attendances = persistenceFacade.getAttendancesByEvent(eventId);
-		
-		ArrayList<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
-		AttendanceBO a1 = new AttendanceBO();
-		a1.setValid(true);
-		a1.setNumPartecipanti(100);
-		attendances.add(a1);
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
+		List<AttendanceBO> attendances =persistenceFacade.getAttendancesByEvent(eventId);
 		return attendances;
 	}	
 	
@@ -54,110 +46,62 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	
 	@Override
 	public CreateResultBO createEvent(EventBO bo) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
+		CreateResultBO resultBO = persistenceFacade.createEvent(bo);
+		return resultBO;
 	}
 
 
 	@Override
 	public UpdateResultBO cancelEvent(int eventId) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+		UpdateResultBO resultBO = persistenceFacade.cancelEvent(eventId);
+		return resultBO;
 	}	
 
 	@Override
-	public UpdateResultBO cancelAttendance(int eventIdInt, int attendanceIdInt) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+	public UpdateResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
+		UpdateResultBO resultBO = persistenceFacade.cancelAttendance(eventId, attendanceId);
+		return resultBO;
 	}
 
 	@Override
 	public CreateResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
+		CreateResultBO resultBO = persistenceFacade.createEventMessage(attendanceId, message);
+		return resultBO;
 	}
 
 	@Override
 	public CreateResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
+		CreateResultBO resultBO = persistenceFacade.createStandardEventMessage(attendanceId, stdMsgId);
+		return resultBO;
 	}
 
 	@Override
 	public CreateResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
+		CreateResultBO resultBO = persistenceFacade.joinEvent(bo);
+		return resultBO;
 	}
 
 	@Override
 	public CreateResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
+		CreateResultBO resultBO = persistenceFacade.addFeedback(bo);
+		return resultBO;
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventIdInt) throws PersistenceException {
-		List<MessageBO> bos = new ArrayList<MessageBO>();
-		MessageBO bo1 = new MessageBO();
-		bo1.setId(1);
-		bo1.setText("aaaaaaaaaaaaa");
-		MessageBO bo2 = new MessageBO();
-		bo2.setId(2);
-		bo2.setText("bbbbbbbbbbbbb");		
-		bos.add(bo1);
-		bos.add(bo2);
-		
+	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
+		List<MessageBO> bos = persistenceFacade.getEventMessages(eventId);
 		return bos;
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLatDouble, double gpsLongDouble, int idCategoriaInt, int partecipantiInt) throws PersistenceException {
-		List<EventBO> bos = new ArrayList<EventBO>();
-		EventBO bo1 = new EventBO();
-		bo1.setId(1);
-		bo1.setNome("ev1");
-		EventBO bo2 = new EventBO();
-		bo2.setId(2);
-		bo2.setNome("ev2");		
-		bos.add(bo1);
-		bos.add(bo2);
-		
+	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException {
+		List<EventBO> bos = persistenceFacade.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
 		return bos;
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userIdInt) throws PersistenceException {
-		List<EventBO> bos = new ArrayList<EventBO>();
-		EventBO bo1 = new EventBO();
-		bo1.setId(1);
-		bo1.setNome("ev1");
-		EventBO bo2 = new EventBO();
-		bo2.setId(2);
-		bo2.setNome("ev2");		
-		bos.add(bo1);
-		bos.add(bo2);
-		
+	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
+		List<EventBO> bos = persistenceFacade.getEventsByUser(userId);
 		return bos;
 	}
 	

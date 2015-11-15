@@ -4,9 +4,7 @@ package it.fff.business.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.service.UserBusinessService;
@@ -21,6 +19,22 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	private PersistenceServiceFacade persistenceFacade;
 	private ImageValidationStrategy imageValidationStrategy;
 
+	public PersistenceServiceFacade getPersistenceFacade() {
+		return persistenceFacade;
+	}
+	
+	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
+		this.persistenceFacade = persistenceFacade;
+	}	
+	
+	public ImageValidationStrategy getImageValidationStrategy() {
+		return imageValidationStrategy;
+	}
+	
+	public void setImageValidationStrategy(ImageValidationStrategy imageValidationStrategy) {
+		this.imageValidationStrategy = imageValidationStrategy;
+	}	
+	
 	@Override
 	public UserBO createUser(UserBO userBO) throws PersistenceException {
 		logger.info("createUser start...");
@@ -41,54 +55,17 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		return bo;
 	}
 	
-	
-
-
-
-	public PersistenceServiceFacade getPersistenceFacade() {
-		return persistenceFacade;
-	}
-	
-	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
-		this.persistenceFacade = persistenceFacade;
-	}
-	
-	
-	public ImageValidationStrategy getImageValidationStrategy() {
-		return imageValidationStrategy;
-	}
-	
-	public void setImageValidationStrategy(ImageValidationStrategy imageValidationStrategy) {
-		this.imageValidationStrategy = imageValidationStrategy;
-	}
-
-
-	@Override
-	public CreateResultBO upgradeToPremium(int userIdInt, SubscriptionBO subscriptionBO) throws PersistenceException {
-		CreateResultBO createResultBO = new CreateResultBO();
-		createResultBO.setCreatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsCreated(1);
-		return createResultBO;
-	}
-
 
 	@Override
 	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException {
-		UpdateResultBO updateResultBO = new UpdateResultBO();
-		updateResultBO.setUpdatedKey(1);
-		updateResultBO.setSuccess(true);
-		updateResultBO.setNumRecordsUpdated(1);
-		return updateResultBO;
+		UpdateResultBO resultBO = persistenceFacade.updateUserData(userBO);
+		return resultBO;
 	}
 
 
 	@Override
-	public UserBO getUser(int userIdInt) throws PersistenceException {
-		UserBO bo = new UserBO();
-		bo.setId(1);
-		bo.setNome("nome1");
-		bo.setCognome("cognome1");
+	public UserBO getUser(int userId) throws PersistenceException {
+		UserBO bo = persistenceFacade.getUser(userId);
 		return bo;
 	}
 

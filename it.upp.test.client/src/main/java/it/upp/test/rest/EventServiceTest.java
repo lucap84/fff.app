@@ -132,12 +132,18 @@ public class EventServiceTest extends WebServiceRestTest{
 		event.setId("1");
 		UserDTO attendee = new UserDTO();
 		attendee.setId("1");
+		
+		FeedbackDTO feedback = new FeedbackDTO();
+		feedback.setPositiveFeedback(true);
+
 		AttendanceDTO attendanceToCreate = new AttendanceDTO();
 		attendanceToCreate.setId("1");
 		attendanceToCreate.setEvent(event);
 		attendanceToCreate.setUser(attendee);
 		attendanceToCreate.setOrganizer(false);
 		attendanceToCreate.setNumPartecipanti(22);
+		attendanceToCreate.setFeedback(feedback);
+		
 		
 		WebTarget targetJSON = client.target(getBaseURI()).path("events").path(event.getId()).path("attendances").path("json");
 		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_JSON));

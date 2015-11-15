@@ -1,6 +1,5 @@
 package it.fff.business.facade.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +27,7 @@ import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.business.service.EventBusinessService;
 import it.fff.business.service.PlacesBusinessService;
+import it.fff.business.service.PremiumBusinessService;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.util.BusinessServiceProvider;
@@ -74,8 +74,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		if(userBO!=null){
 			logger.debug("User successfully retrieved by business layer");
 		}
-		UserMapper mapper = new UserMapper();
-		UserDTO dtoResult = mapper.map2DTO(userBO);
+		UserDTO dtoResult = UserMapper.map2DTO(userBO);
 		if(dtoResult!=null){
 			logger.debug("Mapping bo2dto completed");
 		}
@@ -117,7 +116,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			attendancesBO = eventBusinessService.getAttendancesByEvent(eventIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
 		}
@@ -155,7 +154,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			updateResultBO = eventBusinessService.cancelEvent(eventIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELEVENT);
@@ -212,7 +211,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			updateResultBO = eventBusinessService.cancelAttendance(eventIdInt, attendanceIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELATTENDANCES);
@@ -233,7 +232,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			createResultBO = eventBusinessService.postEventMessage(attendanceIdInt, message);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTMSG);
@@ -256,7 +255,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			createResultBO = eventBusinessService.postStandardEventMessage(attendanceIdInt, stdMsgIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTSTDMSG);
@@ -277,7 +276,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			messagesBO = eventBusinessService.getEventMessages(eventIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETEVENTMSG);
@@ -304,7 +303,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			eventsBO = eventBusinessService.searchEvents(gpsLatDouble, gpsLongDouble, idCategoriaInt, partecipantiInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEACRHEVENTS);
@@ -334,7 +333,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 
 	@Override
 	public WriteResultDTO upgradeToPremium(String userId, SubscriptionDTO subscription) throws BusinessException {
-		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		PremiumBusinessService premiumBusinessService = (PremiumBusinessService)BusinessServiceProvider.getBusinessService("premiumBusinessService");
 		
 		int userIdInt = -1;
 		CreateResultBO createResultBO = null;
@@ -342,10 +341,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		SubscriptionBO subscriptionBO = SubscriptionMapper.map2BO(subscription);
 		try {
 			userIdInt = Integer.valueOf(userId);
-			createResultBO = userBusinessService.upgradeToPremium(userIdInt, subscriptionBO);
+			createResultBO = premiumBusinessService.upgradeToPremium(userIdInt, subscriptionBO);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPGRADE_TO_PREMIUM);
@@ -434,7 +433,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			updateResultBO = securityBusinessService.logout(userIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
@@ -476,7 +475,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			updateResultBO = placesBusinessService.setCurrentPosition(userIdInt, eventIdInt, placeBO);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SET_CURRENTPOSITION);
@@ -497,7 +496,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			eventsBO = eventBusinessService.getEventsByUser(userIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_EVENTSBYUSER);
@@ -519,7 +518,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			userBO = userBusinessService.getUser(userIdInt);
 		}
 		catch(NumberFormatException e){
-			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_ID_FORMAT_NOT_VALID);
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_USER);

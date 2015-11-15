@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.PlaceBO;
+import it.fff.business.common.eo.PlaceEO;
 import it.fff.clientserver.common.dto.PlaceDTO;
 
 public class PlacesMapper implements Mapper {
@@ -29,6 +30,30 @@ public class PlacesMapper implements Mapper {
 		bo.setGpsLat(Integer.valueOf(dto.getGpsLat()));
 		bo.setGpsLong(Integer.valueOf(dto.getGpsLong()));
 		bo.setNome(dto.getNome());
+		return bo;
+	}
+
+	public static PlaceEO map2EO(PlaceBO bo) {
+		PlaceEO eo = new PlaceEO();
+		eo.setGpsLat(bo.getGpsLat());
+		eo.setGpsLong(bo.getGpsLong());
+		eo.setNome(bo.getNome());
+		return eo;
+	}
+
+	public static List<PlaceBO> map2BO(List<PlaceEO> eos) {
+		List<PlaceBO> bos = new ArrayList<PlaceBO>();
+		for (PlaceEO eo : eos) {
+			bos.add(PlacesMapper.map2DTO(eo));
+		}
+		return bos;
+	}
+
+	public static PlaceBO map2DTO(PlaceEO eo) {
+		PlaceBO bo = new PlaceBO();
+		bo.setGpsLat(eo.getGpsLat());
+		bo.setGpsLong(eo.getGpsLong());
+		bo.setNome(eo.getNome());
 		return bo;
 	}
 

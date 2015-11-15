@@ -1,23 +1,18 @@
 package it.fff.persistence.facade.service.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.fff.business.common.bo.EventBO;
-import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.ProfileImageEO;
-import it.fff.business.common.eo.UserEO;
-import it.fff.business.common.mapper.EventMapper;
-import it.fff.business.common.mapper.UserMapper;
+import it.fff.business.common.bo.*;
+import it.fff.business.common.eo.*;
+import it.fff.business.common.mapper.*;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
-import it.fff.persistence.service.EventPersistenceService;
-import it.fff.persistence.service.UserPersistenceService;
+import it.fff.persistence.service.*;
 import it.fff.persistence.util.PersistenceServiceProvider;
 
 public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
@@ -27,8 +22,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	@Override
 	public EventBO retrieveEvent(int eventId) throws PersistenceException{
 		logger.debug("retrieving event ({}) ...",eventId);
-		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
-		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getBusinessService("eventPersistenceService");
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
 		EventEO eventEO = null;
 		try{
@@ -37,19 +31,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		catch(SQLException e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
-			throw persistenceException;
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
 		if(eventEO!=null){
 			logger.debug("event ({}) retrieved",eventId);
 		}
-		EventMapper mapper = new EventMapper();
 		EventBO eventBO = EventMapper.map2BO(eventEO);
 		if(eventBO!=null){
 			logger.debug("Event ({}) mapped in BO",eventId);
@@ -58,45 +45,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public UserBO registerUser(UserBO userBO) throws PersistenceException {
-		logger.debug("registrando utente ...");
-		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
-		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
-
-		UserEO userEOoutput = null;
-		try{
-			UserMapper mapper = new UserMapper();
-			UserEO userEOinput = mapper.map2EO(userBO); 
-			userEOoutput = userPersistenceService.registerUser(userEOinput);
-		}
-		catch(SQLException e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
-			throw persistenceException;
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
-			throw persistenceException;			
-		}
-		if(userEOoutput!=null){
-			logger.debug("user created");
-		}
-		UserMapper mapper = new UserMapper();
-		UserBO userBOCreated = mapper.map2BO(userEOoutput);
-		if(userBO!=null){
-			logger.debug("Usermapped in BO");
-		}
-		return userBOCreated;
-	}
-
-	@Override
 	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException {
 		logger.debug("aggiornando img utente ...");
-		//recupero un bean prototype (non singleton) per avere una nuova istanza ed evitare problemi di concorrenza su operazione di persistenza
-		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getBusinessService("userPersistenceService");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
 		ProfileImageEO eoOutput = null;
 		try{
@@ -107,13 +58,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		catch(SQLException e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_INVALID_INPUT);
-			throw persistenceException;
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERS_GENERIC);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
 		if(eoOutput!=null){
@@ -125,6 +70,418 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			logger.debug("img mapped in BO");
 		}
 		return boCreated;
+	}
+
+	@Override
+	public CreateResultBO createEvent(EventBO bo) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		CreateResultBO resultBO = null;
+		EventEO eo = EventMapper.map2EO(bo);
+		try{
+			resultBO = eventPersistenceService.createEvent(eo);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public UpdateResultBO cancelEvent(int eventId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = eventPersistenceService.cancelEvent(eventId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public UpdateResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = eventPersistenceService.cancelAttendance(eventId,attendanceId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public CreateResultBO createEventMessage(int attendanceId, String message) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		CreateResultBO resultBO = null;
+		try{
+			resultBO = eventPersistenceService.createEventMessage(attendanceId, message);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public CreateResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		CreateResultBO resultBO = null;
+		try{
+			resultBO = eventPersistenceService.createStandardEventMessage(attendanceId, stdMsgId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public CreateResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		CreateResultBO resultBO = null;
+		AttendanceEO eo = EventMapper.map2EO(bo);
+		try{
+			resultBO = eventPersistenceService.createStandardEventMessage(eo);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public CreateResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		CreateResultBO resultBO = null;
+		AttendanceEO eo = EventMapper.map2EO(bo);
+		boolean isPositiveFeedback = bo.getFeedback().isPositiveFeedback();
+		try{
+			resultBO = eventPersistenceService.addFeedback(eo, isPositiveFeedback);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		List<MessageEO> eos = null;
+		try{
+			eos = eventPersistenceService.getEventMessages(eventId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		List<MessageBO> bos = MessageMapper.map2BO(eos);
+
+		return bos;			
+	}
+
+	@Override
+	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+
+		List<EventEO> eos = null;
+		try{
+			eos = eventPersistenceService.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		List<EventBO> bos = EventMapper.map2BO(eos);
+
+		return bos;	
+	}
+
+	@Override
+	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		List<EventEO> eos = null;
+		try{
+			eos = eventPersistenceService.getEventsByUser(userId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		List<EventBO> bos = EventMapper.map2BO(eos);
+
+		return bos;		
+		
+	}
+
+	@Override
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
+		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+		
+		List<AttendanceEO> eos = null;
+		try{
+			eos = eventPersistenceService.getAttendancesByEvent(eventId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		List<AttendanceBO> bos = AttendanceMapper.map2BO(eos);
+
+		return bos;			
+	}
+	
+	@Override
+	public UpdateResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws PersistenceException {
+		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		PlaceEO eo = PlacesMapper.map2EO(placeBO);
+		try{
+			resultBO = placesPersistenceService.setCurrentPosition(userId,eventId,eo);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException {
+		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
+		
+		List<PlaceEO> eos = null;
+		try{
+			eos = placesPersistenceService.getPlacesByDescription(description);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		List<PlaceBO> bos = PlacesMapper.map2BO(eos);
+
+		return bos;		
+	}
+
+	@Override
+	public UpdateResultBO login(String username, String password) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.login(username,password);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;	
+	}
+
+	@Override
+	public UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.updatePassword(email,encodedPassword);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;			
+	}
+
+	@Override
+	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.checkVerificationCode(email,verificationcode);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+
+	}
+
+	@Override
+	public UpdateResultBO generateVerficationCode(String email) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.generateVerficationCode(email);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public UpdateResultBO logout(int userId) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.logout(userId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public CreateResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException {
+		PremiumPersistenceService premiumPersistenceService = (PremiumPersistenceService)PersistenceServiceProvider.getPersistenceService("premiumPersistenceService");
+		
+		SubscriptionEO eo = SubscriptionMapper.map2EO(subscriptionBO);
+		CreateResultBO resultBO = null;
+		try{
+			resultBO = premiumPersistenceService.upgradeToPremium(userId, eo);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+	
+	@Override
+	public UserBO registerUser(UserBO userBO) throws PersistenceException {
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+
+		UserEO userEOoutput = null;
+		try{
+			UserEO userEOinput = UserMapper.map2EO(userBO); 
+			userEOoutput = userPersistenceService.registerUser(userEOinput);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		UserBO userBOCreated = UserMapper.map2BO(userEOoutput);
+		return userBOCreated;
+	}	
+
+	@Override
+	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException {
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		UserEO eo = UserMapper.map2EO(userBO);
+		UpdateResultBO resultBO = null;
+		try{
+			resultBO = userPersistenceService.updateUserData(eo);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;		
+	}
+
+	@Override
+	public UserBO getUser(int userId) throws PersistenceException {
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		UserEO eoOutput = null;
+		try{
+			eoOutput = userPersistenceService.getUser(userId);
+		}
+		catch(SQLException e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		UserBO boOutput = UserMapper.map2BO(eoOutput);
+
+		return boOutput;
 	}
 
 }

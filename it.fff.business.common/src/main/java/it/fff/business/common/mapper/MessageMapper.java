@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.MessageBO;
+import it.fff.business.common.eo.MessageEO;
 import it.fff.clientserver.common.dto.MessageDTO;
 
 public class MessageMapper implements Mapper {
@@ -23,6 +24,22 @@ public class MessageMapper implements Mapper {
 		dto.setStandard(bo.isStandard());
 		dto.setText(bo.getText());
 		return dto;
+	}
+
+	public static List<MessageBO> map2BO(List<MessageEO> eos) {
+		List<MessageBO> bos = new ArrayList<MessageBO>();
+		for (MessageEO eo : eos) {
+			bos.add(MessageMapper.map2DTO(eo));
+		}
+		return bos;
+	}
+
+	public static MessageBO map2DTO(MessageEO eo) {
+		MessageBO bo = new MessageBO();
+		bo.setId(eo.getId());
+		bo.setStandard(eo.isStandard());
+		bo.setText(eo.getText());
+		return bo;
 	}	
 	
 }

@@ -14,6 +14,8 @@ public class UserMapper implements Mapper {
 			bo.setId(Integer.valueOf(dto.getId()));
 		}
 		bo.setCognome(dto.getCognome());
+		bo.setNome(dto.getNome());
+		bo.setSesso(dto.getSesso());
 		bo.setDataNascita(dto.getDataNascita());
 		bo.setDescrizione(dto.getDescrizione());
 		bo.setEmail(dto.getEmail());
@@ -33,10 +35,11 @@ public class UserMapper implements Mapper {
 	public static UserEO map2EO(UserBO bo) {
 		UserEO eo = new UserEO();
 		eo.setId(bo.getId());
+		eo.setNome(bo.getNome());
 		eo.setCognome(bo.getCognome());
+		eo.setSesso(bo.getSesso());
 		eo.setDataNascita(bo.getDataNascita());
 		eo.setDescrizione(bo.getDescrizione());
-		eo.setEmail(bo.getEmail());
 		return eo;
 	}
 
@@ -46,7 +49,6 @@ public class UserMapper implements Mapper {
 		bo.setCognome(eo.getCognome());
 		bo.setDataNascita(eo.getDataNascita());
 		bo.setDescrizione(eo.getDescrizione());
-		bo.setEmail(eo.getEmail());
 		return bo;
 	}
 

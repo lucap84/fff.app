@@ -9,28 +9,34 @@ import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
+import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.ConfigurationProvider;
 import it.fff.persistence.util.Constants;
+import it.fff.persistence.util.HibernateUtil;
 
-public class UserPersistenceServiceImpl implements UserPersistenceService {
+public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	
-	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceHibernate.class);
 	
 	@Override
 	public UserEO registerUser(UserEO userEO) throws SQLException {
 		logger.info("registering user");
-		UserEO outputEo = null;
-		//		TODO create in DB
-		if(outputEo!=null){
-			logger.info("User created");
-		}
-		else{
-			throw new SQLException("Errore creando lo user su DB");
-		}
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(userEO);
+		session.getTransaction().commit();
+		session.close();
+		logger.info("user registered");
+		UserEO outputEo = userEO;
+		
 		return outputEo;
 	}
 
@@ -55,6 +61,37 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 		return outputEo;
 	}
 	
+	@Override
+	public UserEO getUser(int userId) throws SQLException {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+//		UserEO eo = (UserEO) session.load(UserEO.class, userId);
+		UserEO eo = (UserEO) session.get(UserEO.class, userId);
+        session.close();
+		return eo;
+	}
+
+	@Override
+	public UpdateResultBO updateUserData(UserEO eo) throws SQLException {
+		UpdateResultBO result = new UpdateResultBO();
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		UserEO eoTOUpdate = (UserEO) session.get(UserEO.class, eo.getId());
+		eoTOUpdate.setNome(eo.getNome());
+		eoTOUpdate.setCognome(eo.getCognome());
+//		session.merge(eoTOUpdate);
+        session.getTransaction().commit();
+        session.close();
+        
+        result.setSuccess(true);
+        result.setUpdatedKey(eo.getId());
+        result.setNumRecordsUpdated(1);
+        
+        return result;
+	}	
+
 	// save uploaded file to a defined location on the server
     private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {
     	boolean saved = true;
@@ -76,5 +113,4 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
         }
         return saved;
     }	
-
 }

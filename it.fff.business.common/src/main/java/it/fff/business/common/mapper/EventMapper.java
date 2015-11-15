@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.clientserver.common.dto.EventDTO;
 
@@ -64,6 +66,34 @@ public class EventMapper implements Mapper{
 		}
 		return dtos;
 	}
+
+	public static AttendanceEO map2EO(AttendanceBO bo) {
+		AttendanceEO eo = new AttendanceEO();
+		if(bo.getId()>0){
+			eo.setId(bo.getId());
+		}
+		eo.setNumPartecipanti(bo.getNumPartecipanti());
+		eo.setStatusId(bo.getStatusId());
+		eo.setValid(bo.isValid());
+		eo.setOrganizer(bo.isOrganizer());
+		return null;
+	}
+	
+	public static List<EventBO> map2BO(List<EventEO> eos){
+		List<EventBO> bos = new ArrayList<EventBO>();
+		for (EventEO eo : eos) {
+			bos.add(EventMapper.map2DTO(eo));
+		}
+		return bos;
+	}
+
+	public static EventBO map2DTO(EventEO eo) {
+		EventBO bo = new EventBO();
+		bo.setId(eo.getId());
+		bo.setNome(eo.getNome());
+		bo.setDescrizione(eo.getDescrizione());
+		return bo;
+	}	
 
 
 }

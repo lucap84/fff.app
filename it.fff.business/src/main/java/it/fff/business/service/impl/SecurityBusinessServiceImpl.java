@@ -19,47 +19,33 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 
 	@Override
 	public UpdateResultBO login(String username, String password) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+		UpdateResultBO bo = persistenceFacade.login(username, password);
+		return bo;
 	}
 
 	@Override
 	public UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+		UpdateResultBO bo = persistenceFacade.updatePassword(email, encodedPassword);
+		return bo;
 	}
 
 	@Override
 	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+		UpdateResultBO bo = persistenceFacade.checkVerificationCode(email, verificationcode);
+		return bo;
 	}
 
 	@Override
 	public UpdateResultBO generateAndVerificationCode(String email) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+		UpdateResultBO bo = persistenceFacade.generateVerficationCode(email);
+		//TODO send email dopo esito generazione
+		return bo;
 	}
 
 	@Override
-	public UpdateResultBO logout(int userIdInt) throws PersistenceException {
-		UpdateResultBO createResultBO = new UpdateResultBO();
-		createResultBO.setUpdatedKey(1);
-		createResultBO.setSuccess(true);
-		createResultBO.setNumRecordsUpdated(1);
-		return createResultBO;
+	public UpdateResultBO logout(int userId) throws PersistenceException {
+		UpdateResultBO bo = persistenceFacade.logout(userId);
+		return bo;
 	}	
 	
 }

@@ -24,7 +24,13 @@
 	
 	<bean name="placesBusinessService" class="it.fff.business.service.impl.PlacesBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
+	</bean>
+	
+	<bean name="premiumBusinessService" class="it.fff.business.service.impl.PremiumBusinessServiceImpl" scope="prototype">
+		<property name="persistenceFacade" ref="persistenceFacade"/>
 	</bean>	
+	
+	<!-- strategies -->
 	<bean name="imageValidationStrategy" class="it.fff.business.strategy.impl.ImageSizeValidationStrategy" />
 	
 	
