@@ -1,6 +1,5 @@
 package it.fff.persistence.facade.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +27,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eventEO = eventPersistenceService.retrieveEvent(eventId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -55,7 +54,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			ProfileImageEO eoInput = mapper.map2EO(imgBO);
 			eoOutput = userPersistenceService.updateProfileImage(eoInput);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -81,7 +80,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.createEvent(eo);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -99,7 +98,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.cancelEvent(eventId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -117,7 +116,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.cancelAttendance(eventId,attendanceId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -135,7 +134,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.createEventMessage(attendanceId, message);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -153,7 +152,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.createStandardEventMessage(attendanceId, stdMsgId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -172,7 +171,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.createStandardEventMessage(eo);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -192,7 +191,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = eventPersistenceService.addFeedback(eo, isPositiveFeedback);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -210,7 +209,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eos = eventPersistenceService.getEventMessages(eventId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -229,7 +228,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eos = eventPersistenceService.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -248,7 +247,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eos = eventPersistenceService.getEventsByUser(userId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -268,7 +267,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eos = eventPersistenceService.getAttendancesByEvent(eventId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -288,7 +287,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = placesPersistenceService.setCurrentPosition(userId,eventId,eo);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -306,7 +305,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eos = placesPersistenceService.getPlacesByDescription(description);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -325,7 +324,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = securityPersistenceService.login(username,password);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -343,7 +342,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = securityPersistenceService.updatePassword(email,encodedPassword);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -361,7 +360,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = securityPersistenceService.checkVerificationCode(email,verificationcode);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -380,7 +379,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = securityPersistenceService.generateVerficationCode(email);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -398,7 +397,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = securityPersistenceService.logout(userId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -417,7 +416,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = premiumPersistenceService.upgradeToPremium(userId, eo);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -428,22 +427,21 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 	
 	@Override
-	public UserBO registerUser(UserBO userBO) throws PersistenceException {
+	public CreateResultBO registerUser(UserBO userBO) throws PersistenceException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
-		UserEO userEOoutput = null;
+		CreateResultBO resultBO = null;
 		try{
 			UserEO userEOinput = UserMapper.map2EO(userBO); 
-			userEOoutput = userPersistenceService.registerUser(userEOinput);
+			resultBO = userPersistenceService.registerUser(userEOinput);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		UserBO userBOCreated = UserMapper.map2BO(userEOoutput);
-		return userBOCreated;
+		return resultBO;
 	}	
 
 	@Override
@@ -455,7 +453,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			resultBO = userPersistenceService.updateUserData(eo);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
@@ -473,7 +471,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		try{
 			eoOutput = userPersistenceService.getUser(userId);
 		}
-		catch(SQLException e){
+		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);

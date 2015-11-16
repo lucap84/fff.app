@@ -5,6 +5,7 @@
 	<projects>
 		<project>it.fff.business</project>
 		<project>it.fff.business.common</project>
+		<project>it.fff.clientserver.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

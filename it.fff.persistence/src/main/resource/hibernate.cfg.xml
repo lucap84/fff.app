@@ -10,12 +10,18 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">admin</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <!-- hibernate.current_session_context_class: jta | thread | managed | custom.Class 
+        (thread) org.hibernate.context.ThreadLocalSessionContext
+        current sessions are tracked by thread of execution
+        provide a "one session - one database transaction" programming model. This is also also known and used as session-per-request. The beginning and end of a Hibernate session is defined by the duration of a database transaction.
+        -->
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
          
-        <mapping class="it.fff.business.common.eo.UserEO" />
          <!--  mappings with Entity Objects -->
-        <!-- mapping class="com.journaldev.hibernate.model.Cart1"/>
-        <mapping class="com.journaldev.hibernate.model.Items1"/-->
+        <mapping class="it.fff.business.common.eo.UserEO" />
+        <mapping class="it.fff.business.common.eo.NazioneEO" />
+        <mapping class="it.fff.business.common.eo.LinguaEO" />
+        <mapping class="it.fff.business.common.eo.AchievementEO" />
     </session-factory>
 </hibernate-configuration>

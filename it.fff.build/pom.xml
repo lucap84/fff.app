@@ -5,18 +5,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>FFF Build Project</name>
-  <profiles>
-    <profile>
-      <id>dev</id>
-      <modules>
-        <module>../it.fff.clientserver.common</module>
-        <module>../it.fff.business.common</module>
-        <module>../it.fff.persistence</module>
-        <module>../it.fff.persistence.facade</module>
-        <module>../it.fff.business</module>
-        <module>../it.fff.business.facade</module>
-        <module>../it.fff.business.service.webapp</module>
-      </modules>
-    </profile>
-    </profiles>  
+  <modules>
+    <module>../it.fff.clientserver.common</module>
+    <module>../it.fff.business.common</module>
+    <module>../it.fff.persistence</module>
+    <module>../it.fff.persistence.facade</module>
+    <module>../it.fff.business</module>
+    <module>../it.fff.business.facade</module>
+    <module>../it.fff.business.service.webapp</module>
+  </modules>
 </project>

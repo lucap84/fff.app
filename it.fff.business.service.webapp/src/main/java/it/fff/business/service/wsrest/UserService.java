@@ -208,15 +208,7 @@ public class UserService extends ApplicationService{
 		WriteResultDTO result = null;
 		
 		try {
-			UserDTO userdtoOutout = businessServiceFacade.createUser(userDTOinput);
-			Integer id = Integer.valueOf(userdtoOutout.getId());
-			if(userdtoOutout!=null && id>0){
-				result = new WriteResultDTO();
-				result.setOk(true);
-				result.setAffectedRecords(1);
-				result.setIdentifier(String.valueOf(id));
-			}
-			
+			result = businessServiceFacade.createUser(userDTOinput);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
 			super.manageErrors(e, result, request.getLocale());

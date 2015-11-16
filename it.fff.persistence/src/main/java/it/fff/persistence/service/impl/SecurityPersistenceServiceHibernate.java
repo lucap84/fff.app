@@ -1,6 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,31 +12,31 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	private static final Logger logger = LogManager.getLogger(SecurityPersistenceServiceHibernate.class);
 
 	@Override
-	public UpdateResultBO logout(int userId) throws SQLException {
+	public UpdateResultBO logout(int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO generateVerficationCode(String email) throws SQLException {
+	public UpdateResultBO generateVerficationCode(String email) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws SQLException {
+	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO updatePassword(String email, String encodedPassword) throws SQLException {
+	public UpdateResultBO updatePassword(String email, String encodedPassword) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO login(String username, String password) throws SQLException {
+	public UpdateResultBO login(String username, String password) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

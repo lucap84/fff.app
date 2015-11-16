@@ -1,6 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,13 +14,13 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	private static final Logger logger = LogManager.getLogger(PlacesPersistenceServiceHibernate.class);
 
 	@Override
-	public UpdateResultBO setCurrentPosition(int userId, int eventId, PlaceEO eo) throws SQLException {
+	public UpdateResultBO setCurrentPosition(int userId, int eventId, PlaceEO eo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<PlaceEO> getPlacesByDescription(String description) throws SQLException {
+	public List<PlaceEO> getPlacesByDescription(String description) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

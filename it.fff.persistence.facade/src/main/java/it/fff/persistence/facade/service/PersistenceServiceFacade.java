@@ -17,7 +17,7 @@ public interface PersistenceServiceFacade {
 
 	public EventBO retrieveEvent(int eventId) throws PersistenceException;
 
-	public UserBO registerUser(UserBO userBO) throws PersistenceException;
+	public CreateResultBO registerUser(UserBO userBO) throws PersistenceException;
 
 	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException;
 

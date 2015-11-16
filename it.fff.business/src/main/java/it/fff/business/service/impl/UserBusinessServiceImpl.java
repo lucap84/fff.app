@@ -4,6 +4,7 @@ package it.fff.business.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
@@ -36,11 +37,11 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}	
 	
 	@Override
-	public UserBO createUser(UserBO userBO) throws PersistenceException {
+	public CreateResultBO createUser(UserBO userBO) throws PersistenceException {
 		logger.info("createUser start...");
-		UserBO userBOCreated = persistenceFacade.registerUser(userBO);
+		CreateResultBO resultBO = persistenceFacade.registerUser(userBO);
 		logger.info("...createUser end");
-		return userBOCreated;
+		return resultBO;
 	}
 
 

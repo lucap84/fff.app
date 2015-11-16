@@ -62,23 +62,18 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public UserDTO createUser(UserDTO userDTO) throws BusinessException {
+	public WriteResultDTO createUser(UserDTO userDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
+		CreateResultBO createResultBO = null;
 		try {
 			userBO = UserMapper.map2BO(userDTO);
-			userBO = userBusinessService.createUser(userBO);
+			createResultBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		if(userBO!=null){
-			logger.debug("User successfully retrieved by business layer");
-		}
-		UserDTO dtoResult = UserMapper.map2DTO(userBO);
-		if(dtoResult!=null){
-			logger.debug("Mapping bo2dto completed");
-		}
-		return dtoResult;
+		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		return result;
 	}
 
 	@Override

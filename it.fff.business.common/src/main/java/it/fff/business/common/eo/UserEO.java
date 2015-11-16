@@ -2,11 +2,17 @@ package it.fff.business.common.eo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -54,12 +60,37 @@ public class UserEO implements EntityObject {
 	@Column(name = "Gps_Longitudine")
 	private double lastPositionLong;
 
+	@Column(name = "Data_Posizione")
+	private String lastPositionDate;		
 	
 	@Column(name = "Count_Aggiornamento")
 	private int numUpdate;	
 	
 	@Column(name = "Data_Aggiornamento")
 	private String dataLastUpdate;	
+	
+	@Column(name = "Flg_Attivo")
+	private char flagAttivo;
+	
+	@ManyToOne
+	@JoinColumn(name = "Nazionalita_ID")
+	private NazioneEO nazionalita; 
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		@JoinTable(name = "lingue_parlate", 
+			joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
+			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })
+	private List<LinguaEO> lingue;
+	
+	//"mappedBy" signals hibernate that the key for the relationship is on the other side (see 'utente' inside AchievementEO)
+//	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="utente")
+
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "achievement_ottenuti", 
+		joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
+		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
+	private List<AchievementEO> achievements;	
 
 	public Integer getId() {
 		return id;
@@ -139,6 +170,40 @@ public class UserEO implements EntityObject {
 
 	public void setDataLastUpdate(String dataLastUpdate) {
 		this.dataLastUpdate = dataLastUpdate;
+	}
+
+	
+	public String getLastPositionDate() {
+		return lastPositionDate;
+	}
+
+	public void setLastPositionDate(String lastPositionDate) {
+		this.lastPositionDate = lastPositionDate;
+	}
+
+	public char getFlagAttivo() {
+		return flagAttivo;
+	}
+
+	public void setFlagAttivo(char flagAttivo) {
+		this.flagAttivo = flagAttivo;
+	}
+	
+
+	public NazioneEO getNazionalita() {
+		return nazionalita;
+	}
+
+	public void setNazionalita(NazioneEO nazionalita) {
+		this.nazionalita = nazionalita;
+	}
+
+	public List<LinguaEO> getLingue() {
+		return lingue;
+	}
+
+	public void setLingue(List<LinguaEO> lingue) {
+		this.lingue = lingue;
 	}
 
 	@Override

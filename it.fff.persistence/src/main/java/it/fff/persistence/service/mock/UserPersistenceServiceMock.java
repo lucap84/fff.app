@@ -2,6 +2,7 @@ package it.fff.persistence.service.mock;
 
 import java.sql.SQLException;
 
+import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
@@ -10,12 +11,12 @@ import it.fff.persistence.service.UserPersistenceService;
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public UserEO registerUser(UserEO userEO) throws SQLException {
-		UserEO eo = new UserEO();
-		eo.setId(1);
-		eo.setNome(userEO.getNome()+" persistente");
-		eo.setCognome(userEO.getCognome()+" persistente");
-		return eo;
+	public CreateResultBO registerUser(UserEO userEO) throws SQLException {
+		CreateResultBO resultBO = new CreateResultBO();
+		resultBO.setCreatedKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setNumRecordsCreated(1);
+		return resultBO;
 	}
 
 	@Override

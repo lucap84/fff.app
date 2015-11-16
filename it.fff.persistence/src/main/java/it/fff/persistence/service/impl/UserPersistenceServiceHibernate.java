@@ -12,9 +12,12 @@ import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
+import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
@@ -28,23 +31,89 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceHibernate.class);
 	
 	@Override
-	public UserEO registerUser(UserEO userEO) throws SQLException {
+	public CreateResultBO registerUser(UserEO userEO) throws Exception {
 		logger.info("registering user");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(userEO);
-		session.getTransaction().commit();
-		session.close();
-		logger.info("user registered");
-		UserEO outputEo = userEO;
+	    Transaction tx = null;
+	    Integer id = null;
+	      try{
+	         tx = session.beginTransaction();
+	         id = (Integer)session.save(userEO); 
+	         tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during save() ",e);
+	      }finally {
+	         session.close(); 
+	      }			
 		
-		return outputEo;
+		logger.info("user registered");
+		CreateResultBO resultBO = new CreateResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setCreatedKey(id);
+		resultBO.setNumRecordsCreated(1);
+		
+		return resultBO;
 	}
 
 	@Override
-	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws SQLException {
+	public UserEO getUser(int userId) throws Exception {
+		UserEO eo = null;
+        
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	      try{
+	         eo = (UserEO) session.get(UserEO.class, userId);
+	      }catch (HibernateException e) {
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during get() ",e);
+	      }finally {
+	         session.close(); 
+	      }	        
+        
+		return eo;
+	}
+
+	@Override
+	public UpdateResultBO updateUserData(UserEO eo) throws Exception {
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	      try{
+			tx = session.beginTransaction();
+			
+			UserEO eoTOUpdate = (UserEO) session.get(UserEO.class, eo.getId()); //TODO prova con load()
+			eoTOUpdate.setNome(eo.getNome());
+			eoTOUpdate.setCognome(eo.getCognome());
+			eoTOUpdate.setNumUpdate(eoTOUpdate.getNumUpdate()+1);
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String formattedDate = df.format(new Date());
+			eoTOUpdate.setDataLastUpdate(formattedDate);
+			
+			session.update(eoTOUpdate); //TODO controlla se funziona e se essenziale
+			tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during save() ",e);
+	      }finally {
+	         session.close(); 
+	      }	        
+        
+        UpdateResultBO result = new UpdateResultBO();
+        result.setSuccess(true);
+        result.setUpdatedKey(eo.getId());
+        result.setNumRecordsUpdated(1);
+        
+        return result;
+	}	
+
+	@Override
+	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws Exception {
 		logger.info("creando img user");
 		ProfileImageEO outputEo = null;
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
@@ -62,44 +131,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			throw new SQLException("Errore creando su File system");
 		}
 		return outputEo;
-	}
-	
-	@Override
-	public UserEO getUser(int userId) throws SQLException {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-//		UserEO eo = (UserEO) session.load(UserEO.class, userId);
-		UserEO eo = (UserEO) session.get(UserEO.class, userId);
-        session.close();
-		return eo;
-	}
-
-	@Override
-	public UpdateResultBO updateUserData(UserEO eo) throws SQLException {
-		UpdateResultBO result = new UpdateResultBO();
-
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		UserEO eoTOUpdate = (UserEO) session.get(UserEO.class, eo.getId());
-		eoTOUpdate.setNome(eo.getNome());
-		eoTOUpdate.setCognome(eo.getCognome());
-		eoTOUpdate.setNumUpdate(eoTOUpdate.getNumUpdate()+1);
-		
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String formattedDate = df.format(new Date());
-		eoTOUpdate.setDataLastUpdate(formattedDate);
-//		session.merge(eoTOUpdate);
-        session.getTransaction().commit();
-        session.close();
-        
-        result.setSuccess(true);
-        result.setUpdatedKey(eo.getId());
-        result.setNumRecordsUpdated(1);
-        
-        return result;
 	}	
-
 	// save uploaded file to a defined location on the server
     private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {
     	boolean saved = true;

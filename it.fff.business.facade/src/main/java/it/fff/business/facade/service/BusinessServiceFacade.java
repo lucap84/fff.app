@@ -10,7 +10,7 @@ public interface BusinessServiceFacade {
 	
 	public EventDTO getEvent(int eventId) throws BusinessException;
 
-	public UserDTO createUser(UserDTO userDTO) throws BusinessException;
+	public WriteResultDTO createUser(UserDTO userDTO) throws BusinessException;
 
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException;
 
