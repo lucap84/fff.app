@@ -19,8 +19,10 @@ import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
+import it.fff.business.common.mapper.UserMapper;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.ConfigurationProvider;
 import it.fff.persistence.util.Constants;
@@ -85,21 +87,17 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    Transaction tx = null;
 	      try{
 			tx = session.beginTransaction();
-			
-			UserEO eoTOUpdate = (UserEO) session.get(UserEO.class, eo.getId()); //TODO prova con load()
+			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()
 			eoTOUpdate.setNome(eo.getNome());
 			eoTOUpdate.setCognome(eo.getCognome());
-			eoTOUpdate.setNumUpdate(eoTOUpdate.getNumUpdate()+1);
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String formattedDate = df.format(new Date());
-			eoTOUpdate.setDataLastUpdate(formattedDate);
+//			eoTOUpdate.setNumUpdate(99);
 			
-			session.update(eoTOUpdate); //TODO controlla se funziona e se essenziale
+//			session.update(eoTOUpdate); //TODO controlla se funziona e se essenziale
 			tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during save() ",e);
+	         throw new Exception("HibernateException during update() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        

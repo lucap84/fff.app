@@ -4,27 +4,25 @@ import java.util.List;
 
 public class UserBO implements BusinessObject {
 
-	private int id;
-	private String email;
+	private int	id;
 	private String nome;
 	private String cognome;
 	private String dataNascita;
 	private String sesso;
-	private String nazionalita;
-	private List<String> lingue;
 	private String descrizione;
-	
+	private double lastPositionLat;
+	private double lastPositionLong;
+	private String lastPositionDate;		
+	private int numUpdate;	
+	private boolean flagAttivo;
+	private NazioneBO nazionalita; 
+	private List<LinguaBO> lingue;
+	private List<AchievementBO> achievements;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getNome() {
 		return nome;
@@ -50,27 +48,59 @@ public class UserBO implements BusinessObject {
 	public void setSesso(String sesso) {
 		this.sesso = sesso;
 	}
-	public String getNazionalita() {
-		return nazionalita;
-	}
-	public void setNazionalita(String nazionalita) {
-		this.nazionalita = nazionalita;
-	}
-	public List<String> getLingue() {
-		return lingue;
-	}
-	public void setLingue(List<String> lingue) {
-		this.lingue = lingue;
-	}
-	public void addLingua(String lingua){
-		this.lingue.add(lingua);
-	}
-	
 	public String getDescrizione() {
 		return descrizione;
 	}
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
+	}
+	public double getLastPositionLat() {
+		return lastPositionLat;
+	}
+	public void setLastPositionLat(double lastPositionLat) {
+		this.lastPositionLat = lastPositionLat;
+	}
+	public double getLastPositionLong() {
+		return lastPositionLong;
+	}
+	public void setLastPositionLong(double lastPositionLong) {
+		this.lastPositionLong = lastPositionLong;
+	}
+	public String getLastPositionDate() {
+		return lastPositionDate;
+	}
+	public void setLastPositionDate(String lastPositionDate) {
+		this.lastPositionDate = lastPositionDate;
+	}
+	public int getNumUpdate() {
+		return numUpdate;
+	}
+	public void setNumUpdate(int numUpdate) {
+		this.numUpdate = numUpdate;
+	}
+	public boolean isFlagAttivo() {
+		return flagAttivo;
+	}
+	public void setFlagAttivo(boolean flagAttivo) {
+		this.flagAttivo = flagAttivo;
+	}
+	public NazioneBO getNazionalita() {
+		return nazionalita;
+	}
+	public void setNazionalita(NazioneBO nazionalita) {
+		this.nazionalita = nazionalita;
+	}
+	public List<LinguaBO> getLingue() {
+		return lingue;
+	}
+	public void setLingue(List<LinguaBO> lingue) {
+		this.lingue = lingue;
+	}
+	public List<AchievementBO> getAchievements() {
+		return achievements;
+	}
+	public void setAchievements(List<AchievementBO> achievements) {
+		this.achievements = achievements;
 	}
 	
 	

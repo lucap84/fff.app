@@ -66,17 +66,14 @@ public class UserEO implements EntityObject {
 	@Column(name = "Count_Aggiornamento")
 	private int numUpdate;	
 	
-	@Column(name = "Data_Aggiornamento")
-	private String dataLastUpdate;	
-	
 	@Column(name = "Flg_Attivo")
-	private char flagAttivo;
+	private boolean flagAttivo;
 	
 	@ManyToOne
 	@JoinColumn(name = "Nazionalita_ID")
 	private NazioneEO nazionalita; 
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 		@JoinTable(name = "lingue_parlate", 
 			joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })
@@ -87,7 +84,7 @@ public class UserEO implements EntityObject {
 
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "achievement_ottenuti", 
+	@JoinTable(name = "achievements_ottenuti", 
 		joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
 	private List<AchievementEO> achievements;	
@@ -164,14 +161,6 @@ public class UserEO implements EntityObject {
 		this.numUpdate = numUpdate;
 	}
 	
-	public String getDataLastUpdate() {
-		return dataLastUpdate;
-	}
-
-	public void setDataLastUpdate(String dataLastUpdate) {
-		this.dataLastUpdate = dataLastUpdate;
-	}
-
 	
 	public String getLastPositionDate() {
 		return lastPositionDate;
@@ -181,14 +170,14 @@ public class UserEO implements EntityObject {
 		this.lastPositionDate = lastPositionDate;
 	}
 
-	public char getFlagAttivo() {
+
+	public boolean isFlagAttivo() {
 		return flagAttivo;
 	}
 
-	public void setFlagAttivo(char flagAttivo) {
+	public void setFlagAttivo(boolean flagAttivo) {
 		this.flagAttivo = flagAttivo;
 	}
-	
 
 	public NazioneEO getNazionalita() {
 		return nazionalita;
@@ -204,6 +193,15 @@ public class UserEO implements EntityObject {
 
 	public void setLingue(List<LinguaEO> lingue) {
 		this.lingue = lingue;
+	}
+	
+
+	public List<AchievementEO> getAchievements() {
+		return achievements;
+	}
+
+	public void setAchievements(List<AchievementEO> achievements) {
+		this.achievements = achievements;
 	}
 
 	@Override

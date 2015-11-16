@@ -1,7 +1,14 @@
 package it.fff.business.common.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import it.fff.business.common.bo.AchievementBO;
+import it.fff.business.common.bo.NazioneBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
+import it.fff.business.common.eo.AchievementEO;
+import it.fff.business.common.eo.NazioneEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.*;
@@ -18,7 +25,6 @@ public class UserMapper implements Mapper {
 		bo.setSesso(dto.getSesso());
 		bo.setDataNascita(dto.getDataNascita());
 		bo.setDescrizione(dto.getDescrizione());
-		bo.setEmail(dto.getEmail());
 		return bo;
 	}
 
@@ -28,7 +34,6 @@ public class UserMapper implements Mapper {
 		dto.setCognome(bo.getCognome());
 		dto.setDataNascita(bo.getDataNascita());
 		dto.setDescrizione(bo.getDescrizione());
-		dto.setEmail(bo.getEmail());
 		return dto;
 	}
 
@@ -46,9 +51,45 @@ public class UserMapper implements Mapper {
 	public static UserBO map2BO(UserEO eo) {
 		UserBO bo = new UserBO();
 		bo.setId(eo.getId());
+		bo.setNome(eo.getNome());
 		bo.setCognome(eo.getCognome());
 		bo.setDataNascita(eo.getDataNascita());
 		bo.setDescrizione(eo.getDescrizione());
+		bo.setFlagAttivo(eo.isFlagAttivo());
+		bo.setNazionalita(UserMapper.map2BO(eo.getNazionalita()));
+		if(eo.getLingue()!=null && org.hibernate.Hibernate.isInitialized(eo.getLingue())){
+			bo.setLingue(LinguaMapper.map2BO(eo.getLingue()));
+		}
+		if(eo.getAchievements()!=null && org.hibernate.Hibernate.isInitialized(eo.getAchievements())){
+			bo.setAchievements(map2BO(eo.getAchievements()));
+		}
+		return bo;
+	}
+
+	public static List<AchievementBO> map2BO(List<AchievementEO> eos) {
+		List<AchievementBO> bos = new ArrayList<AchievementBO>();
+		for (AchievementEO eo : eos) {
+			bos.add(UserMapper.map2BO(eo));
+		}
+		return bos;
+	}
+
+	public static AchievementBO map2BO(AchievementEO eo) {
+		AchievementBO bo = new AchievementBO();
+		bo.setId(eo.getId());
+		bo.setNome(eo.getDescrizione());
+		bo.setDescrizione(eo.getDescrizione());
+		return bo;
+	}
+
+
+
+
+	public static NazioneBO map2BO(NazioneEO eo) {
+		NazioneBO bo = new NazioneBO();
+		bo.setId(eo.getId());
+		bo.setNome(eo.getNome());
+		bo.setInternationalKey(eo.getInternationalKey());
 		return bo;
 	}
 

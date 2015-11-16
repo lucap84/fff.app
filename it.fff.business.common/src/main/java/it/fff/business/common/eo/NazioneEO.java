@@ -18,7 +18,7 @@ public class NazioneEO implements EntityObject {
 	@Column(name = "Nome")
 	private String nome;
 	
-	@Column(name = "InternationalKey")
+	@Column(name = "International_Key")
 	private String internationalKey;
 
 	public Integer getId() {
