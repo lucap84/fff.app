@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
@@ -38,7 +39,11 @@ public class SecurityService extends ApplicationService {
 	@Path("{email}/password/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO updatePasswordJSON(@Context HttpServletRequest request, @PathParam("email") String email, String encodedPassword) throws BusinessException {
+	public WriteResultDTO updatePasswordJSON(	@Context HttpServletRequest request,
+												@Context HttpHeaders headers,
+												@PathParam("email") String email, String encodedPassword) throws BusinessException {
+		String authHeader = headers.getRequestHeaders().getFirst("Authorization");
+		logger.debug("Authorization:"+authHeader);
 		return updatePassword(request, email, encodedPassword);
 	}
 	@PUT

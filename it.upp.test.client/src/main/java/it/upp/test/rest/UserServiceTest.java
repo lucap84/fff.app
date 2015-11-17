@@ -1,6 +1,7 @@
 package it.upp.test.rest;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,14 +34,19 @@ public class UserServiceTest extends WebServiceRestTest{
 		user.setId("1");
 		user.setNome("Nome mod");
 		user.setCognome("cognome mod");
-		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(user.getId()).path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).put(Entity.entity(user, MediaType.APPLICATION_JSON));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path(user.getId()).path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).put(Entity.entity(user, MediaType.APPLICATION_XML));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		String restPath="users/"+user.getId();
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.put(Entity.entity(user, MediaType.APPLICATION_JSON));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.put(Entity.entity(user, MediaType.APPLICATION_XML));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		}
 	}	
 	
 	@Test
@@ -52,13 +59,19 @@ public class UserServiceTest extends WebServiceRestTest{
 		currentPlace.setGpsLat("1001");
 		currentPlace.setGpsLong("2001");
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(userId).path("events").path(eventId).path("position").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(currentPlace, MediaType.APPLICATION_JSON));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path(userId).path("events").path(eventId).path("position").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(currentPlace, MediaType.APPLICATION_XML));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		String restPath="users/"+userId+"/events/"+eventId+"/position";
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(Entity.entity(currentPlace, MediaType.APPLICATION_JSON));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(Entity.entity(currentPlace, MediaType.APPLICATION_XML));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		}
 	}	
 	
 	@Test
@@ -66,20 +79,26 @@ public class UserServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 		
 		String userId = "1";
-		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(userId).path("events").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
-		assertEquals(200, responseJSON.getStatus());
-		final List<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<EventDTO>>(){});
-		assertNotNull(entityFromJSON);
-		assertTrue(entityFromJSON.size()>0);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path(userId).path("events").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
-		assertEquals(200, responseXML.getStatus());
-		List<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<List<EventDTO>>(){});
-		assertNotNull(entityFromXML);
-		assertTrue(entityFromXML.size()>0);
+
+		String restPath="users/"+userId+"/events";
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.get();
+			assertEquals(200, responseJSON.getStatus());
+			final List<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<EventDTO>>(){});
+			assertNotNull(entityFromJSON);
+			assertTrue(entityFromJSON.size()>0);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.get();
+			assertEquals(200, responseXML.getStatus());
+			List<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<List<EventDTO>>(){});
+			assertNotNull(entityFromXML);
+			assertTrue(entityFromXML.size()>0);	
+		}
 	}
 	
 	@Test
@@ -87,20 +106,26 @@ public class UserServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 
 		String requestedUserId = "1";
-		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path(requestedUserId).path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
-		assertEquals(200, responseJSON.getStatus());
-		UserDTO entityFromJSON = responseJSON.readEntity(UserDTO.class);
-		assertNotNull(entityFromJSON);
-		assertEquals(String.valueOf(entityFromJSON.getId()), requestedUserId);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path(requestedUserId).path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
-		assertEquals(200, responseXML.getStatus());
-		UserDTO entityFromXML = responseXML.readEntity(UserDTO.class);
-		assertNotNull(entityFromXML);
-		assertEquals(String.valueOf(entityFromXML.getId()), requestedUserId);
+
+		String restPath="users/"+requestedUserId;
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.get();
+			assertEquals(200, responseJSON.getStatus());
+			UserDTO entityFromJSON = responseJSON.readEntity(UserDTO.class);
+			assertNotNull(entityFromJSON);
+			assertEquals(String.valueOf(entityFromJSON.getId()), requestedUserId);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.get();
+			assertEquals(200, responseXML.getStatus());
+			UserDTO entityFromXML = responseXML.readEntity(UserDTO.class);
+			assertNotNull(entityFromXML);
+			assertEquals(String.valueOf(entityFromXML.getId()), requestedUserId);	
+		}
 	}
 	
 	@Test
@@ -113,14 +138,21 @@ public class UserServiceTest extends WebServiceRestTest{
 		FileDataBodyPart uploadFilePart = new FileDataBodyPart("file",f);
 		final FormDataMultiPart multipart = new FormDataMultiPart();
 		multipart.bodyPart(uploadFilePart);
-		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path("1").path("images").path("json");
-		Response responseJSON = targetJSON.request().post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);	
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path("1").path("images").path("xml");
-		Response responseXML = targetXML.request().post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+
+		String userId = "1";
+		String restPath="users/"+userId+"/images";
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request();
+			Response responseJSON = requestBuilderJSON.post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);	
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request();
+			Response responseXML = requestBuilderXML.post(Entity.entity(multipart, MediaType.MULTIPART_FORM_DATA));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		}
 
 	}
 	
@@ -134,14 +166,20 @@ public class UserServiceTest extends WebServiceRestTest{
 		userDTO.setEmail("lucap84@gmail.com");
 		userDTO.setSesso("M");
 		userDTO.setDataNascita("1984-02-09");
-		
-		WebTarget targetJSON = client.target(getBaseURI()).path("users").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("users").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(Entity.entity(userDTO, MediaType.APPLICATION_XML));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+
+		String restPath="users";
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(Entity.entity(userDTO, MediaType.APPLICATION_JSON));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(Entity.entity(userDTO, MediaType.APPLICATION_XML));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		}
 	}
 	
 	public static void main(String[] args) {

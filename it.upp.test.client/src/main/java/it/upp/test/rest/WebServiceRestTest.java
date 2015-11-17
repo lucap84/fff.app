@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -23,6 +24,7 @@ import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 
 import it.fff.business.service.impl.EventBusinessServiceImpl;
 import it.fff.clientserver.common.dto.WriteResultDTO;
+import it.upp.test.util.AuthenticationUtil;
 
 
 public class WebServiceRestTest{
@@ -84,6 +86,13 @@ public class WebServiceRestTest{
 	
 	protected static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/it.fff.business.service.webapp/restapi").build();
+	}
+
+
+	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPathJSON) {
+		String secret = "mysecret";
+		String hmacData = httpMethod+restPathJSON;
+		return requestBuilder.header("Authorization", "hmac "+AuthenticationUtil.digestHMACbase64(secret,hmacData));
 	}	
 
 }

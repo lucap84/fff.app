@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,21 +25,27 @@ public class PlaceServiceTest extends WebServiceRestTest{
 		
 		String description = "chiringuito";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("places").path("json").
-				queryParam("description", description);
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).get();
-		assertEquals(200, responseJSON.getStatus());
-		final List<PlaceDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<PlaceDTO>>(){});
-		assertNotNull(entityFromJSON);
-		assertTrue(entityFromJSON.size()>0);
-		
-		WebTarget targetXML = client.target(getBaseURI()).path("places").path("xml").
-				queryParam("description", description);
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).get();
-		assertEquals(200, responseXML.getStatus());
-		List<PlaceDTO> entityFromXML = responseXML.readEntity(new GenericType<List<PlaceDTO>>(){});
-		assertNotNull(entityFromXML);
-		assertTrue(entityFromXML.size()>0);
+		String restPath="places";
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).
+					queryParam("description", description).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.get();
+			assertEquals(200, responseJSON.getStatus());
+			final List<PlaceDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<PlaceDTO>>(){});
+			assertNotNull(entityFromJSON);
+			assertTrue(entityFromJSON.size()>0);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).
+					queryParam("description", description).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.get();
+			assertEquals(200, responseXML.getStatus());
+			List<PlaceDTO> entityFromXML = responseXML.readEntity(new GenericType<List<PlaceDTO>>(){});
+			assertNotNull(entityFromXML);
+			assertTrue(entityFromXML.size()>0);
+		}
 	}	
 
 }

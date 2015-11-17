@@ -92,7 +92,6 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			eoTOUpdate.setCognome(eo.getCognome());
 //			eoTOUpdate.setNumUpdate(99);
 			
-//			session.update(eoTOUpdate); //TODO controlla se funziona e se essenziale
 			tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

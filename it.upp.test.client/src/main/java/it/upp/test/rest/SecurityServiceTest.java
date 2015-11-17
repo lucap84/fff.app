@@ -2,11 +2,15 @@ package it.upp.test.rest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
+
+import com.sun.research.ws.wadl.HTTPMethods;
+
 
 public class SecurityServiceTest extends WebServiceRestTest{
 	
@@ -17,13 +21,22 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		String email = "lucap84@gmail.com";
 		String enodedPassword = "a1x2c3v4b56n7h8jjj9j0";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("security").path(email).path("password").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).put(Entity.entity(enodedPassword,MediaType.APPLICATION_JSON));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		String restPath="security/"+email+"/password";
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("security").path(email).path("password").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).put(Entity.entity(enodedPassword,MediaType.APPLICATION_XML));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.PUT.name(), restPathJSON);
+			Response responseJSON = requestBuilderJSON.put(Entity.entity(enodedPassword,MediaType.APPLICATION_JSON));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
+		{//Test XML
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.PUT.name(), restPathXML);
+			Response responseXML = requestBuilderXML.put(Entity.entity(enodedPassword,MediaType.APPLICATION_XML));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+		}
 	}	
 	
 	@Test
@@ -33,13 +46,21 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		String email = "lucap84@gmail.com";
 		String verificationCode = "1234567890";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("security").path(email).path("verificationcode").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).put(Entity.entity(verificationCode,MediaType.APPLICATION_JSON));
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		String restPath="security/"+email+"/verificationcode";
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("security").path(email).path("verificationcode").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).put(Entity.entity(verificationCode,MediaType.APPLICATION_XML));
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		{//Test JSON	
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  =  client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.put(Entity.entity(verificationCode,MediaType.APPLICATION_JSON));
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
+		
+		{//Test XML	
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.put(Entity.entity(verificationCode,MediaType.APPLICATION_XML));
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+		}
 	}	
 	
 	@Test
@@ -47,14 +68,21 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 		
 		String email = "lucap84@gmail.com";
+		String restPath="security/"+email+"/verificationcode";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("security").path(email).path("verificationcode").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(null);
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(null);
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("security").path(email).path("verificationcode").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(null);
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		{//Test XML		
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(null);
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+		}
 	}	
 	
 	@Test
@@ -62,14 +90,21 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		Client client = WebServiceRestTest.getClientInstance();
 		
 		String userId = "1";
+		String restPath="security/"+userId+"/logout";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("security").path(userId).path("logout").path("json");
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(null);
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(null);
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("security").path(userId).path("logout").path("xml");
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(null);
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		{//Test XML	
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(null);
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+		}
 	}	
 	
 	@Test
@@ -79,17 +114,28 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		String username = "lucap84@gmail.com";
 		String password = "mypassword";
 		
-		WebTarget targetJSON = client.target(getBaseURI()).path("security").path("login").path("json").
-				queryParam("username", username).
-				queryParam("password", password);
-		Response responseJSON = targetJSON.request(MediaType.APPLICATION_JSON).post(null);
-		checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		String restPath="security/login";
+		{//Test JSON	
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).
+					queryParam("username", username).
+					queryParam("password", password).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(null);
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+		}
 		
-		WebTarget targetXML = client.target(getBaseURI()).path("security").path("login").path("xml").
-				queryParam("username", username).
-				queryParam("password", password);
-		Response responseXML = targetXML.request(MediaType.APPLICATION_XML).post(null);
-		checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+		{//Test XML	
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).
+					queryParam("username", username).
+					queryParam("password", password).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(null);
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+		}
 	}	
+	
+	public static void main(String[] args) {
+		new SecurityServiceTest().updatePasswordShouldReturnConfirm();
+	}
 
 }
