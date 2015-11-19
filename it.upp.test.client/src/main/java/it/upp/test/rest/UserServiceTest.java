@@ -22,10 +22,19 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Test;
 
 import it.fff.clientserver.common.dto.*;
+import it.upp.test.secure.ClientDHSecureConfiguration;
 
 public class UserServiceTest extends WebServiceRestTest{
 
+
+	public UserServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
+		super(userExecutorId, secureConf);
+	}	
 	
+	public UserServiceTest(String userExecutorId) {
+		super(userExecutorId, new ClientDHSecureConfiguration());
+	}
+
 	@Test
 	public void modifyUserDataShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
@@ -183,7 +192,7 @@ public class UserServiceTest extends WebServiceRestTest{
 	}
 	
 	public static void main(String[] args) {
-		UserServiceTest test = new UserServiceTest();
+		UserServiceTest test = new UserServiceTest("1");
 		test.modifyUserDataShouldReturnConfirm();
 	}
 	

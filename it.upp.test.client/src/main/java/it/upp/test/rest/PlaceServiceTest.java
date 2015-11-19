@@ -15,10 +15,18 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import it.fff.clientserver.common.dto.*;
+import it.upp.test.secure.ClientDHSecureConfiguration;
 
 public class PlaceServiceTest extends WebServiceRestTest{
 	
+	public PlaceServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
+		super(userExecutorId, secureConf);
+	}	
 	
+	public PlaceServiceTest(String userExecutorId) {
+		super(userExecutorId, new ClientDHSecureConfiguration());
+	}
+
 	@Test
 	public void getPlacesByDescriptionShouldReturnAtLeastOnePlace(){
 		Client client = WebServiceRestTest.getClientInstance();
@@ -48,4 +56,7 @@ public class PlaceServiceTest extends WebServiceRestTest{
 		}
 	}	
 
+	public static void main(String[] args) {
+		new PlaceServiceTest("1").getPlacesByDescriptionShouldReturnAtLeastOnePlace();
+	}
 }

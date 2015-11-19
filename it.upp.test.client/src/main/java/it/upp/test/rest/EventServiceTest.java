@@ -1,10 +1,11 @@
 package it.upp.test.rest;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.upp.test.secure.ClientDHSecureConfiguration;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -12,12 +13,25 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
+import com.sun.research.ws.wadl.HTTPMethods;
+
 import static org.junit.Assert.*;
 
 import java.util.List;
 
 public class EventServiceTest extends WebServiceRestTest{
 
+	public EventServiceTest() {
+		if(DHSecureConfiguration.SECURITY_ACTIVATED){
+			ClientDHSecureConfiguration secureConfiguration = new ClientDHSecureConfiguration();
+			SecurityServiceTest securityServiceTest = new SecurityServiceTest(null,secureConfiguration);
+			String userId = securityServiceTest.registerUserShouldReturnConfirm();
+			securityServiceTest.setExecutorId(userId);
+			
+			super.setExecutorId(userId);
+			super.setSecureConfiguration(secureConfiguration);
+		}
+	}	
 	
 	@Test
 	public void getEventMessagesShouldReturnAtLeastOneMessaget(){
@@ -28,6 +42,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.GET.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.get();
 			assertEquals(200, responseJSON.getStatus());
 			final List<MessageDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<MessageDTO>>(){});
@@ -38,6 +53,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML			
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.GET.name(), restPathXML);
 			Response responseXML = requestBuilderXML.get();
 			assertEquals(200, responseXML.getStatus());
 			List<MessageDTO> entityFromXML = responseXML.readEntity(new GenericType<List<MessageDTO>>(){});
@@ -58,6 +74,7 @@ public class EventServiceTest extends WebServiceRestTest{
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON)
 					.queryParam("sdtMsgId", sdtMsgId).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.POST.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.post(Entity.entity(null, MediaType.APPLICATION_JSON));
 			assertEquals(200, responseJSON.getStatus());
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
@@ -67,6 +84,7 @@ public class EventServiceTest extends WebServiceRestTest{
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML)
 						.queryParam("sdtMsgId", sdtMsgId).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.POST.name(), restPathXML);
 			Response responseXML = requestBuilderXML.post(Entity.entity(null, MediaType.APPLICATION_XML));
 			assertEquals(200, responseXML.getStatus());
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
@@ -84,6 +102,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.POST.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.post(Entity.entity(message, MediaType.APPLICATION_JSON));
 			assertEquals(200, responseJSON.getStatus());
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
@@ -92,6 +111,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML		
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.POST.name(), restPathXML);
 			Response responseXML = requestBuilderXML.post(Entity.entity(message, MediaType.APPLICATION_XML));
 			assertEquals(200, responseXML.getStatus());
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
@@ -108,6 +128,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.DELETE.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.delete();
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		}
@@ -115,6 +136,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.DELETE.name(), restPathXML);
 			Response responseXML = requestBuilderXML.delete();
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 		}
@@ -123,6 +145,8 @@ public class EventServiceTest extends WebServiceRestTest{
 	@Test
 	public void addFeedbackShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
+		
+		
 		
 		EventDTO event = new EventDTO();
 		event.setId("1");
@@ -143,6 +167,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.POST.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_JSON));
 			assertEquals(200, responseJSON.getStatus());
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
@@ -151,6 +176,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.POST.name(), restPathXML);
 			Response responseXML = requestBuilderXML.post(Entity.entity(attendanceToAddFeedback, MediaType.APPLICATION_XML));
 			assertEquals(200, responseXML.getStatus());
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
@@ -160,6 +186,8 @@ public class EventServiceTest extends WebServiceRestTest{
 	@Test
 	public void joinEventShouldReturnAnAttendance(){
 		Client client = WebServiceRestTest.getClientInstance();
+		
+		
 		
 		EventDTO event = new EventDTO();
 		event.setId("1");
@@ -182,6 +210,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.POST.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_JSON));
 			assertEquals(200, responseJSON.getStatus());
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
@@ -190,6 +219,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.POST.name(), restPathXML);
 			Response responseXML = requestBuilderXML.post(Entity.entity(attendanceToCreate, MediaType.APPLICATION_XML));
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 		}
@@ -199,11 +229,14 @@ public class EventServiceTest extends WebServiceRestTest{
 	public void cancelEventShouldReturnConfirm(){ //annulla evento da parte dell'organizzatore
 		Client client = WebServiceRestTest.getClientInstance();
 		
+		
+		
 		String eventToDelete = "1";
 		String restPath="events/"+eventToDelete;
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.DELETE.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.delete();
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		}
@@ -211,6 +244,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.DELETE.name(), restPathXML);
 			Response responseXML = requestBuilderXML.delete();
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
 		}
@@ -219,6 +253,8 @@ public class EventServiceTest extends WebServiceRestTest{
 	@Test
 	public void createEventShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
+		
+		
 		
 		UserDTO organizer = new UserDTO();
 		organizer.setId("1");
@@ -233,6 +269,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.POST.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.post(Entity.entity(dto, MediaType.APPLICATION_JSON));
 			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
 		}
@@ -240,6 +277,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.POST.name(), restPathXML);
 			Response responseXML = requestBuilderXML.post(Entity.entity(dto, MediaType.APPLICATION_XML));
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 		}
@@ -249,12 +287,15 @@ public class EventServiceTest extends WebServiceRestTest{
 	public void getAttendacesByEventShouldReturnAtLeastOneAttendance(){
 		Client client = WebServiceRestTest.getClientInstance();
 
+		
+		
 		String requestedEventId = "1";
 		
 		String restPath="events/"+requestedEventId+"/attendaces";
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.GET.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.get();
 			assertEquals(200, responseJSON.getStatus());
 			List<AttendanceDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<AttendanceDTO>>(){});
@@ -265,6 +306,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.GET.name(), restPathXML);
 			Response responseXML = requestBuilderXML.get();
 			assertEquals(200, responseXML.getStatus());
 			List<AttendanceDTO> entityFromXML = responseXML.readEntity(new GenericType<List<AttendanceDTO>>(){});
@@ -277,12 +319,14 @@ public class EventServiceTest extends WebServiceRestTest{
 	public void getEventShouldReturnOneEvent(){
 		Client client = WebServiceRestTest.getClientInstance();
 
+		
 		String requestedEventId = "1";
 		
 		String restPath="events/"+requestedEventId;
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.GET.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.get();
 			assertEquals(200, responseJSON.getStatus());
 	//		final ReadResultDTO<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
@@ -294,6 +338,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.GET.name(), restPathXML);
 			Response responseXML = requestBuilderXML.get();
 			assertEquals(200, responseXML.getStatus());
 	//		final ReadResultDTO<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<ReadResultDTO<EventDTO>>(){});
@@ -306,6 +351,7 @@ public class EventServiceTest extends WebServiceRestTest{
 	@Test
 	public void searchEventsShouldReturnAtLeastOneEvent(){
 		Client client = WebServiceRestTest.getClientInstance();
+		
 		
 		String gpsLat = "1.1234";
 		String gpsLong = "2.4567";
@@ -320,6 +366,7 @@ public class EventServiceTest extends WebServiceRestTest{
 					queryParam("gpsLong", gpsLong).
 					queryParam("idCategoria", idCategoria).
 					queryParam("partecipanti", partecipanti).request(MediaType.APPLICATION_JSON);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.GET.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.get();
 			assertEquals(200, responseJSON.getStatus());
 			final List<EventDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<EventDTO>>(){});
@@ -334,6 +381,7 @@ public class EventServiceTest extends WebServiceRestTest{
 					queryParam("gpsLong", gpsLong).
 					queryParam("idCategoria", idCategoria).
 					queryParam("partecipanti", partecipanti).request(MediaType.APPLICATION_XML);
+			if(DHSecureConfiguration.SECURITY_ACTIVATED) requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.GET.name(), restPathXML);
 			Response responseXML = requestBuilderXML.get();
 			assertEquals(200, responseXML.getStatus());
 			List<EventDTO> entityFromXML = responseXML.readEntity(new GenericType<List<EventDTO>>(){});
@@ -343,9 +391,9 @@ public class EventServiceTest extends WebServiceRestTest{
 	}	
 	
 	public static void main(String[] args) {
-		EventServiceTest eventServiceTest = new EventServiceTest();
+//		EventServiceTest eventServiceTest = new EventServiceTest("1");
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-		eventServiceTest.postEventStandardMessageShouldReturnConfirm();
+//		eventServiceTest.getEventShouldReturnOneEvent();
 	}
 	
 }

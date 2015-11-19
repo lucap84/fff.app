@@ -3,10 +3,26 @@ package it.upp.test.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.math.BigInteger;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameters;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.KeyAgreement;
+import javax.crypto.spec.DHParameterSpec;
+import javax.crypto.spec.DHPublicKeySpec;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
@@ -15,6 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.ContextResolver;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -24,11 +41,24 @@ import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 
 import it.fff.business.service.impl.EventBusinessServiceImpl;
 import it.fff.clientserver.common.dto.WriteResultDTO;
-import it.upp.test.util.AuthenticationUtil;
+import it.fff.clientserver.common.secure.AuthenticationUtil;
+import it.upp.test.secure.ClientDHSecureConfiguration;
 
 
 public class WebServiceRestTest{
 	private static final Logger logger = LogManager.getLogger(WebServiceRestTest.class);
+	
+	private String executorId;
+	private ClientDHSecureConfiguration secureConfiguration;
+
+	public WebServiceRestTest(){
+		
+	}
+	
+	public WebServiceRestTest(String userId, ClientDHSecureConfiguration secureConfiguration){
+		this.executorId = userId;
+		this.secureConfiguration = secureConfiguration;
+	}
 	
 	private static Client client;
 	
@@ -89,10 +119,78 @@ public class WebServiceRestTest{
 	}
 
 
-	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPathJSON) {
-		String secret = "mysecret";
-		String hmacData = httpMethod+restPathJSON;
-		return requestBuilder.header("Authorization", "hmac "+AuthenticationUtil.digestHMACbase64(secret,hmacData));
-	}	
+	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPath) {
+		String formattedDate = ClientDHSecureConfiguration.DATE_FORMATTER.format(new Date()); 
+		String nonce = new BigInteger(32,ClientDHSecureConfiguration.SECURE_RANDOM).toString();
+		String authorizationHeader = AuthenticationUtil.generateHMACAuthorizationHeader(secureConfiguration.retrieveSharedKey(this.executorId), this.executorId, httpMethod, restPath, formattedDate, nonce);
+		return requestBuilder.
+				header("Authorization", authorizationHeader).
+				header("Date", formattedDate);
+	}
 
+
+
+	public String getExecutorId() {
+		return executorId;
+	}
+
+
+	public void setExecutorId(String executorId) {
+		this.executorId = executorId;
+	}
+
+
+	public Builder addDiffieHellmanHeaders(Builder requestBuilder, String email, String encodedPassword)  {
+		String alicePpublicKey = "";
+		byte[] alicePubKeyEnc = null;
+		try{
+		
+			AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DH");
+			paramGen.init(512);
+			AlgorithmParameters params = paramGen.generateParameters();
+			DHParameterSpec dhSkipParamSpec = (DHParameterSpec)params.getParameterSpec(DHParameterSpec.class);
+		    		
+		    /*
+	         * Alice creates her own DH key pair, using the DH parameters from
+	         * above
+	         */
+	        System.out.println("ALICE: Generate DH keypair ...");
+	        KeyPairGenerator aliceKpairGen = KeyPairGenerator.getInstance("DH");
+	        aliceKpairGen.initialize(dhSkipParamSpec);
+	        KeyPair aliceKpair = aliceKpairGen.generateKeyPair();
+	
+	        // Alice creates and initializes her DH KeyAgreement object
+	        System.out.println("ALICE: Initialization ...");
+	        KeyAgreement aliceKeyAgree = KeyAgreement.getInstance("DH");
+	        aliceKeyAgree.init(aliceKpair.getPrivate());
+	
+	        // Alice encodes her public key, and sends it over to Bob.
+	        alicePubKeyEnc = aliceKpair.getPublic().getEncoded();
+			
+	        alicePpublicKey = Base64.encodeBase64String(alicePubKeyEnc);
+        
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return requestBuilder.header("dh", alicePpublicKey);
+	}
+	
+	
+	public ClientDHSecureConfiguration getSecureConfiguration() {
+		return secureConfiguration;
+	}
+
+
+	public void setSecureConfiguration(ClientDHSecureConfiguration secureConfiguration) {
+		this.secureConfiguration = secureConfiguration;
+	}
+
+
+	public static void main(String[] args) {
+		
+		
+	}
+	
 }

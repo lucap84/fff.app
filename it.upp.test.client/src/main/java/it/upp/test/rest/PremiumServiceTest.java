@@ -10,8 +10,17 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import it.fff.clientserver.common.dto.SubscriptionDTO;
+import it.upp.test.secure.ClientDHSecureConfiguration;
 
 public class PremiumServiceTest extends WebServiceRestTest{
+
+	public PremiumServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
+		super(userExecutorId, secureConf);
+	}	
+	
+	public PremiumServiceTest(String userExecutorId) {
+		super(userExecutorId, new ClientDHSecureConfiguration());
+	}
 
 	@Test
 	public void upgradeToPremiumShouldReturnConfirm(){
@@ -34,6 +43,10 @@ public class PremiumServiceTest extends WebServiceRestTest{
 			Response responseXML = requestBuilderXML.post(Entity.entity(subscription, MediaType.APPLICATION_XML));
 			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 		}
+	}
+	
+	public static void main(String[] args) {
+		new PremiumServiceTest("1").upgradeToPremiumShouldReturnConfirm();
 	}
 	
 }

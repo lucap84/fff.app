@@ -1,5 +1,15 @@
 package it.fff.business.service.wsrest;
 
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
+
+import javax.crypto.KeyAgreement;
+import javax.crypto.interfaces.DHPublicKey;
+import javax.crypto.spec.DHParameterSpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,12 +22,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -29,21 +41,40 @@ public class SecurityService extends ApplicationService {
 	private static final Logger logger = LogManager.getLogger(SecurityService.class);
 	
 	@Autowired
+	private DHSecureConfiguration secureConfiguration;
+	
+	@Autowired
 	private BusinessServiceFacade businessServiceFacade;	
 	
 	public SecurityService() {
 		logger.debug("Service created");
 	}
 	
+	@POST
+	@Path("registration/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public RegistrationDataResultDTO registerUserJSON( @Context HttpServletRequest request,
+											@Context HttpHeaders headers,
+											RegistrationDataDTO registrationDataDTO) throws BusinessException {
+		return registerUser(request, headers, registrationDataDTO);
+	}
+	@POST
+	@Path("registration/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public RegistrationDataResultDTO registerUserXML( @Context HttpServletRequest request,
+										   @Context HttpHeaders headers,
+										   RegistrationDataDTO registrationDataDTO) throws BusinessException {
+		return registerUser(request, headers, registrationDataDTO);
+}
+	
 	@PUT
 	@Path("{email}/password/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public WriteResultDTO updatePasswordJSON(	@Context HttpServletRequest request,
-												@Context HttpHeaders headers,
 												@PathParam("email") String email, String encodedPassword) throws BusinessException {
-		String authHeader = headers.getRequestHeaders().getFirst("Authorization");
-		logger.debug("Authorization:"+authHeader);
 		return updatePassword(request, email, encodedPassword);
 	}
 	@PUT
@@ -130,6 +161,81 @@ public class SecurityService extends ApplicationService {
 	 *
 	 *
 	 */
+	
+	private RegistrationDataResultDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataDTO registrationDataDTO) {
+		RegistrationDataResultDTO resultDTO = null;
+		resultDTO = new RegistrationDataResultDTO();
+		
+		String hexString = null;
+		if(DHSecureConfiguration.SECURITY_ACTIVATED){
+			
+			String dhHeader = headers.getRequestHeader("dh").get(0);
+			if(dhHeader==null || "".equals(dhHeader)){
+				return null;
+			}
+			byte[] decodeBase64 = Base64.decodeBase64(dhHeader);
+			byte[] alicePubKeyEnc = decodeBase64;
+			
+	        /*
+	         * Let's turn over to Bob. Bob has received Alice's public key
+	         * in encoded format.
+	         * He instantiates a DH public key from the encoded key material.
+	         */
+			try{
+		        KeyFactory bobKeyFac = KeyFactory.getInstance("DH");
+		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(alicePubKeyEnc);
+		        PublicKey alicePubKey = bobKeyFac.generatePublic(x509KeySpec);
+		        
+		        /*
+		         * Bob gets the DH parameters associated with Alice's public key.
+		         * He must use the same parameters when he generates his own key
+		         * pair.
+		         */
+		        DHParameterSpec dhParamSpec = ((DHPublicKey)alicePubKey).getParams();
+		        
+		        System.out.println("BOB: Generate DH keypair ...");
+		        KeyPairGenerator bobKpairGen = KeyPairGenerator.getInstance("DH");
+		        bobKpairGen.initialize(dhParamSpec);
+		        KeyPair bobKpair = bobKpairGen.generateKeyPair();
+		        
+		        // Bob creates and initializes his DH KeyAgreement object
+		        System.out.println("BOB: Initialization ...");
+		        KeyAgreement bobKeyAgree = KeyAgreement.getInstance("DH");
+		        bobKeyAgree.init(bobKpair.getPrivate());
+		        
+		        System.out.println("BOB: Execute PHASE1 ...");
+		        bobKeyAgree.doPhase(alicePubKey, true);
+	
+		        // Bob encodes his public key, and sends it over to Alice.
+		        byte[] bobPubKeyEnc = bobKpair.getPublic().getEncoded();
+		        String bobPubKeyEncStr = Base64.encodeBase64String(bobPubKeyEnc);
+		        
+		        resultDTO.setPublicKey(bobPubKeyEncStr);
+		        
+		        byte[] bobSharedSecret = new byte[64];
+		        int bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
+		        hexString = toHexString(bobSharedSecret);
+				System.out.println(hexString);
+				
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}		
+		
+		}
+			//TODO registra utente salvando anche bobSharedSecret e ottieni userId
+		resultDTO.setOk(true);
+		resultDTO.setUserId("1");
+		
+		if(DHSecureConfiguration.SECURITY_ACTIVATED){
+	        secureConfiguration.storeSharedKey(resultDTO.getUserId(), hexString);
+		}
+
+		
+        
+		return resultDTO;
+	}	
+	
 	private WriteResultDTO updatePassword(HttpServletRequest request, String email, String encodedPassword) {
 		WriteResultDTO result;
 		try {
@@ -189,4 +295,28 @@ public class SecurityService extends ApplicationService {
 		}
 		return result;
 	}	
+	
+	
+    private String toHexString(byte[] block) {
+        StringBuffer buf = new StringBuffer();
+
+        int len = block.length;
+
+        for (int i = 0; i < len; i++) {
+             byte2hex(block[i], buf);
+             if (i < len-1) {
+                 buf.append(":");
+             }
+        }
+        return buf.toString();
+    }
+    
+    private void byte2hex(byte b, StringBuffer buf) {
+        char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
+                            '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        int high = ((b & 0xf0) >> 4);
+        int low = (b & 0x0f);
+        buf.append(hexChars[high]);
+        buf.append(hexChars[low]);
+    }  	
 }
