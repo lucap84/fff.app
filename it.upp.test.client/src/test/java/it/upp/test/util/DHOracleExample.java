@@ -51,15 +51,15 @@ import com.sun.crypto.provider.SunJCE;
  * parameters is created.
  */
 
-public class DHKeyAgreement2 {
+public class DHOracleExample {
 
-    private DHKeyAgreement2() {}
+    private DHOracleExample() {}
 
     public static void main(String argv[]) {
         try {
             String mode = "USE_SKIP_DH_PARAMS";
 
-            DHKeyAgreement2 keyAgree = new DHKeyAgreement2();
+            DHOracleExample keyAgree = new DHOracleExample();
 
             if (argv.length > 1) {
                 keyAgree.usage();

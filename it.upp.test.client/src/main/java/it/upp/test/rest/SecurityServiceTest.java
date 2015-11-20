@@ -27,22 +27,20 @@ import it.fff.clientserver.common.dto.RegistrationDataResultDTO;
 import it.fff.clientserver.common.dto.UserDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.upp.test.secure.ClientDHSecureConfiguration;
+import it.upp.test.secure.ClientSecureConfiguration;
+import it.upp.test.util.DHUtils;
 
 
 public class SecurityServiceTest extends WebServiceRestTest{
 	
-	public SecurityServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
-		super(userExecutorId, secureConf);
-	}	
-	
-	public SecurityServiceTest(String userExecutorId) {
-		super(userExecutorId, new ClientDHSecureConfiguration());
+	public SecurityServiceTest() {
 	}
-	
+
 	@Test
-	public String registerUserShouldReturnConfirm(){
+	public void registerUserShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
+		
+		String deviceId = super.getSecureConfiguration().getDeviceId();
 		
 		RegistrationDataDTO dtoInput = new RegistrationDataDTO();
 		dtoInput.setNome("Luca");
@@ -60,69 +58,22 @@ public class SecurityServiceTest extends WebServiceRestTest{
 				String restPathJSON=restPath+"/json";
 				Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
 				
-				KeyAgreement aliceKeyAgree = null;
-				if(DHSecureConfiguration.SECURITY_ACTIVATED){
-					String alicePpublicKey = "";
-					byte[] alicePubKeyEnc = null;
+				KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
 				
-					AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DH");
-					paramGen.init(512);
-					AlgorithmParameters params = paramGen.generateParameters();
-					DHParameterSpec dhSkipParamSpec = (DHParameterSpec)params.getParameterSpec(DHParameterSpec.class);
-				    		
-				    /*
-			         * Alice creates her own DH key pair, using the DH parameters from
-			         * above
-			         */
-			        System.out.println("ALICE: Generate DH keypair ...");
-			        KeyPairGenerator aliceKpairGen = KeyPairGenerator.getInstance("DH");
-			        aliceKpairGen.initialize(dhSkipParamSpec);
-			        KeyPair aliceKpair = aliceKpairGen.generateKeyPair();
-			
-			        // Alice creates and initializes her DH KeyAgreement object
-			        System.out.println("ALICE: Initialization ...");
-			        aliceKeyAgree = KeyAgreement.getInstance("DH");
-			        aliceKeyAgree.init(aliceKpair.getPrivate());
-			
-			        // Alice encodes her public key, and sends it over to Bob.
-			        alicePubKeyEnc = aliceKpair.getPublic().getEncoded();
-					
-			        alicePpublicKey = Base64.encodeBase64String(alicePubKeyEnc);
-		        
-			        requestBuilderJSON = requestBuilderJSON.header("dh", alicePpublicKey);
-				}
-			
-			
-//			requestBuilderJSON = super.addDiffieHellmanHeaders(requestBuilderJSON, dtoInput.getEmail(),dtoInput.getEncodedPassword());
-			Response responseJSON = requestBuilderJSON.post(Entity.entity(dtoInput, MediaType.APPLICATION_JSON));
-			resultDTO = (RegistrationDataResultDTO)responseJSON.readEntity(RegistrationDataResultDTO.class);
-			
-			if(DHSecureConfiguration.SECURITY_ACTIVATED){
-				byte[] bobPublicKey =  Base64.decodeBase64(resultDTO.getPublicKey());
+				DHUtils dhUtil = new DHUtils();
+				String clientPpublicKey = dhUtil.generateClientPublicKey(clientKeyAgree);
 				
-		        /*
-		         * Alice uses Bob's public key for the first (and only) phase
-		         * of her version of the DH
-		         * protocol.
-		         * Before she can do so, she has to instantiate a DH public key
-		         * from Bob's encoded key material.
-		         */
-		        KeyFactory aliceKeyFac = KeyFactory.getInstance("DH");
-		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(bobPublicKey);
-		        PublicKey bobPubKey = aliceKeyFac.generatePublic(x509KeySpec);
-		        System.out.println("ALICE: Execute PHASE1 ...");
-		        aliceKeyAgree.doPhase(bobPubKey, true);			
-		        
-		        byte[] aliceSharedSecret = aliceKeyAgree.generateSecret();
-		        int aliceLen = aliceSharedSecret.length;
-		        String hexString = toHexString(aliceSharedSecret);
-		        System.out.println(hexString);
+				requestBuilderJSON = requestBuilderJSON.header("dh", clientPpublicKey);
+				
+				Response responseJSON = requestBuilderJSON.post(Entity.entity(dtoInput, MediaType.APPLICATION_JSON));
+				resultDTO = (RegistrationDataResultDTO)responseJSON.readEntity(RegistrationDataResultDTO.class);
+			
+				byte[] serverPublicKey =  Base64.decodeBase64(resultDTO.getServerPublicKey());
+
+				String sharedSecret = dhUtil.generateSharedSecret(clientKeyAgree, serverPublicKey);			
 		        
 		        //Salvo sul client la chiave segreta condivisa con il server
-		        super.getSecureConfiguration().storeSharedKey(resultDTO.getUserId(), hexString);
-			}
-			
-//			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+				super.getSecureConfiguration().storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecret);
 	        
 			}
 			catch(Exception e){
@@ -136,7 +87,32 @@ public class SecurityServiceTest extends WebServiceRestTest{
 //			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
 //		}
 		
-		return resultDTO.getUserId();
+	}	
+	
+	
+	@Test
+	public void logoutShouldReturnConfirm(){
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		String userId = super.getSecureConfiguration().getUserId();
+		String deviceId = super.getSecureConfiguration().getDeviceId();
+		String restPath="security/"+userId+"/logout";
+		
+		{//Test JSON
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			Response responseJSON = requestBuilderJSON.post(null);
+			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+			super.getSecureConfiguration().removeSharedKey(userId, deviceId);
+		}
+		
+		{//Test XML	
+			String restPathXML=restPath+"/xml";
+			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+			Response responseXML = requestBuilderXML.post(null);
+			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+			super.getSecureConfiguration().removeSharedKey(userId, deviceId);
+		}
 	}	
 
 	@Test
@@ -209,28 +185,6 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}	
 	
 	@Test
-	public void logoutShouldReturnConfirm(){
-		Client client = WebServiceRestTest.getClientInstance();
-		
-		String userId = "1";
-		String restPath="security/"+userId+"/logout";
-		
-		{//Test JSON
-			String restPathJSON=restPath+"/json";
-			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
-			Response responseJSON = requestBuilderJSON.post(null);
-			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		}
-		
-		{//Test XML	
-			String restPathXML=restPath+"/xml";
-			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
-			Response responseXML = requestBuilderXML.post(null);
-			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
-		}
-	}	
-	
-	@Test
 	public void loginShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
 		
@@ -258,30 +212,9 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}	
 	
 	public static void main(String[] args) {
-		new SecurityServiceTest("1").registerUserShouldReturnConfirm();
+		new SecurityServiceTest().registerUserShouldReturnConfirm();
 	}
 	
-    private String toHexString(byte[] block) {
-        StringBuffer buf = new StringBuffer();
-
-        int len = block.length;
-
-        for (int i = 0; i < len; i++) {
-             byte2hex(block[i], buf);
-             if (i < len-1) {
-                 buf.append(":");
-             }
-        }
-        return buf.toString();
-    }
-    
-    private void byte2hex(byte b, StringBuffer buf) {
-        char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
-                            '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-        int high = ((b & 0xf0) >> 4);
-        int low = (b & 0x0f);
-        buf.append(hexChars[high]);
-        buf.append(hexChars[low]);
-    }    
+   
 
 }

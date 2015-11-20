@@ -14,19 +14,16 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
+import com.sun.research.ws.wadl.HTTPMethods;
+
 import it.fff.clientserver.common.dto.*;
-import it.upp.test.secure.ClientDHSecureConfiguration;
+import it.upp.test.secure.ClientSecureConfiguration;
 
 public class PlaceServiceTest extends WebServiceRestTest{
 	
-	public PlaceServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
-		super(userExecutorId, secureConf);
+	public PlaceServiceTest(){
 	}	
 	
-	public PlaceServiceTest(String userExecutorId) {
-		super(userExecutorId, new ClientDHSecureConfiguration());
-	}
-
 	@Test
 	public void getPlacesByDescriptionShouldReturnAtLeastOnePlace(){
 		Client client = WebServiceRestTest.getClientInstance();
@@ -57,6 +54,6 @@ public class PlaceServiceTest extends WebServiceRestTest{
 	}	
 
 	public static void main(String[] args) {
-		new PlaceServiceTest("1").getPlacesByDescriptionShouldReturnAtLeastOnePlace();
+//		new PlaceServiceTest("1","99").getPlacesByDescriptionShouldReturnAtLeastOnePlace();
 	}
 }

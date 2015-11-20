@@ -10,18 +10,13 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import it.fff.clientserver.common.dto.SubscriptionDTO;
-import it.upp.test.secure.ClientDHSecureConfiguration;
+import it.upp.test.secure.ClientSecureConfiguration;
 
 public class PremiumServiceTest extends WebServiceRestTest{
 
-	public PremiumServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
-		super(userExecutorId, secureConf);
+	public PremiumServiceTest(){
 	}	
 	
-	public PremiumServiceTest(String userExecutorId) {
-		super(userExecutorId, new ClientDHSecureConfiguration());
-	}
-
 	@Test
 	public void upgradeToPremiumShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
@@ -46,7 +41,7 @@ public class PremiumServiceTest extends WebServiceRestTest{
 	}
 	
 	public static void main(String[] args) {
-		new PremiumServiceTest("1").upgradeToPremiumShouldReturnConfirm();
+//		new PremiumServiceTest("1","99").upgradeToPremiumShouldReturnConfirm();
 	}
 	
 }

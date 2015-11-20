@@ -1,0 +1,50 @@
+package it.fff.business.service.secure;
+
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
+
+public class ServerSecureConfiguration implements DHSecureConfiguration {
+	
+	private Map<String,Map<String, String>> clientSecrets;
+	public static SecureRandom SECURE_RANDOM = new SecureRandom();	
+
+	public ServerSecureConfiguration(){
+		this.clientSecrets = new HashMap<String,Map<String,String>>();
+	}
+	
+	@Override
+	public void storeSharedKey(String userId, String deviceId, String sharedKey) {
+		Map<String, String> clientSharedSecrets = clientSecrets.get(userId);
+		if (clientSharedSecrets==null){
+			clientSharedSecrets = new HashMap<String, String>();
+			this.clientSecrets.put(userId, clientSharedSecrets);
+		}
+		clientSharedSecrets.put(deviceId, sharedKey);
+	}
+
+	@Override
+	public String retrieveSharedKey(String userId, String deviceId) {
+		Map<String, String> device2sharedKey = this.clientSecrets.get(userId);
+		if(device2sharedKey==null){
+			return "";
+		}
+		return device2sharedKey.get(deviceId);
+	}
+
+	@Override
+	public void removeSharedKey(String userId, String deviceId) {
+		Map<String, String> device2sharedKey = this.clientSecrets.get(userId);
+		if(device2sharedKey!=null){
+			device2sharedKey.remove(deviceId);
+		}
+		
+	}
+
+}

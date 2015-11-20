@@ -12,6 +12,6 @@
 	
 	<context:component-scan base-package="it.fff.business" />
 	
-	<bean id="secureConfiguration" class="it.fff.business.service.secure.ServerDHSecureConfiguration" />
+	<bean id="secureConfiguration" class="it.fff.business.service.secure.ServerSecureConfiguration" />
 	
 </beans>

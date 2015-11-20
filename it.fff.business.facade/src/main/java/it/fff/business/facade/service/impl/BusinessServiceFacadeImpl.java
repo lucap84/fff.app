@@ -62,17 +62,17 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO createUser(UserDTO userDTO) throws BusinessException {
+	public RegistrationDataResultDTO createUser(RegistrationDataDTO registrationDataDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
 		CreateResultBO createResultBO = null;
 		try {
-			userBO = UserMapper.map2BO(userDTO);
+			userBO = UserMapper.map2BO(registrationDataDTO);
 			createResultBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		RegistrationDataResultDTO result = ResultMapper.map2DTO(createResultBO);
 		return result;
 	}
 
@@ -134,7 +134,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 
@@ -172,7 +172,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_JOINEVENT);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 
@@ -189,7 +189,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_ADDFEEDBACK);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 
@@ -233,7 +233,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTMSG);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 
@@ -256,7 +256,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTSTDMSG);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 
@@ -345,7 +345,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPGRADE_TO_PREMIUM);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(createResultBO);
+		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
 		return result;
 	}
 

@@ -127,5 +127,14 @@ public class UserMapper implements Mapper {
 		bo.setUserId(eo.getUserId());
 		bo.setImgHashCode(eo.getImageIdentifier());
 		return bo;
+	}
+
+	public static UserBO map2BO(RegistrationDataDTO dto) {
+		UserBO bo = new UserBO();
+		bo.setNome(dto.getNome());
+		bo.setCognome(dto.getCognome());
+		bo.setDataNascita(dto.getDataNascita());
+		bo.setSesso(dto.getSesso());
+		return bo;
 	}	
 }

@@ -52,6 +52,4 @@ public class RegistrationDataDTO extends DataTransferObject {
 		this.sesso = sesso;
 	}
 	
-	
-	
 }

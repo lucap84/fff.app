@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
@@ -67,7 +68,27 @@ public class SecurityService extends ApplicationService {
 										   @Context HttpHeaders headers,
 										   RegistrationDataDTO registrationDataDTO) throws BusinessException {
 		return registerUser(request, headers, registrationDataDTO);
+	}
+	
+	@POST
+	@Path("{userId}/logout/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO logoutJSON(@Context HttpServletRequest request,
+									 @Context HttpHeaders headers,
+									 @PathParam("userId") String userId) throws BusinessException {
+		return logout(request, headers, userId);
+	}
+	@POST
+	@Path("{userId}/logout/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO logoutXML(@Context HttpServletRequest request,
+			 						@Context HttpHeaders headers,
+			 						@PathParam("userId") String userId) throws BusinessException {
+		return logout(request, headers, userId);
 }
+	
 	
 	@PUT
 	@Path("{email}/password/json")
@@ -115,20 +136,6 @@ public class SecurityService extends ApplicationService {
 		return sendVerificationCode(request, email);
 	}	
 	
-	@POST
-	@Path("{userId}/logout/json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO logoutJSON(@Context HttpServletRequest request, @PathParam("userId") String userId) throws BusinessException {
-		return logout(request, userId);
-	}
-	@POST
-	@Path("{userId}/logout/xml")
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO logoutXML(@Context HttpServletRequest request, @PathParam("userId") String userId) throws BusinessException {
-		return logout(request, userId);
-	}	
 	
 	@POST
 	@Path("login/json")
@@ -165,74 +172,42 @@ public class SecurityService extends ApplicationService {
 	private RegistrationDataResultDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataDTO registrationDataDTO) {
 		RegistrationDataResultDTO resultDTO = null;
 		resultDTO = new RegistrationDataResultDTO();
-		
-		String hexString = null;
-		if(DHSecureConfiguration.SECURITY_ACTIVATED){
-			
-			String dhHeader = headers.getRequestHeader("dh").get(0);
-			if(dhHeader==null || "".equals(dhHeader)){
-				return null;
-			}
-			byte[] decodeBase64 = Base64.decodeBase64(dhHeader);
-			byte[] alicePubKeyEnc = decodeBase64;
-			
-	        /*
-	         * Let's turn over to Bob. Bob has received Alice's public key
-	         * in encoded format.
-	         * He instantiates a DH public key from the encoded key material.
-	         */
-			try{
-		        KeyFactory bobKeyFac = KeyFactory.getInstance("DH");
-		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(alicePubKeyEnc);
-		        PublicKey alicePubKey = bobKeyFac.generatePublic(x509KeySpec);
-		        
-		        /*
-		         * Bob gets the DH parameters associated with Alice's public key.
-		         * He must use the same parameters when he generates his own key
-		         * pair.
-		         */
-		        DHParameterSpec dhParamSpec = ((DHPublicKey)alicePubKey).getParams();
-		        
-		        System.out.println("BOB: Generate DH keypair ...");
-		        KeyPairGenerator bobKpairGen = KeyPairGenerator.getInstance("DH");
-		        bobKpairGen.initialize(dhParamSpec);
-		        KeyPair bobKpair = bobKpairGen.generateKeyPair();
-		        
-		        // Bob creates and initializes his DH KeyAgreement object
-		        System.out.println("BOB: Initialization ...");
-		        KeyAgreement bobKeyAgree = KeyAgreement.getInstance("DH");
-		        bobKeyAgree.init(bobKpair.getPrivate());
-		        
-		        System.out.println("BOB: Execute PHASE1 ...");
-		        bobKeyAgree.doPhase(alicePubKey, true);
-	
-		        // Bob encodes his public key, and sends it over to Alice.
-		        byte[] bobPubKeyEnc = bobKpair.getPublic().getEncoded();
-		        String bobPubKeyEncStr = Base64.encodeBase64String(bobPubKeyEnc);
-		        
-		        resultDTO.setPublicKey(bobPubKeyEncStr);
-		        
-		        byte[] bobSharedSecret = new byte[64];
-		        int bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
-		        hexString = toHexString(bobSharedSecret);
-				System.out.println(hexString);
-				
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}		
-		
-		}
-			//TODO registra utente salvando anche bobSharedSecret e ottieni userId
-		resultDTO.setOk(true);
-		resultDTO.setUserId("1");
-		
-		if(DHSecureConfiguration.SECURITY_ACTIVATED){
-	        secureConfiguration.storeSharedKey(resultDTO.getUserId(), hexString);
-		}
 
+		String deviceId = headers.getRequestHeader("Device").get(0);
+		String bobPublicKey = (String)request.getAttribute("bobPubKeyEncStrB64");
+		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
+
+		try {
+			resultDTO = businessServiceFacade.createUser(registrationDataDTO);
+		} catch (BusinessException e) {
+			resultDTO = new RegistrationDataResultDTO();
+			super.manageErrors(e, resultDTO, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));			
+		}
 		
+		if(resultDTO.isOk()){
+			resultDTO.setServerPublicKey(bobPublicKey);
+			secureConfiguration.storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecretHEX);
+		}
         
+		return resultDTO;
+	}	
+	
+	private WriteResultDTO logout(HttpServletRequest request, HttpHeaders headers, String userId) {
+		WriteResultDTO resultDTO;
+		String deviceId = headers.getRequestHeader("Device").get(0);
+		try {
+			resultDTO = businessServiceFacade.logout(userId);
+		} catch (BusinessException e) {
+			resultDTO = new WriteResultDTO();
+			super.manageErrors(e, resultDTO, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		
+		if(resultDTO.isOk()){
+			secureConfiguration.removeSharedKey(resultDTO.getIdentifier(), deviceId);
+		}		
+		
 		return resultDTO;
 	}	
 	
@@ -272,17 +247,6 @@ public class SecurityService extends ApplicationService {
 		return result;
 	}	
 	
-	private WriteResultDTO logout(HttpServletRequest request, String userId) {
-		WriteResultDTO result;
-		try {
-			result = businessServiceFacade.logout(userId);
-		} catch (BusinessException e) {
-			result = new WriteResultDTO();
-			super.manageErrors(e, result, request.getLocale());
-			logger.error(LogUtils.stackTrace2String(e));
-		}
-		return result;
-	}	
 	
 	private WriteResultDTO login(HttpServletRequest request, String username, String password) {
 		WriteResultDTO result;
@@ -297,26 +261,4 @@ public class SecurityService extends ApplicationService {
 	}	
 	
 	
-    private String toHexString(byte[] block) {
-        StringBuffer buf = new StringBuffer();
-
-        int len = block.length;
-
-        for (int i = 0; i < len; i++) {
-             byte2hex(block[i], buf);
-             if (i < len-1) {
-                 buf.append(":");
-             }
-        }
-        return buf.toString();
-    }
-    
-    private void byte2hex(byte b, StringBuffer buf) {
-        char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
-                            '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-        int high = ((b & 0xf0) >> 4);
-        int low = (b & 0x0f);
-        buf.append(hexChars[high]);
-        buf.append(hexChars[low]);
-    }  	
 }

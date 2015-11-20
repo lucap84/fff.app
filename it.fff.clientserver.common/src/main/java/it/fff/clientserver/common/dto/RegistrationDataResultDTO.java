@@ -1,28 +1,27 @@
 package it.fff.clientserver.common.dto;
 
-public class RegistrationDataResultDTO {
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class RegistrationDataResultDTO extends DataTransferObject {
 	
-	private boolean isOk;
+	private static final long serialVersionUID = -7260208612326225230L;
 	private String userId;
-	private String publicKey;
+	private String serverPublicKey;
 	
-	public boolean isOk() {
-		return isOk;
-	}
-	public void setOk(boolean isOk) {
-		this.isOk = isOk;
-	}
-	public String getUserId() {
+	@XmlElement public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getPublicKey() {
-		return publicKey;
+	@XmlElement public String getServerPublicKey() {
+		return serverPublicKey;
 	}
-	public void setPublicKey(String publicKey) {
-		this.publicKey = publicKey;
+	public void setServerPublicKey(String serverPublicKey) {
+		this.serverPublicKey = serverPublicKey;
 	}
+
 	
 }

@@ -42,22 +42,18 @@ import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 import it.fff.business.service.impl.EventBusinessServiceImpl;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
-import it.upp.test.secure.ClientDHSecureConfiguration;
+import it.upp.test.filter.AuthorizationClientRequestFilter;
+import it.upp.test.secure.ClientSecureConfiguration;
+import it.upp.test.secure.SecureConfigurationFactory;
 
 
 public class WebServiceRestTest{
 	private static final Logger logger = LogManager.getLogger(WebServiceRestTest.class);
-	
-	private String executorId;
-	private ClientDHSecureConfiguration secureConfiguration;
+
+	private ClientSecureConfiguration secureConfiguration;
 
 	public WebServiceRestTest(){
-		
-	}
-	
-	public WebServiceRestTest(String userId, ClientDHSecureConfiguration secureConfiguration){
-		this.executorId = userId;
-		this.secureConfiguration = secureConfiguration;
+		secureConfiguration = SecureConfigurationFactory.getSecureConfigurationInstance();
 	}
 	
 	private static Client client;
@@ -79,6 +75,7 @@ public class WebServiceRestTest{
 		client.register(MultiPartFeature.class);
 		client.register(MoxyJsonFeature.class);
 		client.register(MoxyXmlFeature.class);
+		client.register(AuthorizationClientRequestFilter.class);
 		ContextResolver<MoxyJsonConfig> jsonConfigResolver = getJsonConfigResolver();
 		client.register(jsonConfigResolver);
 		
@@ -119,25 +116,18 @@ public class WebServiceRestTest{
 	}
 
 
-	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPath) {
-		String formattedDate = ClientDHSecureConfiguration.DATE_FORMATTER.format(new Date()); 
-		String nonce = new BigInteger(32,ClientDHSecureConfiguration.SECURE_RANDOM).toString();
-		String authorizationHeader = AuthenticationUtil.generateHMACAuthorizationHeader(secureConfiguration.retrieveSharedKey(this.executorId), this.executorId, httpMethod, restPath, formattedDate, nonce);
-		return requestBuilder.
-				header("Authorization", authorizationHeader).
-				header("Date", formattedDate);
-	}
+//	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPath) {
+//		String formattedDate = ClientSecureConfiguration.DATE_FORMATTER.format(new Date()); 
+//		String nonce = new BigInteger(32,ClientSecureConfiguration.SECURE_RANDOM).toString();
+//		String deviceId = secureConfiguration.getDeviceId();
+//		String userId = secureConfiguration.getUserId();
+//		String authorizationHeader = AuthenticationUtil.generateHMACAuthorizationHeader(secureConfiguration.retrieveSharedKey(userId, deviceId), userId, httpMethod, restPath, formattedDate, nonce);
+//		return requestBuilder.
+//				header("Authorization", authorizationHeader).
+//				header("Date", formattedDate).
+//				header("Device", deviceId);
+//	}
 
-
-
-	public String getExecutorId() {
-		return executorId;
-	}
-
-
-	public void setExecutorId(String executorId) {
-		this.executorId = executorId;
-	}
 
 
 	public Builder addDiffieHellmanHeaders(Builder requestBuilder, String email, String encodedPassword)  {
@@ -178,12 +168,12 @@ public class WebServiceRestTest{
 	}
 	
 	
-	public ClientDHSecureConfiguration getSecureConfiguration() {
+	public ClientSecureConfiguration getSecureConfiguration() {
 		return secureConfiguration;
 	}
 
 
-	public void setSecureConfiguration(ClientDHSecureConfiguration secureConfiguration) {
+	public void setSecureConfiguration(ClientSecureConfiguration secureConfiguration) {
 		this.secureConfiguration = secureConfiguration;
 	}
 

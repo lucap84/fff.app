@@ -106,21 +106,6 @@ public class UserService extends ApplicationService{
 	}	
 	
 	@POST
-	@Path("json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO createUserJSON(@Context HttpServletRequest request, UserDTO userDTO) throws BusinessException {
-		return createUser(request, userDTO);
-	}
-	@POST
-	@Path("xml")
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO createUserXML(@Context HttpServletRequest request, UserDTO userDTO) throws BusinessException {
-		return createUser(request, userDTO);
-	}	
-	
-	@POST
 	@Path("{userId}/images/json")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -201,21 +186,6 @@ public class UserService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return dto;
-	}
-	
-	private WriteResultDTO createUser(HttpServletRequest request, UserDTO userDTOinput){
-		logger.info("Receiving createUser request");
-		WriteResultDTO result = null;
-		
-		try {
-			result = businessServiceFacade.createUser(userDTOinput);
-		} catch (BusinessException e) {
-			result = new WriteResultDTO();
-			super.manageErrors(e, result, request.getLocale());
-			logger.error(LogUtils.stackTrace2String(e));			
-		}
-		logger.info("Sending back the result");
-		return result;		
 	}
 	
 	private WriteResultDTO updateProfileImage(	HttpServletRequest request,

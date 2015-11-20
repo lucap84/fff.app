@@ -22,18 +22,14 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Test;
 
 import it.fff.clientserver.common.dto.*;
-import it.upp.test.secure.ClientDHSecureConfiguration;
+import it.upp.test.secure.ClientSecureConfiguration;
 
 public class UserServiceTest extends WebServiceRestTest{
 
 
-	public UserServiceTest(String userExecutorId, ClientDHSecureConfiguration secureConf) {
-		super(userExecutorId, secureConf);
+	public UserServiceTest(){
 	}	
 	
-	public UserServiceTest(String userExecutorId) {
-		super(userExecutorId, new ClientDHSecureConfiguration());
-	}
 
 	@Test
 	public void modifyUserDataShouldReturnConfirm(){
@@ -165,35 +161,35 @@ public class UserServiceTest extends WebServiceRestTest{
 
 	}
 	
-	@Test
-	public void createUserShouldReturnConfirm(){
-		Client client = WebServiceRestTest.getClientInstance();
-		
-		UserDTO userDTO = new UserDTO();
-		userDTO.setNome("Luca");
-		userDTO.setCognome("Pelosi");
-		userDTO.setEmail("lucap84@gmail.com");
-		userDTO.setSesso("M");
-		userDTO.setDataNascita("1984-02-09");
-
-		String restPath="users";
-		{//Test JSON
-			String restPathJSON=restPath+"/json";
-			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
-			Response responseJSON = requestBuilderJSON.post(Entity.entity(userDTO, MediaType.APPLICATION_JSON));
-			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		}
-		{//Test XML
-			String restPathXML=restPath+"/xml";
-			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
-			Response responseXML = requestBuilderXML.post(Entity.entity(userDTO, MediaType.APPLICATION_XML));
-			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
-		}
-	}
+//	@Test
+//	public void createUserShouldReturnConfirm(){
+//		Client client = WebServiceRestTest.getClientInstance();
+//		
+//		UserDTO userDTO = new UserDTO();
+//		userDTO.setNome("Luca");
+//		userDTO.setCognome("Pelosi");
+//		userDTO.setEmail("lucap84@gmail.com");
+//		userDTO.setSesso("M");
+//		userDTO.setDataNascita("1984-02-09");
+//
+//		String restPath="users";
+//		{//Test JSON
+//			String restPathJSON=restPath+"/json";
+//			Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+//			Response responseJSON = requestBuilderJSON.post(Entity.entity(userDTO, MediaType.APPLICATION_JSON));
+//			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
+//		}
+//		{//Test XML
+//			String restPathXML=restPath+"/xml";
+//			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+//			Response responseXML = requestBuilderXML.post(Entity.entity(userDTO, MediaType.APPLICATION_XML));
+//			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);	
+//		}
+//	}
 	
 	public static void main(String[] args) {
-		UserServiceTest test = new UserServiceTest("1");
-		test.modifyUserDataShouldReturnConfirm();
+//		UserServiceTest test = new UserServiceTest("1","99");
+//		test.modifyUserDataShouldReturnConfirm();
 	}
 	
 }
