@@ -1,5 +1,10 @@
 package it.fff.business.common.eo;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "messaggio")
 public class MessageEO implements EntityObject {
 
 	private int id;

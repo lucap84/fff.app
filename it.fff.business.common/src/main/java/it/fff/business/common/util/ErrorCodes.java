@@ -5,14 +5,13 @@ public class ErrorCodes {
 	//Codici errore persistenza
 	public static final String ERR_PERSIST_GENERIC = "1001";
 	public static final String ERR_PERSIST_GENERIC_ID_NOT_VALID = "1002";
-	public static final String ERR_IMGPERS_INVALID_INPUT = "1003";
+	public static final String ERR_PERSIST_IMG_INVALID_INPUT = "1003";
 
-	public static final String ERR_PERSIST_GETEVENT = "1002";
-	public static final String ERR_PERSIST_CREATEUSER = "1003";
-	public static final String ERR_PERSIST_GETATTENDANCES ="1005";
-	public static final String ERR_PERSIST_CREATEEVENT = "1006";
-	public static final String ERR_PERSIST_CANCELATTENDANCES = "1007";
-	public static final String ERR_PERSIST_CANCELEVENT = "1008";
+	public static final String ERR_PERSIST_GETEVENT = "1004";
+	public static final String ERR_PERSIST_CREATEUSER = "1005";
+	public static final String ERR_PERSIST_GETATTENDANCES ="1006";
+	public static final String ERR_PERSIST_CREATEEVENT = "1007";
+	public static final String ERR_PERSIST_CANCELATTENDANCES = "1008";
 	public static final String ERR_PERSIST_POSTMSG = "1009";
 	public static final String ERR_PERSIST_POSTSTDMSG = "1010";
 	public static final String ERR_PERSIST_UPGRADE_TO_PREMIUM = "1011";
@@ -29,17 +28,18 @@ public class ErrorCodes {
 	public static final String ERR_PERSIST_SET_CURRENTPOSITION = "1022";
 	public static final String ERR_PERSIST_GET_EVENTSBYUSER = "1023";
 	public static final String ERR_PERSIST_GET_USER = "1024";	
+	public static final String ERR_PERSIST_CANCELEVENT = "1025";
 	
 	//Codici errore business
 	public static final String ERR_BUSIN_GENERIC = "2001";
-	public static final String ERR_BUSIN_GENERIC_ID_NOT_VALID = "2004";
-
-	public static final String ERR_BUSIN_GETEVENT = "2002";
-	public static final String ERR_BUSIN_CREATEUSER = "2003";
-	public static final String ERR_BUSIN_GETATTENDANCES ="2005";
-	public static final String ERR_BUSIN_CREATEEVENT = "2006";
-	public static final String ERR_BUSIN_CANCELATTENDANCES = "2007";
-	public static final String ERR_BUSIN_CANCELEVENT = "2008";
+	public static final String ERR_BUSIN_GENERIC_ID_NOT_VALID = "2002";
+	public static final String ERR_BUSIN_IMG_INVALID_INPUT = "2003";
+	
+	public static final String ERR_BUSIN_GETEVENT = "2004";
+	public static final String ERR_BUSIN_CREATEUSER = "2005";
+	public static final String ERR_BUSIN_GETATTENDANCES ="2006";
+	public static final String ERR_BUSIN_CREATEEVENT = "2007";
+	public static final String ERR_BUSIN_CANCELATTENDANCES = "2008";
 	public static final String ERR_BUSIN_POSTMSG = "2009";
 	public static final String ERR_BUSIN_POSTSTDMSG = "2010";
 	public static final String ERR_BUSIN_UPGRADE_TO_PREMIUM = "2011";
@@ -56,5 +56,6 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_SET_CURRENTPOSITION = "2022";
 	public static final String ERR_BUSIN_GET_EVENTSBYUSER = "2023";
 	public static final String ERR_BUSIN_GET_USER = "2024";
+	public static final String ERR_BUSIN_CANCELEVENT = "2025";
 
 }

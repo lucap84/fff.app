@@ -1,6 +1,7 @@
 package it.fff.persistence.facade.service;
 
 import java.util.List;
+import java.util.Map;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CreateResultBO;
@@ -62,6 +63,8 @@ public interface PersistenceServiceFacade {
 	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException;
 
 	public UserBO getUser(int userId) throws PersistenceException;
+
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
 	
 
 }

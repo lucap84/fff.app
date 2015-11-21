@@ -1,5 +1,10 @@
 package it.fff.business.common.eo;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "luogo")
 public class PlaceEO implements EntityObject {
 
 	private String nome;

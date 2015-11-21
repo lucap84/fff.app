@@ -10,17 +10,41 @@ public class LinguaMapper implements Mapper {
 
 	public static List<LinguaBO> map2BO(List<LinguaEO> eos) {
 		List<LinguaBO> bos = new ArrayList<LinguaBO>();
-		for (LinguaEO eo : eos) {
-			bos.add(LinguaMapper.map2BO(eo));
+		if(eos!=null){
+			for (LinguaEO eo : eos) {
+				bos.add(LinguaMapper.map2BO(eo));
+			}
 		}
 		return bos;
 	}
 	
 	public static LinguaBO map2BO(LinguaEO eo) {
 		LinguaBO bo = new LinguaBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setCodice(eo.getCodice());
+		if(eo!=null){
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setCodice(eo.getCodice());
+		}
 		return bo;
+	}
+
+	public static List<LinguaEO> map2EO(List<LinguaBO> bos) {
+		List<LinguaEO> eos = new ArrayList<LinguaEO>();
+		if(bos!=null){
+			for (LinguaBO bo : bos) {
+				eos.add(LinguaMapper.map2EO(bo));
+			}
+		}
+		return eos;
+	}
+
+	public static LinguaEO map2EO(LinguaBO bo) {
+		LinguaEO eo = new LinguaEO();
+		if(bo!=null){
+			eo.setId(bo.getId());
+			eo.setNome(bo.getNome());
+			eo.setCodice(bo.getCodice());
+		}
+		return eo;
 	}	
 }

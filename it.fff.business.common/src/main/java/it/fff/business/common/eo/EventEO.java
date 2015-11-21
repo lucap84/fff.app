@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Evento")
+@Table(name="evento")
 public class EventEO implements EntityObject{
 
 	@Id

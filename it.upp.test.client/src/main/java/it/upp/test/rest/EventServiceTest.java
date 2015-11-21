@@ -34,7 +34,6 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test JSON
 			String restPathJSON=restPath+"/json";
 			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
-//			requestBuilderJSON = super.addSecurityHeaders(requestBuilderJSON, HTTPMethods.GET.name(), restPathJSON);
 			Response responseJSON = requestBuilderJSON.get();
 			assertEquals(200, responseJSON.getStatus());
 			final List<MessageDTO> entityFromJSON = responseJSON.readEntity(new GenericType<List<MessageDTO>>(){});
@@ -45,8 +44,6 @@ public class EventServiceTest extends WebServiceRestTest{
 		{//Test XML			
 			String restPathXML=restPath+"/xml";
 			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
-//			
-//				requestBuilderXML = super.addSecurityHeaders(requestBuilderXML, HTTPMethods.GET.name(), restPathXML);
 			Response responseXML = requestBuilderXML.get();
 			assertEquals(200, responseXML.getStatus());
 			List<MessageDTO> entityFromXML = responseXML.readEntity(new GenericType<List<MessageDTO>>(){});
@@ -385,7 +382,7 @@ public class EventServiceTest extends WebServiceRestTest{
 	public static void main(String[] args) {
 		EventServiceTest eventServiceTest = new EventServiceTest();
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-		eventServiceTest.createEventShouldReturnConfirm();
+		eventServiceTest.getEventMessagesShouldReturnAtLeastOneMessage();
 	}
 	
 }

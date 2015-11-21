@@ -24,74 +24,97 @@ public class EventMapper implements Mapper{
 	public static EventBO map2BO(EventDTO dto) {
 		logger.debug("mapDto2Bo");
 		EventBO bo = new EventBO();
-		if(dto.getId()!=null && !"".equals(dto.getId())){
-			bo.setId(Integer.valueOf(dto.getId()));
+		if(dto!=null){
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setNome(dto.getNome());
+			bo.setDescrizione(dto.getDescrizione());
 		}
-		bo.setNome(dto.getNome());
-		bo.setDescrizione(dto.getDescrizione());
+		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
 	public static EventDTO map2DTO(EventBO bo) {
 		logger.debug("mapBo2Dto");
 		EventDTO dto = new EventDTO();
-		dto.setId(String.valueOf(bo.getId()));
-		dto.setNome(bo.getNome());
-		dto.setDescrizione(bo.getDescrizione());
+		if(bo!=null){
+			dto.setId(String.valueOf(bo.getId()));
+			dto.setNome(bo.getNome());
+			dto.setDescrizione(bo.getDescrizione());
+		}
+		else{logger.warn("Mapping null objects!!");}
 		return dto;
 	}
 
 	public static EventEO map2EO(EventBO bo) {
 		logger.debug("mapBo2Eo");
 		EventEO eo = new EventEO();
-		eo.setId(bo.getId());
-		eo.setNome(bo.getNome());
-		eo.setDescrizione(bo.getDescrizione());
+		if(bo!=null){
+			eo.setId(bo.getId());
+			eo.setNome(bo.getNome());
+			eo.setDescrizione(bo.getDescrizione());
+		}
+		else{logger.warn("Mapping null objects!!");}
 		return eo;
 	}
 
 	public static EventBO map2BO(EventEO eo) {
 		logger.debug("mapEO2BO");
 		EventBO bo = new EventBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		if(eo!=null){
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
+		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
-	public static List<EventDTO> map2DTO(List<EventBO> eventsBO) {
+	public static List<EventDTO> map2DTO(List<EventBO> bos) {
 		List<EventDTO> dtos = new ArrayList<EventDTO>();
-		for (EventBO bo : eventsBO) {
-			dtos.add(EventMapper.map2DTO(bo));
+		if(bos!=null){
+			for (EventBO bo : bos) {
+				dtos.add(EventMapper.map2DTO(bo));
+			}
 		}
+		else{logger.warn("Mapping null objects!!");}
 		return dtos;
 	}
 
 	public static AttendanceEO map2EO(AttendanceBO bo) {
 		AttendanceEO eo = new AttendanceEO();
-		if(bo.getId()>0){
-			eo.setId(bo.getId());
+		if(bo!=null){
+			if(bo.getId()>0){
+				eo.setId(bo.getId());
+			}
+			eo.setNumPartecipanti(bo.getNumPartecipanti());
+			eo.setStatusId(bo.getStatusId());
+			eo.setValid(bo.isValid());
+			eo.setOrganizer(bo.isOrganizer());
 		}
-		eo.setNumPartecipanti(bo.getNumPartecipanti());
-		eo.setStatusId(bo.getStatusId());
-		eo.setValid(bo.isValid());
-		eo.setOrganizer(bo.isOrganizer());
-		return null;
+		else{logger.warn("Mapping null objects!!");}
+		return eo;
 	}
 	
 	public static List<EventBO> map2BO(List<EventEO> eos){
 		List<EventBO> bos = new ArrayList<EventBO>();
-		for (EventEO eo : eos) {
-			bos.add(EventMapper.map2DTO(eo));
+		if(eos!=null){
+			for (EventEO eo : eos) {
+				bos.add(EventMapper.map2DTO(eo));
+			}
 		}
 		return bos;
 	}
 
 	public static EventBO map2DTO(EventEO eo) {
 		EventBO bo = new EventBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		if(eo!=null){
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
+		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}	
 

@@ -40,6 +40,7 @@ import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 
 import it.fff.business.service.impl.EventBusinessServiceImpl;
+import it.fff.clientserver.common.dto.DataTransferObject;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.upp.test.filter.AuthorizationClientRequestFilter;
@@ -96,8 +97,7 @@ public class WebServiceRestTest{
 		
 		return jsonConfigResolver;
 	}
-	
-	
+
 	protected void checkEntityWriteResult(Response response, String mediaType){
 		assertEquals(200,response.getStatus());
 		assertEquals(mediaType, response.getMediaType().toString());

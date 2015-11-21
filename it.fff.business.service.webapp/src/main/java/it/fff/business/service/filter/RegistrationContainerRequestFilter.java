@@ -77,7 +77,7 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 	
 		        // Il server codifica la propria chiave pubblica e la converte in base64 per inviarla al server
 		        byte[] bobPubKeyEnc = bobKpair.getPublic().getEncoded();
-		        String bobPubKeyEncStrB64 = Base64.encodeBase64String(bobPubKeyEnc);
+		        String serverPubKeyEncStrB64 = Base64.encodeBase64String(bobPubKeyEnc);
 		        
 		        //Il server ricava la chiave segreta condivisa con il client
 		        byte[] bobSharedSecret = new byte[64];
@@ -85,7 +85,7 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 		        String sharedSecretHEX = AuthenticationUtil.toHexString(bobSharedSecret);
 
 		        //Metto negli attributes della richiesta la chiave pubblica (che sarà ritornata poi al client) e il segreto condiviso, da associare al client e salvare localmente
-		        requestContext.setProperty("bobPubKeyEncStrB64", bobPubKeyEncStrB64);
+		        requestContext.setProperty("serverPubKeyEncStrB64", serverPubKeyEncStrB64);
 				requestContext.setProperty("sharedSecretHEX", sharedSecretHEX);
 				
 			}

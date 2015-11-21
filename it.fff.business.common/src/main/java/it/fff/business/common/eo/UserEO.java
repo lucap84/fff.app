@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -79,9 +80,6 @@ public class UserEO implements EntityObject {
 			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })
 	private List<LinguaEO> lingue;
 	
-	//"mappedBy" signals hibernate that the key for the relationship is on the other side (see 'utente' inside AchievementEO)
-//	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="utente")
-
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "achievements_ottenuti", 
@@ -89,6 +87,10 @@ public class UserEO implements EntityObject {
 		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
 	private List<AchievementEO> achievements;	
 
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private AccountEO account;
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -202,6 +204,15 @@ public class UserEO implements EntityObject {
 
 	public void setAchievements(List<AchievementEO> achievements) {
 		this.achievements = achievements;
+	}
+	
+
+	public AccountEO getAccount() {
+		return account;
+	}
+
+	public void setAccount(AccountEO account) {
+		this.account = account;
 	}
 
 	@Override

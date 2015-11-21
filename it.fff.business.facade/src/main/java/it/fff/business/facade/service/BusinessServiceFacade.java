@@ -1,6 +1,7 @@
 package it.fff.business.facade.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.List;
 
 import it.fff.business.facade.exception.BusinessException;
@@ -10,7 +11,7 @@ public interface BusinessServiceFacade {
 	
 	public EventDTO getEvent(int eventId) throws BusinessException;
 
-	public RegistrationDataResultDTO createUser(RegistrationDataDTO registrationData) throws BusinessException;
+	public RegistrationDataResponseDTO createUser(RegistrationDataRequestDTO registrationData) throws BusinessException;
 
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException;
 
@@ -55,5 +56,7 @@ public interface BusinessServiceFacade {
 	public List<EventDTO> getEventsByUser(String userId) throws BusinessException;
 
 	public UserDTO getUser(int userId) throws BusinessException;
+
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws BusinessException;
 
 }

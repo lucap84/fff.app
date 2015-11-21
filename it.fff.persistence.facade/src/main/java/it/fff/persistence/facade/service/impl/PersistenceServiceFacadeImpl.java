@@ -1,6 +1,7 @@
 package it.fff.persistence.facade.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -480,6 +481,22 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		UserBO boOutput = UserMapper.map2BO(eoOutput);
 
 		return boOutput;
+	}
+
+	@Override
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		Map<String, Map<String, String>> secrets = null;
+		try {
+			secrets = securityPersistenceService.retrieveClientSecrets();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return secrets;
 	}
 
 }

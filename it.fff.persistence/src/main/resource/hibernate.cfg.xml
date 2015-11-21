@@ -23,5 +23,7 @@
         <mapping class="it.fff.business.common.eo.NazioneEO" />
         <mapping class="it.fff.business.common.eo.LinguaEO" />
         <mapping class="it.fff.business.common.eo.AchievementEO" />
+        <mapping class="it.fff.business.common.eo.AccountEO" />
+        <mapping class="it.fff.business.common.eo.SessionEO" />
     </session-factory>
 </hibernate-configuration>

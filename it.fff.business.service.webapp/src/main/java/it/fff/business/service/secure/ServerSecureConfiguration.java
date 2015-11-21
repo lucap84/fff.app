@@ -8,12 +8,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.fff.business.facade.exception.BusinessException;
+import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
 public class ServerSecureConfiguration implements DHSecureConfiguration {
 	
 	private Map<String,Map<String, String>> clientSecrets;
-	public static SecureRandom SECURE_RANDOM = new SecureRandom();	
+	public static SecureRandom SECURE_RANDOM = new SecureRandom();
+	
+	private BusinessServiceFacade businessServiceFacade;
 
 	public ServerSecureConfiguration(){
 		this.clientSecrets = new HashMap<String,Map<String,String>>();
@@ -31,11 +37,23 @@ public class ServerSecureConfiguration implements DHSecureConfiguration {
 
 	@Override
 	public String retrieveSharedKey(String userId, String deviceId) {
+		if(this.clientSecrets==null || this.clientSecrets.isEmpty()){
+			this.populateClientSecrets();
+		}
 		Map<String, String> device2sharedKey = this.clientSecrets.get(userId);
 		if(device2sharedKey==null){
 			return "";
 		}
 		return device2sharedKey.get(deviceId);
+	}
+
+	public void populateClientSecrets() {
+		try {
+			this.clientSecrets = businessServiceFacade.retrieveClientSecrets();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -46,5 +64,14 @@ public class ServerSecureConfiguration implements DHSecureConfiguration {
 		}
 		
 	}
+
+	public BusinessServiceFacade getBusinessServiceFacade() {
+		return businessServiceFacade;
+	}
+
+	public void setBusinessServiceFacade(BusinessServiceFacade businessServiceFacade) {
+		this.businessServiceFacade = businessServiceFacade;
+	}
+	
 
 }

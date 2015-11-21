@@ -18,6 +18,8 @@ public class UserBO implements BusinessObject {
 	private NazioneBO nazionalita; 
 	private List<LinguaBO> lingue;
 	private List<AchievementBO> achievements;
+	private AccountBO account;
+	
 	public int getId() {
 		return id;
 	}
@@ -102,6 +104,11 @@ public class UserBO implements BusinessObject {
 	public void setAchievements(List<AchievementBO> achievements) {
 		this.achievements = achievements;
 	}
-	
+	public AccountBO getAccount() {
+		return account;
+	}
+	public void setAccount(AccountBO account) {
+		this.account = account;
+	}
 	
 }

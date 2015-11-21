@@ -1,5 +1,7 @@
 package it.fff.business.service.impl;
 
+import java.util.Map;
+
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.persistence.facade.exception.PersistenceException;
@@ -46,6 +48,12 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	public UpdateResultBO logout(int userId) throws PersistenceException {
 		UpdateResultBO bo = persistenceFacade.logout(userId);
 		return bo;
+	}
+
+	@Override
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+		Map<String, Map<String, String>> secrets = persistenceFacade.retrieveClientSecrets();
+		return secrets;
 	}	
 	
 }

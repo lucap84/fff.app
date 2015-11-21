@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.service.UserBusinessService;
@@ -39,6 +40,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public CreateResultBO createUser(UserBO userBO) throws PersistenceException {
 		logger.info("createUser start...");
+		SessionBO firstSession = userBO.getAccount().getSessions().get(0);
+		firstSession.setValidSession(true);
 		CreateResultBO resultBO = persistenceFacade.registerUser(userBO);
 		logger.info("...createUser end");
 		return resultBO;

@@ -1,15 +1,5 @@
 package it.fff.business.service.wsrest;
 
-import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
-
-import javax.crypto.KeyAgreement;
-import javax.crypto.interfaces.DHPublicKey;
-import javax.crypto.spec.DHParameterSpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,14 +12,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
-import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
@@ -55,18 +43,18 @@ public class SecurityService extends ApplicationService {
 	@Path("registration/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RegistrationDataResultDTO registerUserJSON( @Context HttpServletRequest request,
+	public RegistrationDataResponseDTO registerUserJSON( @Context HttpServletRequest request,
 											@Context HttpHeaders headers,
-											RegistrationDataDTO registrationDataDTO) throws BusinessException {
+											RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		return registerUser(request, headers, registrationDataDTO);
 	}
 	@POST
 	@Path("registration/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public RegistrationDataResultDTO registerUserXML( @Context HttpServletRequest request,
+	public RegistrationDataResponseDTO registerUserXML( @Context HttpServletRequest request,
 										   @Context HttpHeaders headers,
-										   RegistrationDataDTO registrationDataDTO) throws BusinessException {
+										   RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		return registerUser(request, headers, registrationDataDTO);
 	}
 	
@@ -169,24 +157,26 @@ public class SecurityService extends ApplicationService {
 	 *
 	 */
 	
-	private RegistrationDataResultDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataDTO registrationDataDTO) {
-		RegistrationDataResultDTO resultDTO = null;
-		resultDTO = new RegistrationDataResultDTO();
+	private RegistrationDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataRequestDTO registrationDataDTO) {
+		RegistrationDataResponseDTO resultDTO = null;
+		resultDTO = new RegistrationDataResponseDTO();
 
 		String deviceId = headers.getRequestHeader("Device").get(0);
-		String bobPublicKey = (String)request.getAttribute("bobPubKeyEncStrB64");
+		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
-
+		
+		registrationDataDTO.setDeviceId(deviceId);
+		registrationDataDTO.setSharedKey(sharedSecretHEX);
 		try {
 			resultDTO = businessServiceFacade.createUser(registrationDataDTO);
 		} catch (BusinessException e) {
-			resultDTO = new RegistrationDataResultDTO();
+			resultDTO = new RegistrationDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));			
 		}
 		
 		if(resultDTO.isOk()){
-			resultDTO.setServerPublicKey(bobPublicKey);
+			resultDTO.setServerPublicKey(serverPublicKey);
 			secureConfiguration.storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecretHEX);
 		}
         

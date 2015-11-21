@@ -1,7 +1,11 @@
 package it.fff.business.common.eo;
 
-import it.fff.clientserver.common.dto.FeedbackDTO;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "partecipazione")
 public class AttendanceEO implements EntityObject {
 
 	int id;

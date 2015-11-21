@@ -1,5 +1,10 @@
 package it.fff.business.common.eo;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "abbonamento")
 public class SubscriptionEO implements EntityObject {
 
 	private int id;

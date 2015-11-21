@@ -1,6 +1,7 @@
 package it.fff.business.facade.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,7 +63,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public RegistrationDataResultDTO createUser(RegistrationDataDTO registrationDataDTO) throws BusinessException {
+	public RegistrationDataResponseDTO createUser(RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
 		CreateResultBO createResultBO = null;
@@ -72,7 +73,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		RegistrationDataResultDTO result = ResultMapper.map2DTO(createResultBO);
+		RegistrationDataResponseDTO result = ResultMapper.map2DTO(createResultBO);
 		return result;
 	}
 
@@ -522,6 +523,21 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		UserDTO userDTO = UserMapper.map2DTO(userBO);
 		
 		return userDTO;
+	}
+
+	@Override
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws BusinessException {
+		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
+		
+		Map<String, Map<String, String>> clientSecrets = null;
+		try {
+			clientSecrets = securityBusinessService.retrieveClientSecrets();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}
+		
+		return clientSecrets;
 	}
 
 

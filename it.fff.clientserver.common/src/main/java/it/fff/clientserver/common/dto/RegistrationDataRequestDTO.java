@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class RegistrationDataDTO extends DataTransferObject {
+public class RegistrationDataRequestDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 5474778690001259111L;
 	
@@ -14,6 +14,8 @@ public class RegistrationDataDTO extends DataTransferObject {
 	private String cognome;
 	private String dataNascita;
 	private String sesso;
+	private String sharedKey;
+	private String deviceId;
 	
 	@XmlElement public String getEmail() {
 		return email;
@@ -51,5 +53,16 @@ public class RegistrationDataDTO extends DataTransferObject {
 	public void setSesso(String sesso) {
 		this.sesso = sesso;
 	}
-	
+	public String getSharedKey() {
+		return sharedKey;
+	}
+	public void setSharedKey(String sharedKey) {
+		this.sharedKey = sharedKey;
+	}
+	public String getDeviceId() {
+		return deviceId;
+	}
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
 }

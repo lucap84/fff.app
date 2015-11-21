@@ -3,7 +3,7 @@ package it.fff.business.common.eo;
 import java.io.InputStream;
 import java.util.Map;
 
-public class ProfileImageEO implements EntityObject {
+public class ProfileImageEO {
 
 	private int userId;
 	private InputStream imageInputStream;

@@ -1,5 +1,7 @@
 package it.fff.business.service;
 
+import java.util.Map;
+
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.persistence.facade.exception.PersistenceException;
 
@@ -14,5 +16,7 @@ public interface SecurityBusinessService extends BusinessService{
 	UpdateResultBO generateAndVerificationCode(String email) throws PersistenceException;
 
 	UpdateResultBO logout(int userIdInt) throws PersistenceException;
+
+	Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
 
 }

@@ -1,5 +1,7 @@
 package it.fff.persistence.service;
 
+import java.util.Map;
+
 import it.fff.business.common.bo.UpdateResultBO;
 
 public interface SecurityPersistenceService extends PersistenceService{
@@ -13,5 +15,7 @@ public interface SecurityPersistenceService extends PersistenceService{
 	public UpdateResultBO updatePassword(String email, String encodedPassword) throws Exception;
 
 	public UpdateResultBO login(String username, String password) throws Exception;
+
+	public Map<String, Map<String, String>> retrieveClientSecrets() throws Exception;
 
 }

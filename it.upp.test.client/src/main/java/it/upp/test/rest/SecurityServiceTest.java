@@ -1,5 +1,7 @@
 package it.upp.test.rest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.security.AlgorithmParameterGenerator;
 import java.security.AlgorithmParameters;
 import java.security.KeyFactory;
@@ -7,6 +9,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Map;
 
 import javax.crypto.KeyAgreement;
 import javax.crypto.spec.DHParameterSpec;
@@ -22,8 +25,8 @@ import org.junit.Test;
 
 import com.sun.research.ws.wadl.HTTPMethods;
 
-import it.fff.clientserver.common.dto.RegistrationDataDTO;
-import it.fff.clientserver.common.dto.RegistrationDataResultDTO;
+import it.fff.clientserver.common.dto.RegistrationDataRequestDTO;
+import it.fff.clientserver.common.dto.RegistrationDataResponseDTO;
 import it.fff.clientserver.common.dto.UserDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -40,9 +43,10 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	public void registerUserShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
 		
-		String deviceId = super.getSecureConfiguration().getDeviceId();
+		String deviceId = "12234-09876-1234";
+		super.getSecureConfiguration().setDeviceId(deviceId);
 		
-		RegistrationDataDTO dtoInput = new RegistrationDataDTO();
+		RegistrationDataRequestDTO dtoInput = new RegistrationDataRequestDTO();
 		dtoInput.setNome("Luca");
 		dtoInput.setCognome("Pelosi");
 		dtoInput.setSesso("M");
@@ -50,7 +54,7 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		dtoInput.setEmail("lucap84@gmail.com");
 		dtoInput.setEncodedPassword("encodedpsw");
 
-		RegistrationDataResultDTO resultDTO = null;
+		RegistrationDataResponseDTO resultDTO = null;
 
 		String restPath="security/registration";
 		{//Test JSON
@@ -66,7 +70,10 @@ public class SecurityServiceTest extends WebServiceRestTest{
 				requestBuilderJSON = requestBuilderJSON.header("dh", clientPpublicKey);
 				
 				Response responseJSON = requestBuilderJSON.post(Entity.entity(dtoInput, MediaType.APPLICATION_JSON));
-				resultDTO = (RegistrationDataResultDTO)responseJSON.readEntity(RegistrationDataResultDTO.class);
+				assertEquals(200,responseJSON.getStatus());
+				assertEquals(MediaType.APPLICATION_JSON, responseJSON.getMediaType().toString());
+				
+				resultDTO = (RegistrationDataResponseDTO)responseJSON.readEntity(RegistrationDataResponseDTO.class);
 			
 				byte[] serverPublicKey =  Base64.decodeBase64(resultDTO.getServerPublicKey());
 

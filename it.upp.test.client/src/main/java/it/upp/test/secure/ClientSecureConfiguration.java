@@ -2,22 +2,21 @@ package it.upp.test.secure;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap;
-import java.util.Map;
 import java.util.Properties;
 
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.upp.test.util.ClientConstants;
 
 public class ClientSecureConfiguration implements DHSecureConfiguration {
 
-	public static final String SECURE_PROPERTIES_FILENAME = "\\secure.properties";
 	public static SecureRandom SECURE_RANDOM = new SecureRandom();
 	
 	private String userId;
@@ -29,28 +28,40 @@ public class ClientSecureConfiguration implements DHSecureConfiguration {
 	}
 	
 	@Override
+	public void removeSharedKey(String userId, String deviceId) {
+		storeProperties(userId, deviceId, "");
+	}
+
+	@Override
 	public void storeSharedKey(String userId, String deviceId, String sharedKey) {
-		
+		storeProperties(userId, deviceId, sharedKey);
+	}
+	
+	public void storeProperties(String userId, String deviceId, String sharedKey) {
 		Properties prop = new Properties();
 		OutputStream output = null;
 
 		try {
 
 //			ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(SECURE_PROPERTIES_FILENAME);
+			File file = new File(ClientConstants.SECURE_CONF_PATH+ClientConstants.SECURE_CONF_FILENAME);
+			if(!file.exists()) {
+				file = this.createNewSecureFile();
+			}
 			output = new FileOutputStream(file);
 
+			this.userId = userId;
+			this.deviceId = deviceId;
+			this.sharedKey = sharedKey;
+
 			// set the properties value
-			prop.setProperty("user.id", userId);
-			prop.setProperty("device.id", deviceId);
-			prop.setProperty("shared.key", sharedKey);
+			prop.setProperty(ClientConstants.PROP_SECURE_USER, userId);
+			prop.setProperty(ClientConstants.PROP_SECURE_DEVICE, deviceId);
+			prop.setProperty(ClientConstants.PROP_SECURE_SHAREDKEY, sharedKey);
 
 			// save properties to project root folder
 			prop.store(output, null);
 			
-			this.userId = userId;
-			this.deviceId = deviceId;
-			this.sharedKey = sharedKey;
 
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -63,7 +74,19 @@ public class ClientSecureConfiguration implements DHSecureConfiguration {
 				}
 			}
 
-		}		
+		}			
+	}
+	
+
+
+	private File createNewSecureFile() throws FileNotFoundException, UnsupportedEncodingException {
+		PrintWriter writer = new PrintWriter(ClientConstants.SECURE_CONF_PATH+ClientConstants.SECURE_CONF_FILENAME, "UTF-8");
+		writer.println(ClientConstants.PROP_SECURE_USER+"=");
+		writer.println(ClientConstants.PROP_SECURE_DEVICE+"=");
+		writer.println(ClientConstants.PROP_SECURE_SHAREDKEY+"=");
+		writer.close();
+		return new File(ClientConstants.SECURE_CONF_PATH+ClientConstants.SECURE_CONF_FILENAME);
+		
 	}
 
 	@Override
@@ -102,16 +125,19 @@ public class ClientSecureConfiguration implements DHSecureConfiguration {
 		try {
 
 //			ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(SECURE_PROPERTIES_FILENAME);
+			File file = new File(ClientConstants.SECURE_CONF_PATH+ClientConstants.SECURE_CONF_FILENAME);
+			if(!file.exists()) {
+				file = this.createNewSecureFile();
+			}
 			input = new FileInputStream(file);
 
 			// load a properties file
 			prop.load(input);
 
 			// get the property value and print it out
-			this.userId = prop.getProperty("user.id");
-			this.deviceId = prop.getProperty("device.id");
-			this.sharedKey = prop.getProperty("shared.key");
+			this.userId = prop.getProperty(ClientConstants.PROP_SECURE_USER);
+			this.deviceId = prop.getProperty(ClientConstants.PROP_SECURE_DEVICE);
+			this.sharedKey = prop.getProperty(ClientConstants.PROP_SECURE_SHAREDKEY);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -127,9 +153,6 @@ public class ClientSecureConfiguration implements DHSecureConfiguration {
 		
 	}
 
-	@Override
-	public void removeSharedKey(String userId, String deviceId) {
-		storeSharedKey("", deviceId, "");
-	}
+
 
 }
