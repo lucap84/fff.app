@@ -43,7 +43,7 @@ public class SecurityService extends ApplicationService {
 	@Path("registration/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RegistrationDataResponseDTO registerUserJSON( @Context HttpServletRequest request,
+	public AuthDataResponseDTO registerUserJSON( @Context HttpServletRequest request,
 											@Context HttpHeaders headers,
 											RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		return registerUser(request, headers, registrationDataDTO);
@@ -52,11 +52,29 @@ public class SecurityService extends ApplicationService {
 	@Path("registration/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public RegistrationDataResponseDTO registerUserXML( @Context HttpServletRequest request,
+	public AuthDataResponseDTO registerUserXML( @Context HttpServletRequest request,
 										   @Context HttpHeaders headers,
 										   RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		return registerUser(request, headers, registrationDataDTO);
 	}
+	@POST
+	@Path("login/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public AuthDataResponseDTO loginJSON(@Context HttpServletRequest request,
+									@Context HttpHeaders headers,						
+									LoginDataRequestDTO loginDataDTO) throws BusinessException {
+		return login(request, headers, loginDataDTO);
+	}
+	@POST
+	@Path("login/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public AuthDataResponseDTO loginXML( @Context HttpServletRequest request,
+									@Context HttpHeaders headers,						
+									LoginDataRequestDTO loginDataDTO) throws BusinessException {
+		return login(request, headers, loginDataDTO);
+	}	
 	
 	@POST
 	@Path("{userId}/logout/json")
@@ -75,7 +93,7 @@ public class SecurityService extends ApplicationService {
 			 						@Context HttpHeaders headers,
 			 						@PathParam("userId") String userId) throws BusinessException {
 		return logout(request, headers, userId);
-}
+	}
 	
 	
 	@PUT
@@ -124,25 +142,7 @@ public class SecurityService extends ApplicationService {
 		return sendVerificationCode(request, email);
 	}	
 	
-	
-	@POST
-	@Path("login/json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO loginJSON(@Context HttpServletRequest request,
-												 @QueryParam("username") String username,
-												 @QueryParam("password") String encodedPasw) throws BusinessException {
-		return login(request, username, encodedPasw);
-	}
-	@POST
-	@Path("login/xml")
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO loginXML(@Context HttpServletRequest request,
-												@QueryParam("username") String username,
-												@QueryParam("password") String encodedPasw) throws BusinessException {
-		return login(request, username, encodedPasw);
-	}
+
 	
 	/*
 	 *	
@@ -157,9 +157,9 @@ public class SecurityService extends ApplicationService {
 	 *
 	 */
 	
-	private RegistrationDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataRequestDTO registrationDataDTO) {
-		RegistrationDataResponseDTO resultDTO = null;
-		resultDTO = new RegistrationDataResponseDTO();
+	private AuthDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataRequestDTO registrationDataDTO) {
+		AuthDataResponseDTO resultDTO = null;
+		resultDTO = new AuthDataResponseDTO();
 
 		String deviceId = headers.getRequestHeader("Device").get(0);
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
@@ -170,7 +170,7 @@ public class SecurityService extends ApplicationService {
 		try {
 			resultDTO = businessServiceFacade.createUser(registrationDataDTO);
 		} catch (BusinessException e) {
-			resultDTO = new RegistrationDataResponseDTO();
+			resultDTO = new AuthDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));			
 		}
@@ -181,13 +181,38 @@ public class SecurityService extends ApplicationService {
 		}
         
 		return resultDTO;
+	}
+	
+	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, LoginDataRequestDTO loginDataRequest) {
+		AuthDataResponseDTO resultDTO;
+		String deviceId = headers.getRequestHeader("Device").get(0);
+		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
+		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
+		
+		loginDataRequest.setDeviceId(deviceId);
+		loginDataRequest.setSharedKey(sharedSecretHEX);		
+		
+		try {
+			resultDTO = businessServiceFacade.login(loginDataRequest);
+		} catch (BusinessException e) {
+			resultDTO = new AuthDataResponseDTO();
+			super.manageErrors(e, resultDTO, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		
+		if(resultDTO.isOk()){
+			resultDTO.setServerPublicKey(serverPublicKey);
+			secureConfiguration.storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecretHEX);
+		}		
+		
+		return resultDTO;
 	}	
 	
 	private WriteResultDTO logout(HttpServletRequest request, HttpHeaders headers, String userId) {
 		WriteResultDTO resultDTO;
 		String deviceId = headers.getRequestHeader("Device").get(0);
 		try {
-			resultDTO = businessServiceFacade.logout(userId);
+			resultDTO = businessServiceFacade.logout(userId, deviceId);
 		} catch (BusinessException e) {
 			resultDTO = new WriteResultDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
@@ -195,11 +220,12 @@ public class SecurityService extends ApplicationService {
 		}
 		
 		if(resultDTO.isOk()){
-			secureConfiguration.removeSharedKey(resultDTO.getIdentifier(), deviceId);
+			secureConfiguration.removeSharedKey(userId, deviceId);
 		}		
 		
 		return resultDTO;
-	}	
+	}
+	
 	
 	private WriteResultDTO updatePassword(HttpServletRequest request, String email, String encodedPassword) {
 		WriteResultDTO result;
@@ -237,18 +263,6 @@ public class SecurityService extends ApplicationService {
 		return result;
 	}	
 	
-	
-	private WriteResultDTO login(HttpServletRequest request, String username, String password) {
-		WriteResultDTO result;
-		try {
-			result = businessServiceFacade.login(username, password);
-		} catch (BusinessException e) {
-			result = new WriteResultDTO();
-			super.manageErrors(e, result, request.getLocale());
-			logger.error(LogUtils.stackTrace2String(e));
-		}
-		return result;
-	}	
 	
 	
 }

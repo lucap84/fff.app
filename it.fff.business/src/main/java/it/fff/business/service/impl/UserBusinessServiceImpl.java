@@ -1,9 +1,12 @@
 package it.fff.business.service.impl;
 
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
@@ -11,6 +14,7 @@ import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 
@@ -40,8 +44,16 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public CreateResultBO createUser(UserBO userBO) throws PersistenceException {
 		logger.info("createUser start...");
-		SessionBO firstSession = userBO.getAccount().getSessions().get(0);
-		firstSession.setValidSession(true);
+		//Inizializzo le validita dell'account
+		AccountBO creatingAccount = userBO.getAccount();
+		creatingAccount.setFlgValidita(true);
+		//imposto l'utente come loggato appena creato l'account
+		SessionBO firstSession = creatingAccount.getSessions().get(0);
+		firstSession.setLogged(true);
+		//imposto la data login della prima sessione
+		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+		firstSession.setDataLogin(loginDate);
+		
 		CreateResultBO resultBO = persistenceFacade.registerUser(userBO);
 		logger.info("...createUser end");
 		return resultBO;

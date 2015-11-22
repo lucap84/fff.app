@@ -2,13 +2,13 @@ package it.fff.business.common.mapper;
 
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.clientserver.common.dto.RegistrationDataResponseDTO;
+import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
 public class ResultMapper implements Mapper{
 
-	public static RegistrationDataResponseDTO map2DTO(CreateResultBO bo) {
-		RegistrationDataResponseDTO dto = new RegistrationDataResponseDTO();
+	public static AuthDataResponseDTO map2AuthDataDTO(CreateResultBO bo) {
+		AuthDataResponseDTO dto = new AuthDataResponseDTO();
 		dto.setOk(bo.isSuccess());
 		dto.setUserId((String.valueOf(bo.getCreatedKey())));
 		return dto;
@@ -29,5 +29,12 @@ public class ResultMapper implements Mapper{
 		dto.setIdentifier(String.valueOf(bo.getUpdatedKey()));
 		return dto;
 	}
+	
+	public static AuthDataResponseDTO map2AuthDataDTO(UpdateResultBO bo) {
+		AuthDataResponseDTO dto = new AuthDataResponseDTO();
+		dto.setOk(bo.isSuccess());
+		dto.setUserId((String.valueOf(bo.getUpdatedKey())));
+		return dto;
+	}	
 
 }

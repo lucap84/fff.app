@@ -34,7 +34,7 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 		logger.debug(">RegistrationContainerRequestFilter");
 		String requestPath = requestContext.getUriInfo().getPath();
 		
-		if(requestPath.matches("^security/registration.*")){
+		if(requestPath.matches("^security/registration.*") || requestPath.matches("^security/login.*")){
 			
 			String dhHeader = requestContext.getHeaders().getFirst("dh");
 			if(dhHeader==null || "".equals(dhHeader)){

@@ -1,25 +1,28 @@
 package it.fff.business.common.bo;
 
+import javax.persistence.Column;
+
 public class SessionBO implements BusinessObject {
 
 	private int	id;
 	private AccountBO account;
 	private String deviceId;
 	private String sharedKey;
-	private boolean isValidSession;
+	private boolean isLogged;
+	private String dataLogin;
+	private String dataLogout;
 	
-	
-	public boolean isValidSession() {
-		return isValidSession;
+	public boolean isLogged() {
+		return isLogged;
 	}
-	public void setValidSession(boolean isValidSession) {
-		this.isValidSession = isValidSession;
+	public void setLogged(boolean isLogged) {
+		this.isLogged = isLogged;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getId() {
 		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	public AccountBO getAccount() {
 		return account;
@@ -38,6 +41,18 @@ public class SessionBO implements BusinessObject {
 	}
 	public void setSharedKey(String sharedKey) {
 		this.sharedKey = sharedKey;
+	}
+	public String getDataLogin() {
+		return dataLogin;
+	}
+	public void setDataLogin(String dataLogin) {
+		this.dataLogin = dataLogin;
+	}
+	public String getDataLogout() {
+		return dataLogout;
+	}
+	public void setDataLogout(String dataLogout) {
+		this.dataLogout = dataLogout;
 	}
 	
 	

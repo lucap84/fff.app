@@ -318,24 +318,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public UpdateResultBO login(String username, String password) throws PersistenceException {
-		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
-
-		UpdateResultBO resultBO = null;
-		try{
-			resultBO = securityPersistenceService.login(username,password);
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
-		}
-
-		return resultBO;	
-	}
-
-	@Override
 	public UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
@@ -391,12 +373,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public UpdateResultBO logout(int userId) throws PersistenceException {
+	public UpdateResultBO logout(int userId, String deviceId) throws PersistenceException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		UpdateResultBO resultBO = null;
 		try{
-			resultBO = securityPersistenceService.logout(userId);
+			resultBO = securityPersistenceService.logout(userId,deviceId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -443,6 +425,25 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			throw persistenceException;			
 		}
 		return resultBO;
+	}
+	
+	@Override
+	public UpdateResultBO login(SessionBO session) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+
+		UpdateResultBO resultBO = null;
+		try{
+			SessionEO sessionEOInput = UserMapper.map2EO(session);
+			resultBO = securityPersistenceService.login(sessionEOInput);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;	
 	}	
 
 	@Override

@@ -5,14 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.eo.SessionEO;
 import it.fff.persistence.service.SecurityPersistenceService;
 
 public class SecurityPersistenceServiceMock implements SecurityPersistenceService {
 
 	@Override
-	public UpdateResultBO logout(int userId) throws SQLException {
+	public UpdateResultBO logout(int userId, String deviceId) throws SQLException {
 		UpdateResultBO resultBO = new UpdateResultBO();
-		resultBO.setUpdatedKey(1);
+		resultBO.setUpdatedKey(userId);
 		resultBO.setSuccess(true);
 		resultBO.setNumRecordsUpdated(1);
 		return resultBO;
@@ -46,7 +47,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public UpdateResultBO login(String username, String password) throws SQLException {
+	public UpdateResultBO login(SessionEO session) throws SQLException {
 		UpdateResultBO resultBO = new UpdateResultBO();
 		resultBO.setUpdatedKey(1);
 		resultBO.setSuccess(true);

@@ -9,6 +9,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
@@ -48,7 +49,7 @@ public interface PersistenceServiceFacade {
 
 	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException;
 
-	public UpdateResultBO login(String username, String password) throws PersistenceException;
+	public UpdateResultBO login(SessionBO session) throws PersistenceException;
 
 	public UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException;
 
@@ -56,7 +57,7 @@ public interface PersistenceServiceFacade {
 
 	public UpdateResultBO generateVerficationCode(String email) throws PersistenceException;
 
-	public UpdateResultBO logout(int userId) throws PersistenceException;
+	public UpdateResultBO logout(int userId, String deviceId) throws PersistenceException;
 
 	public CreateResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException;
 

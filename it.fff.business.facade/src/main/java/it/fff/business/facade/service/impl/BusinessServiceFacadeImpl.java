@@ -12,6 +12,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
@@ -63,7 +64,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public RegistrationDataResponseDTO createUser(RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
+	public AuthDataResponseDTO createUser(RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
 		CreateResultBO createResultBO = null;
@@ -73,9 +74,27 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		RegistrationDataResponseDTO result = ResultMapper.map2DTO(createResultBO);
+		AuthDataResponseDTO result = ResultMapper.map2AuthDataDTO(createResultBO);
 		return result;
 	}
+	
+	@Override
+	public AuthDataResponseDTO login(LoginDataRequestDTO loginData) throws BusinessException {
+		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
+
+		UpdateResultBO updateResultBO = null;
+		SessionBO sessionBO = null;
+		try {
+			sessionBO = UserMapper.map2BO(loginData);
+			updateResultBO = securityBusinessService.login(sessionBO);
+		}
+		catch (PersistenceException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
+		}
+		
+		AuthDataResponseDTO result = ResultMapper.map2AuthDataDTO(updateResultBO);
+		return result;
+	}	
 
 	@Override
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException {
@@ -350,22 +369,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		return result;
 	}
 
-	@Override
-	public WriteResultDTO login(String username, String password) throws BusinessException {
-		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		UpdateResultBO updateResultBO = null;
-		
-		try {
-			updateResultBO = securityBusinessService.login(username, password);
-		}
-		catch (PersistenceException e) {
-			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
-		}
-		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
-		return result;
-	}
 
 	@Override
 	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException {
@@ -419,14 +423,14 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO logout(String userId) throws BusinessException {
+	public WriteResultDTO logout(String userId, String deviceId) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
 		int userIdInt = -1;
 		UpdateResultBO updateResultBO = null;
 		try {
 			userIdInt = Integer.valueOf(userId);
-			updateResultBO = securityBusinessService.logout(userIdInt);
+			updateResultBO = securityBusinessService.logout(userIdInt, deviceId);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);

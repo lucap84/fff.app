@@ -28,8 +28,14 @@ public class SessionEO implements EntityObject {
 	@Column(name = "SharedKey")
 	private String sharedKey;
 	
-	@Column(name = "Flg_Validita")
-	private boolean isValidSession;
+	@Column(name = "Flg_Logged")
+	private boolean isLogged;
+	
+	@Column(name = "Data_Login")
+	private String dataLogin;
+	
+	@Column(name = "Data_Logout")
+	private String dataLogout;
 		
 	public String getDeviceId() {
 		return deviceId;
@@ -43,12 +49,6 @@ public class SessionEO implements EntityObject {
 	public void setSharedKey(String sharedKey) {
 		this.sharedKey = sharedKey;
 	}
-	public boolean isValidSession() {
-		return isValidSession;
-	}
-	public void setValidSession(boolean isValidSession) {
-		this.isValidSession = isValidSession;
-	}
 	public Integer getId() {
 		return id;
 	}
@@ -61,4 +61,23 @@ public class SessionEO implements EntityObject {
 	public void setAccount(AccountEO account) {
 		this.account = account;
 	}
+	public boolean isLogged() {
+		return isLogged;
+	}
+	public void setLogged(boolean isLogged) {
+		this.isLogged = isLogged;
+	}
+	public String getDataLogin() {
+		return dataLogin;
+	}
+	public void setDataLogin(String dataLogin) {
+		this.dataLogin = dataLogin;
+	}
+	public String getDataLogout() {
+		return dataLogout;
+	}
+	public void setDataLogout(String dataLogout) {
+		this.dataLogout = dataLogout;
+	}
+	
 }

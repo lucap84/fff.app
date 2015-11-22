@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class RegistrationDataResponseDTO extends DataTransferObject {
+public class AuthDataResponseDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -7260208612326225230L;
 	private String userId;

@@ -1,9 +1,13 @@
 package it.fff.business.service.impl;
 
+import java.util.Date;
 import java.util.Map;
 
+import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.SecurityBusinessService;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 
@@ -20,8 +24,13 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public UpdateResultBO login(String username, String password) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.login(username, password);
+	public UpdateResultBO login(SessionBO session) throws PersistenceException {
+		//Inizializzo le validita dell'account
+		session.setLogged(true);
+		//imposto la data login della prima sessione
+		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+		session.setDataLogin(loginDate);		
+		UpdateResultBO bo = persistenceFacade.login(session);
 		return bo;
 	}
 
@@ -45,8 +54,8 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public UpdateResultBO logout(int userId) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.logout(userId);
+	public UpdateResultBO logout(int userId,String deviceId) throws PersistenceException {
+		UpdateResultBO bo = persistenceFacade.logout(userId, deviceId);
 		return bo;
 	}
 

@@ -21,12 +21,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import com.sun.research.ws.wadl.HTTPMethods;
 
 import it.fff.clientserver.common.dto.RegistrationDataRequestDTO;
-import it.fff.clientserver.common.dto.RegistrationDataResponseDTO;
+import it.fff.clientserver.common.dto.AuthDataResponseDTO;
+import it.fff.clientserver.common.dto.LoginDataRequestDTO;
 import it.fff.clientserver.common.dto.UserDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -43,7 +45,7 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	public void registerUserShouldReturnConfirm(){
 		Client client = WebServiceRestTest.getClientInstance();
 		
-		String deviceId = "12234-09876-1234";
+		String deviceId = "android-mobile-0001";
 		super.getSecureConfiguration().setDeviceId(deviceId);
 		
 		RegistrationDataRequestDTO dtoInput = new RegistrationDataRequestDTO();
@@ -51,10 +53,11 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		dtoInput.setCognome("Pelosi");
 		dtoInput.setSesso("M");
 		dtoInput.setDataNascita("1984-02-09");
-		dtoInput.setEmail("lucap84@gmail.com");
-		dtoInput.setEncodedPassword("encodedpsw");
 
-		RegistrationDataResponseDTO resultDTO = null;
+		dtoInput.setEmail("lucap84@gmail.com");
+		dtoInput.setEncodedPassword(DigestUtils.md5Hex("mypassword"));
+
+		AuthDataResponseDTO resultDTO = null;
 
 		String restPath="security/registration";
 		{//Test JSON
@@ -63,7 +66,6 @@ public class SecurityServiceTest extends WebServiceRestTest{
 				Builder requestBuilderJSON = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
 				
 				KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
-				
 				DHUtils dhUtil = new DHUtils();
 				String clientPpublicKey = dhUtil.generateClientPublicKey(clientKeyAgree);
 				
@@ -73,13 +75,12 @@ public class SecurityServiceTest extends WebServiceRestTest{
 				assertEquals(200,responseJSON.getStatus());
 				assertEquals(MediaType.APPLICATION_JSON, responseJSON.getMediaType().toString());
 				
-				resultDTO = (RegistrationDataResponseDTO)responseJSON.readEntity(RegistrationDataResponseDTO.class);
+				resultDTO = (AuthDataResponseDTO)responseJSON.readEntity(AuthDataResponseDTO.class);
 			
 				byte[] serverPublicKey =  Base64.decodeBase64(resultDTO.getServerPublicKey());
-
 				String sharedSecret = dhUtil.generateSharedSecret(clientKeyAgree, serverPublicKey);			
-		        
 		        //Salvo sul client la chiave segreta condivisa con il server
+
 				super.getSecureConfiguration().storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecret);
 	        
 			}
@@ -113,14 +114,66 @@ public class SecurityServiceTest extends WebServiceRestTest{
 			super.getSecureConfiguration().removeSharedKey(userId, deviceId);
 		}
 		
-		{//Test XML	
-			String restPathXML=restPath+"/xml";
-			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
-			Response responseXML = requestBuilderXML.post(null);
-			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
-			super.getSecureConfiguration().removeSharedKey(userId, deviceId);
+//		{//Test XML	
+//			String restPathXML=restPath+"/xml";
+//			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).request(MediaType.APPLICATION_XML);
+//			Response responseXML = requestBuilderXML.post(null);
+//			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+//			super.getSecureConfiguration().removeSharedKey(userId, deviceId);
+//		}
+	}
+	
+	@Test
+	public void loginShouldReturnConfirm(){
+		Client client = WebServiceRestTest.getClientInstance();
+		
+		LoginDataRequestDTO dtoInput = new LoginDataRequestDTO();
+		dtoInput.setEmail("lucap84@gmail.com");
+		dtoInput.setEncodedPassword(DigestUtils.md5Hex("mypassword"));
+		
+		AuthDataResponseDTO resultDTO = null;
+		
+		String restPath="security/login";
+		{//Test JSON	
+			String restPathJSON=restPath+"/json";
+			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).request(MediaType.APPLICATION_JSON);
+			try{
+				KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
+				DHUtils dhUtil = new DHUtils();
+				String clientPpublicKey = dhUtil.generateClientPublicKey(clientKeyAgree);
+				
+				requestBuilderJSON = requestBuilderJSON.header("dh", clientPpublicKey);
+				
+				Response responseJSON = requestBuilderJSON.post(Entity.entity(dtoInput, MediaType.APPLICATION_JSON));
+				assertEquals(200,responseJSON.getStatus());
+				assertEquals(MediaType.APPLICATION_JSON, responseJSON.getMediaType().toString());
+				
+				resultDTO = (AuthDataResponseDTO)responseJSON.readEntity(AuthDataResponseDTO.class);
+				
+				byte[] serverPublicKey =  Base64.decodeBase64(resultDTO.getServerPublicKey());
+				String sharedSecret = dhUtil.generateSharedSecret(clientKeyAgree, serverPublicKey);			
+		        
+				String deviceId = super.getSecureConfiguration().getDeviceId();
+				
+				//Salvo sul client la chiave segreta condivisa con il server
+				super.getSecureConfiguration().storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecret);				
+				
+			}
+			catch(Exception e){
+				
+			}
+
 		}
-	}	
+		
+//		{//Test XML	
+//			String restPathXML=restPath+"/xml";
+//			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).
+//					queryParam("username", username).
+//					queryParam("password", password).request(MediaType.APPLICATION_XML);
+//			Response responseXML = requestBuilderXML.post(null);
+//			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
+//		}
+	}		
 
 	@Test
 	public void updatePasswordShouldReturnConfirm(){
@@ -191,35 +244,13 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		}
 	}	
 	
-	@Test
-	public void loginShouldReturnConfirm(){
-		Client client = WebServiceRestTest.getClientInstance();
-		
-		String username = "lucap84@gmail.com";
-		String password = "mypassword";
-		
-		String restPath="security/login";
-		{//Test JSON	
-			String restPathJSON=restPath+"/json";
-			Builder requestBuilderJSON  = client.target(getBaseURI()).path(restPathJSON).
-					queryParam("username", username).
-					queryParam("password", password).request(MediaType.APPLICATION_JSON);
-			Response responseJSON = requestBuilderJSON.post(null);
-			checkEntityWriteResult(responseJSON,MediaType.APPLICATION_JSON);
-		}
-		
-		{//Test XML	
-			String restPathXML=restPath+"/xml";
-			Builder requestBuilderXML = client.target(getBaseURI()).path(restPathXML).
-					queryParam("username", username).
-					queryParam("password", password).request(MediaType.APPLICATION_XML);
-			Response responseXML = requestBuilderXML.post(null);
-			checkEntityWriteResult(responseXML,MediaType.APPLICATION_XML);
-		}
-	}	
+
 	
 	public static void main(String[] args) {
-		new SecurityServiceTest().registerUserShouldReturnConfirm();
+		SecurityServiceTest securityServiceTest = new SecurityServiceTest();
+//		securityServiceTest.registerUserShouldReturnConfirm();
+//		securityServiceTest.logoutShouldReturnConfirm();
+		securityServiceTest.loginShouldReturnConfirm();
 	}
 	
    

@@ -11,7 +11,7 @@ public interface BusinessServiceFacade {
 	
 	public EventDTO getEvent(int eventId) throws BusinessException;
 
-	public RegistrationDataResponseDTO createUser(RegistrationDataRequestDTO registrationData) throws BusinessException;
+	public AuthDataResponseDTO createUser(RegistrationDataRequestDTO registrationData) throws BusinessException;
 
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException;
 
@@ -39,7 +39,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO upgradeToPremium(String userId, SubscriptionDTO subscription) throws BusinessException;
 
-	public WriteResultDTO login(String username, String password) throws BusinessException;
+	public AuthDataResponseDTO login(LoginDataRequestDTO loginDataRequest) throws BusinessException;
 
 	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException;
 
@@ -47,7 +47,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO sendVerificationCode(String email) throws BusinessException;
 
-	public WriteResultDTO logout(String userId) throws BusinessException;
+	public WriteResultDTO logout(String userId, String deviceId) throws BusinessException;
 
 	public WriteResultDTO updateUserData(UserDTO user) throws BusinessException;
 

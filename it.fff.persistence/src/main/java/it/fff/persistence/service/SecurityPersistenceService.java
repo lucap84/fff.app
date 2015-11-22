@@ -3,10 +3,11 @@ package it.fff.persistence.service;
 import java.util.Map;
 
 import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.eo.SessionEO;
 
 public interface SecurityPersistenceService extends PersistenceService{
 
-	public UpdateResultBO logout(int userId) throws Exception;
+	public UpdateResultBO logout(int userId, String deviceId) throws Exception;
 
 	public UpdateResultBO generateVerficationCode(String email) throws Exception;
 
@@ -14,7 +15,7 @@ public interface SecurityPersistenceService extends PersistenceService{
 
 	public UpdateResultBO updatePassword(String email, String encodedPassword) throws Exception;
 
-	public UpdateResultBO login(String username, String password) throws Exception;
+	public UpdateResultBO login(SessionEO session) throws Exception;
 
 	public Map<String, Map<String, String>> retrieveClientSecrets() throws Exception;
 

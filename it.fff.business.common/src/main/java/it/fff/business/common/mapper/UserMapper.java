@@ -88,7 +88,9 @@ public class UserMapper implements Mapper {
 				ssEO.setAccount(eo);
 				ssEO.setDeviceId(ssBO.getDeviceId());
 				ssEO.setSharedKey(ssBO.getSharedKey());
-				ssEO.setValidSession(ssBO.isValidSession());
+				ssEO.setLogged(ssBO.isLogged());
+				ssEO.setDataLogin(ssBO.getDataLogin());
+				ssEO.setDataLogout(ssBO.getDataLogout());
 				sessionsEO.add(ssEO);
 			}
 			eo.setSessions(sessionsEO);
@@ -117,7 +119,8 @@ public class UserMapper implements Mapper {
 			}
 			eo.setDeviceId(bo.getDeviceId());
 			eo.setSharedKey(bo.getSharedKey());
-			eo.setValidSession(bo.isValidSession());
+			eo.setLogged(bo.isLogged());
+			eo.setDataLogin(bo.getDataLogin());
 			eo.setAccount(UserMapper.map2EO(bo.getAccount()));
 		}
 		else{logger.warn("Mapping null objects!!");}
@@ -253,5 +256,20 @@ public class UserMapper implements Mapper {
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return bo1;
+	}
+
+	public static SessionBO map2BO(LoginDataRequestDTO dto) {
+		AccountBO bo2 = new AccountBO();
+		bo2.setEmail(dto.getEmail());
+		bo2.setPassword(dto.getEncodedPassword());
+		bo2.setSessions(new ArrayList<SessionBO>());
+		
+		SessionBO bo = new SessionBO();
+		bo.setDeviceId(dto.getDeviceId());
+		bo.setSharedKey(dto.getSharedKey());
+		bo.setAccount(bo2);//Ogni session ha il riferimento all'account relativo
+		bo2.getSessions().add(bo);
+		
+		return bo;
 	}	
 }
