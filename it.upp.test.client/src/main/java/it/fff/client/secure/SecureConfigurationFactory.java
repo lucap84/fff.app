@@ -1,4 +1,4 @@
-package it.upp.test.secure;
+package it.fff.client.secure;
 
 public class SecureConfigurationFactory {
 

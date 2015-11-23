@@ -1,4 +1,4 @@
-package it.upp.test.util;
+package it.fff.client.util;
 
 import java.security.AlgorithmParameterGenerator;
 import java.security.AlgorithmParameters;
@@ -17,7 +17,7 @@ import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
 public class DHUtils {
 
-	public String generateClientPublicKey(KeyAgreement aliceKeyAgree){
+	public String generateClientPublicKey(KeyAgreement clientKeyAgree){
 		String clientPpublicKey = "";
 		
 			try{
@@ -29,14 +29,14 @@ public class DHUtils {
 				DHParameterSpec dhSkipParamSpec = (DHParameterSpec)params.getParameterSpec(DHParameterSpec.class);
 			    		
 //		        Il client genera la sua coppia di chiavi Diffie-Hellman usando i parametri generati sopra
-		        System.out.println("ALICE: Generate DH keypair ...");
+		        System.out.println("CLIENT: Generate DH keypair ...");
 		        KeyPairGenerator clientKpairGen = KeyPairGenerator.getInstance("DH");
 		        clientKpairGen.initialize(dhSkipParamSpec);
 		        KeyPair clientKpair = clientKpairGen.generateKeyPair();
 		
 		        // Il client inizializza il proprio oggetto KeyAgreement
-		        System.out.println("ALICE: Initialization ...");
-		        aliceKeyAgree.init(clientKpair.getPrivate());
+		        System.out.println("CLIENT: Initialization ...");
+		        clientKeyAgree.init(clientKpair.getPrivate());
 		
 		        // Il coient codifica la propria chiave pubblica e la converte in base64 per inviarla al server
 		        clientPubKeyEnc = clientKpair.getPublic().getEncoded();
@@ -56,15 +56,15 @@ public class DHUtils {
 		         * Il client usa la chiave pubblica del server per la sua fase del protocollo
 		         * Prima deve istanziare la sua chiave pubblica da quella pubblica del server
 		         */
-		        KeyFactory aliceKeyFac = KeyFactory.getInstance("DH");
+		        KeyFactory clientKeyFac = KeyFactory.getInstance("DH");
 		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(serverPublicKey);
-		        PublicKey bobPubKey = aliceKeyFac.generatePublic(x509KeySpec);
-		        System.out.println("ALICE: Execute PHASE1 ...");
+		        PublicKey bobPubKey = clientKeyFac.generatePublic(x509KeySpec);
+		        System.out.println("CLIENT: Execute PHASE1 ...");
 		        clientKeyAgree.doPhase(bobPubKey, true);			
 		        
-		        byte[] aliceSharedSecret = clientKeyAgree.generateSecret();
-		        int aliceLen = aliceSharedSecret.length;
-		        sharedSecret = toHexString(aliceSharedSecret);
+		        byte[] clientSharedSecret = clientKeyAgree.generateSecret();
+		        int clientLen = clientSharedSecret.length;
+		        sharedSecret = toHexString(clientSharedSecret);
 		        System.out.println(sharedSecret);
 			} catch(Exception e){
 				e.printStackTrace();

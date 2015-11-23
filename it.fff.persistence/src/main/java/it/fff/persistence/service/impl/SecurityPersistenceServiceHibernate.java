@@ -82,14 +82,14 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	Query query = session.createQuery(hqlSelectAccount);
 	    	query.setParameter("email", email);
 	    	query.setParameter("password", password);
-	    	List<int[]> results = query.list();
-	    	if(results.isEmpty()){
-	    		result.setSuccess(false);
-	    		result.setNumRecordsUpdated(0);
-	    		return result;
-	    	}
-	    	int[] integers = (int[])results.get(0);
-	    	Integer idAccount = integers[0];
+	    	Integer idAccount = (Integer)query.uniqueResult();
+//	    	if(results.isEmpty()){
+//	    		result.setSuccess(false);
+//	    		result.setNumRecordsUpdated(0);
+//	    		return result;
+//	    	}
+//	    	int[] integers = (int[])results.get(0);
+//	    	Integer idAccount = integers[0];
 	    	if(idAccount==null || idAccount<=0){
 	    		result.setSuccess(false);
 	    		result.setNumRecordsUpdated(0);

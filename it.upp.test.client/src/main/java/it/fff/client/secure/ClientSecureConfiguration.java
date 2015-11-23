@@ -1,4 +1,4 @@
-package it.upp.test.secure;
+package it.fff.client.secure;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,8 +12,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.Properties;
 
+import it.fff.client.util.ClientConstants;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.upp.test.util.ClientConstants;
 
 public class ClientSecureConfiguration implements DHSecureConfiguration {
 

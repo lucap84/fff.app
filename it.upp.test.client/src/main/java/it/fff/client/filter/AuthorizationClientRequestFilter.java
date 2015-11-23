@@ -1,4 +1,4 @@
-package it.upp.test.filter;
+package it.fff.client.filter;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -12,10 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.service.filter.AuthorizationContainerRequestFilter;
+import it.fff.client.secure.ClientSecureConfiguration;
+import it.fff.client.secure.SecureConfigurationFactory;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.upp.test.secure.ClientSecureConfiguration;
-import it.upp.test.secure.SecureConfigurationFactory;
 
 public class AuthorizationClientRequestFilter implements ClientRequestFilter {
 

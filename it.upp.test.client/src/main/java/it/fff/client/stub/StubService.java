@@ -1,4 +1,4 @@
-package it.upp.test.rest;
+package it.fff.client.stub;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -40,20 +40,24 @@ import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 
 import it.fff.business.service.impl.EventBusinessServiceImpl;
+import it.fff.client.filter.AuthorizationClientRequestFilter;
+import it.fff.client.secure.ClientSecureConfiguration;
+import it.fff.client.secure.SecureConfigurationFactory;
 import it.fff.clientserver.common.dto.DataTransferObject;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
-import it.upp.test.filter.AuthorizationClientRequestFilter;
-import it.upp.test.secure.ClientSecureConfiguration;
-import it.upp.test.secure.SecureConfigurationFactory;
 
 
-public class WebServiceRestTest{
-	private static final Logger logger = LogManager.getLogger(WebServiceRestTest.class);
+public class StubService{
+	private static final Logger logger = LogManager.getLogger(StubService.class);
 
 	private ClientSecureConfiguration secureConfiguration;
 
-	public WebServiceRestTest(){
+	public StubService(ClientSecureConfiguration secureConfiguration){
+		this.secureConfiguration = secureConfiguration;
+	}	
+	
+	public StubService(){
 		secureConfiguration = SecureConfigurationFactory.getSecureConfigurationInstance();
 	}
 	
@@ -131,8 +135,8 @@ public class WebServiceRestTest{
 
 
 	public Builder addDiffieHellmanHeaders(Builder requestBuilder, String email, String encodedPassword)  {
-		String alicePpublicKey = "";
-		byte[] alicePubKeyEnc = null;
+		String clientPpublicKey = "";
+		byte[] clientPubKeyEnc = null;
 		try{
 		
 			AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DH");
@@ -141,30 +145,29 @@ public class WebServiceRestTest{
 			DHParameterSpec dhSkipParamSpec = (DHParameterSpec)params.getParameterSpec(DHParameterSpec.class);
 		    		
 		    /*
-	         * Alice creates her own DH key pair, using the DH parameters from
-	         * above
+	         * The Client creates its own DH key pair, using the DH parameters from above
 	         */
-	        System.out.println("ALICE: Generate DH keypair ...");
-	        KeyPairGenerator aliceKpairGen = KeyPairGenerator.getInstance("DH");
-	        aliceKpairGen.initialize(dhSkipParamSpec);
-	        KeyPair aliceKpair = aliceKpairGen.generateKeyPair();
+	        System.out.println("CLIENT: Generate DH keypair ...");
+	        KeyPairGenerator clientKpairGen = KeyPairGenerator.getInstance("DH");
+	        clientKpairGen.initialize(dhSkipParamSpec);
+	        KeyPair clientKpair = clientKpairGen.generateKeyPair();
 	
-	        // Alice creates and initializes her DH KeyAgreement object
-	        System.out.println("ALICE: Initialization ...");
-	        KeyAgreement aliceKeyAgree = KeyAgreement.getInstance("DH");
-	        aliceKeyAgree.init(aliceKpair.getPrivate());
+	        // Client creates and initializes her DH KeyAgreement object
+	        System.out.println("CLIENT: Initialization ...");
+	        KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
+	        clientKeyAgree.init(clientKpair.getPrivate());
 	
-	        // Alice encodes her public key, and sends it over to Bob.
-	        alicePubKeyEnc = aliceKpair.getPublic().getEncoded();
+	        // The Client encodes her public key, and sends it over to Bob.
+	        clientPubKeyEnc = clientKpair.getPublic().getEncoded();
 			
-	        alicePpublicKey = Base64.encodeBase64String(alicePubKeyEnc);
+	        clientPpublicKey = Base64.encodeBase64String(clientPubKeyEnc);
         
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return requestBuilder.header("dh", alicePpublicKey);
+		return requestBuilder.header("dh", clientPpublicKey);
 	}
 	
 	

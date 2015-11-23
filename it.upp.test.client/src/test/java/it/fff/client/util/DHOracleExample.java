@@ -1,4 +1,4 @@
-package it.upp.test.util;
+package it.fff.client.util;
 
 /*
  * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.

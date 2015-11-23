@@ -31,12 +31,12 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		logger.debug(">AuthorizationContainerRequestFilter");
 		boolean authorized = true;
 		String requestPath = requestContext.getUriInfo().getPath();
+		String method = requestContext.getMethod();
+		logger.debug(method+": "+requestPath);
 		
 		if(!requestPath.matches("^security/.*")){ //tutti i path tranne quelli di security vanno controllati
-			logger.debug("request path to verify: "+requestPath);
 			String authHeader = requestContext.getHeaders().getFirst("Authorization");
 			String dateHeader = requestContext.getHeaders().getFirst("Date");
 			String deviceHeader = requestContext.getHeaders().getFirst("Device");
@@ -46,7 +46,6 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 					authorized &= false; //se la richiesta e' troppo vecchia non si viene autorizzati
 				}
 				
-				String method = requestContext.getMethod();
 				String userId = authHeader.split(":")[1];
 				String nonce = authHeader.split(":")[2];
 				String sharedKey = secureConfiguration.retrieveSharedKey(userId, deviceHeader);
@@ -63,13 +62,12 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		}
 		
 		if(!authorized){
-			logger.error("request not authorized!");
+			logger.error("NOT authorized!");
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("User cannot access the resource.").build());
 		}
 		else{
-			logger.debug("request successfully verified!");
+			logger.debug("authorized");
 		}		
-		logger.debug("<AuthorizationContainerRequestFilter");
 	}
 
 	private boolean isRequestTimingAcceptable(String dateHeader) {

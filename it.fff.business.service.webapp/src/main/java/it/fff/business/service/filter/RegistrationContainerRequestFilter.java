@@ -31,11 +31,11 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		logger.debug(">RegistrationContainerRequestFilter");
 		String requestPath = requestContext.getUriInfo().getPath();
+		String method = requestContext.getMethod();
 		
 		if(requestPath.matches("^security/registration.*") || requestPath.matches("^security/login.*")){
-			
+			logger.debug("RegistrationContainerRequestFilter > "+method+": "+requestPath);
 			String dhHeader = requestContext.getHeaders().getFirst("dh");
 			if(dhHeader==null || "".equals(dhHeader)){
 				logger.error("Diffie-Hellman header not present!");
@@ -54,13 +54,13 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 			try{
 		        KeyFactory bobKeyFac = KeyFactory.getInstance("DH");
 		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(clientPubKeyEnc);
-		        PublicKey alicePubKey = bobKeyFac.generatePublic(x509KeySpec);
+		        PublicKey clientPubKey = bobKeyFac.generatePublic(x509KeySpec);
 		        
 		        /*
 		         * Il server estrae i parametri Diffie-Hellman dalla chiave pubblica del client.
 		         * Il server usera' questi parametri per generare i propri parametri Diffie-Hellman
 		         */
-		        DHParameterSpec dhParamSpec = ((DHPublicKey)alicePubKey).getParams();
+		        DHParameterSpec dhParamSpec = ((DHPublicKey)clientPubKey).getParams();
 		        
 		        System.out.println("BOB: Generate DH keypair ...");
 		        KeyPairGenerator bobKpairGen = KeyPairGenerator.getInstance("DH");
@@ -73,7 +73,7 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 		        bobKeyAgree.init(bobKpair.getPrivate());
 		        
 		        System.out.println("BOB: Execute PHASE1 ...");
-		        bobKeyAgree.doPhase(alicePubKey, true);
+		        bobKeyAgree.doPhase(clientPubKey, true);
 	
 		        // Il server codifica la propria chiave pubblica e la converte in base64 per inviarla al server
 		        byte[] bobPubKeyEnc = bobKpair.getPublic().getEncoded();
@@ -92,9 +92,9 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 			catch(Exception e){
 				e.printStackTrace();
 			}				
+			logger.debug("< RegistrationContainerRequestFilter");
 		}
 		
-		logger.debug("<RegistrationContainerRequestFilter");
 		
 	}
 	
