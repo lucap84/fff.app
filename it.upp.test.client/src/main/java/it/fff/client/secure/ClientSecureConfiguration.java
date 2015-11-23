@@ -55,9 +55,9 @@ public class ClientSecureConfiguration implements DHSecureConfiguration {
 			this.sharedKey = sharedKey;
 
 			// set the properties value
-			prop.setProperty(ClientConstants.PROP_SECURE_USER, userId);
-			prop.setProperty(ClientConstants.PROP_SECURE_DEVICE, deviceId);
-			prop.setProperty(ClientConstants.PROP_SECURE_SHAREDKEY, sharedKey);
+			prop.setProperty(ClientConstants.PROP_SECURE_USER, userId==null?"":userId);
+			prop.setProperty(ClientConstants.PROP_SECURE_DEVICE, deviceId==null?"":deviceId);
+			prop.setProperty(ClientConstants.PROP_SECURE_SHAREDKEY, sharedKey==null?"":sharedKey);
 
 			// save properties to project root folder
 			prop.store(output, null);

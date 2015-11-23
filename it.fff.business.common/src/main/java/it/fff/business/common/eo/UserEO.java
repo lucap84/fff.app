@@ -1,5 +1,6 @@
 package it.fff.business.common.eo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 
@@ -87,7 +89,7 @@ public class UserEO implements EntityObject {
 		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
 	private List<AchievementEO> achievements;	
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private AccountEO account;
 	
 	

@@ -84,6 +84,8 @@ public class SecurityServiceStub extends StubService{
 	public AuthDataResponseDTO login(LoginDataRequestDTO dtoInput, String mediaType){
 		Client client = super.getClientInstance();
 		
+		String deviceId = super.getSecureConfiguration().getDeviceId();
+		dtoInput.setDeviceId(deviceId);
 		AuthDataResponseDTO resultDTO = null;
 		
 		String restPath="security/login/"+mediaType.toLowerCase().substring("application/".length());
@@ -100,7 +102,6 @@ public class SecurityServiceStub extends StubService{
 			
 			byte[] serverPublicKey =  Base64.decodeBase64(resultDTO.getServerPublicKey());
 			String sharedSecret = dhUtil.generateSharedSecret(clientKeyAgree, serverPublicKey);			
-			String deviceId = super.getSecureConfiguration().getDeviceId();
 			//Salvo sul client la chiave segreta condivisa con il server
 			super.getSecureConfiguration().storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecret);				
 			

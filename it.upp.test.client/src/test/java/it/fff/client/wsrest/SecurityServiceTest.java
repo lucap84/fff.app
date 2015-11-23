@@ -32,7 +32,7 @@ public class SecurityServiceTest extends WebServiceRestTest{
 		dtoInput.setCognome("Pelosi");
 		dtoInput.setSesso("M");
 		dtoInput.setDataNascita("1984-02-09");
-		dtoInput.setEmail("lucap84@gmail.com");
+		dtoInput.setEmail("lucap84@gmail.com2");
 		dtoInput.setEncodedPassword(DigestUtils.md5Hex("mypassword"));
 
 		AuthDataResponseDTO result = null;
@@ -135,10 +135,10 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}
 	
 	public static void main(String[] args) {
-//		SecurityServiceTest securityServiceTest = new SecurityServiceTest();
-//		securityServiceTest.registerUserShouldReturnConfirm();
-//		securityServiceTest.logoutShouldReturnConfirm();
-//		securityServiceTest.registerUserShouldReturnConfirm();
+		SecurityServiceTest securityServiceTest = new SecurityServiceTest();
+		securityServiceTest.t1_registerUserShouldReturnConfirm();
+		securityServiceTest.t2_logoutShouldReturnConfirm();
+		securityServiceTest.t3_loginShouldReturnConfirm();
 	}
 	
    

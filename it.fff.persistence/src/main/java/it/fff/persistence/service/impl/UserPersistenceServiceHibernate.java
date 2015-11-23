@@ -20,6 +20,7 @@ import org.hibernate.Transaction;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
+import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
@@ -43,6 +44,11 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      try{
 	         tx = session.beginTransaction();
 	         id = (Integer)session.save(userEO); 
+	         
+	         AccountEO accountEO = userEO.getAccount();
+	         accountEO.setId(id);
+	         session.save(accountEO);
+	         
 	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
