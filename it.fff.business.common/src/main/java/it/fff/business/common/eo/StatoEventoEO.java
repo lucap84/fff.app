@@ -1,6 +1,5 @@
 package it.fff.business.common.eo;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,18 +7,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "achievement")
-public class AchievementEO implements EntityObject {
+@Table(name = "session")
+public class StatoEventoEO implements EntityObject {
 
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue
 	private Integer	id;
 	
-	@Column(name = "Nome")
+	
+	@Column(name="Nome")
 	private String nome;
 	
-	@Column(name = "Descrizione")
+	@Column(name="Descrizione")
 	private String descrizione;
 
 	public Integer getId() {

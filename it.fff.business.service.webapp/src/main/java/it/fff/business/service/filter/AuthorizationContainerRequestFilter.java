@@ -36,7 +36,7 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		String method = requestContext.getMethod();
 		logger.debug(method+": "+requestPath);
 		
-		if(!requestPath.matches("^security/.*")){ //tutti i path tranne quelli di security vanno controllati
+		if(isToAuthorize(requestPath)){
 			String authHeader = requestContext.getHeaders().getFirst("Authorization");
 			String dateHeader = requestContext.getHeaders().getFirst("Date");
 			String deviceHeader = requestContext.getHeaders().getFirst("Device");
@@ -68,6 +68,15 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		else{
 			logger.debug("authorized");
 		}		
+	}
+
+	private boolean isToAuthorize(String requestPath) {
+		boolean isToAuthorize = true;
+		//Bisogna sempre procedere con l'autorizzazione, tranne che per registrarsi o per fare login
+		isToAuthorize &= !requestPath.matches("^security/registration.*");
+		isToAuthorize &= !requestPath.matches("^security/login.*");
+		
+		return isToAuthorize;
 	}
 
 	private boolean isRequestTimingAcceptable(String dateHeader) {

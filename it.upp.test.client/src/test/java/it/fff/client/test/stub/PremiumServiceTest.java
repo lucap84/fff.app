@@ -1,4 +1,4 @@
-package it.fff.client.wsrest;
+package it.fff.client.test.stub;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

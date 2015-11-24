@@ -18,9 +18,9 @@ public class SubscriptionMapper implements Mapper{
 	public static SubscriptionEO map2EO(SubscriptionBO bo) {
 		SubscriptionEO eo = new SubscriptionEO();
 		if(bo.getId()>0){
-			eo.setDurata(bo.getId());
+			eo.setId(bo.getId());
 		}
-		eo.setDurata(bo.getDurata());
+//		eo.setDataInizio(bo.getDataInizio()); TODO
 		return eo;
 	}
 

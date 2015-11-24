@@ -51,6 +51,33 @@ import it.fff.clientserver.common.secure.AuthenticationUtil;
 public class StubService{
 	private static final Logger logger = LogManager.getLogger(StubService.class);
 
+
+	public static final String WSRS_PATH_getEventMessages 			= "events/#/messages/";
+	public static final String WSRS_PATH_postEventStandardMessage	= "events/#/attendances/#/messages/standard/#/";
+	public static final String WSRS_PATH_postEventMessage 			= "events/#/attendances/#/messages/";
+	public static final String WSRS_PATH_cancelAttendance 			= "events/#/attendances/#/";
+	public static final String WSRS_PATH_addFeedback 				= "events/#/attendances/#/feedback/";
+	public static final String WSRS_PATH_joinEvent 					= "events/#/attendances/";
+	public static final String WSRS_PATH_cancelEvent 				= "events/#/";
+	public static final String WSRS_PATH_createEvent 				= "events/";
+	public static final String WSRS_PATH_getAttendacesByEvent 		= "events/#/attendaces/";
+	public static final String WSRS_PATH_getEvent 					= "events/#/";
+	public static final String WSRS_PATH_searchEvents 				= "events/";
+	public static final String WSRS_PATH_getPlacesByDescription 	= "places/";
+	public static final String WSRS_PATH_upgradeToPremium 			= "premium/subscriptions/#/";
+	public static final String WSRS_PATH_registerUser 				= "security/registration/";
+	public static final String WSRS_PATH_login 						= "security/login/";
+	public static final String WSRS_PATH_logout 					= "security/#/logout/";
+	public static final String WSRS_PATH_updatePassword 			= "security/#/password/";
+	public static final String WSRS_PATH_checkVerificationCode 		= "security/#/verificationcode/";
+	public static final String WSRS_PATH_sendVerificationCode 		= "security/#/verificationcode/";
+	public static final String WSRS_PATH_modifyUserData 			= "users/#/";
+	public static final String WSRS_PATH_setCurrentPosition 		= "users/#/events/#/position/";
+	public static final String WSRS_PATH_getEventsByUser 			= "users/#/events/";
+	public static final String WSRS_PATH_getUser 					= "users/#/";
+	public static final String WSRS_PATH_updateProfileImage 		= "users/#/images/";
+
+
 	private ClientSecureConfiguration secureConfiguration;
 
 	public StubService(ClientSecureConfiguration secureConfiguration){
@@ -62,6 +89,8 @@ public class StubService{
 	}
 	
 	private static Client client;
+
+
 	
 	public static Client getClientInstance(){
 		if(client!=null){
@@ -119,57 +148,6 @@ public class StubService{
 		return UriBuilder.fromUri("http://localhost:8080/it.fff.business.service.webapp/restapi").build();
 	}
 
-
-//	public Builder addSecurityHeaders(Builder requestBuilder, String httpMethod, String restPath) {
-//		String formattedDate = ClientSecureConfiguration.DATE_FORMATTER.format(new Date()); 
-//		String nonce = new BigInteger(32,ClientSecureConfiguration.SECURE_RANDOM).toString();
-//		String deviceId = secureConfiguration.getDeviceId();
-//		String userId = secureConfiguration.getUserId();
-//		String authorizationHeader = AuthenticationUtil.generateHMACAuthorizationHeader(secureConfiguration.retrieveSharedKey(userId, deviceId), userId, httpMethod, restPath, formattedDate, nonce);
-//		return requestBuilder.
-//				header("Authorization", authorizationHeader).
-//				header("Date", formattedDate).
-//				header("Device", deviceId);
-//	}
-
-
-
-	public Builder addDiffieHellmanHeaders(Builder requestBuilder, String email, String encodedPassword)  {
-		String clientPpublicKey = "";
-		byte[] clientPubKeyEnc = null;
-		try{
-		
-			AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DH");
-			paramGen.init(512);
-			AlgorithmParameters params = paramGen.generateParameters();
-			DHParameterSpec dhSkipParamSpec = (DHParameterSpec)params.getParameterSpec(DHParameterSpec.class);
-		    		
-		    /*
-	         * The Client creates its own DH key pair, using the DH parameters from above
-	         */
-	        System.out.println("CLIENT: Generate DH keypair ...");
-	        KeyPairGenerator clientKpairGen = KeyPairGenerator.getInstance("DH");
-	        clientKpairGen.initialize(dhSkipParamSpec);
-	        KeyPair clientKpair = clientKpairGen.generateKeyPair();
-	
-	        // Client creates and initializes her DH KeyAgreement object
-	        System.out.println("CLIENT: Initialization ...");
-	        KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
-	        clientKeyAgree.init(clientKpair.getPrivate());
-	
-	        // The Client encodes her public key, and sends it over to Bob.
-	        clientPubKeyEnc = clientKpair.getPublic().getEncoded();
-			
-	        clientPpublicKey = Base64.encodeBase64String(clientPubKeyEnc);
-        
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return requestBuilder.header("dh", clientPpublicKey);
-	}
-	
 	
 	public ClientSecureConfiguration getSecureConfiguration() {
 		return secureConfiguration;
@@ -180,10 +158,13 @@ public class StubService{
 		this.secureConfiguration = secureConfiguration;
 	}
 
-
-	public static void main(String[] args) {
-		
-		
+	public String getWsRspath(String mediaType, String servicePath, String... params){
+		String path = servicePath;
+		for (String param : params) {
+			path = path.replaceFirst("#", param);
+		}
+		path += mediaType.toLowerCase().substring("application/".length());
+		return path;
 	}
-	
+
 }

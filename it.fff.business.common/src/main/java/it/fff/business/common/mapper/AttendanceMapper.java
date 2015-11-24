@@ -23,6 +23,7 @@ public class AttendanceMapper implements Mapper{
 		AttendanceDTO dto = new AttendanceDTO();
 		dto.setId(String.valueOf(bo.getId()));
 		dto.setValid(bo.isValid());
+		dto.setUser(UserMapper.map2DTO(bo.getUser()));
 		return dto;
 	}
 
@@ -51,6 +52,7 @@ public class AttendanceMapper implements Mapper{
 		bo.setOrganizer(eo.isOrganizer());
 		bo.setStatusId(eo.getStatusId());
 		bo.setValid(eo.isValid());
+		bo.setUser(UserMapper.map2BO(eo.getUser()));
 		return bo;
 	}
 

@@ -1,7 +1,11 @@
 package it.fff.business.common.eo;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import it.fff.business.common.bo.UserBO;
 
 
 @Entity
@@ -13,6 +17,13 @@ public class AttendanceEO implements EntityObject {
 	int numPartecipanti;
 	boolean isValid;
 	int statusId;
+	
+	@ManyToOne
+	@JoinColumn(name = "Evento_ID", nullable = false)
+	EventEO event;
+	
+	
+	UserEO user;
 	
 	public boolean isOrganizer() {
 		return isOrganizer;
@@ -46,5 +57,24 @@ public class AttendanceEO implements EntityObject {
 	public void setStatusId(int statusId) {
 		this.statusId = statusId;
 	}
+
+	public UserEO getUser() {
+		return user;
+	}
+
+	public void setUser(UserEO user) {
+		this.user = user;
+	}
+
+
+	public EventEO getEvent() {
+		return event;
+	}
+
+
+	public void setEvent(EventEO event) {
+		this.event = event;
+	}
+	
 	
 }

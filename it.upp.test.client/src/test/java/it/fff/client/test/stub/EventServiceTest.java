@@ -1,4 +1,4 @@
-package it.fff.client.wsrest;
+package it.fff.client.test.stub;
 
 import it.fff.client.stub.EventServiceStub;
 import it.fff.clientserver.common.dto.*;
@@ -180,6 +180,7 @@ public class EventServiceTest extends WebServiceRestTest{
 		
 		EventDTO event = new EventDTO();
 		event.setNome("nuovo evento");
+		event.setDescrizione("Descr nuovo evento");
 		event.setUserOrganizer(organizer);
 		
 		WriteResultDTO result = null;
@@ -252,9 +253,9 @@ public class EventServiceTest extends WebServiceRestTest{
 	}	
 	
 	public static void main(String[] args) {
-//		EventServiceTest eventServiceTest = new EventServiceTest();
+		EventServiceTest eventServiceTest = new EventServiceTest();
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-//		eventServiceTest.getEventMessagesShouldReturnAtLeastOneMessage();
+		eventServiceTest.postEventStandardMessageShouldReturnConfirm();
 	}
 	
 }

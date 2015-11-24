@@ -1,4 +1,4 @@
-package it.fff.client.wsrest;
+package it.fff.client.test.stub;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -86,7 +86,24 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}		
 
 	@Test
-	public void t4_sendVerificationCodeShouldReturnConfirm(){
+	public void t4_updatePasswordShouldReturnConfirm(){
+		String email = "lucap84@gmail.com";
+		String oldPassword = "mypassword";
+		String newPassword = "mypasswordUpdated";
+		WriteResultDTO result = null;
+		{//Test JSON
+			SecurityServiceStub stub = new SecurityServiceStub();
+			result = stub.updatePassword(email, oldPassword, newPassword, MediaType.APPLICATION_JSON);
+			assertNotNull(result);
+			assertTrue(result.isOk());
+			assertTrue(result.getAffectedRecords()>0);
+			assertNotNull(result.getIdentifier());
+			assertFalse(result.getIdentifier().isEmpty());
+		}
+	}	
+	
+	@Test
+	public void t5_sendVerificationCodeShouldReturnConfirm(){
 		String email = "lucap84@gmail.com";
 		WriteResultDTO result = null;
 		{//Test JSON
@@ -101,7 +118,7 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}	
 	
 	@Test
-	public void t5_checkVerificationCodeShouldReturnConfirm(){
+	public void t6_checkVerificationCodeShouldReturnConfirm(){
 		String email = "lucap84@gmail.com";
 		String verificationCode = "123456789";
 		WriteResultDTO result = null;
@@ -117,22 +134,7 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	}	
 	
 	
-	@Test
-	public void t6_updatePasswordShouldReturnConfirm(){
-		String email = "lucap84@gmail.com";
-		String oldPassword = "mypassword";
-		String newPassword = "mypasswordUpdated";
-		WriteResultDTO result = null;
-		{//Test JSON
-			SecurityServiceStub stub = new SecurityServiceStub();
-			result = stub.updatePassword(email, oldPassword, newPassword, MediaType.APPLICATION_JSON);
-			assertNotNull(result);
-			assertTrue(result.isOk());
-			assertTrue(result.getAffectedRecords()>0);
-			assertNotNull(result.getIdentifier());
-			assertFalse(result.getIdentifier().isEmpty());
-		}
-	}
+
 	
 	public static void main(String[] args) {
 		SecurityServiceTest securityServiceTest = new SecurityServiceTest();

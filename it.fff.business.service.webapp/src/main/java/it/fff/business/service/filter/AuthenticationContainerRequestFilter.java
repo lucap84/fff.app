@@ -25,18 +25,19 @@ import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
 //Pre-matching filters are request filters that are executed before the request matching is started
 @PreMatching
-public class RegistrationContainerRequestFilter implements ContainerRequestFilter {
+public class AuthenticationContainerRequestFilter implements ContainerRequestFilter {
 
-	private static final Logger logger = LogManager.getLogger(RegistrationContainerRequestFilter.class);
+	private static final Logger logger = LogManager.getLogger(AuthenticationContainerRequestFilter.class);
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		String requestPath = requestContext.getUriInfo().getPath();
 		String method = requestContext.getMethod();
 		
-		if(requestPath.matches("^security/registration.*") || requestPath.matches("^security/login.*")){
-			logger.debug("RegistrationContainerRequestFilter > "+method+": "+requestPath);
+		if(isToAuthenticate(requestPath)){
+			logger.debug("AuthenticationContainerRequestFilter > "+method+": "+requestPath);
 			String dhHeader = requestContext.getHeaders().getFirst("dh");
+			
 			if(dhHeader==null || "".equals(dhHeader)){
 				logger.error("Diffie-Hellman header not present!");
 				requestContext.abortWith(Response
@@ -44,6 +45,7 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 						.entity("User cannot access the resource.")
 						.build());
 			}
+			
 			byte[] decodeBase64 = Base64.decodeBase64(dhHeader);
 			byte[] clientPubKeyEnc = decodeBase64;
 			
@@ -52,9 +54,9 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 	         * Il server ricostruisce la chiave pubblica del client.
 	         */
 			try{
-		        KeyFactory bobKeyFac = KeyFactory.getInstance("DH");
+		        KeyFactory serverKeyFac = KeyFactory.getInstance("DH");
 		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(clientPubKeyEnc);
-		        PublicKey clientPubKey = bobKeyFac.generatePublic(x509KeySpec);
+		        PublicKey clientPubKey = serverKeyFac.generatePublic(x509KeySpec);
 		        
 		        /*
 		         * Il server estrae i parametri Diffie-Hellman dalla chiave pubblica del client.
@@ -62,27 +64,27 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 		         */
 		        DHParameterSpec dhParamSpec = ((DHPublicKey)clientPubKey).getParams();
 		        
-		        System.out.println("BOB: Generate DH keypair ...");
-		        KeyPairGenerator bobKpairGen = KeyPairGenerator.getInstance("DH");
-		        bobKpairGen.initialize(dhParamSpec);
-		        KeyPair bobKpair = bobKpairGen.generateKeyPair();
+		        logger.debug("SERVER: Generate DH keypair ...");
+		        KeyPairGenerator serverKpairGen = KeyPairGenerator.getInstance("DH");
+		        serverKpairGen.initialize(dhParamSpec);
+		        KeyPair serverKpair = serverKpairGen.generateKeyPair();
 		        
 		        // Il server crea ed inizializza il proprio oggetto KeyAgreement
-		        System.out.println("BOB: Initialization ...");
-		        KeyAgreement bobKeyAgree = KeyAgreement.getInstance("DH");
-		        bobKeyAgree.init(bobKpair.getPrivate());
+		        logger.debug("SERVER: Initialization ...");
+		        KeyAgreement serverKeyAgree = KeyAgreement.getInstance("DH");
+		        serverKeyAgree.init(serverKpair.getPrivate());
 		        
-		        System.out.println("BOB: Execute PHASE1 ...");
-		        bobKeyAgree.doPhase(clientPubKey, true);
+		        logger.debug("SERVER: Execute PHASE1 ...");
+		        serverKeyAgree.doPhase(clientPubKey, true);
 	
 		        // Il server codifica la propria chiave pubblica e la converte in base64 per inviarla al server
-		        byte[] bobPubKeyEnc = bobKpair.getPublic().getEncoded();
-		        String serverPubKeyEncStrB64 = Base64.encodeBase64String(bobPubKeyEnc);
+		        byte[] serverPubKeyEnc = serverKpair.getPublic().getEncoded();
+		        String serverPubKeyEncStrB64 = Base64.encodeBase64String(serverPubKeyEnc);
 		        
 		        //Il server ricava la chiave segreta condivisa con il client
-		        byte[] bobSharedSecret = new byte[64];
-		        int bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
-		        String sharedSecretHEX = AuthenticationUtil.toHexString(bobSharedSecret);
+		        byte[] serverSharedSecret = new byte[64];
+		        int serverLen = serverKeyAgree.generateSecret(serverSharedSecret, 0);
+		        String sharedSecretHEX = AuthenticationUtil.toHexString(serverSharedSecret);
 
 		        //Metto negli attributes della richiesta la chiave pubblica (che sarà ritornata poi al client) e il segreto condiviso, da associare al client e salvare localmente
 		        requestContext.setProperty("serverPubKeyEncStrB64", serverPubKeyEncStrB64);
@@ -92,10 +94,19 @@ public class RegistrationContainerRequestFilter implements ContainerRequestFilte
 			catch(Exception e){
 				e.printStackTrace();
 			}				
-			logger.debug("< RegistrationContainerRequestFilter");
+			logger.debug("< AuthenticationContainerRequestFilter");
 		}
 		
 		
+	}
+
+	private boolean isToAuthenticate(String requestPath) {
+		boolean isToAuthenticate = false;
+		//Per registrarsi o per fare login bisogna procedere con l'autenticazione client
+		isToAuthenticate |= requestPath.matches("^security/registration.*");
+		isToAuthenticate |= requestPath.matches("^security/login.*");
+		
+		return isToAuthenticate;
 	}
 	
 	

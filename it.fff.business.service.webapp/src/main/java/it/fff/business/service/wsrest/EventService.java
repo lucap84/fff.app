@@ -53,17 +53,17 @@ public class EventService extends ApplicationService{
 	}	
 	
 	@POST
-	@Path("{eventId}/attendances/{attendanceId}/messages/standard/json")
+	@Path("{eventId}/attendances/{attendanceId}/messages/standard/{sdtMsgId}/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO postEventStandardMessageJSON(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @QueryParam("sdtMsgId") String sdtMsgId) throws BusinessException {
+	public WriteResultDTO postEventStandardMessageJSON(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @PathParam("sdtMsgId") String sdtMsgId) throws BusinessException {
 		return postEventStandardMessage(request, attendanceId, sdtMsgId);
 	}	
 	@POST
-	@Path("{eventId}/attendances/{attendanceId}/messages/standard/xml")
+	@Path("{eventId}/attendances/{attendanceId}/messages/standard/{sdtMsgId}/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO postEventStandardMessageXML(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @QueryParam("sdtMsgId") String sdtMsgId) throws BusinessException {
+	public WriteResultDTO postEventStandardMessageXML(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @PathParam("sdtMsgId") String sdtMsgId) throws BusinessException {
 		return postEventStandardMessage(request, attendanceId, sdtMsgId);
 	}	
 	

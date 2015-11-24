@@ -38,7 +38,7 @@ public class AuthorizationClientRequestFilter implements ClientRequestFilter {
 		requestContext.getHeaders().add("Date", formattedDate);
 		requestContext.getHeaders().add("Device", deviceId);		
 		
-		if(!requestPath.matches("^security/.*")){ //tutti i servizi che  non sono security
+		if(isToAuthorize(requestPath)){
 			String nonce = new BigInteger(32,ClientSecureConfiguration.SECURE_RANDOM).toString();
 			String userId = secureConfigurationInstance.getUserId();
 			String authorizationHeader = AuthenticationUtil.generateHMACAuthorizationHeader(secureConfigurationInstance.retrieveSharedKey(userId, deviceId), userId, httpMethod, requestPath, formattedDate, nonce);
@@ -46,6 +46,15 @@ public class AuthorizationClientRequestFilter implements ClientRequestFilter {
 		}
 		
 	}
+	
+	private boolean isToAuthorize(String requestPath) {
+		boolean isToAuthorize = true;
+		//Bisogna sempre procedere con l'autorizzazione, tranne che per registrarsi o per fare login
+		isToAuthorize &= !requestPath.matches("^security/registration.*");
+		isToAuthorize &= !requestPath.matches("^security/login.*");
+		
+		return isToAuthorize;
+	}	
 	
 
 }

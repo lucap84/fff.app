@@ -15,6 +15,7 @@ import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.MessageEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -26,7 +27,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		logger.info("retrieveEvent ({})",eventId);
 		EventEO event = new EventEO();
 		event.setId(eventId);
-		event.setNome("nome persistente");
+		event.setTitolo("nome persistente");
 		event.setDescrizione("descr persisente");
 		logger.info("Mocked event ({}) retrieved",eventId);
 		return event;
@@ -101,6 +102,11 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		AttendanceEO a1 = new AttendanceEO();
 		a1.setValid(true);
 		a1.setNumPartecipanti(100);
+		
+		UserEO user = new UserEO();
+		user.setId(1);
+		a1.setUser(user);
+		
 		attendances.add(a1);
 		return attendances;
 	}
@@ -110,10 +116,10 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		List<EventEO> eos = new ArrayList<EventEO>();
 		EventEO eo1 = new EventEO();
 		eo1.setId(1);
-		eo1.setNome("ev1");
+		eo1.setTitolo("ev1");
 		EventEO eo2 = new EventEO();
 		eo2.setId(2);
-		eo2.setNome("ev2");		
+		eo2.setTitolo("ev2");		
 		eos.add(eo1);
 		eos.add(eo2);
 		
@@ -125,10 +131,10 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		List<EventEO> eos = new ArrayList<EventEO>();
 		EventEO eo1 = new EventEO();
 		eo1.setId(1);
-		eo1.setNome("ev1");
+		eo1.setTitolo("ev1");
 		EventEO eo2 = new EventEO();
 		eo2.setId(2);
-		eo2.setNome("ev2");		
+		eo2.setTitolo("ev2");		
 		eos.add(eo1);
 		eos.add(eo2);
 		

@@ -1,6 +1,5 @@
 package it.fff.business.common.eo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -77,20 +76,23 @@ public class UserEO implements EntityObject {
 	private NazioneEO nazionalita; 
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-		@JoinTable(name = "lingue_parlate", 
+		@JoinTable(name = "lingua_parlata", 
 			joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })
 	private List<LinguaEO> lingue;
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "achievements_ottenuti", 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //Unidirezionale
+	@JoinTable(name = "achievement_ottenuto", 
 		joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
 	private List<AchievementEO> achievements;	
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private AccountEO account;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abbonato", cascade = CascadeType.ALL)
+	private List<SubscriptionEO> abbonamenti;	
 	
 	
 	public Integer getId() {

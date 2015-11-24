@@ -58,9 +58,9 @@ public class DHUtils {
 		         */
 		        KeyFactory clientKeyFac = KeyFactory.getInstance("DH");
 		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(serverPublicKey);
-		        PublicKey bobPubKey = clientKeyFac.generatePublic(x509KeySpec);
+		        PublicKey serverPubKey = clientKeyFac.generatePublic(x509KeySpec);
 		        System.out.println("CLIENT: Execute PHASE1 ...");
-		        clientKeyAgree.doPhase(bobPubKey, true);			
+		        clientKeyAgree.doPhase(serverPubKey, true);			
 		        
 		        byte[] clientSharedSecret = clientKeyAgree.generateSecret();
 		        int clientLen = clientSharedSecret.length;

@@ -1,4 +1,4 @@
-package it.fff.client.wsrest;
+package it.fff.client.test.stub;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -154,7 +154,7 @@ public class WebServiceRestTest{
 //	        KeyAgreement aliceKeyAgree = KeyAgreement.getInstance("DH");
 //	        aliceKeyAgree.init(aliceKpair.getPrivate());
 //	
-//	        // Alice encodes her public key, and sends it over to Bob.
+//	        // Client encodes her public key, and sends it over to Server.
 //	        alicePubKeyEnc = aliceKpair.getPublic().getEncoded();
 //			
 //	        alicePpublicKey = Base64.encodeBase64String(alicePubKeyEnc);

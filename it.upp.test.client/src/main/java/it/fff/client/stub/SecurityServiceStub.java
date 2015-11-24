@@ -12,7 +12,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import it.fff.client.secure.ClientSecureConfiguration;
 import it.fff.client.util.DHUtils;
-import it.fff.client.wsrest.WebServiceRestTest;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.LoginDataRequestDTO;
 import it.fff.clientserver.common.dto.RegistrationDataRequestDTO;
@@ -36,7 +35,7 @@ public class SecurityServiceStub extends StubService{
 		
 		AuthDataResponseDTO resultDTO = null;
 
-		String restPath="security/registration/"+mediaType.toLowerCase().substring("application/".length());
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_registerUser);
 		try{
 			Builder requestBuilder = client.target(getBaseURI()).path(restPath).request(mediaType);
 			
@@ -70,7 +69,8 @@ public class SecurityServiceStub extends StubService{
 		String deviceId = super.getSecureConfiguration().getDeviceId();
 		
 		WriteResultDTO result = null;	
-		String restPath="security/"+userId+"/logout/"+mediaType.toLowerCase().substring("application/".length());
+		
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_logout, userId);
 		Builder requestBuilder  = client.target(getBaseURI()).path(restPath).request(mediaType);
 		
 		Response response = requestBuilder.post(null);
@@ -88,7 +88,7 @@ public class SecurityServiceStub extends StubService{
 		dtoInput.setDeviceId(deviceId);
 		AuthDataResponseDTO resultDTO = null;
 		
-		String restPath="security/login/"+mediaType.toLowerCase().substring("application/".length());
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_login);
 		Builder requestBuilder  = client.target(getBaseURI()).path(restPath).request(mediaType);
 		try{
 			KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH");
@@ -117,14 +117,14 @@ public class SecurityServiceStub extends StubService{
 	public WriteResultDTO updatePassword(String email, String oldPassword,String newPassword, String mediaType){
 		Client client = super.getClientInstance();
 		
-		String enodedOldPassword = DigestUtils.md5Hex(oldPassword);
-		String enodedNewPassword = DigestUtils.md5Hex(newPassword);
+		String encodedOldPassword = DigestUtils.md5Hex(oldPassword);
+		String encodedNewPassword = DigestUtils.md5Hex(newPassword);
 		
 		WriteResultDTO writeResult = null;
 		
-		String restPath="security/"+email+"/password/"+mediaType.toLowerCase().substring("application/".length());
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_updatePassword,email);
 		Builder requestBuilder  = client.target(getBaseURI()).path(restPath).request(mediaType);
-		Response response = requestBuilder.put(Entity.entity(enodedNewPassword,mediaType));
+		Response response = requestBuilder.put(Entity.entity(encodedNewPassword,mediaType));
 		writeResult = (WriteResultDTO)response.readEntity(WriteResultDTO.class);
 		
 		return writeResult;
@@ -133,8 +133,7 @@ public class SecurityServiceStub extends StubService{
 	public WriteResultDTO checkVerificationCode(String email, String verificationCode, String mediaType){
 		Client client = super.getClientInstance();
 		
-		String restPath="security/"+email+"/verificationcode/"+mediaType.toLowerCase().substring("application/".length());
-		
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_checkVerificationCode,email);
 		WriteResultDTO writeResult = null;
 		
 		Builder requestBuilder  =  client.target(getBaseURI()).path(restPath).request(mediaType);
@@ -147,7 +146,7 @@ public class SecurityServiceStub extends StubService{
 	public WriteResultDTO sendVerificationCode(String email, String mediaType){
 		Client client = super.getClientInstance();
 		
-		String restPath="security/"+email+"/verificationcode/"+mediaType.toLowerCase().substring("application/".length());
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_sendVerificationCode,email);
 		WriteResultDTO writeResult = null;
 		
 		Builder requestBuilder  = client.target(getBaseURI()).path(restPath).request(mediaType);

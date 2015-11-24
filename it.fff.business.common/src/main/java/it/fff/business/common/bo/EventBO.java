@@ -1,11 +1,13 @@
 package it.fff.business.common.bo;
 
+import it.fff.clientserver.common.dto.UserDTO;
 
 public class EventBO implements BusinessObject{
 
 	private int id;
 	private String nome;
 	private String descrizione;
+	private UserBO userOrganizer;
 	
 	public EventBO(){
 		
@@ -39,6 +41,14 @@ public class EventBO implements BusinessObject{
 		this.descrizione = descrizione;
 	}
 	
+	public UserBO getUserOrganizer() {
+		return userOrganizer;
+	}
+
+	public void setUserOrganizer(UserBO userOrganizer) {
+		this.userOrganizer = userOrganizer;
+	}
+
 	@Override
 	public String toString() {
 		return "EventBO{" +

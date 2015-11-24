@@ -22,7 +22,6 @@ public class EventMapper implements Mapper{
 	}
 
 	public static EventBO map2BO(EventDTO dto) {
-		logger.debug("mapDto2Bo");
 		EventBO bo = new EventBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){
@@ -30,13 +29,13 @@ public class EventMapper implements Mapper{
 			}
 			bo.setNome(dto.getNome());
 			bo.setDescrizione(dto.getDescrizione());
+			bo.setUserOrganizer(UserMapper.map2BO(dto.getUserOrganizer()));
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
 	public static EventDTO map2DTO(EventBO bo) {
-		logger.debug("mapBo2Dto");
 		EventDTO dto = new EventDTO();
 		if(bo!=null){
 			dto.setId(String.valueOf(bo.getId()));
@@ -52,8 +51,9 @@ public class EventMapper implements Mapper{
 		EventEO eo = new EventEO();
 		if(bo!=null){
 			eo.setId(bo.getId());
-			eo.setNome(bo.getNome());
+			eo.setTitolo(bo.getNome());
 			eo.setDescrizione(bo.getDescrizione());
+			
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return eo;
@@ -64,7 +64,7 @@ public class EventMapper implements Mapper{
 		EventBO bo = new EventBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
-			bo.setNome(eo.getNome());
+			bo.setNome(eo.getTitolo());
 			bo.setDescrizione(eo.getDescrizione());
 		}
 		else{logger.warn("Mapping null objects!!");}
@@ -111,7 +111,7 @@ public class EventMapper implements Mapper{
 		EventBO bo = new EventBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
-			bo.setNome(eo.getNome());
+			bo.setNome(eo.getTitolo());
 			bo.setDescrizione(eo.getDescrizione());
 		}
 		else{logger.warn("Mapping null objects!!");}

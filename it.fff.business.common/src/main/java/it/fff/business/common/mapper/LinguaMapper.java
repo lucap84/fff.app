@@ -23,7 +23,7 @@ public class LinguaMapper implements Mapper {
 		if(eo!=null){
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
-			bo.setCodice(eo.getCodice());
+			bo.setCodice(eo.getIso639_1());
 		}
 		return bo;
 	}
@@ -43,7 +43,7 @@ public class LinguaMapper implements Mapper {
 		if(bo!=null){
 			eo.setId(bo.getId());
 			eo.setNome(bo.getNome());
-			eo.setCodice(bo.getCodice());
+			eo.setIso639_1(bo.getCodice());
 		}
 		return eo;
 	}	

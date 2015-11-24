@@ -18,9 +18,15 @@ public class LinguaEO implements EntityObject {
 	@Column(name = "Nome")
 	private String nome;
 	
-	@Column(name = "Codice")
-	private String codice;
+	@Column(name = "ISO639_1")
+	private String iso639_1;
 
+	@Column(name = "ISO639_2")
+	private String iso639_2;
+	
+	@Column(name = "ISO639_3")
+	private String iso639_3;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -37,12 +43,29 @@ public class LinguaEO implements EntityObject {
 		this.nome = nome;
 	}
 
-	public String getCodice() {
-		return codice;
+	public String getIso639_1() {
+		return iso639_1;
 	}
 
-	public void setCodice(String codice) {
-		this.codice = codice;
-	}	
+	public void setIso639_1(String iso639_1) {
+		this.iso639_1 = iso639_1;
+	}
+
+	public String getIso639_2() {
+		return iso639_2;
+	}
+
+	public void setIso639_2(String iso639_2) {
+		this.iso639_2 = iso639_2;
+	}
+
+	public String getIso639_3() {
+		return iso639_3;
+	}
+
+	public void setIso639_3(String iso639_3) {
+		this.iso639_3 = iso639_3;
+	}
+
 	
 }
