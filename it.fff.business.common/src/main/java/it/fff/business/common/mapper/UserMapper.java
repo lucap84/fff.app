@@ -266,7 +266,6 @@ public class UserMapper implements Mapper {
 		
 		SessionBO bo = new SessionBO();
 		bo.setDeviceId(dto.getDeviceId());
-		bo.setSharedKey(dto.getSharedKey());
 		bo.setAccount(bo2);//Ogni session ha il riferimento all'account relativo
 		bo2.getSessions().add(bo);
 		

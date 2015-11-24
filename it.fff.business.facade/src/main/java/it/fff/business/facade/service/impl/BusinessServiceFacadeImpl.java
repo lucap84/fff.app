@@ -79,13 +79,14 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 	
 	@Override
-	public AuthDataResponseDTO login(LoginDataRequestDTO loginData) throws BusinessException {
+	public AuthDataResponseDTO login(LoginDataRequestDTO loginData, String sharedSecretHEX) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
 		UpdateResultBO updateResultBO = null;
 		SessionBO sessionBO = null;
 		try {
 			sessionBO = UserMapper.map2BO(loginData);
+			sessionBO.setSharedKey(sharedSecretHEX);
 			updateResultBO = securityBusinessService.login(sessionBO);
 		}
 		catch (PersistenceException e) {

@@ -1,6 +1,5 @@
 package it.fff.client.test.uc;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -8,49 +7,43 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import it.fff.client.stub.EventServiceStub;
-import it.fff.client.stub.SecurityServiceStub;
+import it.fff.client.stub.StubService;
 import it.fff.client.stub.UserServiceStub;
 import it.fff.clientserver.common.dto.AttendanceDTO;
-import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.EventDTO;
-import it.fff.clientserver.common.dto.LoginDataRequestDTO;
 import it.fff.clientserver.common.dto.UserDTO;
 
-public class UC2Test {
+public class UC02Test {
 
 	
 	@Test
 	public void testUC2(){ //Ricerca evento
 		/*
-		 * Preconditions: Register OR Login 
-		 * Login
+		 * Preconditions: UC1 Register or UC9 Login 
+		 */
+		
+		StubService service = new StubService();
+		String clientSharedKey = service.getSecureConfiguration().getSharedKey();
+		String clientDeviceId = service.getSecureConfiguration().getDeviceId();
+		if(clientSharedKey==null || "".equals(clientSharedKey) || clientDeviceId==null || "".equals(clientDeviceId)){
+			UC01Test registerTest = new UC01Test();
+			registerTest.testUC1();		
+		}
+		
+		
+		/* 
+		 * UC2:
 		 * SearchEvents
-		 * getEvent
-		 * getAttendancesByEvent
-		 * getUser()
+		 * GetEvent
 		 */
 		EventServiceStub eventService = new EventServiceStub();
 		UserServiceStub userService = new UserServiceStub();
 
-		/*
-		 * Register
-		 */
-		UC1Test registerTest = new UC1Test();
-		registerTest.testUC1();
 		
-		/*
-		 * Login
-		 */
-//		UC9Test loginTest = new UC9Test();
-//		loginTest.testUC9();
-		
-		/*
-		 * SearchEvents
-		 */
+		 // SearchEvents
 		String gpsLat = "1.1234";
 		String gpsLong = "2.4567";
 		String idCategoria = "1";
@@ -62,17 +55,20 @@ public class UC2Test {
 		assertNotNull(searchEventsOutput.get(0));
 		assertNotNull(searchEventsOutput.get(0).getId());
 		
-		/*
-		 * getEvent
-		 */
+		// getEvent
 		String eventId = searchEventsOutput.get(0).getId();
 		EventDTO getEventOutput = eventService.getEvent(eventId, MediaType.APPLICATION_JSON);
 		assertNotNull(getEventOutput);
 		assertNotNull(getEventOutput.getId());
 		assertNotNull(getEventOutput.getDescrizione());
+		 
 		/*
+		 * Postconditions: evento trovato e visualizzabile con i suoi dettagli:
 		 * getAttendancesByEvent
+		 * getUser
 		 */
+		
+		// getAttendancesByEvent
 		String eventId2 = getEventOutput.getId();
 		List<AttendanceDTO> getAttendacesByEventOutput = eventService.getAttendacesByEvent(eventId2, MediaType.APPLICATION_JSON);
 		assertNotNull(getAttendacesByEventOutput);
@@ -80,13 +76,12 @@ public class UC2Test {
 		assertNotNull(getAttendacesByEventOutput.get(0));
 		assertNotNull(getAttendacesByEventOutput.get(0).getId());
 		
-		/*
-		 * getUser
-		 */
+		 //getUser
 		String userId = getAttendacesByEventOutput.get(0).getUser().getId();
 		UserDTO getUserOutput = userService.getUser(userId, MediaType.APPLICATION_JSON);
 		assertNotNull(getUserOutput);
 		assertTrue(getUserOutput.isOk());
 		assertNotNull(getUserOutput.getId());
+		
 	}
 }

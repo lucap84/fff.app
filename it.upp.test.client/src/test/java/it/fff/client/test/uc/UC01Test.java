@@ -1,6 +1,8 @@
 package it.fff.client.test.uc;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,12 +12,23 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import it.fff.client.stub.SecurityServiceStub;
+import it.fff.client.stub.StubService;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.RegistrationDataRequestDTO;
 
-public class UC1Test {
+public class UC01Test {
 	@Test
-	public void testUC1(){ //REGISTRA UTENTE
+	public void testUC1(){ //Registra Utente
+		/*
+		 * Preconditions:  not logged
+		 */
+		StubService service = new StubService();
+		assertEquals("", service.getSecureConfiguration().getDeviceId());
+		assertEquals("", service.getSecureConfiguration().getSharedKey());
+		
+		/*
+		 * UC1
+		 */
 		SecurityServiceStub stub = new SecurityServiceStub();
 		
 		RegistrationDataRequestDTO input1 = new RegistrationDataRequestDTO();
@@ -47,6 +60,13 @@ public class UC1Test {
 //			assertNotNull(result.getErrorsMap());
 //			assertTrue(result.getErrorsMap().size()>0);
 //		}
+		
+		/*
+		 * Postconditions: User is logged
+		 */
+		
+		assertNotEquals("", service.getSecureConfiguration().getDeviceId());
+		assertNotEquals("", service.getSecureConfiguration().getSharedKey());
 	}
 
 }

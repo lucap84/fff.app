@@ -6,7 +6,6 @@ public class LoginDataRequestDTO extends DataTransferObject {
 	
 	private String email;
 	private String encodedPassword;
-	private String sharedKey;
 	private String deviceId;
 	public String getEmail() {
 		return email;
@@ -19,12 +18,6 @@ public class LoginDataRequestDTO extends DataTransferObject {
 	}
 	public void setEncodedPassword(String encodedPassword) {
 		this.encodedPassword = encodedPassword;
-	}
-	public String getSharedKey() {
-		return sharedKey;
-	}
-	public void setSharedKey(String sharedKey) {
-		this.sharedKey = sharedKey;
 	}
 	public String getDeviceId() {
 		return deviceId;

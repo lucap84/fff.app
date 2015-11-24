@@ -190,10 +190,9 @@ public class SecurityService extends ApplicationService {
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
 		loginDataRequest.setDeviceId(deviceId);
-		loginDataRequest.setSharedKey(sharedSecretHEX);		
 		
 		try {
-			resultDTO = businessServiceFacade.login(loginDataRequest);
+			resultDTO = businessServiceFacade.login(loginDataRequest, sharedSecretHEX);
 		} catch (BusinessException e) {
 			resultDTO = new AuthDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());

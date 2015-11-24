@@ -13,7 +13,7 @@ import it.fff.client.stub.SecurityServiceStub;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.LoginDataRequestDTO;
 
-public class UC9Test {
+public class UC09Test {
 
 	@Test
 	public void testUC9(){ //Login UTENTE
