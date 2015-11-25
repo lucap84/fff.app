@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tipo_abbonamento")
-public class SubscriptionTypeEO implements EntityObject {
+public class SubscriptionTypeEO extends EntityObject {
 	
 	@Id
 	@Column(name = "ID")

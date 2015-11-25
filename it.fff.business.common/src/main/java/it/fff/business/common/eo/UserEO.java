@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "utente")
-public class UserEO implements EntityObject {
+public class UserEO extends EntityObject {
 	
 	public UserEO(){
 		
@@ -118,6 +118,7 @@ public class UserEO implements EntityObject {
 		this.cognome = cognome;
 	}
 
+	
 	public String getDataNascita() {
 		return dataNascita;
 	}
@@ -219,10 +220,35 @@ public class UserEO implements EntityObject {
 		this.account = account;
 	}
 
-	@Override
-	public String toString() {
-		return "Utente: " + this.id + ", " + this.nome + ", " + this.cognome;
+	/*
+	 * setter if not empty
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.id = id;
 	}
-
+	public void setCognomeIfNotEmpty(String cognome) {
+		if(!isEmpty(cognome)) this.cognome = cognome;
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.nome = nome;
+	}
+	public void setSessoIfNotEmpty(String sesso) {
+		if(!isEmpty(sesso)) this.sesso = sesso;
+	}
+	public void setDataNascitaIfNotEmpty(String dataNascita) {
+		if(!isEmpty(dataNascita)) this.dataNascita = dataNascita;
+	}
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+	}
+	public void setLastPositionLatIfNotEmpty(double lastPositionLat) {
+		if(!isEmpty(lastPositionLat)) this.lastPositionLat = lastPositionLat;
+	}
+	public void setLastPositionLongIfNotEmpty(Double lastPositionLong) {
+		if(!isEmpty(lastPositionLong)) this.lastPositionLong = lastPositionLong;
+	}
+	public void setLastPositionDateIfNotEmpty(String lastPositionDate) {
+		if(!isEmpty(lastPositionDate)) this.lastPositionDate = lastPositionDate;
+	}
 
 }

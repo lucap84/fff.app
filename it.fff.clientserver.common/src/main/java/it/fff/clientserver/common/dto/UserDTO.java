@@ -15,11 +15,15 @@ public class UserDTO extends DataTransferObject {
 	private String cognome;
 	private String dataNascita;
 	private String sesso;
-	private String nazionalita;
-	private List<String> lingue;
+	private NazioneDTO nazionalita;
+	private List<LinguaDTO> lingue;
 	private String descrizione;
 	private String imgProfileHashCode;
 	private SubscriptionDTO subscription;
+	
+	private String lastPositionLat;
+	private String lastPositionLong;
+	private String lastPositionDate;
 	
 	public UserDTO() {
 	}
@@ -61,44 +65,54 @@ public class UserDTO extends DataTransferObject {
 	public void setSesso(String sesso) {
 		this.sesso = sesso;
 	}
-	@XmlElement public String getNazionalita() {
+	@XmlElement public NazioneDTO getNazionalita() {
 		return nazionalita;
 	}
-	public void setNazionalita(String nazionalita) {
+	public void setNazionalita(NazioneDTO nazionalita) {
 		this.nazionalita = nazionalita;
 	}
-	@XmlElement public List<String> getLingue() {
+	@XmlElement public List<LinguaDTO> getLingue() {
 		return lingue;
 	}
-	public void setLingue(List<String> lingue) {
+	public void setLingue(List<LinguaDTO> lingue) {
 		this.lingue = lingue;
 	}
-	public void addLingua(String lingua){
-		this.lingue.add(lingua);
-	}
-	
 	@XmlElement public String getDescrizione() {
 		return descrizione;
 	}
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-
 	@XmlElement public String getImgProfileHashCode() {
 		return imgProfileHashCode;
 	}
-
 	public void setImgProfileHashCode(String imgProfileHashCode) {
 		this.imgProfileHashCode = imgProfileHashCode;
 	}
-
-
 	@XmlElement public SubscriptionDTO getSubscription() {
 		return subscription;
 	}
-
 	public void setSubscription(SubscriptionDTO subscription) {
 		this.subscription = subscription;
 	}
+	@XmlElement public String getLastPositionLat() {
+		return lastPositionLat;
+	}
+	public void setLastPositionLat(String lastPositionLat) {
+		this.lastPositionLat = lastPositionLat;
+	}
+	@XmlElement public String getLastPositionLong() {
+		return lastPositionLong;
+	}
+	public void setLastPositionLong(String lastPositionLong) {
+		this.lastPositionLong = lastPositionLong;
+	}
+	@XmlElement public String getLastPositionDate() {
+		return lastPositionDate;
+	}
+	public void setLastPositionDate(String lastPositionDate) {
+		this.lastPositionDate = lastPositionDate;
+	}
 
+	
 }

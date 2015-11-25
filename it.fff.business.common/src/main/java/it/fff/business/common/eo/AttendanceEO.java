@@ -10,7 +10,7 @@ import it.fff.business.common.bo.UserBO;
 
 @Entity
 @Table(name = "partecipazione")
-public class AttendanceEO implements EntityObject {
+public class AttendanceEO extends EntityObject {
 
 	int id;
 	boolean isOrganizer;

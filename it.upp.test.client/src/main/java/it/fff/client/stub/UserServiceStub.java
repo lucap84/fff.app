@@ -75,6 +75,9 @@ public class UserServiceStub  extends StubService{
 		Client client = super.getClientInstance();
 		
 		File f = new File(imageLocation);
+		
+		//TODO check tipo immagine e dimensione lato client
+		
 		FileDataBodyPart uploadFilePart = new FileDataBodyPart("file",f);
 		final FormDataMultiPart multipart = new FormDataMultiPart();
 		multipart.bodyPart(uploadFilePart);

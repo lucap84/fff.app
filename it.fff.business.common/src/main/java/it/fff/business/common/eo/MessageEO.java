@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "messaggio")
-public class MessageEO implements EntityObject {
+public class MessageEO extends EntityObject {
 
 	private int id;
 	private String text;

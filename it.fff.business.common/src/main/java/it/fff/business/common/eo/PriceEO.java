@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "prezzo_per_nazione")
-public class PriceEO implements EntityObject {
+public class PriceEO extends EntityObject {
 	
 	@Id
 	@Column(name = "ID")

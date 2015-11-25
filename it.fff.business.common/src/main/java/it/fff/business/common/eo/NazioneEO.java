@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "nazione")
-public class NazioneEO implements EntityObject {
+public class NazioneEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")
@@ -44,6 +44,20 @@ public class NazioneEO implements EntityObject {
 	public void setInternationalKey(String internationalKey) {
 		this.internationalKey = internationalKey;
 	}
+	
+	/*
+	 * setter if not empty
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.nome = nome;
+	}
+
+	public void setInternationalKeyIfNotEmpty(String internationalKey) {
+		if(!isEmpty(internationalKey)) this.internationalKey = internationalKey;
+	}	
 	
 	
 }

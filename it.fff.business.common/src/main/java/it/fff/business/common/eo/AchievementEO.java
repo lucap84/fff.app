@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "achievement")
-public class AchievementEO implements EntityObject {
+public class AchievementEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")

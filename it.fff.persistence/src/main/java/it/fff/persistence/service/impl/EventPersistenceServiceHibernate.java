@@ -5,7 +5,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
@@ -17,7 +20,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceHibernate.class);
 	
 	@Override
-	public EventEO retrieveEvent(int eventId) throws Exception{
+	public EventBO retrieveEvent(int eventId) throws Exception{
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,7 +38,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public CreateResultBO createEvent(EventEO eo) throws Exception {
+	public CreateResultBO createEvent(EventBO bo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -53,38 +56,38 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public CreateResultBO addFeedback(AttendanceEO eo, boolean isPositiveFeedback) throws Exception {
+	public CreateResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(AttendanceEO eo) throws Exception {
+	public CreateResultBO createStandardEventMessage(AttendanceBO bo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<AttendanceEO> getAttendancesByEvent(int eventId) throws Exception {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<EventEO> getEventsByUser(int userId) throws Exception {
+	public List<EventBO> getEventsByUser(int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<EventEO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti)
+	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MessageEO> getEventMessages(int eventId) throws Exception {
+	public List<MessageBO> getEventMessages(int eventId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

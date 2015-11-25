@@ -24,22 +24,15 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		logger.debug("retrieving event ({}) ...",eventId);
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
-		EventEO eventEO = null;
+		EventBO eventBO = null;
 		try{
-			eventEO = eventPersistenceService.retrieveEvent(eventId);
+			eventBO = eventPersistenceService.retrieveEvent(eventId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
-		}
-		if(eventEO!=null){
-			logger.debug("event ({}) retrieved",eventId);
-		}
-		EventBO eventBO = EventMapper.map2BO(eventEO);
-		if(eventBO!=null){
-			logger.debug("Event ({}) mapped in BO",eventId);
 		}
 		return eventBO;
 	}
@@ -49,11 +42,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		logger.debug("aggiornando img utente ...");
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
-		ProfileImageEO eoOutput = null;
+		ProfileImageBO boOutput = null;
 		try{
-			UserMapper mapper = new UserMapper();
-			ProfileImageEO eoInput = mapper.map2EO(imgBO);
-			eoOutput = userPersistenceService.updateProfileImage(eoInput);
+			boOutput = userPersistenceService.updateProfileImage(imgBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -61,15 +52,10 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		if(eoOutput!=null){
+		if(boOutput!=null){
 			logger.debug("user img created");
 		}
-		UserMapper mapper = new UserMapper();
-		ProfileImageBO boCreated = mapper.map2BO(eoOutput);
-		if(boCreated!=null){
-			logger.debug("img mapped in BO");
-		}
-		return boCreated;
+		return boOutput;
 	}
 
 	@Override
@@ -77,9 +63,8 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		CreateResultBO resultBO = null;
-		EventEO eo = EventMapper.map2EO(bo);
 		try{
-			resultBO = eventPersistenceService.createEvent(eo);
+			resultBO = eventPersistenceService.createEvent(bo);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -168,9 +153,8 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		CreateResultBO resultBO = null;
-		AttendanceEO eo = EventMapper.map2EO(bo);
 		try{
-			resultBO = eventPersistenceService.createStandardEventMessage(eo);
+			resultBO = eventPersistenceService.createStandardEventMessage(bo);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -187,10 +171,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		CreateResultBO resultBO = null;
-		AttendanceEO eo = EventMapper.map2EO(bo);
 		boolean isPositiveFeedback = bo.getFeedback().isPositiveFeedback();
 		try{
-			resultBO = eventPersistenceService.addFeedback(eo, isPositiveFeedback);
+			resultBO = eventPersistenceService.addFeedback(bo, isPositiveFeedback);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -206,9 +189,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
-		List<MessageEO> eos = null;
+		List<MessageBO> bos = null;
 		try{
-			eos = eventPersistenceService.getEventMessages(eventId);
+			bos = eventPersistenceService.getEventMessages(eventId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -216,7 +199,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		List<MessageBO> bos = MessageMapper.map2BO(eos);
 
 		return bos;			
 	}
@@ -225,9 +207,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
-		List<EventEO> eos = null;
+		List<EventBO> bos = null;
 		try{
-			eos = eventPersistenceService.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
+			bos = eventPersistenceService.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -235,7 +217,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		List<EventBO> bos = EventMapper.map2BO(eos);
 
 		return bos;	
 	}
@@ -244,9 +225,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
-		List<EventEO> eos = null;
+		List<EventBO> bos = null;
 		try{
-			eos = eventPersistenceService.getEventsByUser(userId);
+			bos = eventPersistenceService.getEventsByUser(userId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -254,7 +235,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		List<EventBO> bos = EventMapper.map2BO(eos);
 
 		return bos;		
 		
@@ -264,9 +244,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
-		List<AttendanceEO> eos = null;
+		List<AttendanceBO> bos = null;
 		try{
-			eos = eventPersistenceService.getAttendancesByEvent(eventId);
+			bos = eventPersistenceService.getAttendancesByEvent(eventId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -274,8 +254,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		List<AttendanceBO> bos = AttendanceMapper.map2BO(eos);
-
 		return bos;			
 	}
 	
@@ -284,9 +262,8 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		UpdateResultBO resultBO = null;
-		PlaceEO eo = PlacesMapper.map2EO(placeBO);
 		try{
-			resultBO = placesPersistenceService.setCurrentPosition(userId,eventId,eo);
+			resultBO = placesPersistenceService.setCurrentPosition(userId,eventId,placeBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -302,9 +279,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
-		List<PlaceEO> eos = null;
+		List<PlaceBO> bos = null;
 		try{
-			eos = placesPersistenceService.getPlacesByDescription(description);
+			bos = placesPersistenceService.getPlacesByDescription(description);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -312,7 +289,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		List<PlaceBO> bos = PlacesMapper.map2BO(eos);
 
 		return bos;		
 	}
@@ -394,10 +370,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public CreateResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException {
 		PremiumPersistenceService premiumPersistenceService = (PremiumPersistenceService)PersistenceServiceProvider.getPersistenceService("premiumPersistenceService");
 		
-		SubscriptionEO eo = SubscriptionMapper.map2EO(subscriptionBO);
 		CreateResultBO resultBO = null;
 		try{
-			resultBO = premiumPersistenceService.upgradeToPremium(userId, eo);
+			resultBO = premiumPersistenceService.upgradeToPremium(userId, subscriptionBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -415,8 +390,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 
 		CreateResultBO resultBO = null;
 		try{
-			UserEO userEOinput = UserMapper.map2EO(userBO); 
-			resultBO = userPersistenceService.registerUser(userEOinput);
+			resultBO = userPersistenceService.registerUser(userBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -433,8 +407,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 
 		UpdateResultBO resultBO = null;
 		try{
-			SessionEO sessionEOInput = UserMapper.map2EO(session);
-			resultBO = securityPersistenceService.login(sessionEOInput);
+			resultBO = securityPersistenceService.login(session);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -450,10 +423,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
-		UserEO eo = UserMapper.map2EO(userBO);
 		UpdateResultBO resultBO = null;
 		try{
-			resultBO = userPersistenceService.updateUserData(eo);
+			resultBO = userPersistenceService.updateUserData(userBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -469,9 +441,9 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	public UserBO getUser(int userId) throws PersistenceException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
-		UserEO eoOutput = null;
+		UserBO boOutput = null;
 		try{
-			eoOutput = userPersistenceService.getUser(userId);
+			boOutput = userPersistenceService.getUser(userId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -479,7 +451,6 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		UserBO boOutput = UserMapper.map2BO(eoOutput);
 
 		return boOutput;
 	}

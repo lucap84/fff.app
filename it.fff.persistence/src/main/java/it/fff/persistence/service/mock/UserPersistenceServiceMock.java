@@ -3,15 +3,16 @@ package it.fff.persistence.service.mock;
 import java.sql.SQLException;
 
 import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
 
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public CreateResultBO registerUser(UserEO userEO) throws SQLException {
+	public CreateResultBO registerUser(UserBO userBO) throws SQLException {
 		CreateResultBO resultBO = new CreateResultBO();
 		resultBO.setCreatedKey(1);
 		resultBO.setSuccess(true);
@@ -20,22 +21,22 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws SQLException {
-		eoInput.setImageIdentifier("0101010101010");
+	public ProfileImageBO updateProfileImage(ProfileImageBO eoInput) throws SQLException {
+		eoInput.setImgHashCode("0101010101010");
 		return eoInput;
 	}
 
 	@Override
-	public UserEO getUser(int userId) throws SQLException {
-		UserEO eo = new UserEO();
-		eo.setId(userId);
-		eo.setNome("nome1");
-		eo.setCognome("cognome1");
-		return eo;
+	public UserBO getUser(int userId) throws SQLException {
+		UserBO bo = new UserBO();
+		bo.setId(userId);
+		bo.setNome("nome1");
+		bo.setCognome("cognome1");
+		return bo;
 	}
 
 	@Override
-	public UpdateResultBO updateUserData(UserEO eo) throws SQLException {
+	public UpdateResultBO updateUserData(UserBO bo) throws SQLException {
 		UpdateResultBO resultBO = new UpdateResultBO();
 		resultBO.setUpdatedKey(1);
 		resultBO.setSuccess(true);

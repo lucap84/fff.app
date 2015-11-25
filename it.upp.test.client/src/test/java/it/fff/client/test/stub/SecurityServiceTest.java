@@ -139,8 +139,8 @@ public class SecurityServiceTest extends WebServiceRestTest{
 	public static void main(String[] args) {
 		SecurityServiceTest securityServiceTest = new SecurityServiceTest();
 		securityServiceTest.t1_registerUserShouldReturnConfirm();
-		securityServiceTest.t2_logoutShouldReturnConfirm();
-		securityServiceTest.t3_loginShouldReturnConfirm();
+//		securityServiceTest.t2_logoutShouldReturnConfirm();
+//		securityServiceTest.t3_loginShouldReturnConfirm();
 	}
 	
    

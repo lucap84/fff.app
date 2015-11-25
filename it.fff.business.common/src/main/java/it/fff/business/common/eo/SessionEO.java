@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sessione")
-public class SessionEO implements EntityObject {
+public class SessionEO extends EntityObject {
 	
 	@Id
 	@Column(name = "ID")
@@ -36,6 +36,7 @@ public class SessionEO implements EntityObject {
 	@Column(name = "Data_Logout")
 	private String dataLogout;
 		
+	
 	public String getDeviceId() {
 		return deviceId;
 	}
@@ -78,5 +79,25 @@ public class SessionEO implements EntityObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
+	
+	/*
+	 * setter if not empty
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+	public void setDeviceIdIfNotEmpty(String deviceId) {
+		if(!isEmpty(deviceId)) this.deviceId = deviceId;
+	}
+	public void setSharedKeyIfNotEmpty(String sharedKey) {
+		if(!isEmpty(sharedKey)) this.sharedKey = sharedKey;
+	}
+	public void setDataLoginIfNotEmpty(String dataLogin) {
+		if(!isEmpty(dataLogin)) this.dataLogin = dataLogin;
+	}
+
+	public void setDataLogoutIfNotEmpty(String dataLogout) {
+		if(!isEmpty(dataLogout)) this.dataLogout = dataLogout;
+	}	
 	
 }

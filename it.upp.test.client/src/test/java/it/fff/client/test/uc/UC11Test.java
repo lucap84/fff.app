@@ -12,9 +12,9 @@ import it.fff.clientserver.common.dto.WriteResultDTO;
 public class UC11Test {
 	
 	@Test
-	public void testUC3(){//Logout
+	public void testUC11(){//Logout
 		/*
-		 * Preconditions:  UC9 Login
+		 * Preconditions:  UC9 Login (oppure UC1)
 		 */
 		
 		UC09Test loginTest = new UC09Test();

@@ -3,7 +3,6 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.MapperListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,11 +20,40 @@ public class UserMapper implements Mapper {
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
-			bo.setCognome(dto.getCognome());
+			AccountBO account = new AccountBO();
+			account.setEmail(dto.getEmail());
+			bo.setAccount(account);
+			
 			bo.setNome(dto.getNome());
+			bo.setCognome(dto.getCognome());
 			bo.setSesso(dto.getSesso());
 			bo.setDataNascita(dto.getDataNascita());
 			bo.setDescrizione(dto.getDescrizione());
+			bo.setNazionalita(UserMapper.map2BO(dto.getNazionalita()));
+			bo.setLingue(LinguaMapper.mapDTO2BO(dto.getLingue()));
+			
+			bo.setLastPositionDate(dto.getLastPositionDate());
+			if(dto.getLastPositionLat()!=null){
+//				double lastPositionLat = "".equals(dto.getLastPositionLat())?0:Double.valueOf(dto.getLastPositionLat());
+				bo.setLastPositionLat(Double.valueOf(dto.getLastPositionLat()));
+			}
+			if(dto.getLastPositionLong()!=null){
+//				double lastPositionLong = "".equals(dto.getLastPositionLong())?0:Double.valueOf(dto.getLastPositionLong());
+				bo.setLastPositionLong(Double.valueOf(dto.getLastPositionLong()));
+			}
+		}
+		else{logger.warn("Mapping null objects!!");}
+		return bo;
+	}
+
+	public static NazioneBO map2BO(NazioneDTO dto) {
+		NazioneBO bo = new NazioneBO();
+		if(dto!=null){
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setNome(dto.getNome());
+			bo.setInternationalKey(dto.getInternationalKey());
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return bo;
@@ -33,7 +61,7 @@ public class UserMapper implements Mapper {
 
 	public static UserDTO map2DTO(UserBO bo) {
 		UserDTO dto = new UserDTO();
-		if(dto!=null){
+		if(bo!=null){
 			dto.setId(String.valueOf(bo.getId()));
 			dto.setCognome(bo.getCognome());
 			dto.setDataNascita(bo.getDataNascita());
@@ -43,88 +71,74 @@ public class UserMapper implements Mapper {
 		return dto;
 	}
 
-	public static UserEO map2EO(UserBO bo) {
-		UserEO eo = new UserEO();
+
+	public static void mapBO2EO(NazioneBO bo, NazioneEO eo) {
 		if(bo!=null){
-			if(bo.getId()>0){
-				eo.setId(bo.getId());
-			}
-			eo.setNome(bo.getNome());
-			eo.setCognome(bo.getCognome());
-			eo.setSesso(bo.getSesso());
-			eo.setDataNascita(bo.getDataNascita());
-			eo.setDescrizione(bo.getDescrizione());
-			eo.setLastPositionLat(bo.getLastPositionLat());
-			eo.setLastPositionLong(bo.getLastPositionLong());
-			eo.setLastPositionDate(bo.getLastPositionDate());
-			eo.setLingue(LinguaMapper.map2EO(bo.getLingue()));
-			eo.setAccount(UserMapper.map2EO(bo.getAccount()));
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setNomeIfNotEmpty(bo.getNome());
+			eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
 		}
 		else{logger.warn("Mapping null objects!!");}
-		return eo;
 	}
 
-	public static AccountEO map2EO(AccountBO bo) {
-		AccountEO eo = new AccountEO();
+	public static void mapBO2EO(AccountBO bo, AccountEO eo) {
 		if(bo!=null){
-			eo.setEmail(bo.getEmail());
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setEmailIfNotEmpty(bo.getEmail());
 			eo.setFlgValidita(bo.isFlgValidita());
 			eo.setFlgVerificato(bo.isFlgVerificato());
-			if(bo.getId()>0){
-				eo.setId(bo.getId());
-			}
-			eo.setPassword(bo.getPassword());
-			eo.setVerificationCode(bo.getVerificationCode());
+			eo.setPasswordIfNotEmpty(bo.getPassword());
+			eo.setVerificationCodeIfNotEmpty(bo.getVerificationCode());
 			
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionEO> sessionsEO = new ArrayList<SessionEO>();
 			
 			List<SessionBO> sessionsBO = bo.getSessions();
+			if(sessionsBO==null){
+				sessionsBO = new ArrayList<SessionBO>();
+			}
 			for (SessionBO ssBO : sessionsBO) {
 				SessionEO ssEO = new SessionEO();
-				if(ssBO.getId()>0){
-					ssEO.setId(ssBO.getId());
-				}
-				ssEO.setAccount(eo);
-				ssEO.setDeviceId(ssBO.getDeviceId());
-				ssEO.setSharedKey(ssBO.getSharedKey());
+				ssEO.setAccount(eo); //set del parent
+				ssEO.setIdIfNotEmpty(ssBO.getId());
+				ssEO.setDeviceIdIfNotEmpty(ssBO.getDeviceId());
+				ssEO.setSharedKeyIfNotEmpty(ssBO.getSharedKey());
 				ssEO.setLogged(ssBO.isLogged());
-				ssEO.setDataLogin(ssBO.getDataLogin());
-				ssEO.setDataLogout(ssBO.getDataLogout());
+				ssEO.setDataLoginIfNotEmpty(ssBO.getDataLogin());
+				ssEO.setDataLogoutIfNotEmpty(ssBO.getDataLogout());
 				sessionsEO.add(ssEO);
 			}
 			eo.setSessions(sessionsEO);
-//			eo.setSessions(UserMapper.map2EO(sessions));
 		}
 		else{logger.warn("Mapping null objects!!");}
-		return eo;
 	}
 
 	public static List<SessionEO> map2EO(List<SessionBO> bos) {
 		List<SessionEO> eos = new ArrayList<SessionEO>();
 		if(bos!=null){
 			for (SessionBO bo : bos) {
-				eos.add(UserMapper.map2EO(bo));
+				SessionEO eo = new SessionEO();
+				UserMapper.mapBO2EO(bo,eo);
+				eos.add(eo);
 			}
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return eos;
 	}
 
-	public static SessionEO map2EO(SessionBO bo) {
-		SessionEO eo = new SessionEO();
+	public static void mapBO2EO(SessionBO bo, SessionEO eo) {
 		if(bo!=null){
-			if(bo.getId()>0){
-				eo.setId(bo.getId());
-			}
-			eo.setDeviceId(bo.getDeviceId());
-			eo.setSharedKey(bo.getSharedKey());
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setDeviceIdIfNotEmpty(bo.getDeviceId());
+			eo.setSharedKeyIfNotEmpty(bo.getSharedKey());
 			eo.setLogged(bo.isLogged());
-			eo.setDataLogin(bo.getDataLogin());
-			eo.setAccount(UserMapper.map2EO(bo.getAccount()));
+			eo.setDataLoginIfNotEmpty(bo.getDataLogin());
+			
+			AccountEO accountEO = new AccountEO();
+			UserMapper.mapBO2EO(bo.getAccount(), accountEO);
+			eo.setAccount(accountEO);
 		}
 		else{logger.warn("Mapping null objects!!");}
-		return eo;
 	}
 
 	public static UserBO map2BO(UserEO eo) {
@@ -138,7 +152,7 @@ public class UserMapper implements Mapper {
 			bo.setFlagAttivo(eo.isFlagAttivo());
 			bo.setNazionalita(UserMapper.map2BO(eo.getNazionalita()));
 			if(eo.getLingue()!=null && org.hibernate.Hibernate.isInitialized(eo.getLingue())){
-				bo.setLingue(LinguaMapper.map2BO(eo.getLingue()));
+				bo.setLingue(LinguaMapper.mapEO2BO(eo.getLingue()));
 			}
 			if(eo.getAchievements()!=null && org.hibernate.Hibernate.isInitialized(eo.getAchievements())){
 				bo.setAchievements(map2BO(eo.getAchievements()));
@@ -208,29 +222,6 @@ public class UserMapper implements Mapper {
 		return dto;
 	}
 
-	public ProfileImageEO map2EO(ProfileImageBO bo) {
-		ProfileImageEO eo = new ProfileImageEO();
-		if(bo!=null){
-			eo.setImageInputStream(bo.getImageInputStream());
-			eo.setFileName(bo.getFileName());
-			eo.setUserId(bo.getUserId());
-			eo.setImageIdentifier(bo.getImgHashCode());
-		}
-		else{logger.warn("Mapping null objects!!");}
-		return eo;
-	}
-
-	public ProfileImageBO map2BO(ProfileImageEO eo) {
-		ProfileImageBO bo = new ProfileImageBO();
-		if(eo!=null){
-			bo.setImageInputStream(eo.getImageInputStream());
-			bo.setFileName(eo.getFileName());
-			bo.setUserId(eo.getUserId());
-			bo.setImgHashCode(eo.getImageIdentifier());
-		}
-		else{logger.warn("Mapping null objects!!");}
-		return bo;
-	}
 
 	public static UserBO map2BO(RegistrationDataRequestDTO dto) {
 		UserBO bo1 = new UserBO();
@@ -270,5 +261,33 @@ public class UserMapper implements Mapper {
 		bo2.getSessions().add(bo);
 		
 		return bo;
-	}	
+	}
+
+	public static void mapBO2EO(UserBO bo, UserEO eo) {
+		if(bo!=null){
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setNomeIfNotEmpty(bo.getNome());
+			eo.setCognomeIfNotEmpty(bo.getCognome());
+			eo.setSessoIfNotEmpty(bo.getSesso());
+			eo.setDataNascitaIfNotEmpty(bo.getDataNascita());
+			eo.setDescrizioneIfNotEmpty(bo.getDescrizione());
+			eo.setLastPositionLatIfNotEmpty(bo.getLastPositionLat());
+			eo.setLastPositionLongIfNotEmpty(bo.getLastPositionLong());
+			eo.setLastPositionDateIfNotEmpty(bo.getLastPositionDate());
+			
+			List<LinguaEO> lingueEO = new ArrayList<LinguaEO>();
+			LinguaMapper.mapBO2EO(bo.getLingue(),lingueEO);
+			eo.setLingue(lingueEO);
+			
+			AccountEO accountEO = new AccountEO();
+			UserMapper.mapBO2EO(bo.getAccount(), accountEO);
+			eo.setAccount(accountEO);
+			
+			NazioneEO nazionalitaEO = new NazioneEO();
+			UserMapper.mapBO2EO(bo.getNazionalita(),nazionalitaEO);
+			eo.setNazionalita(nazionalitaEO);
+		}
+		else{logger.warn("Mapping null objects!!");}
+	}
+	
 }

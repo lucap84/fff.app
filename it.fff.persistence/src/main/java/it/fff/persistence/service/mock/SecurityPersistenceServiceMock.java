@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.persistence.service.SecurityPersistenceService;
@@ -47,7 +48,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public UpdateResultBO login(SessionEO session) throws SQLException {
+	public UpdateResultBO login(SessionBO session) throws SQLException {
 		UpdateResultBO resultBO = new UpdateResultBO();
 		resultBO.setUpdatedKey(1);
 		resultBO.setSuccess(true);

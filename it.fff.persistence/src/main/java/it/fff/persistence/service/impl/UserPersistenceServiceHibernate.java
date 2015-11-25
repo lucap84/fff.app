@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,10 +15,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
-import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.persistence.service.UserPersistenceService;
@@ -34,7 +31,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceHibernate.class);
 	
 	@Override
-	public CreateResultBO registerUser(UserEO userEO) throws Exception {
+	public CreateResultBO registerUser(UserBO userBO) throws Exception {
 		logger.info("registering user");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -42,12 +39,15 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    Transaction tx = null;
 	    Integer id = null;
 	      try{
-	         tx = session.beginTransaction();
-	         id = (Integer)session.save(userEO); 
-	         
-	         AccountEO accountEO = userEO.getAccount();
-	         accountEO.setId(id);
-	         session.save(accountEO);
+	    	  UserEO userEO = new UserEO();
+	    	  UserMapper.mapBO2EO(userBO,userEO);
+	    	  
+			tx = session.beginTransaction();
+			id = (Integer)session.save(userEO); 
+			 
+			AccountEO accountEO = userEO.getAccount();
+			accountEO.setId(id);
+			session.save(accountEO);
 	         
 	         tx.commit();
 	      }catch (HibernateException e) {
@@ -68,34 +68,41 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public UserEO getUser(int userId) throws Exception {
+	public UserBO getUser(int userId) throws Exception {
+		UserBO bo = null;
 		UserEO eo = null;
-        
+				
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 	      try{
-	         eo = (UserEO) session.get(UserEO.class, userId);
+	    	 eo = (UserEO) session.get(UserEO.class, userId);
 	      }catch (HibernateException e) {
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during get() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        
-        
-		return eo;
+	      bo = UserMapper.map2BO(eo);
+		return bo;
 	}
 
 	@Override
-	public UpdateResultBO updateUserData(UserEO eo) throws Exception {
+	public UpdateResultBO updateUserData(UserBO bo) throws Exception {
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-	    Transaction tx = null;
+		UserEO eo = null;
+		Transaction tx = null;
 	      try{
 			tx = session.beginTransaction();
-			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()
-			eoTOUpdate.setNome(eo.getNome());
-			eoTOUpdate.setCognome(eo.getCognome());
+			
+			eo = (UserEO) session.load(UserEO.class, bo.getId());
+			UserMapper.mapBO2EO(bo, eo);
+			session.update(eo);
+			
+//			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()
+//			eoTOUpdate.setNome(eo.getNome());
+//			eoTOUpdate.setCognome(eo.getCognome());
 //			eoTOUpdate.setNumUpdate(99);
 			
 			tx.commit();
@@ -116,24 +123,24 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}	
 
 	@Override
-	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws Exception {
+	public ProfileImageBO updateProfileImage(ProfileImageBO boInput) throws Exception {
 		logger.info("creando img user");
-		ProfileImageEO outputEo = null;
+		ProfileImageBO outputBO = null;
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 		String uploadFolder = configurationProvider.getProperty(Constants.PROP_UPLOAD_LOCATION);
-		String filePath = uploadFolder+"/"+eoInput.getUserId()+"/"+eoInput.getFileName();
-		boolean isSavedFile = saveFile(eoInput.getImageInputStream(), filePath);
+		String filePath = uploadFolder+"/"+boInput.getUserId()+"/"+boInput.getFileName();
+		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
-			outputEo = eoInput;
-			outputEo.setImageIdentifier(String.valueOf(eoInput.getImageInputStream().hashCode()));
+			outputBO = boInput;
+			outputBO.setImgHashCode(String.valueOf(boInput.getImageInputStream().hashCode()));
 		}
-		if(outputEo!=null){
+		if(outputBO!=null){
 			logger.info("Img user created");
 		}
 		else{
 			throw new SQLException("Errore creando su File system");
 		}
-		return outputEo;
+		return outputBO;
 	}	
 	// save uploaded file to a defined location on the server
     private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {

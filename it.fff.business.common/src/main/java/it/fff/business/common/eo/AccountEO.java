@@ -1,6 +1,5 @@
 package it.fff.business.common.eo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,11 +13,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "account")
-public class AccountEO implements EntityObject {
+public class AccountEO extends EntityObject {
 	
 	@Id
 	@Column(name = "ID")
@@ -126,6 +124,22 @@ public class AccountEO implements EntityObject {
 
 	public void setSessions(List<SessionEO> sessions) {
 		this.sessions = sessions;
+	}
+
+	/*
+	 * setter if not empty
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+	public void setEmailIfNotEmpty(String email) {
+		if(!isEmpty(email)) this.email = email;
+	}
+	public void setPasswordIfNotEmpty(String password) {
+		if(!isEmpty(password)) this.password = password;
+	}
+	public void setVerificationCodeIfNotEmpty(int verificationCode) {
+		if(!isEmpty(verificationCode)) this.verificationCode = verificationCode;
 	}	
 	
 	

@@ -3,13 +3,14 @@ package it.fff.persistence.service.mock;
 import java.sql.SQLException;
 
 import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.persistence.service.PremiumPersistenceService;
 
 public class PremiumPersistenceServiceMock implements PremiumPersistenceService {
 
 	@Override
-	public CreateResultBO upgradeToPremium(int userId, SubscriptionEO eo) throws SQLException {
+	public CreateResultBO upgradeToPremium(int userId, SubscriptionBO bo) throws SQLException {
 		CreateResultBO resultBO = new CreateResultBO();
 		resultBO.setCreatedKey(1);
 		resultBO.setSuccess(true);

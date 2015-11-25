@@ -2,18 +2,18 @@ package it.fff.persistence.service;
 
 
 import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.business.common.eo.ProfileImageEO;
-import it.fff.business.common.eo.UserEO;
+import it.fff.business.common.bo.UserBO;
 
 public interface UserPersistenceService  extends PersistenceService{
 
-	public CreateResultBO registerUser(UserEO userEO) throws Exception;
+	public CreateResultBO registerUser(UserBO userBO) throws Exception;
 
-	public ProfileImageEO updateProfileImage(ProfileImageEO eoInput) throws Exception;
+	public ProfileImageBO updateProfileImage(ProfileImageBO eoInput) throws Exception;
 
-	public UserEO getUser(int userId) throws Exception;
+	public UserBO getUser(int userId) throws Exception;
 
-	public UpdateResultBO updateUserData(UserEO eo) throws Exception;
+	public UpdateResultBO updateUserData(UserBO eo) throws Exception;
 
 }

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "abbonamento")
-public class SubscriptionEO implements EntityObject {
+public class SubscriptionEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")

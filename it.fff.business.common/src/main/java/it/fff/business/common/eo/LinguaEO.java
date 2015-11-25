@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "lingua")
-public class LinguaEO implements EntityObject {
+public class LinguaEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")
@@ -66,6 +66,24 @@ public class LinguaEO implements EntityObject {
 	public void setIso639_3(String iso639_3) {
 		this.iso639_3 = iso639_3;
 	}
-
+	
+	/*
+	 * setter if not empty
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(id)) this.nome = nome;
+	}
+	public void setIso639_1IfNotEmpty(String iso639_1) {
+		if(!isEmpty(iso639_1)) this.iso639_1 = iso639_1;
+	}
+	public void setIso639_2IfNotEmpty(String iso639_2) {
+		if(!isEmpty(iso639_2)) this.iso639_2 = iso639_2;
+	}
+	public void setIso639_3IfNotEmpty(String iso639_3) {
+		if(!isEmpty(iso639_3)) this.iso639_3 = iso639_3;
+	}
 	
 }

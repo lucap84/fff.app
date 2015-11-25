@@ -12,6 +12,7 @@ import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.MessageEO;
@@ -23,11 +24,11 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceMock.class);
 	
 	@Override
-	public EventEO retrieveEvent(int eventId){
+	public EventBO retrieveEvent(int eventId){
 		logger.info("retrieveEvent ({})",eventId);
-		EventEO event = new EventEO();
+		EventBO event = new EventBO();
 		event.setId(eventId);
-		event.setTitolo("nome persistente");
+		event.setNome("nome persistente");
 		event.setDescrizione("descr persisente");
 		logger.info("Mocked event ({}) retrieved",eventId);
 		return event;
@@ -52,7 +53,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public CreateResultBO createEvent(EventEO eo) throws SQLException {
+	public CreateResultBO createEvent(EventBO bo) throws SQLException {
 		CreateResultBO resultBO = new CreateResultBO();
 		resultBO.setCreatedKey(1);
 		resultBO.setSuccess(true);
@@ -79,7 +80,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public CreateResultBO addFeedback(AttendanceEO eo, boolean isPositiveFeedback) throws SQLException {
+	public CreateResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws SQLException {
 		CreateResultBO resultBO = new CreateResultBO();
 		resultBO.setCreatedKey(1);
 		resultBO.setSuccess(true);
@@ -88,7 +89,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(AttendanceEO eo) throws SQLException {
+	public CreateResultBO createStandardEventMessage(AttendanceBO bo) throws SQLException {
 		CreateResultBO resultBO = new CreateResultBO();
 		resultBO.setCreatedKey(1);
 		resultBO.setSuccess(true);
@@ -97,13 +98,13 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<AttendanceEO> getAttendancesByEvent(int eventId) throws SQLException {
-		List<AttendanceEO> attendances = new ArrayList<AttendanceEO>();
-		AttendanceEO a1 = new AttendanceEO();
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws SQLException {
+		List<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
+		AttendanceBO a1 = new AttendanceBO();
 		a1.setValid(true);
 		a1.setNumPartecipanti(100);
 		
-		UserEO user = new UserEO();
+		UserBO user = new UserBO();
 		user.setId(1);
 		a1.setUser(user);
 		
@@ -112,47 +113,47 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<EventEO> getEventsByUser(int userId) throws SQLException {
-		List<EventEO> eos = new ArrayList<EventEO>();
-		EventEO eo1 = new EventEO();
-		eo1.setId(1);
-		eo1.setTitolo("ev1");
-		EventEO eo2 = new EventEO();
-		eo2.setId(2);
-		eo2.setTitolo("ev2");		
-		eos.add(eo1);
-		eos.add(eo2);
+	public List<EventBO> getEventsByUser(int userId) throws SQLException {
+		List<EventBO> bos = new ArrayList<EventBO>();
+		EventBO bo1 = new EventBO();
+		bo1.setId(1);
+		bo1.setNome("ev1");
+		EventBO bo2 = new EventBO();
+		bo2.setId(2);
+		bo2.setNome("ev2");		
+		bos.add(bo1);
+		bos.add(bo2);
 		
-		return eos;
+		return bos;
 	}
 
 	@Override
-	public List<EventEO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti)	throws SQLException {
-		List<EventEO> eos = new ArrayList<EventEO>();
-		EventEO eo1 = new EventEO();
-		eo1.setId(1);
-		eo1.setTitolo("ev1");
-		EventEO eo2 = new EventEO();
-		eo2.setId(2);
-		eo2.setTitolo("ev2");		
-		eos.add(eo1);
-		eos.add(eo2);
+	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti)	throws SQLException {
+		List<EventBO> bos = new ArrayList<EventBO>();
+		EventBO bo1 = new EventBO();
+		bo1.setId(1);
+		bo1.setNome("ev1");
+		EventBO bo2 = new EventBO();
+		bo2.setId(2);
+		bo2.setNome("ev2");		
+		bos.add(bo1);
+		bos.add(bo2);
 		
-		return eos;
+		return bos;
 	}
 
 	@Override
-	public List<MessageEO> getEventMessages(int eventId) throws SQLException {
-		List<MessageEO> eos = new ArrayList<MessageEO>();
-		MessageEO eo1 = new MessageEO();
-		eo1.setId(1);
-		eo1.setText("aaaaaaaaaaaaa");
-		MessageEO eo2 = new MessageEO();
-		eo2.setId(2);
-		eo2.setText("bbbbbbbbbbbbb");		
-		eos.add(eo1);
-		eos.add(eo2);
-		return eos;
+	public List<MessageBO> getEventMessages(int eventId) throws SQLException {
+		List<MessageBO> bos = new ArrayList<MessageBO>();
+		MessageBO bo1 = new MessageBO();
+		bo1.setId(1);
+		bo1.setText("aaaaaaaaaaaaa");
+		MessageBO bo2 = new MessageBO();
+		bo2.setId(2);
+		bo2.setText("bbbbbbbbbbbbb");		
+		bos.add(bo1);
+		bos.add(bo2);
+		return bos;
 	}
 
 }

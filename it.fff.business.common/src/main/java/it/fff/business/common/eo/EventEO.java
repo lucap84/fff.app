@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="evento")
-public class EventEO implements EntityObject{
+public class EventEO extends EntityObject{
 
 	@Id
 	@Column(name="ID")

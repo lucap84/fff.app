@@ -7,6 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -38,8 +42,31 @@ public class UserServiceTest extends WebServiceRestTest{
 		
 		UserDTO  user = new UserDTO();
 		user.setId("1");
+		user.setEmail("nuovamail@mail.it");
+		user.setSesso("F");
+		user.setDataNascita("1900-01-01");
 		user.setNome("Nome mod");
 		user.setCognome("cognome mod");
+		user.setDescrizione("Descrizione mod");
+		
+		NazioneDTO nazionalita = new NazioneDTO();
+		nazionalita.setId("1");
+		user.setNazionalita(nazionalita);
+		
+		LinguaDTO l1 = new LinguaDTO();
+		l1.setId("1");
+		LinguaDTO l2 = new LinguaDTO();
+		l1.setId("2");
+		List<LinguaDTO> lingue = new ArrayList<LinguaDTO>();
+		lingue.add(l1);
+		lingue.add(l2);
+		user.setLingue(lingue);
+		
+		//impostate in modo silente dal sistema
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+		user.setLastPositionDate(df.format(new Date()));
+		user.setLastPositionLat("1.234");
+		user.setLastPositionLong("2.345");
 		
 		WriteResultDTO result = null;
 
@@ -131,8 +158,8 @@ public class UserServiceTest extends WebServiceRestTest{
 	}
 	
 	public static void main(String[] args) {
-//		UserServiceTest test = new UserServiceTest("1","99");
-//		test.modifyUserDataShouldReturnConfirm();
+		UserServiceTest test = new UserServiceTest();
+		test.modifyUserDataShouldReturnConfirm();
 	}
 	
 }

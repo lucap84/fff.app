@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "luogo")
-public class PlaceEO implements EntityObject {
+public class PlaceEO extends EntityObject {
 
 	private String nome;
 	private double gpsLat;
