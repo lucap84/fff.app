@@ -47,6 +47,9 @@ public class EventEO extends EntityObject{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private List<AttendanceEO> partecipazioni;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	private List<MessageEO> messages;
+	
 	public EventEO(){
 		
 	}

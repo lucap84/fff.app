@@ -128,7 +128,13 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti)	throws SQLException {
+	public List<EventBO> searchEvents(double gpsLatFrom, 
+			double gpsLatTo, 
+			double gpsLongFrom,
+			double gpsLongTo, 
+			int idCategoria, 
+			int minPartecipanti)	throws Exception {
+
 		List<EventBO> bos = new ArrayList<EventBO>();
 		EventBO bo1 = new EventBO();
 		bo1.setId(1);

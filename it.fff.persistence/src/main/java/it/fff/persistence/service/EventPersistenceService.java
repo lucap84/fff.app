@@ -30,7 +30,7 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public List<EventBO> getEventsByUser(int userId) throws Exception;
 
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws Exception;
+	public List<EventBO> searchEvents(double gpsLatFrom, double gpsLatTo, double gpsLongFrom,double gpsLongTo, int idCategoria, int minPartecipanti) throws Exception;
 
 	public List<MessageBO> getEventMessages(int eventId) throws Exception;
 

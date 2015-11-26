@@ -227,8 +227,23 @@ public class EventServiceTest extends WebServiceRestTest{
 			assertNotNull(result);
 			assertNotNull(result.getId());
 		}
-		
 	}
+
+	@Test
+	public void getEventShouldReturnOneEventAsynch(){
+		
+		String requestedEventId = "1";
+		
+		EventDTO result = null;
+
+		{//Test JSON
+			EventServiceStub stub = new EventServiceStub();
+			result = stub.getEventAsynch(requestedEventId, MediaType.APPLICATION_JSON);
+			assertNotNull(result);
+			assertNotNull(result.getId());
+		}
+	}
+
 	
 	@Test
 	public void searchEventsShouldReturnAtLeastOneEvent(){
@@ -255,7 +270,7 @@ public class EventServiceTest extends WebServiceRestTest{
 	public static void main(String[] args) {
 		EventServiceTest eventServiceTest = new EventServiceTest();
 //		eventServiceTest.joinEventShouldReturnAnAttendance();
-		eventServiceTest.postEventStandardMessageShouldReturnConfirm();
+		eventServiceTest.getEventShouldReturnOneEventAsynch();
 	}
 	
 }

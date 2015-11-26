@@ -219,6 +219,14 @@ public class UserEO extends EntityObject {
 	public void setAccount(AccountEO account) {
 		this.account = account;
 	}
+	
+	public List<SubscriptionEO> getAbbonamenti() {
+		return abbonamenti;
+	}
+
+	public void setAbbonamenti(List<SubscriptionEO> abbonamenti) {
+		this.abbonamenti = abbonamenti;
+	}
 
 	/*
 	 * setter if not empty

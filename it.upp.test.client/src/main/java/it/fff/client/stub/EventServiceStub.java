@@ -1,26 +1,19 @@
 package it.fff.client.stub;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
+import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.Test;
-
-import it.fff.client.test.stub.WebServiceRestTest;
 import it.fff.clientserver.common.dto.AttendanceDTO;
 import it.fff.clientserver.common.dto.EventDTO;
-import it.fff.clientserver.common.dto.FeedbackDTO;
 import it.fff.clientserver.common.dto.MessageDTO;
-import it.fff.clientserver.common.dto.UserDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
 public class EventServiceStub  extends StubService{
@@ -53,7 +46,6 @@ public class EventServiceStub  extends StubService{
 		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_postEventMessage, eventId,attendanceId);
 		Builder requestBuilder  = client.target(getBaseURI()).path(restPath).request(mediaType);
 		Response response = requestBuilder.post(Entity.entity(message, mediaType));
-		assertEquals(200, response.getStatus());
 		WriteResultDTO writeResult = (WriteResultDTO)response.readEntity(WriteResultDTO.class);
 		return writeResult;
 	}	
@@ -138,6 +130,26 @@ public class EventServiceStub  extends StubService{
 		EventDTO entity = response.readEntity(EventDTO.class);
 		return entity;
 	}
+	
+	public EventDTO getEventAsynch(String eventId,String mediaType){
+		Client client = super.getClientInstance();
+
+		String restPath = super.getWsRspath(mediaType, StubService.WSRS_PATH_getEvent,eventId);
+		AsyncInvoker asyncInvoker  = client.target(getBaseURI()).path(restPath).request(mediaType).async();
+		Future<Response> responseFuture = asyncInvoker.get();
+		System.out.println("Request is being processed asynchronously.");
+		Response response = null;
+		try {
+			response = responseFuture.get();
+			System.out.println("Response received.");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		EventDTO entity = response.readEntity(EventDTO.class);
+		return entity;
+	}	
 	
 	
 	public List<EventDTO> searchEvents(String gpsLat, String gpsLong, String idCategoria, String partecipanti, String mediaType){

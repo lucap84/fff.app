@@ -31,7 +31,7 @@ public class SecurityServiceStub extends StubService{
 		Client client = super.getClientInstance();
 		
 		String deviceId = "android-mobile-0001";
-		super.getSecureConfiguration().setDeviceId(deviceId);
+		super.getSecureConfiguration().setDeviceId(deviceId); //lo imposto perché viene ricercato nel filtro prima che la chiamata sia partita
 		
 		AuthDataResponseDTO resultDTO = null;
 

@@ -37,7 +37,7 @@ public class MessageMapper implements Mapper {
 	public static MessageBO map2DTO(MessageEO eo) {
 		MessageBO bo = new MessageBO();
 		bo.setId(eo.getId());
-		bo.setStandard(eo.isStandard());
+		bo.setStandard(eo.getMsgStd()!=null);
 		bo.setText(eo.getText());
 		return bo;
 	}	

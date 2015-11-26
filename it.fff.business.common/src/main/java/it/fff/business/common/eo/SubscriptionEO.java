@@ -17,14 +17,6 @@ public class SubscriptionEO extends EntityObject {
 	@GeneratedValue
 	private Integer	id;
 	
-	@ManyToOne
-	@JoinColumn(name = "Utente_ID", nullable = false)
-	private UserEO abbonato;
-	
-	@ManyToOne
-	@JoinColumn(name = "Tipo_ID", nullable = false)
-	private SubscriptionTypeEO tipo;
-	
 	@Column(name = "Data_Inizio")
 	private String dataInizio;
 	
@@ -34,6 +26,13 @@ public class SubscriptionEO extends EntityObject {
 	@Column(name = "Sconto")
 	private Double sconto;
 	
+	@ManyToOne
+	@JoinColumn(name = "Utente_ID", nullable = false)
+	private UserEO abbonato;
+	
+	@ManyToOne
+	@JoinColumn(name = "Tipo_ID", nullable = false)
+	private SubscriptionTypeEO tipo;
 	
 
 	public Integer getId() {

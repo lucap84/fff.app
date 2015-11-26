@@ -19,11 +19,21 @@
         <property name="hibernate.show_sql">true</property>
          
          <!--  mappings with Entity Objects -->
-        <mapping class="it.fff.business.common.eo.UserEO" />
-        <mapping class="it.fff.business.common.eo.NazioneEO" />
-        <mapping class="it.fff.business.common.eo.LinguaEO" />
-        <mapping class="it.fff.business.common.eo.AchievementEO" />
         <mapping class="it.fff.business.common.eo.AccountEO" />
+        <mapping class="it.fff.business.common.eo.AchievementEO" />
+        <mapping class="it.fff.business.common.eo.AttendanceEO" />
+        <mapping class="it.fff.business.common.eo.CategoriaEventoEO" />
+        <mapping class="it.fff.business.common.eo.CityEO" />
+        <mapping class="it.fff.business.common.eo.EventEO" />
+        <mapping class="it.fff.business.common.eo.LinguaEO" />
+        <mapping class="it.fff.business.common.eo.MessageEO" />
+        <mapping class="it.fff.business.common.eo.MessageStandardEO" />
+        <mapping class="it.fff.business.common.eo.NazioneEO" />
+        <mapping class="it.fff.business.common.eo.PriceEO" />
         <mapping class="it.fff.business.common.eo.SessionEO" />
+		<mapping class="it.fff.business.common.eo.StatoEventoEO" />
+		<mapping class="it.fff.business.common.eo.SubscriptionEO" />
+		<mapping class="it.fff.business.common.eo.SubscriptionTypeEO" />        
+        <mapping class="it.fff.business.common.eo.UserEO" />
     </session-factory>
 </hibernate-configuration>

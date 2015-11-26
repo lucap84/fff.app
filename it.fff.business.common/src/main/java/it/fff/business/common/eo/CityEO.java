@@ -2,24 +2,25 @@ package it.fff.business.common.eo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "stato_evento")
-public class StatoEventoEO extends EntityObject {
-
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue
-	private Integer	id;
+@Table(name = "citta")
+public class CityEO extends EntityObject {
 	
-	@Column(name="Nome")
+	@Id
+	@Column(name="ID")
+	private Integer id;
+	
+	@Column(name="nome")
 	private String nome;
 	
-	@Column(name="Descrizione")
-	private String descrizione;
+	@ManyToOne
+	@JoinColumn(name = "Nazione_ID", nullable = false)
+	private NazioneEO nazione;
 
 	public Integer getId() {
 		return id;
@@ -37,12 +38,13 @@ public class StatoEventoEO extends EntityObject {
 		this.nome = nome;
 	}
 
-	public String getDescrizione() {
-		return descrizione;
+	public NazioneEO getNazione() {
+		return nazione;
 	}
 
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
+	public void setNazione(NazioneEO nazione) {
+		this.nazione = nazione;
 	}
 	
+
 }

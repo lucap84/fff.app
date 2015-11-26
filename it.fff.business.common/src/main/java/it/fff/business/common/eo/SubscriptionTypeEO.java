@@ -28,5 +28,37 @@ public class SubscriptionTypeEO extends EntityObject {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoAbbonamento", cascade = CascadeType.ALL)
 	private List<PriceEO> prezzi;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+
+	public List<PriceEO> getPrezzi() {
+		return prezzi;
+	}
+
+	public void setPrezzi(List<PriceEO> prezzi) {
+		this.prezzi = prezzi;
+	}
 	
 }

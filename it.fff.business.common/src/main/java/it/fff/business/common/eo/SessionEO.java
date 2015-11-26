@@ -17,10 +17,6 @@ public class SessionEO extends EntityObject {
 	@GeneratedValue
 	private Integer	id;
 	
-	@ManyToOne
-	@JoinColumn(name = "Account_ID", nullable = false)
-	private AccountEO account;
-	
 	@Column(name = "Device")
 	private String deviceId;
 	
@@ -36,6 +32,9 @@ public class SessionEO extends EntityObject {
 	@Column(name = "Data_Logout")
 	private String dataLogout;
 		
+	@ManyToOne
+	@JoinColumn(name = "Account_ID", nullable = false)
+	private AccountEO account;
 	
 	public String getDeviceId() {
 		return deviceId;

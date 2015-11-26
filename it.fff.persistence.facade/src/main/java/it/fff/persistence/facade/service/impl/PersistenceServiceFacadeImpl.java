@@ -204,12 +204,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException {
+	public List<EventBO> searchEvents(double gpsLatFrom,double gpsLatTo, double gpsLongFrom, double gpsLongTo, int idCategoria, int minPartecipanti) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
 		List<EventBO> bos = null;
 		try{
-			bos = eventPersistenceService.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
+			bos = eventPersistenceService.searchEvents(gpsLatFrom, gpsLatTo, gpsLongFrom, gpsLongTo, idCategoria, minPartecipanti);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());

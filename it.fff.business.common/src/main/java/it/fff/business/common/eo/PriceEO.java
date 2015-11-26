@@ -28,4 +28,36 @@ public class PriceEO extends EntityObject {
 	@Column(name = "Prezzo")
 	private Double prezzo;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public SubscriptionTypeEO getTipoAbbonamento() {
+		return tipoAbbonamento;
+	}
+
+	public void setTipoAbbonamento(SubscriptionTypeEO tipoAbbonamento) {
+		this.tipoAbbonamento = tipoAbbonamento;
+	}
+
+	public NazioneEO getNazione() {
+		return nazione;
+	}
+
+	public void setNazione(NazioneEO nazione) {
+		this.nazione = nazione;
+	}
+
+	public Double getPrezzo() {
+		return prezzo;
+	}
+
+	public void setPrezzo(Double prezzo) {
+		this.prezzo = prezzo;
+	}
+	
 }

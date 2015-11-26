@@ -3,7 +3,6 @@ package it.fff.client.filter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
@@ -11,9 +10,7 @@ import javax.ws.rs.client.ClientRequestFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.fff.business.service.filter.AuthorizationContainerRequestFilter;
 import it.fff.client.secure.ClientSecureConfiguration;
-import it.fff.client.secure.SecureConfigurationFactory;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
@@ -32,7 +29,7 @@ public class AuthorizationClientRequestFilter implements ClientRequestFilter {
 		String httpMethod = requestContext.getMethod();
 		
 		String formattedDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date()); 
-		ClientSecureConfiguration secureConfigurationInstance = SecureConfigurationFactory.getSecureConfigurationInstance();
+		ClientSecureConfiguration secureConfigurationInstance = ClientSecureConfiguration.getInstance();
 		String deviceId = secureConfigurationInstance.getDeviceId();
 		
 		requestContext.getHeaders().add("Date", formattedDate);

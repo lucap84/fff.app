@@ -39,7 +39,7 @@ public interface PersistenceServiceFacade {
 
 	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException;
 
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException;
+	public List<EventBO> searchEvents(double gpsLatFrom,double gpsLatTo, double gpsLongFrom, double gpsLongTo, int idCategoria, int minPartecipanti) throws PersistenceException;
 
 	public List<EventBO> getEventsByUser(int userId) throws PersistenceException;
 

@@ -22,9 +22,9 @@ import it.fff.clientserver.common.dto.WriteResultDTO;
 public class UC08Test {
 	
 	@Test
-	public void testUC8(){//Modifica i propri dati utente
+	public void testUC8(){//Modifica i dati utente
 		/*
-		 * Preconditions:  UC9 Login (oppure UC1)
+		 * Preconditions:  UC9 Login (oppure UC1 Registrazione)
 		 */
 		
 		UC09Test loginTest = new UC09Test();

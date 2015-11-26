@@ -94,8 +94,15 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws PersistenceException {
-		List<EventBO> bos = persistenceFacade.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
+	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int minPartecipanti) throws PersistenceException {
+		double range= 2.0;
+		
+		double gpsLatFrom = gpsLat-range;
+		double gpsLatTo = gpsLat+range;
+		double gpsLongFrom = gpsLong-range;
+		double gpsLongTo = gpsLong+range;
+		
+		List<EventBO> bos = persistenceFacade.searchEvents(gpsLatFrom, gpsLatTo, gpsLongFrom, gpsLongTo, idCategoria, minPartecipanti);
 		return bos;
 	}
 
