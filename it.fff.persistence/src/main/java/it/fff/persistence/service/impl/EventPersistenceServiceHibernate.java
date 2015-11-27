@@ -44,7 +44,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }finally {
 	         session.close(); 
 	      }	        
-	      bo = EventMapper.map2BO(eo);
+	      bo = EventMapper.mapEO2BO(eo);
 		return bo;
 	}
 
@@ -98,8 +98,26 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 	@Override
 	public List<EventBO> getEventsByUser(int userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<EventBO> bos = null;
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try{
+			String hqlSelect = "FROM EventEO e JOIN AttendanceEO a WHERE a.utente.id = :userId AND a.isValid = 1 ";	    	  
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("userId", userId);
+	    	
+	    	List<EventEO> eventsEO = query.list();
+	    	
+	    	bos = EventMapper.mapEOs2BOs(eventsEO);
+	    	
+	    }catch (HibernateException e) {
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during searchEvents() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bos;
 	}
 
 	@Override

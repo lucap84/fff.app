@@ -2,34 +2,14 @@ package it.fff.business.common.bo;
 
 public class AttendanceBO implements BusinessObject{
 	
-	int id;
-	UserBO user;
-	EventBO event;
-	boolean isOrganizer;
-	int numPartecipanti;
-	FeedbackBO feedback;
-	boolean isValid;
-	int statusId;
-	
-	
-	public UserBO getUser() {
-		return user;
-	}
-	public void setUser(UserBO user) {
-		this.user = user;
-	}
-	public EventBO getEvent() {
-		return event;
-	}
-	public void setEvent(EventBO event) {
-		this.event = event;
-	}
-	public FeedbackBO getFeedback() {
-		return feedback;
-	}
-	public void setFeedback(FeedbackBO feedback) {
-		this.feedback = feedback;
-	}
+	private int id;
+	private boolean isOrganizer;
+	private int numPartecipanti;
+	private boolean isPositiveFeedback;
+	private boolean isValid;
+	private EventBO event;
+	private UserBO utente;
+	private AttendanceStateBO stato;
 	public int getId() {
 		return id;
 	}
@@ -48,17 +28,36 @@ public class AttendanceBO implements BusinessObject{
 	public void setNumPartecipanti(int numPartecipanti) {
 		this.numPartecipanti = numPartecipanti;
 	}
+	public boolean isPositiveFeedback() {
+		return isPositiveFeedback;
+	}
+	public void setPositiveFeedback(boolean isPositiveFeedback) {
+		this.isPositiveFeedback = isPositiveFeedback;
+	}
 	public boolean isValid() {
 		return isValid;
 	}
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
 	}
-	public int getStatusId() {
-		return statusId;
+	public EventBO getEvent() {
+		return event;
 	}
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
+	public void setEvent(EventBO event) {
+		this.event = event;
 	}
+	public UserBO getUtente() {
+		return utente;
+	}
+	public void setUtente(UserBO utente) {
+		this.utente = utente;
+	}
+	public AttendanceStateBO getStato() {
+		return stato;
+	}
+	public void setStato(AttendanceStateBO stato) {
+		this.stato = stato;
+	}
+	
 	
 }

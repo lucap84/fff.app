@@ -6,9 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="categoria_evento")
-public class CategoriaEventoEO extends EntityObject {
-
+@Table(name="stato_partecipazione")
+public class AttendanceStateEO extends EntityObject{
+	
 	@Id
 	@Column(name="ID")
 	private Integer id;
@@ -42,5 +42,18 @@ public class CategoriaEventoEO extends EntityObject {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.nome = nome;
+	}
+
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+	}
 	
+
 }

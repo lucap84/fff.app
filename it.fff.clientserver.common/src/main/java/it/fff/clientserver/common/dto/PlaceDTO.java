@@ -7,10 +7,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PlaceDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -6876900976330417334L;
+	
+	private String id;
 	private String nome;
 	private String gpsLat;
 	private String gpsLong;
+	private String via;
+	private String civico;
+	private String cap;
+	private String tags;
+	private CityDTO city;
 	
+	@XmlElement public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	@XmlElement public String getNome() {
 		return nome;
 	}
@@ -29,8 +42,36 @@ public class PlaceDTO extends DataTransferObject {
 	public void setGpsLong(String gpsLong) {
 		this.gpsLong = gpsLong;
 	}
-	
-	
+	@XmlElement public String getVia() {
+		return via;
+	}
+	public void setVia(String via) {
+		this.via = via;
+	}
+	@XmlElement public String getCivico() {
+		return civico;
+	}
+	public void setCivico(String civico) {
+		this.civico = civico;
+	}
+	@XmlElement public String getCap() {
+		return cap;
+	}
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+	@XmlElement public String getTags() {
+		return tags;
+	}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+	@XmlElement public CityDTO getCity() {
+		return city;
+	}
+	public void setCity(CityDTO city) {
+		this.city = city;
+	}
 	
 
 }

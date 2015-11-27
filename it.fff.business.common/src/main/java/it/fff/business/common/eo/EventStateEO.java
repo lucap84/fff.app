@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "stato_evento")
-public class StatoEventoEO extends EntityObject {
+public class EventStateEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")

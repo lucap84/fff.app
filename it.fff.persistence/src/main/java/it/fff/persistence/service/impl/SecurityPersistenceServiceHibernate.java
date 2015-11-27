@@ -18,6 +18,7 @@ import org.hibernate.Transaction;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.eo.SessionEO;
+import it.fff.business.common.mapper.SessionMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.SecurityPersistenceService;
@@ -67,7 +68,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		logger.info("logout client and device...");
 		
 		SessionEO sessionEO = new SessionEO();
-		UserMapper.mapBO2EO(sessionBO, sessionEO);
+		SessionMapper.mapBO2EO(sessionBO, sessionEO);
 		
 		String email = sessionEO.getAccount().getEmail();
 		String password = sessionEO.getAccount().getPassword();

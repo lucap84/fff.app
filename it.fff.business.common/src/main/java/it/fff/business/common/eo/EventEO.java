@@ -34,11 +34,11 @@ public class EventEO extends EntityObject{
 
 	@ManyToOne	//Unidirectional
 	@JoinColumn(name = "Stato_ID", nullable = false)
-	private StatoEventoEO stato;
+	private EventStateEO stato;
 	
 	@ManyToOne	//Unidirectional
 	@JoinColumn(name = "Categoria_ID", nullable = false)
-	private CategoriaEventoEO categoria;
+	private EventCategoryEO categoria;
 	
 	@ManyToOne	//Unidirectional
 	@JoinColumn(name = "Luogo_ID", nullable = false)
@@ -76,11 +76,11 @@ public class EventEO extends EntityObject{
 		this.durata = durata;
 	}
 
-	public CategoriaEventoEO getCategoria() {
+	public EventCategoryEO getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(CategoriaEventoEO categoria) {
+	public void setCategoria(EventCategoryEO categoria) {
 		this.categoria = categoria;
 	}
 

@@ -5,28 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Test;
-
-import it.fff.client.secure.ClientSecureConfiguration;
-import it.fff.client.stub.SecurityServiceStub;
 import it.fff.client.stub.UserServiceStub;
 import it.fff.clientserver.common.dto.*;
 
@@ -159,7 +145,7 @@ public class UserServiceTest extends WebServiceRestTest{
 	
 	public static void main(String[] args) {
 		UserServiceTest test = new UserServiceTest();
-		test.modifyUserDataShouldReturnConfirm();
+		test.getEventsByUserShouldReturnAtLeastOneEvent();
 	}
 	
 }

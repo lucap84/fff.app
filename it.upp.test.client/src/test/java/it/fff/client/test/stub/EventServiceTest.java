@@ -7,6 +7,7 @@ import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventServiceTest extends WebServiceRestTest{
@@ -179,9 +180,18 @@ public class EventServiceTest extends WebServiceRestTest{
 		organizer.setCognome("Cognome organizer");
 		
 		EventDTO event = new EventDTO();
-		event.setNome("nuovo evento");
+		event.setTitolo("nuovo evento");
 		event.setDescrizione("Descr nuovo evento");
-		event.setUserOrganizer(organizer);
+		
+		AttendanceDTO attendance = new AttendanceDTO();
+		attendance.setUser(organizer);
+		attendance.setOrganizer(true);
+		attendance.setValid(true);
+		
+		List<AttendanceDTO> partecipazioni = new ArrayList<AttendanceDTO>();
+		partecipazioni.add(attendance);
+		
+		event.setPartecipazioni(partecipazioni);
 		
 		WriteResultDTO result = null;
 

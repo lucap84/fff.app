@@ -20,8 +20,9 @@ import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.MessageMapper;
-import it.fff.business.common.mapper.PlacesMapper;
+import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.mapper.ResultMapper;
+import it.fff.business.common.mapper.SessionMapper;
 import it.fff.business.common.mapper.SubscriptionMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ErrorCodes;
@@ -56,7 +57,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		if(eventBO!=null){
 			logger.debug("Event successfully retrieved by business layer");
 		}
-		EventDTO dtoResult = EventMapper.map2DTO(eventBO);
+		EventDTO dtoResult = EventMapper.mapBO2DTO(eventBO);
 		if(dtoResult!=null){
 			logger.debug("Mapping bo2dto completed");
 		}
@@ -69,7 +70,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		UserBO userBO = null;
 		CreateResultBO createResultBO = null;
 		try {
-			userBO = UserMapper.map2BO(registrationDataDTO);
+			userBO = UserMapper.mapDTO2BO(registrationDataDTO);
 			createResultBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
@@ -85,7 +86,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		UpdateResultBO updateResultBO = null;
 		SessionBO sessionBO = null;
 		try {
-			sessionBO = UserMapper.map2BO(loginData);
+			sessionBO = SessionMapper.mapDTO2BO(loginData);
 			sessionBO.setSharedKey(sharedSecretHEX);
 			updateResultBO = securityBusinessService.login(sessionBO);
 		}
@@ -103,7 +104,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		WriteResultDTO resultDTO = new WriteResultDTO();
 		ProfileImageBO imgBO = null;
 		try {
-			imgBO = UserMapper.map2BO(dto);
+			imgBO = UserMapper.mapDTO2BO(dto);
 			imgBO = userBusinessService.updateProfileImage(imgBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);
@@ -111,7 +112,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		if(imgBO!=null){
 			logger.debug("Operation successful by business layer");
 		}
-		ProfileImageDTO dtoResult = UserMapper.map2DTO(imgBO);
+		ProfileImageDTO dtoResult = UserMapper.mapBO2DTO(imgBO);
 		
 		if(dtoResult!=null){
 			resultDTO.setOk(true);
@@ -138,7 +139,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		List<AttendanceDTO> attendancesDTO = null;
-		attendancesDTO = AttendanceMapper.map2DTO(attendancesBO);
+		attendancesDTO = AttendanceMapper.mapBO2DTO(attendancesBO);
 
 		return attendancesDTO;
 	}
@@ -147,7 +148,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO createEvent(EventDTO eventToCreate) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
-		EventBO bo = EventMapper.map2BO(eventToCreate);
+		EventBO bo = EventMapper.mapDTO2BO(eventToCreate);
 		CreateResultBO createResultBO = null;
 		try {
 			createResultBO = eventBusinessService.createEvent(bo);
@@ -185,7 +186,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
 		CreateResultBO createResultBO = null;
-		AttendanceBO bo = AttendanceMapper.map2BO(attendanceToCreate);
+		AttendanceBO bo = AttendanceMapper.mapDTO2BO(attendanceToCreate);
 		try {
 			createResultBO = eventBusinessService.joinEvent(bo);
 		}
@@ -202,7 +203,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
 		CreateResultBO createResultBO = null;
-		AttendanceBO bo = AttendanceMapper.map2BO(attendance);
+		AttendanceBO bo = AttendanceMapper.mapDTO2BO(attendance);
 		try {
 			createResultBO = eventBusinessService.addFeedback(bo);
 		}
@@ -298,7 +299,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETEVENTMSG);
 		}
 		
-		List<MessageDTO> messagesDTO= MessageMapper.map2DTO(messagesBO);
+		List<MessageDTO> messagesDTO= MessageMapper.mapBO2DTO(messagesBO);
 		return messagesDTO;
 	}
 
@@ -325,7 +326,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEACRHEVENTS);
 		}
 		
-		List<EventDTO> eventsDTO = EventMapper.map2DTO(eventsBO);
+		List<EventDTO> eventsDTO = EventMapper.mapBO2DTO(eventsBO);
 		return eventsDTO;
 	}
 
@@ -341,7 +342,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETPLACES);
 		}
 		
-		List<PlaceDTO> placesDTO = PlacesMapper.map2DTO(placesBO);
+		List<PlaceDTO> placesDTO = PlaceMapper.map2DTO(placesBO);
 		
 		
 		return placesDTO;
@@ -354,7 +355,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		int userIdInt = -1;
 		CreateResultBO createResultBO = null;
 		
-		SubscriptionBO subscriptionBO = SubscriptionMapper.map2BO(subscription);
+		SubscriptionBO subscriptionBO = SubscriptionMapper.mapDTO2BO(subscription);
 		try {
 			userIdInt = Integer.valueOf(userId);
 			createResultBO = premiumBusinessService.upgradeToPremium(userIdInt, subscriptionBO);
@@ -450,7 +451,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		
 		UpdateResultBO updateResultBO = null;
 		
-		UserBO userBO = UserMapper.map2BO(user);
+		UserBO userBO = UserMapper.mapDTO2BO(user);
 		try {
 			updateResultBO = userBusinessService.updateUserData(userBO);
 		}
@@ -469,7 +470,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		UpdateResultBO updateResultBO = null;
 		int userIdInt = -1;
 		int eventIdInt = -1;
-		PlaceBO placeBO = PlacesMapper.map2BO(placeDTO);
+		PlaceBO placeBO = PlaceMapper.mapDTO2BO(placeDTO);
 		try {
 			userIdInt = Integer.valueOf(userId);
 			eventIdInt = Integer.valueOf(eventId);
@@ -503,7 +504,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_EVENTSBYUSER);
 		}
 		
-		List<EventDTO> eventsDTO = EventMapper.map2DTO(eventsBO);
+		List<EventDTO> eventsDTO = EventMapper.mapBO2DTO(eventsBO);
 		
 		return eventsDTO;
 	}
@@ -525,7 +526,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_USER);
 		}
 		
-		UserDTO userDTO = UserMapper.map2DTO(userBO);
+		UserDTO userDTO = UserMapper.mapBO2DTO(userBO);
 		
 		return userDTO;
 	}

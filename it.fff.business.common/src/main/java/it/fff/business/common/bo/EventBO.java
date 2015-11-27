@@ -1,38 +1,30 @@
 package it.fff.business.common.bo;
 
-import it.fff.clientserver.common.dto.UserDTO;
+import java.util.List;
 
 public class EventBO implements BusinessObject{
 
 	private int id;
-	private String nome;
+	private String titolo;
 	private String descrizione;
-	private UserBO userOrganizer;
-	
-	public EventBO(){
-		
-	}
-
-	public EventBO(int eventId, String nome, String descrizione){
-		this.id = eventId;
-		this.nome = nome;
-		this.descrizione = descrizione;
-	}
-	
-	
+	private int durata;
+	private String dataInizio;
+	private EventStateBO stato;
+	private EventCategoryBO categoria;
+	private PlaceBO location;	
+	private List<AttendanceBO> partecipazioni;
+	private List<MessageBO> messages;
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getNome() {
-		return nome;
+	public String getTitolo() {
+		return titolo;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
 	}
 	public String getDescrizione() {
 		return descrizione;
@@ -40,22 +32,47 @@ public class EventBO implements BusinessObject{
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	
-	public UserBO getUserOrganizer() {
-		return userOrganizer;
+	public int getDurata() {
+		return durata;
 	}
-
-	public void setUserOrganizer(UserBO userOrganizer) {
-		this.userOrganizer = userOrganizer;
+	public void setDurata(int durata) {
+		this.durata = durata;
 	}
-
-	@Override
-	public String toString() {
-		return "EventBO{" +
-	            "eventId='" + id + '\'' +
-	            ", nome=" + nome +
-	             ", descrizione=" + descrizione +
-	            '}';
+	public String getDataInizio() {
+		return dataInizio;
+	}
+	public void setDataInizio(String dataInizio) {
+		this.dataInizio = dataInizio;
+	}
+	public EventStateBO getStato() {
+		return stato;
+	}
+	public void setStato(EventStateBO stato) {
+		this.stato = stato;
+	}
+	public EventCategoryBO getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(EventCategoryBO categoria) {
+		this.categoria = categoria;
+	}
+	public PlaceBO getLocation() {
+		return location;
+	}
+	public void setLocation(PlaceBO location) {
+		this.location = location;
+	}
+	public List<AttendanceBO> getPartecipazioni() {
+		return partecipazioni;
+	}
+	public void setPartecipazioni(List<AttendanceBO> partecipazioni) {
+		this.partecipazioni = partecipazioni;
+	}
+	public List<MessageBO> getMessages() {
+		return messages;
+	}
+	public void setMessages(List<MessageBO> messages) {
+		this.messages = messages;
 	}
 	
 	

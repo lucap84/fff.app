@@ -13,13 +13,13 @@ public class LinguaMapper implements Mapper {
 		List<LinguaBO> bos = new ArrayList<LinguaBO>();
 		if(eos!=null){
 			for (LinguaEO eo : eos) {
-				bos.add(LinguaMapper.map2BO(eo));
+				bos.add(LinguaMapper.mapEO2BO(eo));
 			}
 		}
 		return bos;
 	}
 	
-	public static LinguaBO map2BO(LinguaEO eo) {
+	public static LinguaBO mapEO2BO(LinguaEO eo) {
 		LinguaBO bo = new LinguaBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
@@ -53,13 +53,13 @@ public class LinguaMapper implements Mapper {
 		List<LinguaBO> bos = new ArrayList<LinguaBO>();
 		if(dtos!=null){
 			for (LinguaDTO dto : dtos) {
-				bos.add(LinguaMapper.map2BO(dto));
+				bos.add(LinguaMapper.mapDTO2BO(dto));
 			}
 		}
 		return bos;
 	}
 
-	public static LinguaBO map2BO(LinguaDTO dto) {
+	public static LinguaBO mapDTO2BO(LinguaDTO dto) {
 		LinguaBO bo = new LinguaBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){

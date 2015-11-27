@@ -6,7 +6,7 @@ import it.fff.clientserver.common.dto.SubscriptionDTO;
 
 public class SubscriptionMapper implements Mapper{
 
-	public static SubscriptionBO map2BO(SubscriptionDTO dto) {
+	public static SubscriptionBO mapDTO2BO(SubscriptionDTO dto) {
 		SubscriptionBO bo = new SubscriptionBO();
 		if(dto.getId()!=null && !"".equals(dto.getId())){
 			bo.setId(Integer.valueOf(dto.getId()));
@@ -15,7 +15,7 @@ public class SubscriptionMapper implements Mapper{
 		return bo;
 	}
 
-	public static SubscriptionEO map2EO(SubscriptionBO bo) {
+	public static SubscriptionEO mapBO2EO(SubscriptionBO bo) {
 		SubscriptionEO eo = new SubscriptionEO();
 		if(bo.getId()>0){
 			eo.setId(bo.getId());

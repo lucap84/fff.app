@@ -82,7 +82,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }finally {
 	         session.close(); 
 	      }	        
-	      bo = UserMapper.map2BO(eo);
+	      bo = UserMapper.mapEO2BO(eo);
 		return bo;
 	}
 

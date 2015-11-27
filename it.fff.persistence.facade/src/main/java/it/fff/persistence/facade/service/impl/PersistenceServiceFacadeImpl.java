@@ -171,7 +171,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		CreateResultBO resultBO = null;
-		boolean isPositiveFeedback = bo.getFeedback().isPositiveFeedback();
+		boolean isPositiveFeedback = bo.isPositiveFeedback();
 		try{
 			resultBO = eventPersistenceService.addFeedback(bo, isPositiveFeedback);
 		}
