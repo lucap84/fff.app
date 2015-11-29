@@ -53,7 +53,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during save() ",e);
+	         throw new Exception("HibernateException during registerUser() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -78,7 +78,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    	 eo = (UserEO) session.get(UserEO.class, userId);
 	      }catch (HibernateException e) {
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during get() ",e);
+	         throw new Exception("HibernateException during getUser() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        
@@ -128,7 +128,9 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		ProfileImageBO outputBO = null;
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 		String uploadFolder = configurationProvider.getProperty(Constants.PROP_UPLOAD_LOCATION);
-		String filePath = uploadFolder+"/"+boInput.getUserId()+"/"+boInput.getFileName();
+		String dirPath = uploadFolder+"\\"+boInput.getUserId()+"\\";
+		this.createDirIfNotExists(dirPath);
+		String filePath = dirPath+boInput.getFileName();
 		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
 			outputBO = boInput;
@@ -141,6 +143,21 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			throw new SQLException("Errore creando su File system");
 		}
 		return outputBO;
+	}
+
+	private boolean createDirIfNotExists(String dirPath) {
+		boolean exists = false;
+		File dir = new File(dirPath);
+		exists = dir.exists();
+		if(!exists){
+			try{
+				exists = dir.mkdir();
+			}
+			catch(SecurityException se){
+				exists = false;
+			}
+		}
+		return exists;
 	}	
 	// save uploaded file to a defined location on the server
     private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {

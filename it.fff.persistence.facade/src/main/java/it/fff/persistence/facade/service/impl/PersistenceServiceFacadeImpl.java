@@ -7,8 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.*;
-import it.fff.business.common.eo.*;
-import it.fff.business.common.mapper.*;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;

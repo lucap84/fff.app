@@ -6,7 +6,6 @@ import java.util.List;
 
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.business.common.eo.PlaceEO;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{

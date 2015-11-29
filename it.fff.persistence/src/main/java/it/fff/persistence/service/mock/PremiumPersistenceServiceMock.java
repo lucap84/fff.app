@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.SubscriptionBO;
-import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.persistence.service.PremiumPersistenceService;
 
 public class PremiumPersistenceServiceMock implements PremiumPersistenceService {

@@ -1,14 +1,8 @@
 package it.fff.business.service.secure;
 
 import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;

@@ -18,10 +18,8 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import it.fff.clientserver.common.secure.AuthenticationUtil;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
 //Pre-matching filters are request filters that are executed before the request matching is started
 @PreMatching

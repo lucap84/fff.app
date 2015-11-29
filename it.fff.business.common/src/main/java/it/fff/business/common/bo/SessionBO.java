@@ -1,6 +1,5 @@
 package it.fff.business.common.bo;
 
-import javax.persistence.Column;
 
 public class SessionBO implements BusinessObject {
 

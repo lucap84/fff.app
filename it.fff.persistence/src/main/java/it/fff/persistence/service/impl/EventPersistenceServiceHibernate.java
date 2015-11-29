@@ -14,13 +14,8 @@ import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.MessageEO;
-import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.EventMapper;
-import it.fff.business.common.mapper.UserMapper;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 

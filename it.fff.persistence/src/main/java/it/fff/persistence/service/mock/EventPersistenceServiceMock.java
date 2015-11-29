@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.NameAlreadyBoundException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,10 +18,6 @@ import it.fff.business.common.bo.NazioneBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.eo.AttendanceEO;
-import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.MessageEO;
-import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{

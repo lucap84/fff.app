@@ -6,7 +6,6 @@ import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.eo.UserEO;
 import it.fff.persistence.service.UserPersistenceService;
 
 public class UserPersistenceServiceMock implements UserPersistenceService {

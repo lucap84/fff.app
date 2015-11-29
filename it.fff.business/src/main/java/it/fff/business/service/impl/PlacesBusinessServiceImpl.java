@@ -1,6 +1,5 @@
 package it.fff.business.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.PlaceBO;

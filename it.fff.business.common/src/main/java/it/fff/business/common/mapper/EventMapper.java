@@ -7,20 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.EventBO;
-import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
-import it.fff.business.common.bo.MessageBO;
-import it.fff.business.common.eo.AttendanceEO;
-import it.fff.business.common.eo.AttendanceStateEO;
-import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.business.common.eo.EventEO;
-import it.fff.clientserver.common.dto.EventCategoryDTO;
 import it.fff.clientserver.common.dto.EventDTO;
-import it.fff.clientserver.common.dto.EventStateDTO;
-import it.fff.clientserver.common.dto.MessageDTO;
 
 public class EventMapper implements Mapper{
 	

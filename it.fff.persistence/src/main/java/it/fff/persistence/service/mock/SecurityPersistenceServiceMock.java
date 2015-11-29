@@ -6,7 +6,6 @@ import java.util.Map;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UpdateResultBO;
-import it.fff.business.common.eo.SessionEO;
 import it.fff.persistence.service.SecurityPersistenceService;
 
 public class SecurityPersistenceServiceMock implements SecurityPersistenceService {

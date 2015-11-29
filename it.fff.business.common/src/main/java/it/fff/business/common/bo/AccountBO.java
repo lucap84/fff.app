@@ -2,8 +2,6 @@ package it.fff.business.common.bo;
 
 import java.util.List;
 
-import it.fff.business.common.eo.SessionEO;
-
 public class AccountBO implements BusinessObject {
 	
 	private int id;

@@ -109,7 +109,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during logout() ",e);
+	        throw new Exception("HibernateException during login() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
