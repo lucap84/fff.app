@@ -20,6 +20,9 @@ public class NazioneMapper implements Mapper{
 	
 	public static void mapBO2EO(NazioneBO bo, NazioneEO eo) {
 		if(bo!=null){
+			if(eo==null){
+				eo= new NazioneEO();
+			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
 			eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());

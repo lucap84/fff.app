@@ -158,7 +158,7 @@ public class UserMapper implements Mapper {
 			AccountMapper.mapBO2EO(bo.getAccount(), accountEO);
 			eo.setAccount(accountEO);
 			
-			NazioneEO nazionalitaEO = new NazioneEO();
+			NazioneEO nazionalitaEO = null;
 			NazioneMapper.mapBO2EO(bo.getNazionalita(),nazionalitaEO);
 			eo.setNazionalita(nazionalitaEO);
 		}

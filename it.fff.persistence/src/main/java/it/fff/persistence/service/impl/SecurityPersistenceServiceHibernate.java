@@ -104,7 +104,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	tx.commit();
 	    	
 	    	result.setSuccess(true);
-	    	result.setUpdatedKey(sessionId);
+	    	result.setUpdatedKey(idAccount);
 	    	result.setNumRecordsUpdated(1);
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
