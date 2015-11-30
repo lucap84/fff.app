@@ -18,6 +18,6 @@ public interface SecurityBusinessService extends BusinessService{
 
 	UpdateResultBO logout(int userIdInt, String deviceId) throws PersistenceException;
 
-	Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
+	Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
 
 }

@@ -59,8 +59,8 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
-		Map<String, Map<String, String>> secrets = persistenceFacade.retrieveClientSecrets();
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+		Map<Integer, Map<String, String>> secrets = persistenceFacade.retrieveClientSecrets();
 		return secrets;
 	}	
 	

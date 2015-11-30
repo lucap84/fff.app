@@ -20,17 +20,18 @@
          
          <!--  mappings with Entity Objects -->
         <mapping class="it.fff.business.common.eo.AccountEO" />
-        <mapping class="it.fff.business.common.eo.AchievementEO" />
+        <mapping class="it.fff.business.common.eo.AchievementTypeEO" />
+        <mapping class="it.fff.business.common.eo.AchievementObtainedEO" />
         <mapping class="it.fff.business.common.eo.AttendanceEO" />
         <mapping class="it.fff.business.common.eo.AttendanceStateEO" />
         <mapping class="it.fff.business.common.eo.CityEO" />
         <mapping class="it.fff.business.common.eo.EventCategoryEO" />
         <mapping class="it.fff.business.common.eo.EventEO" />
 		<mapping class="it.fff.business.common.eo.EventStateEO" />
-        <mapping class="it.fff.business.common.eo.LinguaEO" />
+        <mapping class="it.fff.business.common.eo.LanguageEO" />
         <mapping class="it.fff.business.common.eo.MessageEO" />
         <mapping class="it.fff.business.common.eo.MessageStandardEO" />
-        <mapping class="it.fff.business.common.eo.NazioneEO" />
+        <mapping class="it.fff.business.common.eo.NationEO" />
         <mapping class="it.fff.business.common.eo.PlaceEO" />
         <mapping class="it.fff.business.common.eo.PriceEO" />
         <mapping class="it.fff.business.common.eo.SessionEO" />

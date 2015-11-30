@@ -10,13 +10,13 @@ import it.fff.clientserver.common.secure.DHSecureConfiguration;
 
 public class ServerSecureConfiguration implements DHSecureConfiguration {
 	
-	private Map<String,Map<String, String>> clientSecrets;
+	private Map<Integer,Map<String, String>> clientSecrets;
 	public static SecureRandom SECURE_RANDOM = new SecureRandom();
 	
 	private BusinessServiceFacade businessServiceFacade;
 
 	public ServerSecureConfiguration(){
-		this.clientSecrets = new HashMap<String,Map<String,String>>();
+		this.clientSecrets = new HashMap<Integer,Map<String,String>>();
 	}
 	
 	@Override
@@ -24,7 +24,7 @@ public class ServerSecureConfiguration implements DHSecureConfiguration {
 		Map<String, String> clientSharedSecrets = clientSecrets.get(userId);
 		if (clientSharedSecrets==null){
 			clientSharedSecrets = new HashMap<String, String>();
-			this.clientSecrets.put(userId, clientSharedSecrets);
+			this.clientSecrets.put(Integer.valueOf(userId), clientSharedSecrets);
 		}
 		clientSharedSecrets.put(deviceId, sharedKey);
 	}

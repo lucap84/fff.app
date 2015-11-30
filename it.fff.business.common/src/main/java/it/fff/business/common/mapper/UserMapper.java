@@ -29,8 +29,8 @@ public class UserMapper implements Mapper {
 			bo.setSesso(dto.getSesso());
 			bo.setDataNascita(dto.getDataNascita());
 			bo.setDescrizione(dto.getDescrizione());
-			bo.setNazionalita(NazioneMapper.mapDTO2BO(dto.getNazionalita()));
-			bo.setLingue(LinguaMapper.mapDTO2BO(dto.getLingue()));
+			bo.setNazionalita(NationMapper.mapDTO2BO(dto.getNazionalita()));
+			bo.setLingue(LanguageMapper.mapDTO2BO(dto.getLingue()));
 			
 			bo.setLastPositionDate(dto.getLastPositionDate());
 			if(dto.getLastPositionLat()!=null){
@@ -72,12 +72,12 @@ public class UserMapper implements Mapper {
 			bo.setDataNascita(eo.getDataNascita());
 			bo.setDescrizione(eo.getDescrizione());
 			bo.setFlagAttivo(eo.isFlagAttivo());
-			bo.setNazionalita(NazioneMapper.mapEO2BO(eo.getNazionalita()));
+			bo.setNazionalita(NationMapper.mapEO2BO(eo.getNazionalita()));
 			if(eo.getLingue()!=null && org.hibernate.Hibernate.isInitialized(eo.getLingue())){
-				bo.setLingue(LinguaMapper.mapEO2BO(eo.getLingue()));
+				bo.setLingue(LanguageMapper.mapEOs2BOs(eo.getLingue()));
 			}
 			if(eo.getAchievements()!=null && org.hibernate.Hibernate.isInitialized(eo.getAchievements())){
-				bo.setAchievements(AchievementMapper.mapEO2BO(eo.getAchievements()));
+				bo.setAchievements(AchievementMapper.mapEOs2BOs(eo.getAchievements()));
 			}
 		}
 		else{logger.warn("Mapping null objects!!");}
@@ -150,16 +150,16 @@ public class UserMapper implements Mapper {
 			eo.setLastPositionLongIfNotEmpty(bo.getLastPositionLong());
 			eo.setLastPositionDateIfNotEmpty(bo.getLastPositionDate());
 			
-			List<LinguaEO> lingueEO = new ArrayList<LinguaEO>();
-			LinguaMapper.mapBO2EO(bo.getLingue(),lingueEO);
+			List<LanguageEO> lingueEO = new ArrayList<LanguageEO>();
+			LanguageMapper.mapBO2EO(bo.getLingue(),lingueEO);
 			eo.setLingue(lingueEO);
 			
 			AccountEO accountEO = new AccountEO();
 			AccountMapper.mapBO2EO(bo.getAccount(), accountEO);
 			eo.setAccount(accountEO);
 			
-			NazioneEO nazionalitaEO = null;
-			NazioneMapper.mapBO2EO(bo.getNazionalita(),nazionalitaEO);
+			NationEO nazionalitaEO = null;
+			NationMapper.mapBO2EO(bo.getNazionalita(),nazionalitaEO);
 			eo.setNazionalita(nazionalitaEO);
 		}
 		else{logger.warn("Mapping null objects!!");}

@@ -137,10 +137,10 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 
 
 	@Override
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws Exception {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws Exception {
 		logger.info("retrieving client secrets");
 		
-		Map<String, Map<String, String>> secrets = new HashMap<String, Map<String, String>>();
+		Map<Integer, Map<String, String>> secrets = new HashMap<Integer, Map<String, String>>();
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -149,12 +149,12 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	  Query query = session.createQuery(hqlSelect);
 	    	  List<Object[]> results = query.list();
 	    	  
-	    	  String userId = null;
+	    	  Integer userId = null;
 	    	  String deviceId = null;
 	    	  String sharedKey = null;
 	    	  
 	    	  for (Object[] row: results) {
-	    		  userId = String.valueOf((Integer)row[0]);
+	    		  userId = (Integer)row[0];
 	    		  deviceId = (String)row[1];
 	    		  sharedKey = (String)row[2];
 	    		  

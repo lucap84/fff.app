@@ -1,13 +1,13 @@
 package it.fff.business.common.mapper;
 
-import it.fff.business.common.bo.NazioneBO;
-import it.fff.business.common.eo.NazioneEO;
-import it.fff.clientserver.common.dto.NazioneDTO;
+import it.fff.business.common.bo.NationBO;
+import it.fff.business.common.eo.NationEO;
+import it.fff.clientserver.common.dto.NationDTO;
 
-public class NazioneMapper implements Mapper{
+public class NationMapper implements Mapper{
 	
-	public static NazioneBO mapDTO2BO(NazioneDTO dto) {
-		NazioneBO bo = new NazioneBO();
+	public static NationBO mapDTO2BO(NationDTO dto) {
+		NationBO bo = new NationBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
@@ -18,10 +18,10 @@ public class NazioneMapper implements Mapper{
 		return bo;
 	}
 	
-	public static void mapBO2EO(NazioneBO bo, NazioneEO eo) {
+	public static void mapBO2EO(NationBO bo, NationEO eo) {
 		if(bo!=null){
 			if(eo==null){
-				eo= new NazioneEO();
+				eo= new NationEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
@@ -29,8 +29,8 @@ public class NazioneMapper implements Mapper{
 		}
 	}
 	
-	public static NazioneBO mapEO2BO(NazioneEO eo) {
-		NazioneBO bo = new NazioneBO();
+	public static NationBO mapEO2BO(NationEO eo) {
+		NationBO bo = new NationBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
@@ -39,8 +39,8 @@ public class NazioneMapper implements Mapper{
 		return bo;
 	}
 
-	public static NazioneDTO mapBO2DTO(NazioneBO bo) {
-		NazioneDTO dto = new NazioneDTO();
+	public static NationDTO mapBO2DTO(NationBO bo) {
+		NationDTO dto = new NationDTO();
 		if(bo!=null){
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));

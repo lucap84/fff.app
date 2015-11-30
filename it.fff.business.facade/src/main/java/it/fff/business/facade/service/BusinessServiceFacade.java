@@ -57,6 +57,20 @@ public interface BusinessServiceFacade {
 
 	public UserDTO getUser(int userId) throws BusinessException;
 
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws BusinessException;
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws BusinessException;
+
+	public List<LanguageDTO> getAllLanguages() throws BusinessException;
+
+	public List<SubscriptionTypeDTO> getAllSubscriptionTypes() throws BusinessException;
+
+	public List<AchievementTypeDTO> getAllAchievementTypes() throws BusinessException;
+
+	public List<MessageStandardDTO> getAllStandardMessages() throws BusinessException;
+
+	public List<AttendanceStateDTO> getAllAttendanceStates() throws BusinessException;
+
+	public List<EventStateDTO> getAllEventStates() throws BusinessException;
+
+	public List<EventCategoryDTO> getAllEventCategories() throws BusinessException;
 
 }

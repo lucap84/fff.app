@@ -23,7 +23,7 @@ public class PriceEO extends EntityObject {
 	
 	@ManyToOne
 	@JoinColumn(name = "Nazione_ID", nullable = false)
-	private NazioneEO nazione;
+	private NationEO nazione;
 	
 	@Column(name = "Prezzo")
 	private Double prezzo;
@@ -44,11 +44,11 @@ public class PriceEO extends EntityObject {
 		this.tipoAbbonamento = tipoAbbonamento;
 	}
 
-	public NazioneEO getNazione() {
+	public NationEO getNazione() {
 		return nazione;
 	}
 
-	public void setNazione(NazioneEO nazione) {
+	public void setNazione(NationEO nazione) {
 		this.nazione = nazione;
 	}
 

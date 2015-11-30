@@ -72,20 +72,23 @@ public class UserEO extends EntityObject {
 	
 	@ManyToOne
 	@JoinColumn(name = "Nazionalita_ID")
-	private NazioneEO nazionalita; 
+	private NationEO nazionalita; 
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 		@JoinTable(name = "lingua_parlata", 
 			joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })
-	private List<LinguaEO> lingue;
+	private List<LanguageEO> lingue;
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //Unidirezionale
-	@JoinTable(name = "achievement_ottenuto", 
-		joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
-		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
-	private List<AchievementEO> achievements;	
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) //Unidirezionale
+//	@JoinTable(name = "achievement_ottenuto", 
+//		joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
+//		inverseJoinColumns = { @JoinColumn(name = "Achievement_ID") })	
+//	private List<AchievementTypeEO> achievements;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<AchievementObtainedEO> achievements;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private AccountEO account;
@@ -185,31 +188,30 @@ public class UserEO extends EntityObject {
 		this.flagAttivo = flagAttivo;
 	}
 
-	public NazioneEO getNazionalita() {
+	public NationEO getNazionalita() {
 		return nazionalita;
 	}
 
-	public void setNazionalita(NazioneEO nazionalita) {
+	public void setNazionalita(NationEO nazionalita) {
 		this.nazionalita = nazionalita;
 	}
 
-	public List<LinguaEO> getLingue() {
+	public List<LanguageEO> getLingue() {
 		return lingue;
 	}
 
-	public void setLingue(List<LinguaEO> lingue) {
+	public void setLingue(List<LanguageEO> lingue) {
 		this.lingue = lingue;
 	}
 	
 
-	public List<AchievementEO> getAchievements() {
+	public List<AchievementObtainedEO> getAchievements() {
 		return achievements;
 	}
 
-	public void setAchievements(List<AchievementEO> achievements) {
+	public void setAchievements(List<AchievementObtainedEO> achievements) {
 		this.achievements = achievements;
 	}
-	
 
 	public AccountEO getAccount() {
 		return account;

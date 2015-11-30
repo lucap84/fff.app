@@ -454,10 +454,10 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
-		Map<String, Map<String, String>> secrets = null;
+		Map<Integer, Map<String, String>> secrets = null;
 		try {
 			secrets = securityPersistenceService.retrieveClientSecrets();
 		} catch (Exception e) {
@@ -467,6 +467,118 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			throw persistenceException;	
 		}
 		return secrets;
+	}
+
+	@Override
+	public List<LanguageBO> getAllLanguages() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<LanguageBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllLanguages();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<SubscriptionTypeBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllSubscriptionTypes();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<AchievementTypeBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllAchievementTypes();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<MessageStandardBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllStandardMessages();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<AttendanceStateBO> getAllAttendanceStates() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<AttendanceStateBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllAttendanceStates();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<EventStateBO> getAllEventStates() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<EventStateBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllEventStates();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
+	@Override
+	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<EventCategoryBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllEventCategories();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
 	}
 
 }

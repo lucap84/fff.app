@@ -17,6 +17,6 @@ public interface SecurityPersistenceService extends PersistenceService{
 
 	public UpdateResultBO login(SessionBO sessionBO) throws Exception;
 
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws Exception;
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws Exception;
 
 }

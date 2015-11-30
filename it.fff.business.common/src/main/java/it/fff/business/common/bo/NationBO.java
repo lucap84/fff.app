@@ -1,7 +1,7 @@
 package it.fff.business.common.bo;
 
 
-public class NazioneBO implements BusinessObject {
+public class NationBO implements BusinessObject {
 
 	private int	id;
 	private String nome;

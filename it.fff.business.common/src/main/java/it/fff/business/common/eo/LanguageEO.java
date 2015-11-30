@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "lingua")
-public class LinguaEO extends EntityObject {
+public class LanguageEO extends EntityObject {
 
 	@Id
 	@Column(name = "ID")

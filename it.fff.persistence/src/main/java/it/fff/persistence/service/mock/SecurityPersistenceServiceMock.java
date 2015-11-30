@@ -56,13 +56,13 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws Exception {
-		Map<String, Map<String, String>> secrets = new HashMap<String, Map<String,String>>();
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws Exception {
+		Map<Integer, Map<String, String>> secrets = new HashMap<Integer, Map<String,String>>();
 		
 		Map<String, String> device2SharedKey = new HashMap<String, String>();
 		device2SharedKey.put("device-01-mock", "secret-mock-0001");
 		
-		secrets.put("1", device2SharedKey);
+		secrets.put(1, device2SharedKey);
 		return secrets;
 	}
 

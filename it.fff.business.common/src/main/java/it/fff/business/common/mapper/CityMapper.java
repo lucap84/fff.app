@@ -12,7 +12,7 @@ public class CityMapper implements Mapper{
 				dto.setId(String.valueOf(bo.getId()));
 			}
 			dto.setNome(bo.getNome());
-			dto.setNazione(NazioneMapper.mapBO2DTO(bo.getNazione()));
+			dto.setNazione(NationMapper.mapBO2DTO(bo.getNazione()));
 		}
 		return dto;
 	}

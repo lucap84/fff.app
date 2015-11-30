@@ -28,7 +28,11 @@
 	
 	<bean name="premiumBusinessService" class="it.fff.business.service.impl.PremiumBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
-	</bean>	
+	</bean>
+	
+	<bean name="typologicalBusinessService" class="it.fff.business.service.impl.TypologicalBusinessServiceImpl" scope="prototype">
+		<property name="persistenceFacade" ref="persistenceFacade"/>
+	</bean>		
 	
 	<!-- strategies -->
 	<bean name="imageValidationStrategy" class="it.fff.business.strategy.impl.ImageSizeValidationStrategy" />

@@ -14,7 +14,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
-import it.fff.business.common.bo.NazioneBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
@@ -129,7 +129,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		catBo1.setDescrizione("descr cat1");
 		bo1.setCategoria(catBo1);
 		
-		NazioneBO nazioneBo1 = new NazioneBO();
+		NationBO nazioneBo1 = new NationBO();
 		nazioneBo1.setId(1);
 		nazioneBo1.setInternationalKey("IT");
 		nazioneBo1.setNome("Italia");
@@ -170,7 +170,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		catbo2.setDescrizione("descr cat2");
 		bo2.setCategoria(catbo2);
 		
-		NazioneBO nazionebo2 = new NazioneBO();
+		NationBO nazionebo2 = new NationBO();
 		nazionebo2.setId(2);
 		nazionebo2.setInternationalKey("JP");
 		nazionebo2.setNome("Giappone");

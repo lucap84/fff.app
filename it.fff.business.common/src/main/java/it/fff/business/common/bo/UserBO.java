@@ -15,8 +15,8 @@ public class UserBO implements BusinessObject {
 	private String lastPositionDate;		
 	private int numUpdate;	
 	private boolean flagAttivo;
-	private NazioneBO nazionalita; 
-	private List<LinguaBO> lingue;
+	private NationBO nazionalita; 
+	private List<LanguageBO> lingue;
 	private List<AchievementBO> achievements;
 	private AccountBO account;
 	
@@ -86,16 +86,16 @@ public class UserBO implements BusinessObject {
 	public void setFlagAttivo(boolean flagAttivo) {
 		this.flagAttivo = flagAttivo;
 	}
-	public NazioneBO getNazionalita() {
+	public NationBO getNazionalita() {
 		return nazionalita;
 	}
-	public void setNazionalita(NazioneBO nazionalita) {
+	public void setNazionalita(NationBO nazionalita) {
 		this.nazionalita = nazionalita;
 	}
-	public List<LinguaBO> getLingue() {
+	public List<LanguageBO> getLingue() {
 		return lingue;
 	}
-	public void setLingue(List<LinguaBO> lingue) {
+	public void setLingue(List<LanguageBO> lingue) {
 		this.lingue = lingue;
 	}
 	public List<AchievementBO> getAchievements() {

@@ -4,13 +4,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class NazioneDTO extends DataTransferObject{
-	
-	private static final long serialVersionUID = 6302943037577058100L;
-	
-	private String	id;
+public class AttendanceStateDTO {
+
+	private String id;
 	private String nome;
-	private String internationalKey;
+	private String descrizione;
+	
 
 	@XmlElement public String getId() {
 		return id;
@@ -24,12 +23,10 @@ public class NazioneDTO extends DataTransferObject{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	@XmlElement public String getInternationalKey() {
-		return internationalKey;
+	@XmlElement public String getDescrizione() {
+		return descrizione;
 	}
-	public void setInternationalKey(String internationalKey) {
-		this.internationalKey = internationalKey;
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
-	
-	
 }

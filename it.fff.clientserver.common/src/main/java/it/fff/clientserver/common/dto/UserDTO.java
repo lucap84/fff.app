@@ -15,8 +15,8 @@ public class UserDTO extends DataTransferObject {
 	private String cognome;
 	private String dataNascita;
 	private String sesso;
-	private NazioneDTO nazionalita;
-	private List<LinguaDTO> lingue;
+	private NationDTO nazionalita;
+	private List<LanguageDTO> lingue;
 	private String descrizione;
 	private String imgProfileHashCode;
 	private SubscriptionDTO subscription;
@@ -65,16 +65,16 @@ public class UserDTO extends DataTransferObject {
 	public void setSesso(String sesso) {
 		this.sesso = sesso;
 	}
-	@XmlElement public NazioneDTO getNazionalita() {
+	@XmlElement public NationDTO getNazionalita() {
 		return nazionalita;
 	}
-	public void setNazionalita(NazioneDTO nazionalita) {
+	public void setNazionalita(NationDTO nazionalita) {
 		this.nazionalita = nazionalita;
 	}
-	@XmlElement public List<LinguaDTO> getLingue() {
+	@XmlElement public List<LanguageDTO> getLingue() {
 		return lingue;
 	}
-	public void setLingue(List<LinguaDTO> lingue) {
+	public void setLingue(List<LanguageDTO> lingue) {
 		this.lingue = lingue;
 	}
 	@XmlElement public String getDescrizione() {

@@ -4,26 +4,26 @@ package it.fff.business.common.bo;
 public class AchievementBO implements BusinessObject {
 
 	private int	id;
-	private String nome;
-	private String descrizione;
+	private String dataOttenimento;
+	private AchievementTypeBO type;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	public String getDataOttenimento() {
+		return dataOttenimento;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDataOttenimento(String dataOttenimento) {
+		this.dataOttenimento = dataOttenimento;
 	}
-	public String getDescrizione() {
-		return descrizione;
+	public AchievementTypeBO getType() {
+		return type;
 	}
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
+	public void setType(AchievementTypeBO type) {
+		this.type = type;
 	}
-	
 	
 }

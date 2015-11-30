@@ -6,24 +6,38 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.EventCategoryBO;
+import it.fff.business.common.bo.EventStateBO;
+import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageBO;
+import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
+import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.exception.ApplicationException;
+import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceMapper;
+import it.fff.business.common.mapper.AttendanceStateMapper;
+import it.fff.business.common.mapper.EventCategoryMapper;
 import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.mapper.EventStateMapper;
+import it.fff.business.common.mapper.LanguageMapper;
 import it.fff.business.common.mapper.MessageMapper;
+import it.fff.business.common.mapper.MessageStandardMapper;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.mapper.ResultMapper;
 import it.fff.business.common.mapper.SessionMapper;
 import it.fff.business.common.mapper.SubscriptionMapper;
+import it.fff.business.common.mapper.SubscriptionTypeMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.business.facade.exception.BusinessException;
@@ -32,6 +46,7 @@ import it.fff.business.service.EventBusinessService;
 import it.fff.business.service.PlacesBusinessService;
 import it.fff.business.service.PremiumBusinessService;
 import it.fff.business.service.SecurityBusinessService;
+import it.fff.business.service.TypologicalBusinessService;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.util.BusinessServiceProvider;
 import it.fff.clientserver.common.dto.*;
@@ -532,10 +547,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public Map<String, Map<String, String>> retrieveClientSecrets() throws BusinessException {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 		
-		Map<String, Map<String, String>> clientSecrets = null;
+		Map<Integer, Map<String, String>> clientSecrets = null;
 		try {
 			clientSecrets = securityBusinessService.retrieveClientSecrets();
 		}
@@ -544,6 +559,118 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		return clientSecrets;
+	}
+
+	@Override
+	public List<LanguageDTO> getAllLanguages() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<LanguageDTO> languagesDTO = null;
+		List<LanguageBO> languagesBO = null;
+		try {
+			languagesBO = typologicalBusinessService.getAllLanguages();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		languagesDTO = LanguageMapper.mapBO2DTO(languagesBO);
+		
+		return languagesDTO;
+	}
+
+	@Override
+	public List<SubscriptionTypeDTO> getAllSubscriptionTypes() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<SubscriptionTypeDTO> dtos = null;
+		List<SubscriptionTypeBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllSubscriptionTypes();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = SubscriptionTypeMapper.mapBO2DTO(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<AchievementTypeDTO> getAllAchievementTypes() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<AchievementTypeDTO> dtos = null;
+		List<AchievementTypeBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllAchievementTypes();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = AchievementTypeMapper.mapBO2DTO(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<MessageStandardDTO> getAllStandardMessages() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<MessageStandardDTO> dtos = null;
+		List<MessageStandardBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllStandardMessages();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = MessageStandardMapper.mapBO2DTO(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<AttendanceStateDTO> getAllAttendanceStates() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<AttendanceStateDTO> dtos = null;
+		List<AttendanceStateBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllAttendanceStates();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = AttendanceStateMapper.mapBO2DTO(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<EventStateDTO> getAllEventStates() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<EventStateDTO> dtos = null;
+		List<EventStateBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllEventStates();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = EventStateMapper.mapBO2DTO(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<EventCategoryDTO> getAllEventCategories() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<EventCategoryDTO> dtos = null;
+		List<EventCategoryBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllEventCategories();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = EventCategoryMapper.mapBO2DTO(bos);
+		
+		return dtos;
 	}
 
 

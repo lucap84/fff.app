@@ -20,7 +20,7 @@ public class CityEO extends EntityObject {
 	
 	@ManyToOne
 	@JoinColumn(name = "Nazione_ID", nullable = false)
-	private NazioneEO nazione;
+	private NationEO nazione;
 
 	public Integer getId() {
 		return id;
@@ -38,11 +38,11 @@ public class CityEO extends EntityObject {
 		this.nome = nome;
 	}
 
-	public NazioneEO getNazione() {
+	public NationEO getNazione() {
 		return nazione;
 	}
 
-	public void setNazione(NazioneEO nazione) {
+	public void setNazione(NationEO nazione) {
 		this.nazione = nazione;
 	}
 	
