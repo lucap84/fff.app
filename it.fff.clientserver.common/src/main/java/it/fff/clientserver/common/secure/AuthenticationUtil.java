@@ -54,7 +54,7 @@ public class AuthenticationUtil {
 	}
 	
 	public static String generateHMACAuthorizationHeader(	String key,
-														String userId, 
+														Integer userId, 
 														String httpMethod, 
 														String path, 
 														String date,

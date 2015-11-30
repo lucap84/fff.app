@@ -18,13 +18,13 @@ public class LanguageEO extends EntityObject {
 	@Column(name = "Nome")
 	private String nome;
 	
-	@Column(name = "ISO639_1")
+	@Column(name = "ISO_639_1")
 	private String iso639_1;
 
-	@Column(name = "ISO639_2")
+	@Column(name = "ISO_639_2")
 	private String iso639_2;
 	
-	@Column(name = "ISO639_3")
+	@Column(name = "ISO_639_3")
 	private String iso639_3;
 	
 	public Integer getId() {

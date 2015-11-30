@@ -39,7 +39,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Transaction tx = null;
 	    try{
 	    	String logoutDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
-			String hqlUpdate = "UPDATE SessionEO set isLogged = 0, dataLogout = :logoutDate, sharedKey=''  WHERE account.id = :userId AND deviceId = :deviceId";	    	  
+			String hqlUpdate = "UPDATE SessionEO set isLogged = 0, dataLogout = :logoutDate, sharedKey=''  WHERE account.flgValidita=1 AND account.id = :userId AND deviceId = :deviceId";	    	  
 
 			tx = session.beginTransaction();
 			Query query = session.createQuery(hqlUpdate);

@@ -177,7 +177,8 @@ public class SecurityService extends ApplicationService {
 		
 		if(resultDTO.isOk()){
 			resultDTO.setServerPublicKey(serverPublicKey);
-			secureConfiguration.storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecretHEX);
+			Integer userId = Integer.valueOf(resultDTO.getUserId());
+			secureConfiguration.storeSharedKey(userId, deviceId, sharedSecretHEX);
 		}
         
 		return resultDTO;
@@ -201,7 +202,8 @@ public class SecurityService extends ApplicationService {
 		
 		if(resultDTO.isOk()){
 			resultDTO.setServerPublicKey(serverPublicKey);
-			secureConfiguration.storeSharedKey(resultDTO.getUserId(), deviceId, sharedSecretHEX);
+			Integer userId = Integer.valueOf(resultDTO.getUserId());
+			secureConfiguration.storeSharedKey(userId, deviceId, sharedSecretHEX);
 		}		
 		
 		return resultDTO;
@@ -219,7 +221,8 @@ public class SecurityService extends ApplicationService {
 		}
 		
 		if(resultDTO.isOk()){
-			secureConfiguration.removeSharedKey(userId, deviceId);
+			Integer userIdInt = Integer.valueOf(userId);
+			secureConfiguration.removeSharedKey(userIdInt, deviceId);
 		}		
 		
 		return resultDTO;

@@ -20,17 +20,17 @@ public class ServerSecureConfiguration implements DHSecureConfiguration {
 	}
 	
 	@Override
-	public void storeSharedKey(String userId, String deviceId, String sharedKey) {
+	public void storeSharedKey(Integer userId, String deviceId, String sharedKey) {
 		Map<String, String> clientSharedSecrets = clientSecrets.get(userId);
 		if (clientSharedSecrets==null){
 			clientSharedSecrets = new HashMap<String, String>();
-			this.clientSecrets.put(Integer.valueOf(userId), clientSharedSecrets);
+			this.clientSecrets.put(userId, clientSharedSecrets);
 		}
 		clientSharedSecrets.put(deviceId, sharedKey);
 	}
 
 	@Override
-	public String retrieveSharedKey(String userId, String deviceId) {
+	public String retrieveSharedKey(Integer userId, String deviceId) {
 		if(this.clientSecrets==null || this.clientSecrets.isEmpty()){
 			this.populateClientSecrets();
 		}
@@ -51,7 +51,7 @@ public class ServerSecureConfiguration implements DHSecureConfiguration {
 	}
 
 	@Override
-	public void removeSharedKey(String userId, String deviceId) {
+	public void removeSharedKey(Integer userId, String deviceId) {
 		Map<String, String> device2sharedKey = this.clientSecrets.get(userId);
 		if(device2sharedKey!=null){
 			device2sharedKey.remove(deviceId);

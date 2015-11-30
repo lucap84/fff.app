@@ -48,10 +48,18 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 				
 				String userId = authHeader.split(":")[1];
 				String nonce = authHeader.split(":")[2];
-				String sharedKey = secureConfiguration.retrieveSharedKey(userId, deviceHeader);
+				
+				Integer UserIdInt = null;
+				try{
+					UserIdInt = Integer.valueOf(userId);
+				}
+				catch(NumberFormatException e){
+					authorized &= false;
+				}
+				String sharedKey = secureConfiguration.retrieveSharedKey(UserIdInt, deviceHeader);
 				String rebuiltAuthHeader = "";
 				if(sharedKey!=null && !"".equals(sharedKey)){
-					rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, userId, method, requestPath, dateHeader, nonce);
+					rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, UserIdInt, method, requestPath, dateHeader, nonce);
 				}
 				authorized &= rebuiltAuthHeader.equals(authHeader);	//se il digest HMAC ricalcolato sul server non corrisponde al client, non si viene autorizzati
 			}
@@ -75,6 +83,7 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		//Bisogna sempre procedere con l'autorizzazione, tranne che per registrarsi o per fare login
 		isToAuthorize &= !requestPath.matches("^security/registration.*");
 		isToAuthorize &= !requestPath.matches("^security/login.*");
+//		isToAuthorize &= !requestPath.matches("^security/logout.*");
 		
 		return isToAuthorize;
 	}

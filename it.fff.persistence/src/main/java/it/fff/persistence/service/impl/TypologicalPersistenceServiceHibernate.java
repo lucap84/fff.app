@@ -136,7 +136,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM AchievementEO";	    	  
+			String hqlSelect = "FROM AchievementTypeEO";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	
 	    	List<AchievementTypeEO> eos = query.list();
@@ -182,7 +182,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM SubscriptionTypeEO";	    	  
+			String hqlSelect = "FROM LanguageEO";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	
 	    	List<LanguageEO> eos = query.list();
