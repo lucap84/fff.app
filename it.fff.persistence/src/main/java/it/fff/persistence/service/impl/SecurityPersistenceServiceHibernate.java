@@ -67,8 +67,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	public UpdateResultBO login(SessionBO sessionBO) throws Exception {
 		logger.info("logout client and device...");
 		
-		SessionEO sessionEO = new SessionEO();
-		SessionMapper.mapBO2EO(sessionBO, sessionEO);
+		SessionEO sessionEO = SessionMapper.getInstance().mergeBO2EO(sessionBO, null);
 		
 		String email = sessionEO.getAccount().getEmail();
 		String password = sessionEO.getAccount().getPassword();

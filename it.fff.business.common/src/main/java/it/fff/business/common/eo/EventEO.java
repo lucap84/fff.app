@@ -111,5 +111,19 @@ public class EventEO extends EntityObject{
 		return this.getClass().getName()+"("+id+")";
 	}
 	
+	/*
+	 * IfNotEmpty
+	 */
 	
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id)) this.id = id;
+	}
+
+	public void setTitoloIfNotEmpty(String titolo) {
+		if(!isEmpty(titolo)) this.titolo = titolo;
+	}
+
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+	}
 }

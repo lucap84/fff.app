@@ -39,8 +39,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    Transaction tx = null;
 	    Integer id = null;
 	      try{
-	    	  UserEO userEO = new UserEO();
-	    	  UserMapper.mapBO2EO(userBO,userEO);
+	    	  UserEO userEO = UserMapper.getInstance().mergeBO2EO(userBO,null);
 	    	  
 			tx = session.beginTransaction();
 			id = (Integer)session.save(userEO); 
@@ -82,7 +81,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }finally {
 	         session.close(); 
 	      }	        
-	      bo = UserMapper.mapEO2BO(eo);
+	      bo = UserMapper.getInstance().mapEO2BO(eo);
 		return bo;
 	}
 
@@ -97,7 +96,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			tx = session.beginTransaction();
 			
 			eo = (UserEO) session.load(UserEO.class, bo.getId());
-			UserMapper.mapBO2EO(bo, eo);
+			eo = UserMapper.getInstance().mergeBO2EO(bo, eo);
 			session.update(eo);
 			
 //			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()

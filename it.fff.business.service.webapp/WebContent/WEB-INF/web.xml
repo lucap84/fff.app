@@ -23,11 +23,11 @@
 	    <param-name>jersey.config.server.provider.classnames</param-name>
 	    <param-value>
 	    org.glassfish.jersey.media.multipart.MultiPartFeature
-	    ,it.fff.business.service.filter.AuthorizationContainerRequestFilter
-	    ,it.fff.business.service.filter.AuthenticationContainerRequestFilter
 	    </param-value>
 	    <!--
 	    org.glassfish.jersey.media.multipart.MultiPartFeature,
+	    ,it.fff.business.service.filter.AuthorizationContainerRequestFilter
+	    ,it.fff.business.service.filter.AuthenticationContainerRequestFilter
 	    ,org.glassfish.jersey.filter.LoggingFilter;
 	    -->
 	</init-param>    

@@ -7,76 +7,118 @@ import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.AttendanceStateEO;
+import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.AttendanceDTO;
 
-public class AttendanceMapper implements Mapper{
+public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,AttendanceEO>{
 
-	public static List<AttendanceBO> mapDTO2BO(List<AttendanceDTO> dtos) {
+	private static AttendanceMapper mapper;
+	
+	private AttendanceMapper(){
+		
+	}
+	
+	public static AttendanceMapper getInstance(){
+		if(mapper==null){
+			mapper= new  AttendanceMapper();
+		}
+		return mapper;
+	}
+	
+	@Override
+	public List<AttendanceBO> mapDTOs2BOs(List<AttendanceDTO> dtos) {
 		List<AttendanceBO> bos = new  ArrayList<AttendanceBO>();
 		if(dtos!=null){
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceDTO dto : dtos) {
-				bos.add(AttendanceMapper.mapDTO2BO(dto));
+				bos.add(attendanceMapper.mapDTO2BO(dto));
 			}
 		}
 		return bos; 
 	}	
-
-	public static AttendanceBO mapDTO2BO(AttendanceDTO dto) {
+	
+	@Override
+	public AttendanceBO mapDTO2BO(AttendanceDTO dto) {
 		AttendanceBO bo = new AttendanceBO();
 		if(dto!=null){
-			bo.setId(Integer.valueOf(dto.getId()));
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
 			bo.setValid(dto.isValid());
-			bo.setPositiveFeedback(dto.getFeedback().isPositiveFeedback());
+			if(dto.getFeedback()!=null){
+				bo.setPositiveFeedback(dto.getFeedback().isPositiveFeedback());
+			}
 		}
 		return bo;
 	}	
 	
-	public static List<AttendanceDTO> mapBO2DTO(List<AttendanceBO> bos) {
+	@Override
+	public List<AttendanceDTO> mapBOs2DTOs(List<AttendanceBO> bos) {
 		List<AttendanceDTO> attendancesDTO = new  ArrayList<AttendanceDTO>();
 		if(bos!=null){
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceBO bo : bos) {
-				attendancesDTO.add(AttendanceMapper.mapBO2DTO(bo));
+				attendancesDTO.add(attendanceMapper.mapBO2DTO(bo));
 			}
 		}
 		return attendancesDTO; 
 	}
 
-	public static AttendanceDTO mapBO2DTO(AttendanceBO bo) {
+	@Override
+	public AttendanceDTO mapBO2DTO(AttendanceBO bo) {
 		AttendanceDTO dto = new AttendanceDTO();
 		if(bo!=null){
 			dto.setId(String.valueOf(bo.getId()));
 			dto.setValid(bo.isValid());
-			dto.setUser(UserMapper.mapBO2DTO(bo.getUtente()));
+			
+			UserMapper userMapper = UserMapper.getInstance();
+			dto.setUser(userMapper.mapBO2DTO(bo.getUtente()));
 		}
 		return dto;
 	}
 	
-	public static void mapBO2EO(AttendanceBO bo, AttendanceEO eo) {
+	@Override
+	public AttendanceEO mergeBO2EO(AttendanceBO bo, AttendanceEO eo) {
 		if(bo!=null){
+			if(eo==null){
+				eo = new AttendanceEO();
+			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNumPartecipantiIfNotEmpty(bo.getNumPartecipanti());
-			
-			AttendanceStateEO attStateEO = new AttendanceStateEO();
-			AttendanceStateMapper.mapBO2EO(bo.getStato(),attStateEO);
-			eo.setStato(attStateEO);
-			
-			eo.setValid(bo.isValid());
 			eo.setOrganizer(bo.isOrganizer());
+			eo.setPositiveFeedback(bo.isPositiveFeedback());
+			eo.setValid(bo.isValid());
+			
+			EventEO eventEO = new EventEO(); //Evito mapping ciclici (EventBO ha una lista di attendances)!
+			eventEO.setIdIfNotEmpty(bo.getEvent().getId());
+			eo.setEvent(eventEO);
+			
+			AttendanceStateEO stateEO = new AttendanceStateEO();
+			stateEO.setIdIfNotEmpty(bo.getStato().getId());
+			eo.setStato(stateEO);
+			
+			UserEO userEO = new UserEO();
+			userEO.setIdIfNotEmpty(bo.getUtente().getId());
+			eo.setUtente(userEO);
 		}
+		return eo;
 	}	
 	
-
-	public static List<AttendanceBO> mapEO2BO(List<AttendanceEO> eos) {
+	@Override
+	public List<AttendanceBO> mapEOs2BOs(List<AttendanceEO> eos) {
 		List<AttendanceBO> bos = new  ArrayList<AttendanceBO>();
 		if(eos!=null){
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceEO eo : eos) {
-				bos.add(AttendanceMapper.mapEO2BO(eo));
+				bos.add(attendanceMapper.mapEO2BO(eo));
 			}
 		}
 		return bos; 
 	}
 
-	public static AttendanceBO mapEO2BO(AttendanceEO eo) {
+	@Override
+	public AttendanceBO mapEO2BO(AttendanceEO eo) {
 		AttendanceBO bo = new AttendanceBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
@@ -89,23 +131,29 @@ public class AttendanceMapper implements Mapper{
 			eventBO.setId(eo.getEvent().getId());
 			bo.setEvent(eventBO);
 			
-			bo.setStato(AttendanceStateMapper.mapEO2BO(eo.getStato()));
-			bo.setUtente(UserMapper.mapEO2BO(eo.getUtente()));
+			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
+			bo.setStato(attendanceStateMapper.mapEO2BO(eo.getStato()));
+			
+			UserMapper userMapper = UserMapper.getInstance();
+			bo.setUtente(userMapper.mapEO2BO(eo.getUtente()));
 		}
 		return bo;
 	}
 
 
-
-	public static AttendanceBO mapEO2DTO(AttendanceEO eo) {
-		AttendanceBO bo = new AttendanceBO();
-		bo.setId(eo.getId());
-		bo.setNumPartecipanti(eo.getNumPartecipanti());
-		bo.setOrganizer(eo.isOrganizer());
-		bo.setStato(AttendanceStateMapper.mapEO2BO(eo.getStato()));
-		bo.setValid(eo.isValid());
-		bo.setUtente(UserMapper.mapEO2BO(eo.getUtente()));
-		return bo;
+	@Override
+	public List<AttendanceEO> mergeBOs2EOs(List<AttendanceBO> bos, List<AttendanceEO> eos) {
+		if(bos!=null){
+			if(eos==null){
+				eos = new  ArrayList<AttendanceEO>();
+			}
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+			for (AttendanceBO bo : bos) {
+				AttendanceEO eo = attendanceMapper.mergeBO2EO(bo, null);
+				eos.add(eo);
+			}
+		}
+		return eos;
 	}
 
 

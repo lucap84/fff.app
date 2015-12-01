@@ -7,59 +7,36 @@ import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.clientserver.common.dto.LanguageDTO;
 
-public class LanguageMapper implements Mapper {
+public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>{
 
-	public static List<LanguageBO> mapEOs2BOs(List<LanguageEO> eos) {
-		List<LanguageBO> bos = new ArrayList<LanguageBO>();
-		if(eos!=null){
-			for (LanguageEO eo : eos) {
-				bos.add(LanguageMapper.mapEO2BO(eo));
-			}
-		}
-		return bos;
+	private static LanguageMapper mapper;
+	
+	private LanguageMapper(){
+		
 	}
 	
-	public static LanguageBO mapEO2BO(LanguageEO eo) {
-		LanguageBO bo = new LanguageBO();
-		if(eo!=null){
-			bo.setId(eo.getId());
-			bo.setNome(eo.getNome());
-			bo.setIso639_1(eo.getIso639_1());
+	public static LanguageMapper getInstance(){
+		if(mapper==null){
+			mapper= new  LanguageMapper();
 		}
-		return bo;
+		return mapper;
 	}
+	
 
-	public static void mapBO2EO(List<LanguageBO> bos,List<LanguageEO> eos) {
-		if(bos!=null){
-			for (LanguageBO bo : bos) {
-				LanguageEO linguaEO = new LanguageEO();
-				LanguageMapper.mapBO2EO(bo,linguaEO);
-				eos.add(linguaEO);
-			}
-		}
-	}
-
-	public static void mapBO2EO(LanguageBO bo, LanguageEO eo) {
-		if(bo!=null){
-			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setIso639_1IfNotEmpty(bo.getIso639_1());
-			eo.setIso639_2IfNotEmpty(bo.getIso639_2());
-			eo.setIso639_3IfNotEmpty(bo.getIso639_3());
-		}
-	}
-
-	public static List<LanguageBO> mapDTO2BO(List<LanguageDTO> dtos) {
+	@Override
+	public List<LanguageBO> mapDTOs2BOs(List<LanguageDTO> dtos) {
 		List<LanguageBO> bos = new ArrayList<LanguageBO>();
 		if(dtos!=null){
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageDTO dto : dtos) {
-				bos.add(LanguageMapper.mapDTO2BO(dto));
+				bos.add(languageMapper.mapDTO2BO(dto));
 			}
 		}
 		return bos;
 	}
 
-	public static LanguageBO mapDTO2BO(LanguageDTO dto) {
+	@Override
+	public LanguageBO mapDTO2BO(LanguageDTO dto) {
 		LanguageBO bo = new LanguageBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){
@@ -71,17 +48,73 @@ public class LanguageMapper implements Mapper {
 		return bo;
 	}
 
-	public static List<LanguageDTO> mapBO2DTO(List<LanguageBO> bos) {
+	@Override
+	public List<LanguageEO> mergeBOs2EOs(List<LanguageBO> bos, List<LanguageEO> eos) {
+		if(bos!=null){
+			if(eos==null){
+				eos = new ArrayList<LanguageEO>();
+			}
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			for (LanguageBO bo : bos) {
+				LanguageEO linguaEO = languageMapper.mergeBO2EO(bo, null);
+				eos.add(linguaEO);
+			}
+		}
+		return eos;
+	}
+
+	@Override
+	public LanguageEO mergeBO2EO(LanguageBO bo, LanguageEO eo) {
+		if(bo!=null){
+			if(eo==null){
+				eo = new LanguageEO();
+			}
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setNomeIfNotEmpty(bo.getNome());
+			eo.setIso639_1IfNotEmpty(bo.getIso639_1());
+			eo.setIso639_2IfNotEmpty(bo.getIso639_2());
+			eo.setIso639_3IfNotEmpty(bo.getIso639_3());
+		}
+		return eo;
+	}
+
+	@Override
+	public List<LanguageBO> mapEOs2BOs(List<LanguageEO> eos) {
+		List<LanguageBO> bos = new ArrayList<LanguageBO>();
+		if(eos!=null){
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			for (LanguageEO eo : eos) {
+				bos.add(languageMapper.mapEO2BO(eo));
+			}
+		}
+		return bos;
+	}
+
+	@Override
+	public LanguageBO mapEO2BO(LanguageEO eo) {
+		LanguageBO bo = new LanguageBO();
+		if(eo!=null){
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setIso639_1(eo.getIso639_1());
+		}
+		return bo;
+	}
+
+	@Override
+	public List<LanguageDTO> mapBOs2DTOs(List<LanguageBO> bos) {
 		List<LanguageDTO> dtos = new ArrayList<LanguageDTO>();
 		if(bos!=null){
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageBO bo : bos) {
-				dtos.add(LanguageMapper.mapBO2DTO(bo));
+				dtos.add(languageMapper.mapBO2DTO(bo));
 			}
 		}
 		return dtos;
 	}
 
-	public static LanguageDTO mapBO2DTO(LanguageBO bo) {
+	@Override
+	public LanguageDTO mapBO2DTO(LanguageBO bo) {
 		LanguageDTO dto = new LanguageDTO();
 		if(bo!=null){
 			if(bo.getId()>0){

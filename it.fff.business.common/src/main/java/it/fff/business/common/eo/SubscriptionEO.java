@@ -82,6 +82,11 @@ public class SubscriptionEO extends EntityObject {
 	public void setSconto(Double sconto) {
 		this.sconto = sconto;
 	}
+
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id)) this.id = id;
+		
+	}
 	
 	
 	

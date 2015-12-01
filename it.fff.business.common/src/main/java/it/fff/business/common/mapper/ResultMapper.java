@@ -5,7 +5,7 @@ import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
-public class ResultMapper implements Mapper{
+public class ResultMapper{
 
 	public static AuthDataResponseDTO map2AuthDataDTO(CreateResultBO bo) {
 		AuthDataResponseDTO dto = new AuthDataResponseDTO();

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.EventBusinessService;

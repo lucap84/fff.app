@@ -11,10 +11,10 @@ public class AttendanceDTO extends DataTransferObject {
 	UserDTO user;
 	EventDTO event;
 	boolean isOrganizer;
-	int numPartecipanti;
+	String numPartecipanti;
 	FeedbackDTO feedback;
 	boolean isValid;
-	int statusId;
+	String statusId;
 	
 
 	@XmlElement public String getId() {
@@ -41,23 +41,11 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setOrganizer(boolean isOrganizer) {
 		this.isOrganizer = isOrganizer;
 	}
-	@XmlElement public int getNumPartecipanti() {
-		return numPartecipanti;
-	}
-	public void setNumPartecipanti(int numPartecipanti) {
-		this.numPartecipanti = numPartecipanti;
-	}
 	@XmlElement public boolean isValid() {
 		return isValid;
 	}
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
-	}
-	@XmlElement public int getStatusId() {
-		return statusId;
-	}
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
 	}
 	@XmlElement public FeedbackDTO getFeedback() {
 		return feedback;
@@ -65,5 +53,19 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setFeedback(FeedbackDTO feedback) {
 		this.feedback = feedback;
 	}
+	@XmlElement public String getNumPartecipanti() {
+		return numPartecipanti;
+	}
+	public void setNumPartecipanti(String numPartecipanti) {
+		this.numPartecipanti = numPartecipanti;
+	}
+	@XmlElement public String getStatusId() {
+		return statusId;
+	}
+	public void setStatusId(String statusId) {
+		this.statusId = statusId;
+	}
+	
+	
 	
 }

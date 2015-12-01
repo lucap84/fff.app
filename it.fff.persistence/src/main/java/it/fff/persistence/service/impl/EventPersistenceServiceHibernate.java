@@ -8,14 +8,18 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.mapper.UserMapper;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -39,7 +43,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }finally {
 	         session.close(); 
 	      }	        
-	      bo = EventMapper.mapEO2BO(eo);
+	      bo = EventMapper.getInstance().mapEO2BO(eo);
 		return bo;
 	}
 
@@ -56,8 +60,35 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public CreateResultBO createEvent(EventBO bo) throws Exception {
-		// TODO Auto-generated method stub
+	public CreateResultBO createEvent(EventBO eventBO) throws Exception {
+		logger.info("creating event");
+		
+//		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//		Session session = sessionFactory.openSession();
+//	    Transaction tx = null;
+//	    Integer id = null;
+//	      try{
+//	    	  EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO,eventEO);
+//	    	  
+//			tx = session.beginTransaction();
+//			id = (Integer)session.save(eventEO); 
+//			 
+//	         
+//	         tx.commit();
+//	      }catch (HibernateException e) {
+//	         if (tx!=null) tx.rollback();
+//	         e.printStackTrace();
+//	         throw new Exception("HibernateException during registerUser() ",e);
+//	      }finally {
+//	         session.close(); 
+//	      }			
+//		
+//		logger.info("user registered");
+//		CreateResultBO resultBO = new CreateResultBO();
+//		resultBO.setSuccess(true);
+//		resultBO.setCreatedKey(id);
+//		resultBO.setNumRecordsCreated(1);
+		
 		return null;
 	}
 
@@ -104,7 +135,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	
 	    	List<EventEO> eventsEO = query.list();
 	    	
-	    	bos = EventMapper.mapEOs2BOs(eventsEO);
+	    	bos = EventMapper.getInstance().mapEOs2BOs(eventsEO);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();

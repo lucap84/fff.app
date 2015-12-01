@@ -7,28 +7,88 @@ import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.AchievementTypeEO;
+import it.fff.clientserver.common.dto.AchievementDTO;
 
-public class AchievementMapper implements Mapper{
+public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,AchievementObtainedEO>{
 
-	public static List<AchievementBO> mapEOs2BOs(List<AchievementObtainedEO> eos) {
+	private static AchievementMapper mapper;
+	
+	private AchievementMapper(){
+		
+	}
+	
+	public static AchievementMapper getInstance(){
+		if(mapper==null){
+			mapper= new  AchievementMapper();
+		}
+		return mapper;
+	}
+	
+	@Override
+	public List<AchievementBO> mapDTOs2BOs(List<AchievementDTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public AchievementBO mapDTO2BO(AchievementDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public  List<AchievementObtainedEO> mergeBOs2EOs(List<AchievementBO> bos, List<AchievementObtainedEO> eos) {
+		return null;
+	}
+
+
+	@Override
+	public AchievementObtainedEO mergeBO2EO(AchievementBO bo, AchievementObtainedEO eo) {
+		return null;
+		
+	}
+
+
+	@Override
+	public List<AchievementBO> mapEOs2BOs(List<AchievementObtainedEO> eos) {
 		List<AchievementBO> bos = new ArrayList<AchievementBO>();
 		if(eos!=null){
+			AchievementMapper achievementMapper = AchievementMapper.getInstance();
 			for (AchievementObtainedEO eo : eos) {
-				bos.add(AchievementMapper.mapEO2BO(eo));
+				bos.add(achievementMapper.mapEO2BO(eo));
 			}
 		}
 		return bos;
 	}
 
-	
-	public static AchievementBO mapEO2BO(AchievementObtainedEO eo) {
+
+	@Override
+	public AchievementBO mapEO2BO(AchievementObtainedEO eo) {
 		AchievementBO bo = new AchievementBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
 			bo.setDataOttenimento(eo.getDataCreazione());
-			bo.setType(AchievementTypeMapper.mapEO2BO(eo.getType()));
+			
+			AchievementTypeMapper achievementTypeMapper = AchievementTypeMapper.getInstance();
+			bo.setType(achievementTypeMapper.mapEO2BO(eo.getType()));
 		}
 		return bo;
+	}
+
+
+	@Override
+	public List<AchievementDTO> mapBOs2DTOs(List<AchievementBO> bos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public AchievementDTO mapBO2DTO(AchievementBO bo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

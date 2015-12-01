@@ -28,11 +28,18 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	@Override
 	public List<EventStateBO> getAllEventStates() throws Exception {
 		List<EventStateBO> bos = new ArrayList<EventStateBO>();
-		EventStateBO bo = new EventStateBO();
-		bo.setId(1);
-		bo.setNome("EventState nome");
-		bo.setDescrizione("EventState descr");
-		bos.add(bo);
+		EventStateBO bo1 = new EventStateBO();
+		bo1.setId(1);
+		bo1.setNome("ATCTIVE");
+		bo1.setDescrizione("EventState attivo");
+		
+		EventStateBO bo2 = new EventStateBO();
+		bo2.setId(2);
+		bo2.setNome("CANCELED");
+		bo2.setDescrizione("EventState annullato");
+		
+		bos.add(bo1);
+		bos.add(bo2);
 		return bos;
 	}
 

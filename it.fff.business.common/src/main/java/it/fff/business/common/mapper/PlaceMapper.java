@@ -7,19 +7,35 @@ import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.clientserver.common.dto.PlaceDTO;
 
-public class PlaceMapper implements Mapper {
+public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
+	
+	private static PlaceMapper mapper;
+	
+	private PlaceMapper(){
+		
+	}
+	
+	public static PlaceMapper getInstance(){
+		if(mapper==null){
+			mapper= new  PlaceMapper();
+		}
+		return mapper;
+	}
 
-	public static List<PlaceDTO> map2DTO(List<PlaceBO> bos) {
+	@Override
+	public List<PlaceDTO> mapBOs2DTOs(List<PlaceBO> bos) {
 		List<PlaceDTO> dtos = new ArrayList<PlaceDTO>();
 		if(bos!=null){
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			for (PlaceBO bo : bos) {
-				dtos.add(PlaceMapper.mapBO2DTO(bo));
+				dtos.add(placeMapper.mapBO2DTO(bo));
 			}
 		}
 		return dtos;
 	}
 
-	public static PlaceDTO mapBO2DTO(PlaceBO bo) {
+	@Override
+	public PlaceDTO mapBO2DTO(PlaceBO bo) {
 		PlaceDTO dto = new PlaceDTO();
 		if(bo!=null){
 			if(bo.getId()>0){
@@ -31,24 +47,30 @@ public class PlaceMapper implements Mapper {
 			dto.setCivico(bo.getCivico());
 			dto.setVia(bo.getVia());
 			dto.setCap(bo.getCap());
-			dto.setCity(CityMapper.mapBO2DTO(bo.getCity()));
+			
+			CityMapper cityMapper = CityMapper.getInstance();
+			dto.setCity(cityMapper.mapBO2DTO(bo.getCity()));
 		}
 		return dto;
 	}
 
-	public static PlaceBO mapDTO2BO(PlaceDTO dto) {
+	@Override
+	public PlaceBO mapDTO2BO(PlaceDTO dto) {
 		PlaceBO bo = new PlaceBO();
 		if(dto!=null){
-			bo.setGpsLat(Integer.valueOf(dto.getGpsLat()));
-			bo.setGpsLong(Integer.valueOf(dto.getGpsLong()));
+			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
+			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
 			bo.setNome(dto.getNome());
 		}
 		return bo;
 	}
 
-	public static PlaceEO map2EO(PlaceBO bo) {
-		PlaceEO eo = new PlaceEO();
+	@Override
+	public PlaceEO mergeBO2EO(PlaceBO bo, PlaceEO eo) {
 		if(bo!=null){
+			if(eo==null){
+				eo = new PlaceEO();
+			}
 			eo.setGpsLat(bo.getGpsLat());
 			eo.setGpsLong(bo.getGpsLong());
 			eo.setNome(bo.getNome());
@@ -56,17 +78,20 @@ public class PlaceMapper implements Mapper {
 		return eo;
 	}
 
-	public static List<PlaceBO> mapEOs2BOs(List<PlaceEO> eos) {
+	@Override
+	public List<PlaceBO> mapEOs2BOs(List<PlaceEO> eos) {
 		List<PlaceBO> bos = new ArrayList<PlaceBO>();
 		if(eos!=null){
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			for (PlaceEO eo : eos) {
-				bos.add(PlaceMapper.map2DTO(eo));
+				bos.add(placeMapper.mapEO2BO(eo));
 			}
 		}
 		return bos;
 	}
 
-	public static PlaceBO map2DTO(PlaceEO eo) {
+	@Override
+	public PlaceBO mapEO2BO(PlaceEO eo) {
 		PlaceBO bo = new PlaceBO();
 		if(eo!=null){
 			bo.setGpsLat(eo.getGpsLat());
@@ -74,6 +99,18 @@ public class PlaceMapper implements Mapper {
 			bo.setNome(eo.getNome());
 		}
 		return bo;
+	}
+
+	@Override
+	public List<PlaceBO> mapDTOs2BOs(List<PlaceDTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PlaceEO> mergeBOs2EOs(List<PlaceBO> bos, List<PlaceEO> eos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

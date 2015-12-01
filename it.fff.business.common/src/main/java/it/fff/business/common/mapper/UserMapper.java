@@ -10,11 +10,23 @@ import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
 import it.fff.clientserver.common.dto.*;
 
-public class UserMapper implements Mapper {
+public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	
-	private static final Logger logger = LogManager.getLogger(UserMapper.class);
-
-	public static UserBO mapDTO2BO(UserDTO dto) {
+	private static UserMapper mapper;
+	
+	private UserMapper(){
+		
+	}
+	
+	public static UserMapper getInstance(){
+		if(mapper==null){
+			mapper= new  UserMapper();
+		}
+		return mapper;
+	}
+	
+	@Override
+	public UserBO mapDTO2BO(UserDTO dto) {
 		UserBO bo = new UserBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){
@@ -29,8 +41,12 @@ public class UserMapper implements Mapper {
 			bo.setSesso(dto.getSesso());
 			bo.setDataNascita(dto.getDataNascita());
 			bo.setDescrizione(dto.getDescrizione());
-			bo.setNazionalita(NationMapper.mapDTO2BO(dto.getNazionalita()));
-			bo.setLingue(LanguageMapper.mapDTO2BO(dto.getLingue()));
+			
+			NationMapper nationMapper = NationMapper.getInstance();
+			bo.setNazionalita(nationMapper.mapDTO2BO(dto.getNazionalita()));
+			
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			bo.setLingue(languageMapper.mapDTOs2BOs(dto.getLingue()));
 			
 			bo.setLastPositionDate(dto.getLastPositionDate());
 			if(dto.getLastPositionLat()!=null){
@@ -42,12 +58,11 @@ public class UserMapper implements Mapper {
 				bo.setLastPositionLong(Double.valueOf(dto.getLastPositionLong()));
 			}
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
-
-	public static UserDTO mapBO2DTO(UserBO bo) {
+	@Override
+	public UserDTO mapBO2DTO(UserBO bo) {
 		UserDTO dto = new UserDTO();
 		if(bo!=null){
 			dto.setId(String.valueOf(bo.getId()));
@@ -55,15 +70,11 @@ public class UserMapper implements Mapper {
 			dto.setDataNascita(bo.getDataNascita());
 			dto.setDescrizione(bo.getDescrizione());
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return dto;
 	}
 
-
-
-
-
-	public static UserBO mapEO2BO(UserEO eo) {
+	@Override
+	public UserBO mapEO2BO(UserEO eo) {
 		UserBO bo = new UserBO();
 		if(eo!=null){
 			bo.setId(eo.getId());
@@ -72,22 +83,20 @@ public class UserMapper implements Mapper {
 			bo.setDataNascita(eo.getDataNascita());
 			bo.setDescrizione(eo.getDescrizione());
 			bo.setFlagAttivo(eo.isFlagAttivo());
-			bo.setNazionalita(NationMapper.mapEO2BO(eo.getNazionalita()));
-			if(eo.getLingue()!=null && org.hibernate.Hibernate.isInitialized(eo.getLingue())){
-				bo.setLingue(LanguageMapper.mapEOs2BOs(eo.getLingue()));
-			}
-			if(eo.getAchievements()!=null && org.hibernate.Hibernate.isInitialized(eo.getAchievements())){
-				bo.setAchievements(AchievementMapper.mapEOs2BOs(eo.getAchievements()));
-			}
+			
+			NationMapper nationMapper = NationMapper.getInstance();
+			bo.setNazionalita(nationMapper.mapEO2BO(eo.getNazionalita()));
+
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			bo.setLingue(languageMapper.mapEOs2BOs(eo.getLingue()));
+
+			AchievementMapper achievementMapper = AchievementMapper.getInstance();
+			bo.setAchievements(achievementMapper.mapEOs2BOs(eo.getAchievements()));
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
-
-
-
-	public static ProfileImageBO mapDTO2BO(ProfileImageDTO dto) {
+	public ProfileImageBO mapDTO2BO(ProfileImageDTO dto) {
 		ProfileImageBO bo = new ProfileImageBO();
 		if(dto!=null){
 			bo.setImageInputStream(dto.getImageInputStream());
@@ -95,11 +104,10 @@ public class UserMapper implements Mapper {
 			bo.setUserId(dto.getUserId());
 			bo.setImgHashCode(dto.getImgHashCode());
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
-	public static ProfileImageDTO mapBO2DTO(ProfileImageBO bo) {
+	public ProfileImageDTO mapBO2DTO(ProfileImageBO bo) {
 		ProfileImageDTO dto = new ProfileImageDTO();
 		if(bo!=null){
 			dto.setImageInputStream(bo.getImageInputStream());
@@ -107,12 +115,10 @@ public class UserMapper implements Mapper {
 			dto.setUserId(bo.getUserId());
 			dto.setImgHashCode(bo.getImgHashCode());
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return dto;
 	}
 
-
-	public static UserBO mapDTO2BO(RegistrationDataRequestDTO dto) {
+	public UserBO mapDTO2BO(RegistrationDataRequestDTO dto) {
 		UserBO bo1 = new UserBO();
 		
 		if(dto!=null){
@@ -133,13 +139,15 @@ public class UserMapper implements Mapper {
 			bo1.setSesso(dto.getSesso());
 			bo1.setAccount(bo2);
 		}
-		else{logger.warn("Mapping null objects!!");}
 		return bo1;
 	}
 
-
-	public static void mapBO2EO(UserBO bo, UserEO eo) {
+	@Override
+	public UserEO mergeBO2EO(UserBO bo, UserEO eo) {
 		if(bo!=null){
+			if(eo==null){
+				eo = new UserEO();
+			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
 			eo.setCognomeIfNotEmpty(bo.getCognome());
@@ -150,19 +158,43 @@ public class UserMapper implements Mapper {
 			eo.setLastPositionLongIfNotEmpty(bo.getLastPositionLong());
 			eo.setLastPositionDateIfNotEmpty(bo.getLastPositionDate());
 			
-			List<LanguageEO> lingueEO = new ArrayList<LanguageEO>();
-			LanguageMapper.mapBO2EO(bo.getLingue(),lingueEO);
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			List<LanguageEO> lingueEO = languageMapper.mergeBOs2EOs(bo.getLingue(),null);
 			eo.setLingue(lingueEO);
 			
-			AccountEO accountEO = new AccountEO();
-			AccountMapper.mapBO2EO(bo.getAccount(), accountEO);
+			AccountMapper accountMapper = AccountMapper.getInstance();
+			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null);
 			eo.setAccount(accountEO);
 			
-			NationEO nazionalitaEO = null;
-			NationMapper.mapBO2EO(bo.getNazionalita(),nazionalitaEO);
+			NationMapper nationMapper = NationMapper.getInstance();
+			NationEO nazionalitaEO = nationMapper.mergeBO2EO(bo.getNazionalita(),null);
 			eo.setNazionalita(nazionalitaEO);
 		}
-		else{logger.warn("Mapping null objects!!");}
+		return eo;
+	}
+
+	@Override
+	public List<UserBO> mapDTOs2BOs(List<UserDTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserEO> mergeBOs2EOs(List<UserBO> bos, List<UserEO> eos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserBO> mapEOs2BOs(List<UserEO> eos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserDTO> mapBOs2DTOs(List<UserBO> bos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

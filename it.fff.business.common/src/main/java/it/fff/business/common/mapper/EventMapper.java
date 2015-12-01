@@ -11,15 +11,31 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.clientserver.common.dto.EventDTO;
 
-public class EventMapper implements Mapper{
+public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	
 	private static final Logger logger = LogManager.getLogger(EventMapper.class);
 	
-	public EventMapper(){
+	private static EventMapper mapper;
+	
+	private EventMapper(){
 		
 	}
+	
+	public static EventMapper getInstance(){
+		if(mapper==null){
+			mapper= new  EventMapper();
+		}
+		return mapper;
+	}
 
-	public static EventBO mapDTO2BO(EventDTO dto) {
+	@Override
+	public List<EventBO> mapDTOs2BOs(List<EventDTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventBO mapDTO2BO(EventDTO dto) {
 		EventBO bo = new EventBO();
 		if(dto!=null){
 			if(dto.getId()!=null && !"".equals(dto.getId())){
@@ -29,20 +45,99 @@ public class EventMapper implements Mapper{
 			bo.setDescrizione(dto.getDescrizione());
 			bo.setDurata(Integer.valueOf(dto.getDurata()));
 			bo.setDataInizio(dto.getDataInizio());
-			bo.setStato(EventStateMapper.mapDTO2BO(dto.getStato()));
-			bo.setLocation(PlaceMapper.mapDTO2BO(dto.getLocation()));
-			bo.setMessages(MessageMapper.mapDTO2BO(dto.getMessages()));
-			bo.setPartecipazioni(AttendanceMapper.mapDTO2BO(dto.getPartecipazioni()));			
-			bo.setCategoria(EventCategoryMapper.mapDTO2BO(dto.getCategoria()));
+			
+			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
+			bo.setStato(eventStateMapper.mapDTO2BO(dto.getStato()));
+			
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
+			bo.setLocation(placeMapper.mapDTO2BO(dto.getLocation()));
+			
+			MessageMapper messageMapper = MessageMapper.getInstance();
+			bo.setMessages(messageMapper.mapDTOs2BOs(dto.getMessages()));
+			
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+			bo.setPartecipazioni(attendanceMapper.mapDTOs2BOs(dto.getPartecipazioni()));
+			
+			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
+			bo.setCategoria(eventCategoryMapper.mapDTO2BO(dto.getCategoria()));
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return bo;
 	}
 
+	@Override
+	public List<EventEO> mergeBOs2EOs(List<EventBO> bos, List<EventEO> eso) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public EventEO mergeBO2EO(EventBO bo, EventEO eo) {
+		if(bo!=null){
+			if(eo==null){
+				eo = new EventEO();
+			}
+			eo.setId(bo.getId());
+			eo.setTitolo(bo.getTitolo());
+			eo.setDescrizione(bo.getDescrizione());
+			eo.setDurata(bo.getDurata());
+			
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+			eo.setPartecipazioni(attendanceMapper.mergeBOs2EOs(bo.getPartecipazioni(),eo.getPartecipazioni()));
+			
+			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
+			eo.setCategoria(eventCategoryMapper.mergeBO2EO(bo.getCategoria(),eo.getCategoria()));
+			
+		}
+		return eo;
+	}
 
+	@Override
+	public List<EventBO> mapEOs2BOs(List<EventEO> eos) {
+		List<EventBO> bos = new ArrayList<EventBO>();
+		if(eos!=null){
+			EventMapper eventMapper = EventMapper.getInstance();
+			for (EventEO eo : eos) {
+				bos.add(eventMapper.mapEO2BO(eo));
+			}
+		}
+		return bos;
+	}
 
-	public static EventDTO mapBO2DTO(EventBO bo) {
+	@Override
+	public EventBO mapEO2BO(EventEO eo) {
+		EventBO bo = new EventBO();
+		if(eo!=null){
+			bo.setId(eo.getId());
+			bo.setTitolo(eo.getTitolo());
+			bo.setDescrizione(eo.getDescrizione());
+			bo.setDurata(eo.getDurata());
+			
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+			bo.setPartecipazioni(attendanceMapper.mapEOs2BOs(eo.getPartecipazioni()));
+			
+			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
+			bo.setCategoria(eventCategoryMapper.mapEO2BO(eo.getCategoria()));
+		}
+		else{logger.warn("Mapping null objects!!");}
+		return bo;
+	}
+
+	@Override
+	public List<EventDTO> mapBOs2DTOs(List<EventBO> bos) {
+		List<EventDTO> dtos = new ArrayList<EventDTO>();
+		if(bos!=null){
+			EventMapper eventMapper = EventMapper.getInstance();
+			for (EventBO bo : bos) {
+				dtos.add(eventMapper.mapBO2DTO(bo));
+			}
+		}
+		else{logger.warn("Mapping null objects!!");}
+		return dtos;
+	}
+
+	@Override
+	public EventDTO mapBO2DTO(EventBO bo) {
 		EventDTO dto = new EventDTO();
 		if(bo!=null){
 			if(bo.getId()>0){
@@ -52,67 +147,24 @@ public class EventMapper implements Mapper{
 			dto.setDescrizione(bo.getDescrizione());
 			dto.setDurata(String.valueOf(bo.getDurata()));
 			dto.setDataInizio(bo.getDataInizio());
-			dto.setStato(EventStateMapper.mapBO2DTO(bo.getStato()));
-			dto.setLocation(PlaceMapper.mapBO2DTO(bo.getLocation()));
-			dto.setMessages(MessageMapper.mapBO2DTO(bo.getMessages()));
-			dto.setPartecipazioni(AttendanceMapper.mapBO2DTO(bo.getPartecipazioni()));			
-			dto.setCategoria(EventCategoryMapper.mapBO2DTO(bo.getCategoria()));
+			
+			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
+			dto.setStato(eventStateMapper.mapBO2DTO(bo.getStato()));
+			
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
+			dto.setLocation(placeMapper.mapBO2DTO(bo.getLocation()));
+			
+			MessageMapper messageMapper = MessageMapper.getInstance();
+			dto.setMessages(messageMapper.mapBOs2DTOs(bo.getMessages()));
+			
+			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+			dto.setPartecipazioni(attendanceMapper.mapBOs2DTOs(bo.getPartecipazioni()));	
+			
+			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
+			dto.setCategoria(eventCategoryMapper.mapBO2DTO(bo.getCategoria()));
 		}
 		else{logger.warn("Mapping null objects!!");}
 		return dto;
-	}
-
-	public static EventEO mapBO2EO(EventBO bo) {
-		logger.debug("mapBo2Eo");
-		EventEO eo = new EventEO();
-		if(bo!=null){
-			eo.setId(bo.getId());
-			eo.setTitolo(bo.getTitolo());
-			eo.setDescrizione(bo.getDescrizione());
-			
-		}
-		else{logger.warn("Mapping null objects!!");}
-		return eo;
-	}
-
-	public static EventBO mapEO2BO(EventEO eo) {
-		logger.debug("mapEO2BO");
-		EventBO bo = new EventBO();
-		if(eo!=null){
-			bo.setId(eo.getId());
-			bo.setTitolo(eo.getTitolo());
-			bo.setDescrizione(eo.getDescrizione());
-			bo.setDurata(eo.getDurata());
-			bo.setPartecipazioni(AttendanceMapper.mapEO2BO(eo.getPartecipazioni()));
-			bo.setCategoria(EventCategoryMapper.mapEO2BO(eo.getCategoria()));
-		}
-		else{logger.warn("Mapping null objects!!");}
-		return bo;
-	}
-
-
-
-
-	public static List<EventDTO> mapBO2DTO(List<EventBO> bos) {
-		List<EventDTO> dtos = new ArrayList<EventDTO>();
-		if(bos!=null){
-			for (EventBO bo : bos) {
-				dtos.add(EventMapper.mapBO2DTO(bo));
-			}
-		}
-		else{logger.warn("Mapping null objects!!");}
-		return dtos;
-	}
-
-	
-	public static List<EventBO> mapEOs2BOs(List<EventEO> eos){
-		List<EventBO> bos = new ArrayList<EventBO>();
-		if(eos!=null){
-			for (EventEO eo : eos) {
-				bos.add(EventMapper.mapEO2BO(eo));
-			}
-		}
-		return bos;
 	}
 
 

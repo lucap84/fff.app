@@ -49,7 +49,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<EventCategoryEO> eos = query.list();
 	    	
-	    	bos = EventCategoryMapper.mapEOs2BOs(eos);
+	    	bos = EventCategoryMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -72,7 +72,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<EventStateEO> eos = query.list();
 	    	
-	    	bos = EventStateMapper.mapEOs2BOs(eos);
+	    	bos = EventStateMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -95,7 +95,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<AttendanceStateEO> eos = query.list();
 	    	
-	    	bos = AttendanceStateMapper.mapEOs2BOs(eos);
+	    	bos = AttendanceStateMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -118,7 +118,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<MessageStandardEO> eos = query.list();
 	    	
-	    	bos = MessageStandardMapper.mapEOs2BOs(eos);
+	    	bos = MessageStandardMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -141,7 +141,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<AchievementTypeEO> eos = query.list();
 	    	
-	    	bos = AchievementTypeMapper.mapEOs2BOs(eos);
+	    	bos = AchievementTypeMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -164,7 +164,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<SubscriptionTypeEO> eos = query.list();
 	    	
-	    	bos = SubscriptionTypeMapper.mapEOs2BOs(eos);
+	    	bos = SubscriptionTypeMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -187,7 +187,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	
 	    	List<LanguageEO> eos = query.list();
 	    	
-	    	bos = LanguageMapper.mapEOs2BOs(eos);
+	    	bos = LanguageMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
