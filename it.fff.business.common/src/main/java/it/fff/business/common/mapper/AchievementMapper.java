@@ -53,8 +53,9 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 
 	@Override
 	public List<AchievementBO> mapEOs2BOs(List<AchievementObtainedEO> eos) {
-		List<AchievementBO> bos = new ArrayList<AchievementBO>();
+		List<AchievementBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<AchievementBO>();
 			AchievementMapper achievementMapper = AchievementMapper.getInstance();
 			for (AchievementObtainedEO eo : eos) {
 				bos.add(achievementMapper.mapEO2BO(eo));
@@ -66,8 +67,9 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 
 	@Override
 	public AchievementBO mapEO2BO(AchievementObtainedEO eo) {
-		AchievementBO bo = new AchievementBO();
+		AchievementBO bo = null;
 		if(eo!=null){
+			bo = new AchievementBO();
 			bo.setId(eo.getId());
 			bo.setDataOttenimento(eo.getDataCreazione());
 			

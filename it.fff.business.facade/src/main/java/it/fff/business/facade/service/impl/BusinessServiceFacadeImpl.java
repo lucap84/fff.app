@@ -16,6 +16,7 @@ import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
@@ -33,6 +34,7 @@ import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.mapper.LanguageMapper;
 import it.fff.business.common.mapper.MessageMapper;
 import it.fff.business.common.mapper.MessageStandardMapper;
+import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.mapper.ResultMapper;
 import it.fff.business.common.mapper.SessionMapper;
@@ -669,6 +671,22 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = EventCategoryMapper.getInstance().mapBOs2DTOs(bos);
+		
+		return dtos;
+	}
+
+	@Override
+	public List<NationDTO> getAllNations() throws BusinessException {
+		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
+		List<NationDTO> dtos = null;
+		List<NationBO> bos = null;
+		try {
+			bos = typologicalBusinessService.getAllNations();
+		}
+		catch (PersistenceException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		dtos = NationMapper.getInstance().mapBOs2DTOs(bos);
 		
 		return dtos;
 	}

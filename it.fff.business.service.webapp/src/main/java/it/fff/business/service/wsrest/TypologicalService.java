@@ -27,6 +27,7 @@ import it.fff.clientserver.common.dto.EventStateDTO;
 import it.fff.clientserver.common.dto.LanguageDTO;
 import it.fff.clientserver.common.dto.MessageDTO;
 import it.fff.clientserver.common.dto.MessageStandardDTO;
+import it.fff.clientserver.common.dto.NationDTO;
 import it.fff.clientserver.common.dto.SubscriptionTypeDTO;
 
 @Component("typologicalService")
@@ -134,6 +135,20 @@ public class TypologicalService extends ApplicationService {
 		return this.getAllEventCategories(request);
 	}
 	
+	@GET
+	@Path("nations/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<NationDTO> getAllNationsJSON(@Context HttpServletRequest request) throws BusinessException {
+		return this.getAllNations(request);
+	}
+	@GET
+	@Path("nations/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<NationDTO> getAllNationsXML(@Context HttpServletRequest request) throws BusinessException {
+		return this.getAllNations(request);
+	}	
+	
+
 	/*
 	 *	
 	 *
@@ -222,6 +237,17 @@ public class TypologicalService extends ApplicationService {
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return languages;
-	}	
+	}
+	
+	private List<NationDTO> getAllNations(HttpServletRequest request) {
+		List<NationDTO> nations = null;
+		try{
+			nations = businessServiceFacade.getAllNations();
+		} catch (BusinessException e) {
+			nations = new ArrayList<NationDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return nations;
+	}
 
 }

@@ -52,8 +52,9 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 
 	@Override
 	public List<AchievementTypeBO> mapEOs2BOs(List<AchievementTypeEO> eos) {
-		List<AchievementTypeBO> bos = new ArrayList<AchievementTypeBO>();
+		List<AchievementTypeBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<AchievementTypeBO>();
 			AchievementTypeMapper achievementTypeMapper = AchievementTypeMapper.getInstance();
 			for (AchievementTypeEO eo : eos) {
 				bos.add(achievementTypeMapper.mapEO2BO(eo));
@@ -64,17 +65,21 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 
 	@Override
 	public AchievementTypeBO mapEO2BO(AchievementTypeEO eo) {
-		AchievementTypeBO bo = new AchievementTypeBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		AchievementTypeBO bo = null;
+		if(eo!=null){
+			bo = new AchievementTypeBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
 		return bo;
 	}
 
 	@Override
 	public List<AchievementTypeDTO> mapBOs2DTOs(List<AchievementTypeBO> bos) {
-		List<AchievementTypeDTO> dtos = new ArrayList<AchievementTypeDTO>();
+		List<AchievementTypeDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<AchievementTypeDTO>();
 			AchievementTypeMapper achievementTypeMapper = AchievementTypeMapper.getInstance();
 			for (AchievementTypeBO bo : bos) {
 				dtos.add(achievementTypeMapper.mapBO2DTO(bo));
@@ -85,8 +90,9 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 
 	@Override
 	public AchievementTypeDTO mapBO2DTO(AchievementTypeBO bo) {
-		AchievementTypeDTO dto = new AchievementTypeDTO();
+		AchievementTypeDTO dto = null;
 		if(bo!=null){
+			dto = new AchievementTypeDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}

@@ -28,8 +28,9 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	
 	@Override
 	public List<AttendanceBO> mapDTOs2BOs(List<AttendanceDTO> dtos) {
-		List<AttendanceBO> bos = new  ArrayList<AttendanceBO>();
+		List<AttendanceBO> bos = null;
 		if(dtos!=null){
+			 bos = new  ArrayList<AttendanceBO>();
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceDTO dto : dtos) {
 				bos.add(attendanceMapper.mapDTO2BO(dto));
@@ -40,8 +41,9 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	
 	@Override
 	public AttendanceBO mapDTO2BO(AttendanceDTO dto) {
-		AttendanceBO bo = new AttendanceBO();
+		AttendanceBO bo = null;
 		if(dto!=null){
+			bo = new AttendanceBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -55,14 +57,15 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	
 	@Override
 	public List<AttendanceDTO> mapBOs2DTOs(List<AttendanceBO> bos) {
-		List<AttendanceDTO> attendancesDTO = new  ArrayList<AttendanceDTO>();
+		List<AttendanceDTO> dtos = null;
 		if(bos!=null){
+			dtos = new  ArrayList<AttendanceDTO>();
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceBO bo : bos) {
-				attendancesDTO.add(attendanceMapper.mapBO2DTO(bo));
+				dtos.add(attendanceMapper.mapBO2DTO(bo));
 			}
 		}
-		return attendancesDTO; 
+		return dtos; 
 	}
 
 	@Override
@@ -107,8 +110,9 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	
 	@Override
 	public List<AttendanceBO> mapEOs2BOs(List<AttendanceEO> eos) {
-		List<AttendanceBO> bos = new  ArrayList<AttendanceBO>();
+		List<AttendanceBO> bos = null;
 		if(eos!=null){
+			bos = new  ArrayList<AttendanceBO>();
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceEO eo : eos) {
 				bos.add(attendanceMapper.mapEO2BO(eo));
@@ -119,8 +123,9 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 
 	@Override
 	public AttendanceBO mapEO2BO(AttendanceEO eo) {
-		AttendanceBO bo = new AttendanceBO();
+		AttendanceBO bo = null;
 		if(eo!=null){
+			bo = new AttendanceBO();
 			bo.setId(eo.getId());
 			bo.setNumPartecipanti(eo.getNumPartecipanti());
 			bo.setOrganizer(eo.isOrganizer());

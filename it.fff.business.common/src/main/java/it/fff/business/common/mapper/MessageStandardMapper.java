@@ -24,8 +24,9 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 	
 	@Override
 	public List<MessageStandardDTO> mapBOs2DTOs(List<MessageStandardBO> bos) {
-		List<MessageStandardDTO> dtos = new ArrayList<MessageStandardDTO>();
+		List<MessageStandardDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<MessageStandardDTO>();
 			MessageStandardMapper messageStandardMapper = MessageStandardMapper.getInstance();
 			for (MessageStandardBO bo : bos) {
 				dtos.add(messageStandardMapper.mapBO2DTO(bo));
@@ -36,8 +37,9 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 
 	@Override
 	public MessageStandardDTO mapBO2DTO(MessageStandardBO bo) {
-		MessageStandardDTO dto = new MessageStandardDTO();
+		MessageStandardDTO dto = null;
 		if(bo!=null){
+			dto = new MessageStandardDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}
@@ -48,8 +50,9 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 
 	@Override
 	public List<MessageStandardBO> mapEOs2BOs(List<MessageStandardEO> eos) {
-		List<MessageStandardBO> bos = new ArrayList<MessageStandardBO>();
+		List<MessageStandardBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<MessageStandardBO>();
 			MessageStandardMapper messageStandardMapper = MessageStandardMapper.getInstance();
 			for (MessageStandardEO eo : eos) {
 				bos.add(messageStandardMapper.mapEO2BO(eo));
@@ -60,9 +63,12 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 
 	@Override
 	public MessageStandardBO mapEO2BO(MessageStandardEO eo) {
-		MessageStandardBO bo = new MessageStandardBO();
-		bo.setId(eo.getId());
-		bo.setText(eo.getStandardText());
+		MessageStandardBO bo = null;
+		if(eo!=null){
+			bo = new MessageStandardBO();
+			bo.setId(eo.getId());
+			bo.setText(eo.getStandardText());
+		}
 		return bo;
 	}
 

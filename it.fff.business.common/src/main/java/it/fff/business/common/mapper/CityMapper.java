@@ -66,8 +66,9 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 
 	@Override
 	public CityDTO mapBO2DTO(CityBO bo) {
-		CityDTO dto = new CityDTO();
+		CityDTO dto = null;
 		if(bo!=null){
+			dto = new CityDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}

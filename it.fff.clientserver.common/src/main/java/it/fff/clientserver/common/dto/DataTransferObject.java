@@ -17,14 +17,14 @@ public class DataTransferObject implements Serializable{
 		isOk = true;
 	}
 	
-	@XmlElement public boolean isOk() {
+	@XmlElement(required=false) public boolean isOk() {
 		return isOk;
 	}
 	public void setOk(boolean isOk) {
 		this.isOk = isOk;
 	}
 
-	@XmlElement public Map<String, String> getErrorsMap() {
+	@XmlElement(required=false) public Map<String, String> getErrorsMap() {
 		return errorsMap;
 	}
 	public void setErrorsMap(Map<String, String> errorsMap) {

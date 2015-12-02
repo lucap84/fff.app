@@ -8,6 +8,7 @@ import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.TypologicalBusinessService;
@@ -65,6 +66,12 @@ public class TypologicalBusinessServiceImpl implements TypologicalBusinessServic
 	@Override
 	public List<LanguageBO> getAllLanguages() throws PersistenceException {
 		List<LanguageBO> bos = persistenceFacade.getAllLanguages();
+		return bos;
+	}
+
+	@Override
+	public List<NationBO> getAllNations() throws PersistenceException {
+		List<NationBO> bos = persistenceFacade.getAllNations();
 		return bos;
 	}
 }

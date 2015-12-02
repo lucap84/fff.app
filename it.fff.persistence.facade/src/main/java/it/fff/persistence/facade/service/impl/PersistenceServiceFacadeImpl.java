@@ -581,4 +581,20 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		return bos;
 	}
 
+	@Override
+	public List<NationBO> getAllNations() throws PersistenceException {
+		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
+		
+		List<NationBO> bos = null;
+		try {
+			bos = typologicalPersistenceService.getAllNations();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;	
+		}
+		return bos;
+	}
+
 }

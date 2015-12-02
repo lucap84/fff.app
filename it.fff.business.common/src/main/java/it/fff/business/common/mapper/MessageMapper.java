@@ -25,8 +25,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public List<MessageBO> mapDTOs2BOs(List<MessageDTO> dtos) {
-		List<MessageBO> bos = new ArrayList<MessageBO>();
+		List<MessageBO> bos = null;
 		if(dtos!=null){
+			bos = new ArrayList<MessageBO>();
 			MessageMapper messageMapper = MessageMapper.getInstance();
 			for (MessageDTO dto : dtos) {
 				bos.add(messageMapper.mapDTO2BO(dto));
@@ -37,8 +38,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public MessageBO mapDTO2BO(MessageDTO dto) {
-		MessageBO bo = new MessageBO();
+		MessageBO bo = null;
 		if(dto!=null){
+			bo = new MessageBO();
 			if(dto.getId()!=null && "".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -62,8 +64,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public List<MessageBO> mapEOs2BOs(List<MessageEO> eos) {
-		List<MessageBO> bos = new ArrayList<MessageBO>();
+		List<MessageBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<MessageBO>();
 			MessageMapper messageMapper = MessageMapper.getInstance();
 			for (MessageEO eo : eos) {
 				bos.add(messageMapper.mapEO2BO(eo));
@@ -74,8 +77,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public MessageBO mapEO2BO(MessageEO eo) {
-		MessageBO bo = new MessageBO();
+		MessageBO bo = null;
 		if(eo!=null){
+			bo = new MessageBO();
 			bo.setId(eo.getId());
 			bo.setStandard(eo.getMsgStd()!=null);
 			bo.setText(eo.getText());
@@ -85,8 +89,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public List<MessageDTO> mapBOs2DTOs(List<MessageBO> bos) {
-		List<MessageDTO> dtos = new ArrayList<MessageDTO>();
+		List<MessageDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<MessageDTO>();
 			MessageMapper messageMapper = MessageMapper.getInstance();
 			for (MessageBO bo : bos) {
 				dtos.add(messageMapper.mapBO2DTO(bo));
@@ -97,8 +102,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public MessageDTO mapBO2DTO(MessageBO bo) {
-		MessageDTO dto = new MessageDTO();
+		MessageDTO dto = null;
 		if(bo!=null){
+			dto = new MessageDTO();
 			dto.setId(String.valueOf(bo.getId()));
 			dto.setStandard(bo.isStandard());
 			dto.setText(bo.getText());

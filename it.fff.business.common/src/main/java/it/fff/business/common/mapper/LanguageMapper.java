@@ -25,8 +25,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public List<LanguageBO> mapDTOs2BOs(List<LanguageDTO> dtos) {
-		List<LanguageBO> bos = new ArrayList<LanguageBO>();
+		List<LanguageBO> bos = null;
 		if(dtos!=null){
+			bos = new ArrayList<LanguageBO>();
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageDTO dto : dtos) {
 				bos.add(languageMapper.mapDTO2BO(dto));
@@ -37,8 +38,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public LanguageBO mapDTO2BO(LanguageDTO dto) {
-		LanguageBO bo = new LanguageBO();
+		LanguageBO bo = null;
 		if(dto!=null){
+			bo = new LanguageBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -80,8 +82,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public List<LanguageBO> mapEOs2BOs(List<LanguageEO> eos) {
-		List<LanguageBO> bos = new ArrayList<LanguageBO>();
+		List<LanguageBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<LanguageBO>();
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageEO eo : eos) {
 				bos.add(languageMapper.mapEO2BO(eo));
@@ -92,8 +95,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public LanguageBO mapEO2BO(LanguageEO eo) {
-		LanguageBO bo = new LanguageBO();
+		LanguageBO bo = null;
 		if(eo!=null){
+			bo = new LanguageBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
 			bo.setIso639_1(eo.getIso639_1());
@@ -103,8 +107,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public List<LanguageDTO> mapBOs2DTOs(List<LanguageBO> bos) {
-		List<LanguageDTO> dtos = new ArrayList<LanguageDTO>();
+		List<LanguageDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<LanguageDTO>();
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageBO bo : bos) {
 				dtos.add(languageMapper.mapBO2DTO(bo));
@@ -115,8 +120,9 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 
 	@Override
 	public LanguageDTO mapBO2DTO(LanguageBO bo) {
-		LanguageDTO dto = new LanguageDTO();
+		LanguageDTO dto = null;
 		if(bo!=null){
+			dto = new LanguageDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}

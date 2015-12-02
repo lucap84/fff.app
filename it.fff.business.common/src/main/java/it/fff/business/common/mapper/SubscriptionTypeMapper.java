@@ -24,8 +24,9 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 	
 	@Override
 	public List<SubscriptionTypeDTO> mapBOs2DTOs(List<SubscriptionTypeBO> bos) {
-		List<SubscriptionTypeDTO> dtos = new ArrayList<SubscriptionTypeDTO>();
+		List<SubscriptionTypeDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<SubscriptionTypeDTO>();
 			SubscriptionTypeMapper subscriptionTypeMapper = SubscriptionTypeMapper.getInstance();
 			for (SubscriptionTypeBO bo : bos) {
 				dtos.add(subscriptionTypeMapper.mapBO2DTO(bo));
@@ -36,8 +37,9 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 
 	@Override
 	public SubscriptionTypeDTO mapBO2DTO(SubscriptionTypeBO bo) {
-		SubscriptionTypeDTO dto = new SubscriptionTypeDTO();
+		SubscriptionTypeDTO dto = null;
 		if(bo!=null){
+			dto = new SubscriptionTypeDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}
@@ -49,8 +51,9 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 
 	@Override
 	public List<SubscriptionTypeBO> mapEOs2BOs(List<SubscriptionTypeEO> eos) {
-		List<SubscriptionTypeBO> bos = new ArrayList<SubscriptionTypeBO>();
-		if(bos!=null){
+		List<SubscriptionTypeBO> bos = null;
+		if(eos!=null){
+			bos = new ArrayList<SubscriptionTypeBO>();
 			SubscriptionTypeMapper subscriptionTypeMapper = SubscriptionTypeMapper.getInstance();
 			for (SubscriptionTypeEO eo : eos) {
 				bos.add(subscriptionTypeMapper.mapEO2BO(eo));
@@ -61,10 +64,13 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 
 	@Override
 	public SubscriptionTypeBO mapEO2BO(SubscriptionTypeEO eo) {
-		SubscriptionTypeBO bo = new SubscriptionTypeBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		SubscriptionTypeBO bo = null;
+		if(eo!=null){
+			bo = new SubscriptionTypeBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
 		return bo;
 	}
 

@@ -32,8 +32,9 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 	@Override
 	public EventStateBO mapDTO2BO(EventStateDTO dto) {
-		EventStateBO bo = new EventStateBO();
+		EventStateBO bo = null;
 		if(dto!=null){
+			bo = new EventStateBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -60,8 +61,9 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 	@Override
 	public List<EventStateBO> mapEOs2BOs(List<EventStateEO> eos) {
-		List<EventStateBO> bos = new ArrayList<EventStateBO>();
+		List<EventStateBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<EventStateBO>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
 			for (EventStateEO eo : eos) {
 				bos.add(eventStateMapper.mapEO2BO(eo));
@@ -73,18 +75,22 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 	@Override
 	public EventStateBO mapEO2BO(EventStateEO eo) {
-		EventStateBO bo = new EventStateBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		EventStateBO bo = null;
+		if(eo!=null){
+			bo = new EventStateBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
 		return bo;
 	}
 
 
 	@Override
 	public List<EventStateDTO> mapBOs2DTOs(List<EventStateBO> bos) {
-		List<EventStateDTO> dtos = new ArrayList<EventStateDTO>();
+		List<EventStateDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<EventStateDTO>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
 			for (EventStateBO bo : bos) {
 				dtos.add(eventStateMapper.mapBO2DTO(bo));

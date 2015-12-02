@@ -24,8 +24,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 
 	@Override
 	public List<PlaceDTO> mapBOs2DTOs(List<PlaceBO> bos) {
-		List<PlaceDTO> dtos = new ArrayList<PlaceDTO>();
+		List<PlaceDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<PlaceDTO>();
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			for (PlaceBO bo : bos) {
 				dtos.add(placeMapper.mapBO2DTO(bo));
@@ -36,8 +37,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 
 	@Override
 	public PlaceDTO mapBO2DTO(PlaceBO bo) {
-		PlaceDTO dto = new PlaceDTO();
+		PlaceDTO dto = null;
 		if(bo!=null){
+			dto = new PlaceDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}
@@ -56,8 +58,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 
 	@Override
 	public PlaceBO mapDTO2BO(PlaceDTO dto) {
-		PlaceBO bo = new PlaceBO();
+		PlaceBO bo = null;
 		if(dto!=null){
+			bo = new PlaceBO();
 			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
 			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
 			bo.setNome(dto.getNome());
@@ -80,8 +83,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 
 	@Override
 	public List<PlaceBO> mapEOs2BOs(List<PlaceEO> eos) {
-		List<PlaceBO> bos = new ArrayList<PlaceBO>();
+		List<PlaceBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<PlaceBO>();
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			for (PlaceEO eo : eos) {
 				bos.add(placeMapper.mapEO2BO(eo));
@@ -92,8 +96,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 
 	@Override
 	public PlaceBO mapEO2BO(PlaceEO eo) {
-		PlaceBO bo = new PlaceBO();
+		PlaceBO bo = null;
 		if(eo!=null){
+			bo = new PlaceBO();
 			bo.setGpsLat(eo.getGpsLat());
 			bo.setGpsLong(eo.getGpsLong());
 			bo.setNome(eo.getNome());

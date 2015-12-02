@@ -8,6 +8,7 @@ import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 
 public interface TypologicalPersistenceService extends PersistenceService {
@@ -25,5 +26,7 @@ public interface TypologicalPersistenceService extends PersistenceService {
 	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws Exception;
 
 	public List<LanguageBO> getAllLanguages() throws Exception;
+
+	public List<NationBO> getAllNations() throws Exception;
 
 }

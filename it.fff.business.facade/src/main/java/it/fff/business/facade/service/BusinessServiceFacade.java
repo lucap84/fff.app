@@ -73,4 +73,6 @@ public interface BusinessServiceFacade {
 
 	public List<EventCategoryDTO> getAllEventCategories() throws BusinessException;
 
+	public List<NationDTO> getAllNations() throws BusinessException;
+
 }

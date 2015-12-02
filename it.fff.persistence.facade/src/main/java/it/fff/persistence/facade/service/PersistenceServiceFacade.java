@@ -13,6 +13,7 @@ import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
@@ -87,6 +88,8 @@ public interface PersistenceServiceFacade {
 	public List<EventStateBO> getAllEventStates() throws PersistenceException;
 
 	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException;
+
+	public List<NationBO> getAllNations()  throws PersistenceException;;
 	
 
 }

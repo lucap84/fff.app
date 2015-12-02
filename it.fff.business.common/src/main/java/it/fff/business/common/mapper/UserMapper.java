@@ -27,8 +27,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	
 	@Override
 	public UserBO mapDTO2BO(UserDTO dto) {
-		UserBO bo = new UserBO();
+		UserBO bo = null;
 		if(dto!=null){
+			bo = new UserBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -63,8 +64,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 
 	@Override
 	public UserDTO mapBO2DTO(UserBO bo) {
-		UserDTO dto = new UserDTO();
+		UserDTO dto = null;
 		if(bo!=null){
+			dto = new UserDTO();
 			dto.setId(String.valueOf(bo.getId()));
 			dto.setCognome(bo.getCognome());
 			dto.setDataNascita(bo.getDataNascita());
@@ -75,8 +77,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 
 	@Override
 	public UserBO mapEO2BO(UserEO eo) {
-		UserBO bo = new UserBO();
+		UserBO bo = null;
 		if(eo!=null){
+			bo = new UserBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
 			bo.setCognome(eo.getCognome());
@@ -97,8 +100,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	}
 
 	public ProfileImageBO mapDTO2BO(ProfileImageDTO dto) {
-		ProfileImageBO bo = new ProfileImageBO();
+		ProfileImageBO bo = null;
 		if(dto!=null){
+			bo = new ProfileImageBO();
 			bo.setImageInputStream(dto.getImageInputStream());
 			bo.setFileName(dto.getFileName());
 			bo.setUserId(dto.getUserId());
@@ -108,8 +112,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	}
 
 	public ProfileImageDTO mapBO2DTO(ProfileImageBO bo) {
-		ProfileImageDTO dto = new ProfileImageDTO();
+		ProfileImageDTO dto = null;
 		if(bo!=null){
+			dto = new ProfileImageDTO();
 			dto.setImageInputStream(bo.getImageInputStream());
 			dto.setFileName(bo.getFileName());
 			dto.setUserId(bo.getUserId());
@@ -119,9 +124,10 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	}
 
 	public UserBO mapDTO2BO(RegistrationDataRequestDTO dto) {
-		UserBO bo1 = new UserBO();
+		UserBO bo1 = null;
 		
 		if(dto!=null){
+			bo1 = new UserBO();
 			SessionBO bo3 = new SessionBO();
 			bo3.setDeviceId(dto.getDeviceId());
 			bo3.setSharedKey(dto.getSharedKey());

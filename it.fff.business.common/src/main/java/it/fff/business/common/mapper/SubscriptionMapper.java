@@ -24,11 +24,14 @@ public class SubscriptionMapper implements Mapper<SubscriptionDTO,SubscriptionBO
 	
 	@Override
 	public SubscriptionBO mapDTO2BO(SubscriptionDTO dto) {
-		SubscriptionBO bo = new SubscriptionBO();
-		if(dto.getId()!=null && !"".equals(dto.getId())){
-			bo.setId(Integer.valueOf(dto.getId()));
+		SubscriptionBO bo = null;
+		if(dto!=null){
+			 bo = new SubscriptionBO();
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setDurata(Integer.valueOf(dto.getDurata()));
 		}
-		bo.setDurata(Integer.valueOf(dto.getDurata()));
 		return bo;
 	}
 

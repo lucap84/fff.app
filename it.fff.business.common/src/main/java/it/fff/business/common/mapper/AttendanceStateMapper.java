@@ -60,8 +60,9 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 
 	@Override
 	public List<AttendanceStateBO> mapEOs2BOs(List<AttendanceStateEO> eos) {
-		List<AttendanceStateBO> bos = new ArrayList<AttendanceStateBO>();
+		List<AttendanceStateBO> bos = null;
 		if(eos!=null){
+			 bos = new ArrayList<AttendanceStateBO>();
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
 			for (AttendanceStateEO eo : eos) {
 				bos.add(attendanceStateMapper.mapEO2BO(eo));
@@ -72,17 +73,21 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 
 	@Override
 	public AttendanceStateBO mapEO2BO(AttendanceStateEO eo) {
-		AttendanceStateBO bo = new AttendanceStateBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		AttendanceStateBO bo = null;
+		if(eo!=null){
+			bo = new AttendanceStateBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
 		return bo;
 	}
 
 	@Override
 	public List<AttendanceStateDTO> mapBOs2DTOs(List<AttendanceStateBO> bos) {
-		List<AttendanceStateDTO> dtos = new ArrayList<AttendanceStateDTO>();
+		List<AttendanceStateDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<AttendanceStateDTO>();
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
 			for (AttendanceStateBO bo : bos) {
 				dtos.add(attendanceStateMapper.mapBO2DTO(bo));
@@ -93,8 +98,9 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 
 	@Override
 	public AttendanceStateDTO mapBO2DTO(AttendanceStateBO bo) {
-		AttendanceStateDTO dto = new AttendanceStateDTO();
+		AttendanceStateDTO dto = null;
 		if(bo!=null){
+			dto = new AttendanceStateDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}

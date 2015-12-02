@@ -9,6 +9,7 @@ import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.persistence.service.TypologicalPersistenceService;
 
@@ -30,7 +31,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		List<EventStateBO> bos = new ArrayList<EventStateBO>();
 		EventStateBO bo1 = new EventStateBO();
 		bo1.setId(1);
-		bo1.setNome("ATCTIVE");
+		bo1.setNome("ACTIVE");
 		bo1.setDescrizione("EventState attivo");
 		
 		EventStateBO bo2 = new EventStateBO();
@@ -89,13 +90,47 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	@Override
 	public List<LanguageBO> getAllLanguages() throws Exception {
 		List<LanguageBO> bos = new ArrayList<LanguageBO>();
-		LanguageBO bo = new LanguageBO();
-		bo.setId(1);
-		bo.setNome("Language name");;
-		bo.setIso639_1("Iso639_1");
-		bo.setIso639_2("Iso639_2");
-		bo.setIso639_3("Iso639_3");
-		bos.add(bo);		
+		LanguageBO bo1 = new LanguageBO();
+		bo1.setId(1);
+		bo1.setNome("Italiano");;
+		bo1.setIso639_1("Iso639_1");
+		bo1.setIso639_2("Iso639_2");
+		bo1.setIso639_3("Iso639_3");
+		
+		LanguageBO bo2 = new LanguageBO();
+		bo2.setId(2);
+		bo2.setNome("English");;
+		bo2.setIso639_1("Iso639_1");
+		bo2.setIso639_2("Iso639_2");
+		bo2.setIso639_3("Iso639_3");
+		
+		
+		bos.add(bo1);
+		bos.add(bo2);
+		return bos;
+	}
+
+	@Override
+	public List<NationBO> getAllNations() throws Exception {
+		List<NationBO> bos = new ArrayList<NationBO>();
+		NationBO bo1 = new NationBO();
+		bo1.setId(1);
+		bo1.setNome("ItaliaMock");
+		bo1.setInternationalKey("IT");
+		
+		NationBO bo2 = new NationBO();
+		bo2.setId(2);
+		bo2.setNome("SvizzeraMock");
+		bo2.setInternationalKey("SW");
+		
+		NationBO bo3 = new NationBO();
+		bo3.setId(3);
+		bo3.setNome("AustriaMock");
+		bo3.setInternationalKey("AU");
+		
+		bos.add(bo1);
+		bos.add(bo2);
+		bos.add(bo3);
 		return bos;
 	}
 

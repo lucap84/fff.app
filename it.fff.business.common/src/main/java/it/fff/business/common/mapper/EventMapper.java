@@ -36,8 +36,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 
 	@Override
 	public EventBO mapDTO2BO(EventDTO dto) {
-		EventBO bo = new EventBO();
+		EventBO bo = null;
 		if(dto!=null){
+			bo = new EventBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -94,8 +95,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 
 	@Override
 	public List<EventBO> mapEOs2BOs(List<EventEO> eos) {
-		List<EventBO> bos = new ArrayList<EventBO>();
+		List<EventBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<EventBO>();
 			EventMapper eventMapper = EventMapper.getInstance();
 			for (EventEO eo : eos) {
 				bos.add(eventMapper.mapEO2BO(eo));
@@ -106,8 +108,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 
 	@Override
 	public EventBO mapEO2BO(EventEO eo) {
-		EventBO bo = new EventBO();
+		EventBO bo = null;
 		if(eo!=null){
+			bo = new EventBO();
 			bo.setId(eo.getId());
 			bo.setTitolo(eo.getTitolo());
 			bo.setDescrizione(eo.getDescrizione());
@@ -125,8 +128,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 
 	@Override
 	public List<EventDTO> mapBOs2DTOs(List<EventBO> bos) {
-		List<EventDTO> dtos = new ArrayList<EventDTO>();
+		List<EventDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<EventDTO>();
 			EventMapper eventMapper = EventMapper.getInstance();
 			for (EventBO bo : bos) {
 				dtos.add(eventMapper.mapBO2DTO(bo));
@@ -138,8 +142,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 
 	@Override
 	public EventDTO mapBO2DTO(EventBO bo) {
-		EventDTO dto = new EventDTO();
+		EventDTO dto = null;
 		if(bo!=null){
+			dto = new EventDTO();
 			if(bo.getId()>0){
 				dto.setId(String.valueOf(bo.getId()));
 			}

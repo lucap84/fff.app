@@ -31,8 +31,9 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 
 	@Override
 	public EventCategoryBO mapDTO2BO(EventCategoryDTO dto) {
-		EventCategoryBO bo = new EventCategoryBO();
+		EventCategoryBO bo = null;
 		if(dto!=null){
+			bo = new EventCategoryBO();
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
@@ -54,8 +55,9 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 
 	@Override
 	public List<EventCategoryBO> mapEOs2BOs(List<EventCategoryEO> eos) {
-		List<EventCategoryBO> bos = new ArrayList<EventCategoryBO>();
+		List<EventCategoryBO> bos = null;
 		if(eos!=null){
+			bos = new ArrayList<EventCategoryBO>();
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			for (EventCategoryEO eo : eos) {
 				bos.add(eventCategoryMapper.mapEO2BO(eo));
@@ -66,17 +68,21 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 
 	@Override
 	public EventCategoryBO mapEO2BO(EventCategoryEO eo) {
-		EventCategoryBO bo = new EventCategoryBO();
-		bo.setId(eo.getId());
-		bo.setNome(eo.getNome());
-		bo.setDescrizione(eo.getDescrizione());
+		EventCategoryBO bo = null;
+		if(eo!=null){
+			bo = new EventCategoryBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			bo.setDescrizione(eo.getDescrizione());
+		}
 		return bo;
 	}
 
 	@Override
 	public List<EventCategoryDTO> mapBOs2DTOs(List<EventCategoryBO> bos) {
-		List<EventCategoryDTO> dtos = new ArrayList<EventCategoryDTO>();
+		List<EventCategoryDTO> dtos = null;
 		if(bos!=null){
+			dtos = new ArrayList<EventCategoryDTO>();
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			for (EventCategoryBO bo : bos) {
 				dtos.add(eventCategoryMapper.mapBO2DTO(bo));
