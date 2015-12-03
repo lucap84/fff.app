@@ -2,20 +2,19 @@ package it.fff.persistence.service.mock;
 
 import java.sql.SQLException;
 
-import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.persistence.service.UserPersistenceService;
 
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public CreateResultBO registerUser(UserBO userBO) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO registerUser(UserBO userBO) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
@@ -35,11 +34,11 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public UpdateResultBO updateUserData(UserBO bo) throws SQLException {
-		UpdateResultBO resultBO = new UpdateResultBO();
-		resultBO.setUpdatedKey(1);
+	public WriteResultBO updateUserData(UserBO bo) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsUpdated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 

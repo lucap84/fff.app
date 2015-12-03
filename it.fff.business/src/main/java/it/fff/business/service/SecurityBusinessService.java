@@ -3,20 +3,20 @@ package it.fff.business.service;
 import java.util.Map;
 
 import it.fff.business.common.bo.SessionBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.persistence.facade.exception.PersistenceException;
 
 public interface SecurityBusinessService extends BusinessService{
 
-	UpdateResultBO login(SessionBO session) throws PersistenceException;
+	WriteResultBO login(SessionBO session) throws PersistenceException;
 
-	UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException;
+	WriteResultBO updatePassword(String email, String encodedPassword) throws PersistenceException;
 
-	UpdateResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException;
+	WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException;
 
-	UpdateResultBO generateAndVerificationCode(String email) throws PersistenceException;
+	WriteResultBO generateAndVerificationCode(String email) throws PersistenceException;
 
-	UpdateResultBO logout(int userIdInt, String deviceId) throws PersistenceException;
+	WriteResultBO logout(int userIdInt, String deviceId) throws PersistenceException;
 
 	Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
 

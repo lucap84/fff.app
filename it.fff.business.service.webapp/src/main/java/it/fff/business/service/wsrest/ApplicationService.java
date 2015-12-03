@@ -14,7 +14,6 @@ public class ApplicationService {
 			return;
 		}
 		ResourceBundle resourceBundle = ResourceBundleProvider.getInstance().getResourceBundle(locale);
-		dto.setOk(false);
 		for (String code : e.getErrorCodes()) {
 			dto.putErrorInMap(code, resourceBundle.getString(code));
 		}		

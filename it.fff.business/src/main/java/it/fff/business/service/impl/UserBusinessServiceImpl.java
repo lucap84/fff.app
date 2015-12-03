@@ -7,11 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AccountBO;
-import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
-import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -42,7 +41,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}	
 	
 	@Override
-	public CreateResultBO createUser(UserBO userBO) throws PersistenceException {
+	public WriteResultBO createUser(UserBO userBO) throws PersistenceException {
 		logger.info("createUser start...");
 		//Inizializzo le validita dell'account
 		AccountBO creatingAccount = userBO.getAccount();
@@ -54,7 +53,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
 		firstSession.setDataLogin(loginDate);
 		
-		CreateResultBO resultBO = persistenceFacade.registerUser(userBO);
+		WriteResultBO resultBO = persistenceFacade.registerUser(userBO);
 		logger.info("...createUser end");
 		return resultBO;
 	}
@@ -73,8 +72,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	
 
 	@Override
-	public UpdateResultBO updateUserData(UserBO userBO) throws PersistenceException {
-		UpdateResultBO resultBO = persistenceFacade.updateUserData(userBO);
+	public WriteResultBO updateUserData(UserBO userBO) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.updateUserData(userBO);
 		return resultBO;
 	}
 

@@ -6,11 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.service.EventBusinessService;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
@@ -46,45 +46,45 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 	
 	@Override
-	public CreateResultBO createEvent(EventBO bo) throws PersistenceException {
-		CreateResultBO resultBO = persistenceFacade.createEvent(bo);
+	public WriteResultBO createEvent(EventBO bo) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.createEvent(bo);
 		return resultBO;
 	}
 
 
 	@Override
-	public UpdateResultBO cancelEvent(int eventId) throws PersistenceException {
-		UpdateResultBO resultBO = persistenceFacade.cancelEvent(eventId);
+	public WriteResultBO cancelEvent(int eventId) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.cancelEvent(eventId);
 		return resultBO;
 	}	
 
 	@Override
-	public UpdateResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
-		UpdateResultBO resultBO = persistenceFacade.cancelAttendance(eventId, attendanceId);
+	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.cancelAttendance(eventId, attendanceId);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
-		CreateResultBO resultBO = persistenceFacade.createEventMessage(attendanceId, message);
+	public WriteResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.createEventMessage(attendanceId, message);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
-		CreateResultBO resultBO = persistenceFacade.createStandardEventMessage(attendanceId, stdMsgId);
+	public WriteResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.createStandardEventMessage(attendanceId, stdMsgId);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
-		CreateResultBO resultBO = persistenceFacade.joinEvent(bo);
+	public WriteResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.joinEvent(bo);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
-		CreateResultBO resultBO = persistenceFacade.addFeedback(bo);
+	public WriteResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.addFeedback(bo);
 		return resultBO;
 	}
 

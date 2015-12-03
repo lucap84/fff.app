@@ -6,18 +6,18 @@ import java.util.List;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.PlaceBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.dto.CityDTO;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
-	public UpdateResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws SQLException {
-		UpdateResultBO resultBO = new UpdateResultBO();
-		resultBO.setUpdatedKey(1);
+	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsUpdated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 

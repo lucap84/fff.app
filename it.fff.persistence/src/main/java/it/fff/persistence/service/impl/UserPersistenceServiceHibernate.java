@@ -14,9 +14,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.UserEO;
@@ -31,7 +31,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceHibernate.class);
 	
 	@Override
-	public CreateResultBO registerUser(UserBO userBO) throws Exception {
+	public WriteResultBO registerUser(UserBO userBO) throws Exception {
 		logger.info("registering user");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -58,10 +58,10 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }			
 		
 		logger.info("user registered");
-		CreateResultBO resultBO = new CreateResultBO();
+		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setSuccess(true);
-		resultBO.setCreatedKey(id);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setWrittenKey(id);
+		resultBO.setAffectedRecords(1);
 		
 		return resultBO;
 	}
@@ -86,7 +86,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public UpdateResultBO updateUserData(UserBO bo) throws Exception {
+	public WriteResultBO updateUserData(UserBO bo) throws Exception {
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -113,10 +113,10 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	         session.close(); 
 	      }	        
         
-        UpdateResultBO result = new UpdateResultBO();
+        WriteResultBO result = new WriteResultBO();
         result.setSuccess(true);
-        result.setUpdatedKey(eo.getId());
-        result.setNumRecordsUpdated(1);
+        result.setWrittenKey(eo.getId());
+        result.setAffectedRecords(1);
         
         return result;
 	}	

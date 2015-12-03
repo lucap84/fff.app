@@ -1,5 +1,7 @@
 package it.fff.business.service.wsrest;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -63,8 +65,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public AuthDataResponseDTO loginJSON(@Context HttpServletRequest request,
 									@Context HttpHeaders headers,						
-									LoginDataRequestDTO loginDataDTO) throws BusinessException {
-		return login(request, headers, loginDataDTO);
+									SessionDTO sessionToCreate) throws BusinessException {
+		return login(request, headers, sessionToCreate);
 	}
 	@POST
 	@Path("login/xml")
@@ -72,8 +74,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_XML)
 	public AuthDataResponseDTO loginXML( @Context HttpServletRequest request,
 									@Context HttpHeaders headers,						
-									LoginDataRequestDTO loginDataDTO) throws BusinessException {
-		return login(request, headers, loginDataDTO);
+									SessionDTO sessionToCreate) throws BusinessException {
+		return login(request, headers, sessionToCreate);
 	}	
 	
 	@POST
@@ -184,16 +186,16 @@ public class SecurityService extends ApplicationService {
 		return resultDTO;
 	}
 	
-	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, LoginDataRequestDTO loginDataRequest) {
+	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, SessionDTO sessionToCreate) {
 		AuthDataResponseDTO resultDTO;
 		String deviceId = headers.getRequestHeader("Device").get(0);
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
-		loginDataRequest.setDeviceId(deviceId);
+		sessionToCreate.setDeviceId(deviceId);
 		
 		try {
-			resultDTO = businessServiceFacade.login(loginDataRequest, sharedSecretHEX);
+			resultDTO = businessServiceFacade.login(sessionToCreate, sharedSecretHEX);
 		} catch (BusinessException e) {
 			resultDTO = new AuthDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());

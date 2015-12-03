@@ -4,22 +4,20 @@ import java.util.List;
 
 public class AccountBO implements BusinessObject {
 	
-	private int id;
+	private int	id;
 	private String email;
 	private String password;
 	private int verificationCode;
 	private boolean flgValidita;
 	private boolean flgVerificato;
-	
-	
+	private UserBO user;
+	private List<SessionBO> sessions;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	private List<SessionBO> sessions;
-	
 	public String getEmail() {
 		return email;
 	}
@@ -49,6 +47,12 @@ public class AccountBO implements BusinessObject {
 	}
 	public void setFlgVerificato(boolean flgVerificato) {
 		this.flgVerificato = flgVerificato;
+	}
+	public UserBO getUser() {
+		return user;
+	}
+	public void setUser(UserBO user) {
+		this.user = user;
 	}
 	public List<SessionBO> getSessions() {
 		return sessions;

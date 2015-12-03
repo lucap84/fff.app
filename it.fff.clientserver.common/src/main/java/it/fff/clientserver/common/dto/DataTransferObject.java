@@ -9,22 +9,18 @@ import javax.xml.bind.annotation.XmlElement;
 public class DataTransferObject implements Serializable{
 
 	private static final long serialVersionUID = -455904852359230166L;
-	private boolean isOk;
 	private Map<String,String> errorsMap;
 	
 	public DataTransferObject(){
-		this.errorsMap = new HashMap<String,String>();
-		isOk = true;
+		this.errorsMap = null; //if errors are not present we want no elements in output
 	}
 	
-	@XmlElement(required=false) public boolean isOk() {
-		return isOk;
-	}
-	public void setOk(boolean isOk) {
-		this.isOk = isOk;
+	public Boolean isOk() {
+		return (errorsMap==null || errorsMap.size()==0);
 	}
 
-	@XmlElement(required=false) public Map<String, String> getErrorsMap() {
+	@XmlElement(required=false) 
+	public Map<String, String> getErrorsMap() {
 		return errorsMap;
 	}
 	public void setErrorsMap(Map<String, String> errorsMap) {
@@ -32,12 +28,10 @@ public class DataTransferObject implements Serializable{
 	}
 	
 	public void putErrorInMap(String code, String value){
+		if(errorsMap==null){
+			errorsMap = new HashMap<String,String>();
+		}		
 		this.errorsMap.put(code, value);
 	}
 	
-	@Override
-	public String toString() {
-		return this.getClass().getName()+"(isErrorsPresent: "+isOk+"; errorMap: "+errorsMap.toString()+")";
-	}	
-
 }

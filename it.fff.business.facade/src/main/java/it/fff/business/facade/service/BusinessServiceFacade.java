@@ -39,7 +39,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO upgradeToPremium(String userId, SubscriptionDTO subscription) throws BusinessException;
 
-	public AuthDataResponseDTO login(LoginDataRequestDTO loginDataRequest, String sharedSecretHEX) throws BusinessException;
+	public AuthDataResponseDTO login(SessionDTO sessionToCreate, String sharedSecretHEX) throws BusinessException;
 
 	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException;
 

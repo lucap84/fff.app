@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import it.fff.business.common.bo.SessionBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.facade.exception.PersistenceException;
@@ -23,38 +23,38 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public UpdateResultBO login(SessionBO session) throws PersistenceException {
+	public WriteResultBO login(SessionBO session) throws PersistenceException {
 		//Inizializzo le validita dell'account
 		session.setLogged(true);
 		//imposto la data login della prima sessione
 		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
 		session.setDataLogin(loginDate);		
-		UpdateResultBO bo = persistenceFacade.login(session);
+		WriteResultBO bo = persistenceFacade.login(session);
 		return bo;
 	}
 
 	@Override
-	public UpdateResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.updatePassword(email, encodedPassword);
+	public WriteResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
+		WriteResultBO bo = persistenceFacade.updatePassword(email, encodedPassword);
 		return bo;
 	}
 
 	@Override
-	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.checkVerificationCode(email, verificationcode);
+	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
+		WriteResultBO bo = persistenceFacade.checkVerificationCode(email, verificationcode);
 		return bo;
 	}
 
 	@Override
-	public UpdateResultBO generateAndVerificationCode(String email) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.generateVerficationCode(email);
+	public WriteResultBO generateAndVerificationCode(String email) throws PersistenceException {
+		WriteResultBO bo = persistenceFacade.generateVerficationCode(email);
 		//TODO send email dopo esito generazione
 		return bo;
 	}
 
 	@Override
-	public UpdateResultBO logout(int userId,String deviceId) throws PersistenceException {
-		UpdateResultBO bo = persistenceFacade.logout(userId, deviceId);
+	public WriteResultBO logout(int userId,String deviceId) throws PersistenceException {
+		WriteResultBO bo = persistenceFacade.logout(userId, deviceId);
 		return bo;
 	}
 

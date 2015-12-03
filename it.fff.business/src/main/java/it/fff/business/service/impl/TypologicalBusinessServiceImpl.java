@@ -10,7 +10,6 @@ import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
-import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.service.TypologicalBusinessService;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;

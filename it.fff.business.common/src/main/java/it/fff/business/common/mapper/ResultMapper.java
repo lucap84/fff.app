@@ -1,39 +1,90 @@
 package it.fff.business.common.mapper;
 
-import it.fff.business.common.bo.CreateResultBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import java.util.List;
+
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
 
-public class ResultMapper{
+public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>{
 
-	public static AuthDataResponseDTO map2AuthDataDTO(CreateResultBO bo) {
+	private static ResultMapper mapper;
+	
+	private ResultMapper(){
+		
+	}
+	
+	public static ResultMapper getInstance(){
+		if(mapper==null){
+			mapper= new  ResultMapper();
+		}
+		return mapper;
+	}
+	
+	public static AuthDataResponseDTO map2AuthDataDTO(WriteResultBO bo) {
 		AuthDataResponseDTO dto = new AuthDataResponseDTO();
-		dto.setOk(bo.isSuccess());
-		dto.setUserId((String.valueOf(bo.getCreatedKey())));
+		if(!bo.isSuccess()){
+			for (String errCode : bo.getErrorCodes()) {
+				dto.putErrorInMap(errCode, errCode);
+			}
+		}
+		dto.setUserId((String.valueOf(bo.getWrittenKey())));
 		return dto;
 	}
 	
-	public static WriteResultDTO map2WriteResultDTO(CreateResultBO bo) {
-		WriteResultDTO dto = new WriteResultDTO();
-		dto.setAffectedRecords(bo.getNumRecordsCreated());
-		dto.setOk(bo.isSuccess());
-		dto.setIdentifier((String.valueOf(bo.getCreatedKey())));
-		return dto;
-	}	
-
-	public static WriteResultDTO map2DTO(UpdateResultBO bo) {
-		WriteResultDTO dto = new WriteResultDTO();
-		dto.setAffectedRecords(bo.getNumRecordsUpdated());
-		dto.setOk(bo.isSuccess());
-		dto.setIdentifier(String.valueOf(bo.getUpdatedKey()));
-		return dto;
-	}
 	
-	public static AuthDataResponseDTO map2AuthDataDTO(UpdateResultBO bo) {
-		AuthDataResponseDTO dto = new AuthDataResponseDTO();
-		dto.setOk(bo.isSuccess());
-		dto.setUserId((String.valueOf(bo.getUpdatedKey())));
+	@Override
+	public List<WriteResultBO> mapDTOs2BOs(List<WriteResultDTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WriteResultBO mapDTO2BO(WriteResultDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Void> mergeBOs2EOs(List<WriteResultBO> bos, List<Void> eos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Void mergeBO2EO(WriteResultBO bo, Void eo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<WriteResultBO> mapEOs2BOs(List<Void> eos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WriteResultBO mapEO2BO(Void eo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<WriteResultDTO> mapBOs2DTOs(List<WriteResultBO> bos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WriteResultDTO mapBO2DTO(WriteResultBO bo) {
+		WriteResultDTO dto = new WriteResultDTO();
+		dto.setAffectedRecords(bo.getAffectedRecords());
+		if(!bo.isSuccess()){
+			for (String errCode : bo.getErrorCodes()) {
+				dto.putErrorInMap(errCode, errCode);
+			}
+		}
+		dto.setIdentifier((String.valueOf(bo.getWrittenKey())));
 		return dto;
 	}	
 

@@ -9,15 +9,14 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CityBO;
-import it.fff.business.common.bo.CreateResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
-import it.fff.business.common.bo.UpdateResultBO;
 import it.fff.business.common.bo.UserBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -26,75 +25,88 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	
 	@Override
 	public EventBO retrieveEvent(int eventId){
-		logger.info("retrieveEvent ({})",eventId);
+		UserBO organizer = new UserBO();
+		organizer.setId(1);
+		organizer.setNome("Nome organizer");
+		organizer.setCognome("Cognome organizer");
+		
 		EventBO event = new EventBO();
 		event.setId(eventId);
-		event.setTitolo("nome persistente");
-		event.setDescrizione("descr persisente");
-		logger.info("Mocked event ({}) retrieved",eventId);
+		event.setTitolo("nuovo evento");
+		event.setDescrizione("Descr nuovo evento");
+		
+		AttendanceBO attendance = new AttendanceBO();
+		attendance.setUtente(organizer);
+		attendance.setOrganizer(true);
+		attendance.setValid(true);
+		
+		List<AttendanceBO> partecipazioni = new ArrayList<AttendanceBO>();
+		partecipazioni.add(attendance);
+		
+		event.setPartecipazioni(partecipazioni);
 		return event;
 	}
 
 	@Override
-	public UpdateResultBO cancelAttendance(int eventId, int attendanceId) throws SQLException {
-		UpdateResultBO resultBO = new UpdateResultBO();
-		resultBO.setUpdatedKey(1);
+	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsUpdated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public UpdateResultBO cancelEvent(int eventId) throws SQLException {
-		UpdateResultBO resultBO = new UpdateResultBO();
-		resultBO.setUpdatedKey(1);
+	public WriteResultBO cancelEvent(int eventId) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsUpdated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO createEvent(EventBO bo) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO createEvent(EventBO bo) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO createEventMessage(int attendanceId, String message) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(AttendanceBO bo) throws SQLException {
-		CreateResultBO resultBO = new CreateResultBO();
-		resultBO.setCreatedKey(1);
+	public WriteResultBO createStandardEventMessage(AttendanceBO bo) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
-		resultBO.setNumRecordsCreated(1);
+		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 

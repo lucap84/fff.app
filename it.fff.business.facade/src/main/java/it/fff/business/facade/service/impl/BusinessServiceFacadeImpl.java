@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.AttendanceStateBO;
-import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
@@ -22,7 +22,7 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.AchievementTypeMapper;
@@ -85,33 +85,33 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public AuthDataResponseDTO createUser(RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			userBO = UserMapper.getInstance().mapDTO2BO(registrationDataDTO);
-			createResultBO = userBusinessService.createUser(userBO);
+			WriteResultBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		AuthDataResponseDTO result = ResultMapper.map2AuthDataDTO(createResultBO);
+		AuthDataResponseDTO result = ResultMapper.getInstance().map2AuthDataDTO(WriteResultBO);
 		return result;
 	}
 	
 	@Override
-	public AuthDataResponseDTO login(LoginDataRequestDTO loginData, String sharedSecretHEX) throws BusinessException {
+	public AuthDataResponseDTO login(SessionDTO sessionToCreate, String sharedSecretHEX) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		SessionBO sessionBO = null;
 		try {
-			sessionBO = SessionMapper.getInstance().mapDTO2BO(loginData);
+			sessionBO = SessionMapper.getInstance().mapDTO2BO(sessionToCreate);
 			sessionBO.setSharedKey(sharedSecretHEX);
-			updateResultBO = securityBusinessService.login(sessionBO);
+			WriteResultBO = securityBusinessService.login(sessionBO);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
-		AuthDataResponseDTO result = ResultMapper.map2AuthDataDTO(updateResultBO);
+		AuthDataResponseDTO result = ResultMapper.getInstance().map2AuthDataDTO(WriteResultBO);
 		return result;
 	}	
 
@@ -132,7 +132,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		ProfileImageDTO dtoResult = UserMapper.getInstance().mapBO2DTO(imgBO);
 		
 		if(dtoResult!=null){
-			resultDTO.setOk(true);
+//			resultDTO.setOk(true);
 			resultDTO.setAffectedRecords(1);
 			resultDTO.setIdentifier(dtoResult.getImgHashCode());
 			logger.debug("Mapping bo2dto completed");
@@ -166,14 +166,14 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
 		EventBO bo = EventMapper.getInstance().mapDTO2BO(eventToCreate);
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
-			createResultBO = eventBusinessService.createEvent(bo);
+			WriteResultBO = eventBusinessService.createEvent(bo);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -182,10 +182,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
 		int eventIdInt =-1;
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			eventIdInt = Integer.valueOf(eventId);
-			updateResultBO = eventBusinessService.cancelEvent(eventIdInt);
+			WriteResultBO = eventBusinessService.cancelEvent(eventIdInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -194,7 +194,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELEVENT);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -202,16 +202,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO joinEvent(AttendanceDTO attendanceToCreate) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		AttendanceBO bo = AttendanceMapper.getInstance().mapDTO2BO(attendanceToCreate);
 		try {
-			createResultBO = eventBusinessService.joinEvent(bo);
+			WriteResultBO = eventBusinessService.joinEvent(bo);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_JOINEVENT);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -219,16 +219,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO addFeedback(AttendanceDTO attendance) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		AttendanceBO bo = AttendanceMapper.getInstance().mapDTO2BO(attendance);
 		try {
-			createResultBO = eventBusinessService.addFeedback(bo);
+			WriteResultBO = eventBusinessService.addFeedback(bo);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_ADDFEEDBACK);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -238,11 +238,11 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 
 		int eventIdInt =-1;
 		int attendanceIdInt = -1;
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			attendanceIdInt = Integer.valueOf(attendanceIdInt);
 			eventIdInt = Integer.valueOf(eventId);
-			updateResultBO = eventBusinessService.cancelAttendance(eventIdInt, attendanceIdInt);
+			WriteResultBO = eventBusinessService.cancelAttendance(eventIdInt, attendanceIdInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -251,7 +251,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELATTENDANCES);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -260,10 +260,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 
 		int attendanceIdInt = -1;
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			attendanceIdInt = Integer.valueOf(attendanceId);
-			createResultBO = eventBusinessService.postEventMessage(attendanceIdInt, message);
+			WriteResultBO = eventBusinessService.postEventMessage(attendanceIdInt, message);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -272,7 +272,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTMSG);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -282,11 +282,11 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 
 		int attendanceIdInt = -1;
 		int stdMsgIdInt = -1;
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			attendanceIdInt = Integer.valueOf(attendanceId);
 			stdMsgIdInt = Integer.valueOf(stdMsgId);
-			createResultBO = eventBusinessService.postStandardEventMessage(attendanceIdInt, stdMsgIdInt);
+			WriteResultBO = eventBusinessService.postStandardEventMessage(attendanceIdInt, stdMsgIdInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -295,7 +295,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTSTDMSG);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -370,12 +370,12 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		PremiumBusinessService premiumBusinessService = (PremiumBusinessService)BusinessServiceProvider.getBusinessService("premiumBusinessService");
 		
 		int userIdInt = -1;
-		CreateResultBO createResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		
 		SubscriptionBO subscriptionBO = SubscriptionMapper.getInstance().mapDTO2BO(subscription);
 		try {
 			userIdInt = Integer.valueOf(userId);
-			createResultBO = premiumBusinessService.upgradeToPremium(userIdInt, subscriptionBO);
+			WriteResultBO = premiumBusinessService.upgradeToPremium(userIdInt, subscriptionBO);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -384,7 +384,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPGRADE_TO_PREMIUM);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2WriteResultDTO(createResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -394,16 +394,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		
 		try {
-			updateResultBO = securityBusinessService.updatePassword(email, encodedPassword);
+			WriteResultBO = securityBusinessService.updatePassword(email, encodedPassword);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATEPSW);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;	
 	}
 
@@ -411,16 +411,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO checkVerificationCode(String email, String verificationcode) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		
 		try {
-			updateResultBO = securityBusinessService.checkVerificationCode(email, verificationcode);
+			WriteResultBO = securityBusinessService.checkVerificationCode(email, verificationcode);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CHECK_VERIFICATIONCODE);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -428,16 +428,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO sendVerificationCode(String email) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		
 		try {
-			updateResultBO = securityBusinessService.generateAndVerificationCode(email);
+			WriteResultBO = securityBusinessService.generateAndVerificationCode(email);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -446,10 +446,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
 		int userIdInt = -1;
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		try {
 			userIdInt = Integer.valueOf(userId);
-			updateResultBO = securityBusinessService.logout(userIdInt, deviceId);
+			WriteResultBO = securityBusinessService.logout(userIdInt, deviceId);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -458,7 +458,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -466,17 +466,17 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO updateUserData(UserDTO user) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		
 		UserBO userBO = UserMapper.getInstance().mapDTO2BO(user);
 		try {
-			updateResultBO = userBusinessService.updateUserData(userBO);
+			WriteResultBO = userBusinessService.updateUserData(userBO);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATE_USERDATA);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 
@@ -484,14 +484,14 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO setCurrentPosition(String userId, String eventId, PlaceDTO placeDTO) throws BusinessException {
 		PlacesBusinessService placesBusinessService = (PlacesBusinessService)BusinessServiceProvider.getBusinessService("placesBusinessService");
 		
-		UpdateResultBO updateResultBO = null;
+		WriteResultBO WriteResultBO = null;
 		int userIdInt = -1;
 		int eventIdInt = -1;
 		PlaceBO placeBO = PlaceMapper.getInstance().mapDTO2BO(placeDTO);
 		try {
 			userIdInt = Integer.valueOf(userId);
 			eventIdInt = Integer.valueOf(eventId);
-			updateResultBO = placesBusinessService.setCurrentPosition(userIdInt, eventIdInt, placeBO);
+			WriteResultBO = placesBusinessService.setCurrentPosition(userIdInt, eventIdInt, placeBO);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -500,7 +500,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SET_CURRENTPOSITION);
 		}
 		
-		WriteResultDTO result = ResultMapper.map2DTO(updateResultBO);
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
 	}
 

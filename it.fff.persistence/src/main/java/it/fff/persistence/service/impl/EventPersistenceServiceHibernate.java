@@ -11,10 +11,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.CreateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.UserEO;
@@ -48,19 +48,19 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public UpdateResultBO cancelAttendance(int eventId, int attendanceId) throws Exception {
+	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO cancelEvent(int eventId) throws Exception {
+	public WriteResultBO cancelEvent(int eventId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CreateResultBO createEvent(EventBO eventBO) throws Exception {
+	public WriteResultBO createEvent(EventBO eventBO) throws Exception {
 		logger.info("creating event");
 		
 //		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -84,34 +84,34 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 //	      }			
 //		
 //		logger.info("user registered");
-//		CreateResultBO resultBO = new CreateResultBO();
+//		WriteResultBO resultBO = new WriteResultBO();
 //		resultBO.setSuccess(true);
-//		resultBO.setCreatedKey(id);
+//		resultBO.setWrittenKeyid);
 //		resultBO.setNumRecordsCreated(1);
 		
 		return null;
 	}
 
 	@Override
-	public CreateResultBO createEventMessage(int attendanceId, String message) throws Exception {
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CreateResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception {
+	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CreateResultBO createStandardEventMessage(AttendanceBO bo) throws Exception {
+	public WriteResultBO createStandardEventMessage(AttendanceBO bo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

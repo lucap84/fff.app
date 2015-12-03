@@ -7,9 +7,9 @@ import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
-import it.fff.clientserver.common.dto.LoginDataRequestDTO;
+import it.fff.clientserver.common.dto.SessionDTO;
 
-public class SessionMapper implements Mapper<LoginDataRequestDTO,SessionBO,SessionEO>{
+public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 
 	private static SessionMapper mapper;
 	
@@ -59,25 +59,34 @@ public class SessionMapper implements Mapper<LoginDataRequestDTO,SessionBO,Sessi
 	}
 	
 	@Override
-	public SessionBO mapDTO2BO(LoginDataRequestDTO dto) {
+	public SessionBO mapDTO2BO(SessionDTO dto) {
 		SessionBO bo = null;
 		if(dto!=null){
 			bo = new SessionBO();
-			AccountBO bo2 = new AccountBO();
-			bo2.setEmail(dto.getEmail());
-			bo2.setPassword(dto.getEncodedPassword());
-			bo2.setSessions(new ArrayList<SessionBO>());
-			
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setDataLogin(dto.getDataLogin());
+			bo.setDataLogout(dto.getDataLogout());
 			bo.setDeviceId(dto.getDeviceId());
+			bo.setLogged(dto.isLogged());
+			bo.setSharedKey(dto.getSharedKey());
+			
+			//Non uso accountMapper per evitare cicli
+			AccountBO bo2 = new AccountBO();
+			bo2.setEmail(dto.getAccount().getEmail());
+			bo2.setPassword(dto.getAccount().getPassword());
+			bo2.setSessions(new ArrayList<SessionBO>());
+			bo2.getSessions().add(bo); //aggiungo la sessione creata all account;
+			
 			bo.setAccount(bo2);//Ogni session ha il riferimento all'account relativo
-			bo2.getSessions().add(bo);
 		}
 		
 		return bo;
 	}
 
 	@Override
-	public List<SessionBO> mapDTOs2BOs(List<LoginDataRequestDTO> dtos) {
+	public List<SessionBO> mapDTOs2BOs(List<SessionDTO> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -95,13 +104,13 @@ public class SessionMapper implements Mapper<LoginDataRequestDTO,SessionBO,Sessi
 	}
 
 	@Override
-	public List<LoginDataRequestDTO> mapBOs2DTOs(List<SessionBO> bos) {
+	public List<SessionDTO> mapBOs2DTOs(List<SessionBO> bos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LoginDataRequestDTO mapBO2DTO(SessionBO bo) {
+	public SessionDTO mapBO2DTO(SessionBO bo) {
 		// TODO Auto-generated method stub
 		return null;
 	}	

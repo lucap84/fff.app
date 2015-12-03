@@ -16,7 +16,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.SessionBO;
-import it.fff.business.common.bo.UpdateResultBO;
+import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
 import it.fff.business.common.mapper.UserMapper;
@@ -29,10 +29,10 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	private static final Logger logger = LogManager.getLogger(SecurityPersistenceServiceHibernate.class);
 
 	@Override
-	public UpdateResultBO logout(int userId, String deviceId) throws Exception {
+	public WriteResultBO logout(int userId, String deviceId) throws Exception {
 		logger.info("logout client and device...");
 		
-		UpdateResultBO result = new UpdateResultBO();
+		WriteResultBO result = new WriteResultBO();
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -49,8 +49,8 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 			int recordUpdated = query.executeUpdate();
 			tx.commit();
 			
-			result.setNumRecordsUpdated(recordUpdated);
-			result.setUpdatedKey(userId);
+			result.setAffectedRecords(recordUpdated);
+			result.setWrittenKey(userId);
 			result.setSuccess(true);
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
@@ -64,7 +64,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 	
 	@Override
-	public UpdateResultBO login(SessionBO sessionBO) throws Exception {
+	public WriteResultBO login(SessionBO sessionBO) throws Exception {
 		logger.info("logout client and device...");
 		
 		SessionEO sessionEO = SessionMapper.getInstance().mergeBO2EO(sessionBO, null);
@@ -72,7 +72,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		String email = sessionEO.getAccount().getEmail();
 		String password = sessionEO.getAccount().getPassword();
 		
-		UpdateResultBO result = new UpdateResultBO();
+		WriteResultBO result = new WriteResultBO();
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -95,7 +95,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 //	    	Integer idAccount = integers[0];
 	    	if(idAccount==null || idAccount<=0){
 	    		result.setSuccess(false);
-	    		result.setNumRecordsUpdated(0);
+	    		result.setAffectedRecords(0);
 	    		return result;
 	    	}
 	    	sessionEO.getAccount().setId(idAccount);
@@ -103,8 +103,8 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	tx.commit();
 	    	
 	    	result.setSuccess(true);
-	    	result.setUpdatedKey(idAccount);
-	    	result.setNumRecordsUpdated(1);
+	    	result.setWrittenKey(idAccount);
+	    	result.setAffectedRecords(1);
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
@@ -117,19 +117,19 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 	
 	@Override
-	public UpdateResultBO generateVerficationCode(String email) throws Exception {
+	public WriteResultBO generateVerficationCode(String email) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO checkVerificationCode(String email, String verificationcode) throws Exception {
+	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UpdateResultBO updatePassword(String email, String encodedPassword) throws Exception {
+	public WriteResultBO updatePassword(String email, String encodedPassword) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
