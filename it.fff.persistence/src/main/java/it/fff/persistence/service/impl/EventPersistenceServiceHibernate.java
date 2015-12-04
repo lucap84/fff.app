@@ -1,5 +1,6 @@
 package it.fff.persistence.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,10 +17,12 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.AccountEO;
+import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.UserMapper;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -54,42 +57,84 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception {
+		logger.info("annullo evento...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	String hqlSelectOrganizerAttendance = "FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1";
+	    	Query querySelectOrganizerAttendance = session.createQuery(hqlSelectOrganizerAttendance);
+	    	querySelectOrganizerAttendance.setParameter("eventId", eventId);
+	    	querySelectOrganizerAttendance.setParameter("organizerId", organizerId);
+	    	
+	    	tx = session.beginTransaction();
+
+	    	AttendanceEO organizerAttendance =(AttendanceEO)querySelectOrganizerAttendance.uniqueResult();
+	    	if(organizerAttendance==null){
+	    		throw new HibernateException("Evento dell organizzatore da annullare non trovato");
+	    	}
+	    	//TODO suppongo che ID stato annullato == 1
+	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = 1  WHERE id=:eventId";	    	  
+
+			Query queryUpdateEvent = session.createQuery(hqlUpdateEvent);
+			queryUpdateEvent.setParameter("eventId", eventId);
+			
+			int recordUpdated = queryUpdateEvent.executeUpdate();
+			
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			if(recordUpdated>0){
+				result.setWrittenKey(eventId);
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+			}
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during cancelEvent() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+		logger.info("...eveno annullato");
+		return result;
 	}
 
 	@Override
 	public WriteResultBO createEvent(EventBO eventBO) throws Exception {
 		logger.info("creating event");
 		
-//		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-//		Session session = sessionFactory.openSession();
-//	    Transaction tx = null;
-//	    Integer id = null;
-//	      try{
-//	    	  EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO,eventEO);
-//	    	  
-//			tx = session.beginTransaction();
-//			id = (Integer)session.save(eventEO); 
-//			 
-//	         
-//	         tx.commit();
-//	      }catch (HibernateException e) {
-//	         if (tx!=null) tx.rollback();
-//	         e.printStackTrace();
-//	         throw new Exception("HibernateException during registerUser() ",e);
-//	      }finally {
-//	         session.close(); 
-//	      }			
-//		
-//		logger.info("user registered");
-//		WriteResultBO resultBO = new WriteResultBO();
-//		resultBO.setSuccess(true);
-//		resultBO.setWrittenKeyid);
-//		resultBO.setNumRecordsCreated(1);
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    Integer eventId = null;
+	      try{
+	    	EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null);
+	    	  
+			tx = session.beginTransaction();
+			eventId = (Integer)session.save(eventEO); 
+	        tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during registerUser() ",e);
+	      }finally {
+	         session.close(); 
+	      }			
 		
-		return null;
+		logger.info("user registered");
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(eventId);
+		resultBO.setAffectedRecords(1);
+		
+		return resultBO;
 	}
 
 	@Override

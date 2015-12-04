@@ -34,8 +34,8 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public WriteResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
-		WriteResultBO bo = persistenceFacade.updatePassword(email, encodedPassword);
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
+		WriteResultBO bo = persistenceFacade.updatePassword(userId, email, encodedOldPassword, encodedNewPassword);
 		return bo;
 	}
 

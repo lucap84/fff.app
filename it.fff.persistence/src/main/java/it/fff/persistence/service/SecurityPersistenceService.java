@@ -13,7 +13,7 @@ public interface SecurityPersistenceService extends PersistenceService{
 
 	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws Exception;
 
-	public WriteResultBO updatePassword(String email, String encodedPassword) throws Exception;
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws Exception;
 
 	public WriteResultBO login(SessionBO sessionBO) throws Exception;
 

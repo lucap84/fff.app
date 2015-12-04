@@ -10,7 +10,7 @@ public interface SecurityBusinessService extends BusinessService{
 
 	WriteResultBO login(SessionBO session) throws PersistenceException;
 
-	WriteResultBO updatePassword(String email, String encodedPassword) throws PersistenceException;
+	WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException;
 
 	WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException;
 

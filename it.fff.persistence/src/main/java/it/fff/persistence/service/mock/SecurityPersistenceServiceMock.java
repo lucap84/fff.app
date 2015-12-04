@@ -38,7 +38,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO updatePassword(String email, String encodedPassword) throws SQLException {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);

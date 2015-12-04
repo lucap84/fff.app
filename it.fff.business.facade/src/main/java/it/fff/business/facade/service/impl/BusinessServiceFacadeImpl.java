@@ -28,6 +28,7 @@ import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.AttendanceStateMapper;
+import it.fff.business.common.mapper.CustomMapper;
 import it.fff.business.common.mapper.EventCategoryMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.EventStateMapper;
@@ -92,7 +93,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		AuthDataResponseDTO result = ResultMapper.getInstance().map2AuthDataDTO(WriteResultBO);
+		AuthDataResponseDTO result = CustomMapper.mapWriteResult2AuthData(WriteResultBO);
 		return result;
 	}
 	
@@ -111,7 +112,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
-		AuthDataResponseDTO result = ResultMapper.getInstance().map2AuthDataDTO(WriteResultBO);
+		AuthDataResponseDTO result = CustomMapper.mapWriteResult2AuthData(WriteResultBO);
 		return result;
 	}	
 
@@ -178,14 +179,17 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO cancelEvent(String eventId) throws BusinessException {
+	public WriteResultDTO cancelEvent(String eventId, String organizerId) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
 		int eventIdInt =-1;
+		int organizerIdInt =-1;
+		
 		WriteResultBO WriteResultBO = null;
 		try {
 			eventIdInt = Integer.valueOf(eventId);
-			WriteResultBO = eventBusinessService.cancelEvent(eventIdInt);
+			organizerIdInt = Integer.valueOf(organizerId);
+			WriteResultBO = eventBusinessService.cancelEvent(eventIdInt, organizerIdInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -391,13 +395,20 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 
 
 	@Override
-	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException {
+	public WriteResultDTO updatePassword(UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
+		String userId = updatePasswordDTO.getUserId();
+		String email = updatePasswordDTO.getEmail();
+		String encodedOldPassword = updatePasswordDTO.getOldPassword();
+		String encodedNewPassword = updatePasswordDTO.getNewPassword();
+		
+		int userIdInt = -1;
 		WriteResultBO WriteResultBO = null;
 		
 		try {
-			WriteResultBO = securityBusinessService.updatePassword(email, encodedPassword);
+			userIdInt = Integer.valueOf(userId);
+			WriteResultBO = securityBusinessService.updatePassword(userIdInt, email, encodedOldPassword, encodedNewPassword);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATEPSW);

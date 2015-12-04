@@ -53,8 +53,8 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.cancelEvent(eventId);
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.cancelEvent(eventId, organizerId);
 		return resultBO;
 	}	
 

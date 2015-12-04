@@ -103,16 +103,17 @@ public class SecurityService extends ApplicationService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public WriteResultDTO updatePasswordJSON(	@Context HttpServletRequest request,
-												@PathParam("email") String email, String encodedPassword) throws BusinessException {
-		return updatePassword(request, email, encodedPassword);
+												UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
+		return updatePassword(request,updatePasswordDTO);
 	}
 	@PUT
 	@Path("{email}/password/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO updatePasswordCodeXML(@Context HttpServletRequest request, @PathParam("email") String email, String encodedPassword) throws BusinessException {
-		return updatePassword(request, email, encodedPassword);
-	}	
+	public WriteResultDTO updatePasswordCodeXML(@Context HttpServletRequest request,
+												UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
+return updatePassword(request,updatePasswordDTO);
+}	
 	
 	@PUT
 	@Path("{email}/verificationcode/json")
@@ -231,10 +232,10 @@ public class SecurityService extends ApplicationService {
 	}
 	
 	
-	private WriteResultDTO updatePassword(HttpServletRequest request, String email, String encodedPassword) {
+	private WriteResultDTO updatePassword(HttpServletRequest request, UpdatePasswordDTO updatePasswordDTO) {
 		WriteResultDTO result;
 		try {
-			result = businessServiceFacade.updatePassword(email, encodedPassword);
+			result = businessServiceFacade.updatePassword(updatePasswordDTO);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
 			super.manageErrors(e, result, request.getLocale());

@@ -13,7 +13,7 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws Exception;
 
-	public WriteResultBO cancelEvent(int eventId)throws Exception;
+	public WriteResultBO cancelEvent(int eventId, int organizerId)throws Exception;
 
 	public WriteResultBO createEvent(EventBO bo) throws Exception;
 

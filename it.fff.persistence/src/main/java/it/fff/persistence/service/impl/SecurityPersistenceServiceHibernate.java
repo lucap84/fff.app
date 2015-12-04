@@ -19,7 +19,6 @@ import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
-import it.fff.business.common.mapper.UserMapper;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.SecurityPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -86,13 +85,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	query.setParameter("email", email);
 	    	query.setParameter("password", password);
 	    	Integer idAccount = (Integer)query.uniqueResult();
-//	    	if(results.isEmpty()){
-//	    		result.setSuccess(false);
-//	    		result.setNumRecordsUpdated(0);
-//	    		return result;
-//	    	}
-//	    	int[] integers = (int[])results.get(0);
-//	    	Integer idAccount = integers[0];
+
 	    	if(idAccount==null || idAccount<=0){
 	    		result.setSuccess(false);
 	    		result.setAffectedRecords(0);
@@ -129,9 +122,38 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 
 	@Override
-	public WriteResultBO updatePassword(String email, String encodedPassword) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws Exception {
+		logger.info("update password...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1";	    	  
+
+			tx = session.beginTransaction();
+			Query query = session.createQuery(hqlUpdate);
+			query.setParameter("newPassword", encodedNewPassword);
+			query.setParameter("userId", userId);
+			query.setParameter("email", email);
+			query.setParameter("oldPassword", encodedOldPassword);
+			int recordUpdated = query.executeUpdate();
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			result.setWrittenKey(userId);
+			result.setSuccess(true);
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during updatePassword() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+	    logger.info("...update password");
+		return result;
 	}
 
 

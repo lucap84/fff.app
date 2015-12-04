@@ -25,26 +25,48 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	
 	@Override
 	public EventBO retrieveEvent(int eventId){
-		UserBO organizer = new UserBO();
-		organizer.setId(1);
-		organizer.setNome("Nome organizer");
-		organizer.setCognome("Cognome organizer");
+		EventBO bo1 = new EventBO();
+		bo1.setId(1);
+		bo1.setTitolo("ev1");
+		bo1.setDescrizione("descr");
+		bo1.setDataInizio("2015-11-27_10-10-10");
+		bo1.setDurata(4);
 		
-		EventBO event = new EventBO();
-		event.setId(eventId);
-		event.setTitolo("nuovo evento");
-		event.setDescrizione("Descr nuovo evento");
+		EventCategoryBO catBo1 = new EventCategoryBO();
+		catBo1.setId(1);
+		catBo1.setNome("cat");
+		catBo1.setDescrizione("descr cat1");
+		bo1.setCategoria(catBo1);
 		
-		AttendanceBO attendance = new AttendanceBO();
-		attendance.setUtente(organizer);
-		attendance.setOrganizer(true);
-		attendance.setValid(true);
+		NationBO nazioneBo1 = new NationBO();
+		nazioneBo1.setId(1);
+		nazioneBo1.setInternationalKey("IT");
+		nazioneBo1.setNome("Italia");
 		
-		List<AttendanceBO> partecipazioni = new ArrayList<AttendanceBO>();
-		partecipazioni.add(attendance);
+		CityBO cityBo1 = new CityBO();
+		cityBo1.setId(1);
+		cityBo1.setNome("Roma");
+		cityBo1.setNazione(nazioneBo1);
 		
-		event.setPartecipazioni(partecipazioni);
-		return event;
+		PlaceBO placeBo1 = new PlaceBO();
+		placeBo1.setId(1);
+		placeBo1.setNome("place");
+		placeBo1.setGpsLat(1.234);
+		placeBo1.setGpsLong(2.345);
+		placeBo1.setVia("via 1");
+		placeBo1.setCivico("civico 1");
+		placeBo1.setCap("Cap 00100");
+		placeBo1.setCity(cityBo1);
+		
+		bo1.setLocation(placeBo1);
+		
+		EventStateBO statoBo1 = new EventStateBO();
+		statoBo1.setId(2);
+		statoBo1.setNome("CANCELED");
+		statoBo1.setDescrizione("L'evento è cancellato");
+		bo1.setStato(statoBo1);
+		
+		return bo1;
 	}
 
 	@Override
@@ -57,9 +79,9 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId) throws SQLException {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(eventId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;

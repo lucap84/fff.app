@@ -19,7 +19,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO createEvent(EventDTO eventToCreate) throws BusinessException;
 
-	public WriteResultDTO cancelEvent(String eventId) throws BusinessException;
+	public WriteResultDTO cancelEvent(String eventId, String organizerId) throws BusinessException;
 
 	public WriteResultDTO joinEvent(AttendanceDTO attendanceToCreate) throws BusinessException;
 
@@ -41,7 +41,7 @@ public interface BusinessServiceFacade {
 
 	public AuthDataResponseDTO login(SessionDTO sessionToCreate, String sharedSecretHEX) throws BusinessException;
 
-	public WriteResultDTO updatePassword(String email, String encodedPassword) throws BusinessException;
+	public WriteResultDTO updatePassword(UpdatePasswordDTO updatePasswordDTO) throws BusinessException;
 
 	public WriteResultDTO checkVerificationCode(String email, String verificationcode) throws BusinessException;
 

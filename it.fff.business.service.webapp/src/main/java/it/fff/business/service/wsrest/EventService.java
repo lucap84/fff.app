@@ -131,16 +131,20 @@ public class EventService extends ApplicationService{
 	@Path("{eventId}/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO cancelEventJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
-		return cancelEvent(request, eventId);
+	public WriteResultDTO cancelEventJSON(	@Context HttpServletRequest request, 
+											@PathParam("eventId") String eventId,
+											@QueryParam("organizerId") String organizerId) throws BusinessException {
+		return cancelEvent(request, eventId, organizerId);
 	}	
 	@DELETE
 	@Path("{eventId}/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO cancelEventXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
-		return cancelEvent(request, eventId);
-	}	
+	public WriteResultDTO cancelEventXML(	@Context HttpServletRequest request, 
+											@PathParam("eventId") String eventId,
+											@QueryParam("organizerId") String organizerId) throws BusinessException {
+		return cancelEvent(request, eventId, organizerId);
+}
 	
 	@POST
 	@Path("json")
@@ -293,10 +297,10 @@ public class EventService extends ApplicationService{
 		return result;
 	}
 	
-	private WriteResultDTO cancelEvent(HttpServletRequest request, String eventId) {
+	private WriteResultDTO cancelEvent(HttpServletRequest request, String eventId, String organizerId) {
 		WriteResultDTO result;
 		try {
-			result = businessServiceFacade.cancelEvent(eventId);
+			result = businessServiceFacade.cancelEvent(eventId, organizerId);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
 			super.manageErrors(e, result, request.getLocale());

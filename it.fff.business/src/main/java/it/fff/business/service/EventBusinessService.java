@@ -16,7 +16,7 @@ public interface EventBusinessService extends BusinessService{
 
 	public WriteResultBO createEvent(EventBO bo) throws  PersistenceException;
 
-	public WriteResultBO cancelEvent(int eventId) throws  PersistenceException;
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws  PersistenceException;
 
 	public WriteResultBO cancelAttendance(int eventId, int attendanceId)  throws  PersistenceException;
 

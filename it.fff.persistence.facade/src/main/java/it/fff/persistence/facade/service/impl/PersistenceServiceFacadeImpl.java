@@ -75,12 +75,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId) throws PersistenceException {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = eventPersistenceService.cancelEvent(eventId);
+			resultBO = eventPersistenceService.cancelEvent(eventId, organizerId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -292,12 +292,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO updatePassword(String email, String encodedPassword) throws PersistenceException {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = securityPersistenceService.updatePassword(email,encodedPassword);
+			resultBO = securityPersistenceService.updatePassword(userId, email, encodedOldPassword, encodedNewPassword);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());

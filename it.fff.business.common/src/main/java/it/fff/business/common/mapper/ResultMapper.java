@@ -21,17 +21,6 @@ public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>
 		return mapper;
 	}
 	
-	public static AuthDataResponseDTO map2AuthDataDTO(WriteResultBO bo) {
-		AuthDataResponseDTO dto = new AuthDataResponseDTO();
-		if(!bo.isSuccess()){
-			for (String errCode : bo.getErrorCodes()) {
-				dto.putErrorInMap(errCode, errCode);
-			}
-		}
-		dto.setUserId((String.valueOf(bo.getWrittenKey())));
-		return dto;
-	}
-	
 	
 	@Override
 	public List<WriteResultBO> mapDTOs2BOs(List<WriteResultDTO> dtos) {
