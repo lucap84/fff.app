@@ -56,6 +56,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 			if(eos==null){
 				eos = new ArrayList<LanguageEO>();
 			}
+			eos.clear();//elimino vecchie lingue eventualmente presenti per mettere le nuove
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageBO bo : bos) {
 				LanguageEO linguaEO = languageMapper.mergeBO2EO(bo, null);

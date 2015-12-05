@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "abbonamento")
+@Table(name = "abbonato")
 public class SubscriptionEO extends EntityObject {
 
 	@Id

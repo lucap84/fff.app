@@ -91,8 +91,15 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 
 	@Override
 	public List<NationBO> mapEOs2BOs(List<NationEO> eos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<NationBO> bos = null;
+		if(eos!=null){
+			bos = new ArrayList<NationBO>();
+			NationMapper nationMapper = NationMapper.getInstance();
+			for (NationEO eo : eos) {
+				bos.add(nationMapper.mapEO2BO(eo));
+			}
+		}
+		return bos;
 	}
 
 	@Override

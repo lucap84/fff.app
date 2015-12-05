@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +14,16 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
+import it.fff.business.common.eo.AchievementObtainedEO;
+import it.fff.business.common.eo.LanguageEO;
+import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.persistence.service.UserPersistenceService;
@@ -49,7 +54,13 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			session.save(accountEO);
 	         
 	         tx.commit();
-	      }catch (HibernateException e) {
+	      }
+	      catch(ConstraintViolationException e){
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace();
+		         throw new Exception("ConstraintViolationException during registerUser() ",e);
+	      }
+	      catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during registerUser() ",e);
@@ -75,6 +86,10 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		Session session = sessionFactory.openSession();
 	      try{
 	    	 eo = (UserEO) session.get(UserEO.class, userId);
+	    	 //get dei campi lazy richiesti in output prima che si chiuda la sessione hibernate
+	    	 int size = eo.getLingue().size();
+	    	 int size2 = eo.getAchievements().size();
+	    	 int size3 = eo.getAbbonamenti().size();
 	      }catch (HibernateException e) {
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during getUser() ",e);
@@ -95,7 +110,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      try{
 			tx = session.beginTransaction();
 			
-			eo = (UserEO) session.load(UserEO.class, bo.getId());
+			eo = (UserEO) session.get(UserEO.class, bo.getId());
 			eo = UserMapper.getInstance().mergeBO2EO(bo, eo);
 			session.update(eo);
 			

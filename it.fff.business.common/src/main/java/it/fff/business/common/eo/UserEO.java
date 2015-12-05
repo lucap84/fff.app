@@ -74,7 +74,7 @@ public class UserEO extends EntityObject {
 	@JoinColumn(name = "Nazionalita_ID")
 	private NationEO nazionalita; 
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 		@JoinTable(name = "lingua_parlata", 
 			joinColumns = 		 { @JoinColumn(name = "Utente_ID") }, 
 			inverseJoinColumns = { @JoinColumn(name = "Lingua_ID") })

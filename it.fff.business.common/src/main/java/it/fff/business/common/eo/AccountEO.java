@@ -20,7 +20,6 @@ public class AccountEO extends EntityObject {
 	
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue
 	private Integer	id;
 	
 	@Column(name = "Email")

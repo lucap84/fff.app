@@ -3,9 +3,6 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
 import it.fff.clientserver.common.dto.*;
@@ -33,9 +30,8 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
-			AccountBO account = new AccountBO();
-			account.setEmail(dto.getEmail());
-			bo.setAccount(account);
+			AccountMapper accountMapper = AccountMapper.getInstance();
+			bo.setAccount(accountMapper.mapDTO2BO(dto.getAccount()));
 			
 			bo.setNome(dto.getNome());
 			bo.setCognome(dto.getCognome());
@@ -51,11 +47,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			
 			bo.setLastPositionDate(dto.getLastPositionDate());
 			if(dto.getLastPositionLat()!=null){
-//				double lastPositionLat = "".equals(dto.getLastPositionLat())?0:Double.valueOf(dto.getLastPositionLat());
 				bo.setLastPositionLat(Double.valueOf(dto.getLastPositionLat()));
 			}
 			if(dto.getLastPositionLong()!=null){
-//				double lastPositionLong = "".equals(dto.getLastPositionLong())?0:Double.valueOf(dto.getLastPositionLong());
 				bo.setLastPositionLong(Double.valueOf(dto.getLastPositionLong()));
 			}
 		}
@@ -67,10 +61,31 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		UserDTO dto = null;
 		if(bo!=null){
 			dto = new UserDTO();
-			dto.setId(String.valueOf(bo.getId()));
+			if(bo.getId()>0){
+				dto.setId(String.valueOf(bo.getId()));
+			}
+			AccountMapper accountMapper = AccountMapper.getInstance();
+			dto.setAccount(accountMapper.mapBO2DTO(bo.getAccount()));
+			
+			dto.setNome(bo.getNome());
 			dto.setCognome(bo.getCognome());
+			dto.setSesso(bo.getSesso());
 			dto.setDataNascita(bo.getDataNascita());
 			dto.setDescrizione(bo.getDescrizione());
+			
+			NationMapper nationMapper = NationMapper.getInstance();
+			dto.setNazionalita(nationMapper.mapBO2DTO(bo.getNazionalita()));
+			
+			LanguageMapper languageMapper = LanguageMapper.getInstance();
+			dto.setLingue(languageMapper.mapBOs2DTOs(bo.getLingue()));
+			
+			dto.setLastPositionDate(bo.getLastPositionDate());
+			if(bo.getLastPositionLat()!=0){
+				dto.setLastPositionLat(String.valueOf(bo.getLastPositionLat()));
+			}
+			if(bo.getLastPositionLong()!=0){
+				dto.setLastPositionLong(String.valueOf(bo.getLastPositionLong()));
+			}
 		}
 		return dto;
 	}
@@ -86,6 +101,13 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			bo.setDataNascita(eo.getDataNascita());
 			bo.setDescrizione(eo.getDescrizione());
 			bo.setFlagAttivo(eo.isFlagAttivo());
+			bo.setLastPositionDate(eo.getLastPositionDate());
+			bo.setLastPositionLat(eo.getLastPositionLat());
+			bo.setLastPositionLong(eo.getLastPositionLong());
+			bo.setSesso(eo.getSesso());
+			
+			AccountMapper accountMapper = AccountMapper.getInstance();
+			bo.setAccount(accountMapper.mapEO2BO(eo.getAccount()));
 			
 			NationMapper nationMapper = NationMapper.getInstance();
 			bo.setNazionalita(nationMapper.mapEO2BO(eo.getNazionalita()));

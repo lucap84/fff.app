@@ -6,6 +6,8 @@ public class NationBO implements BusinessObject {
 	private int	id;
 	private String nome;
 	private String internationalKey;
+	private String internationalCode;
+	
 	public int getId() {
 		return id;
 	}
@@ -24,5 +26,12 @@ public class NationBO implements BusinessObject {
 	public void setInternationalKey(String internationalKey) {
 		this.internationalKey = internationalKey;
 	}
+	public String getInternationalCode() {
+		return internationalCode;
+	}
+	public void setInternationalCode(String internationalCode) {
+		this.internationalCode = internationalCode;
+	}
+	
 	
 }

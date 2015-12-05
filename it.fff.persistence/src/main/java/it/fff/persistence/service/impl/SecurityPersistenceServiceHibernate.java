@@ -38,13 +38,13 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Transaction tx = null;
 	    try{
 	    	String logoutDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
-			String hqlUpdate = "UPDATE SessionEO set isLogged = 0, dataLogout = :logoutDate, sharedKey=''  WHERE account.flgValidita=1 AND account.id = :userId AND deviceId = :deviceId";	    	  
+			String hqlUpdate = "UPDATE SessionEO S SET S.isLogged=0 , S.dataLogout=:logoutDate, S.sharedKey='' WHERE S.deviceId=:deviceId AND account.id IN (SELECT a.id FROM AccountEO a WHERE a.id = :userId AND a.flgValidita=1)";	    	  
 
 			tx = session.beginTransaction();
 			Query query = session.createQuery(hqlUpdate);
-			query.setParameter("logoutDate", logoutDate);
-			query.setParameter("userId", userId);
-			query.setParameter("deviceId", deviceId);
+			query.setString("logoutDate", logoutDate);
+			query.setInteger("userId", userId);
+			query.setString("deviceId", deviceId);
 			int recordUpdated = query.executeUpdate();
 			tx.commit();
 			
@@ -92,7 +92,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    		return result;
 	    	}
 	    	sessionEO.getAccount().setId(idAccount);
-	    	Integer sessionId = (Integer)session.save(sessionEO);
+	    	Integer sessionId = (Integer)session.save(sessionEO);//insert nuovo record session
 	    	tx.commit();
 	    	
 	    	result.setSuccess(true);

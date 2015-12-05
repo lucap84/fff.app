@@ -3,6 +3,9 @@ package it.fff.persistence.service.mock;
 import java.sql.SQLException;
 
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.mapper.AccountMapper;
+import it.fff.business.common.mapper.LanguageMapper;
+import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.persistence.service.UserPersistenceService;
@@ -27,9 +30,17 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	@Override
 	public UserBO getUser(int userId) throws SQLException {
 		UserBO bo = new UserBO();
-		bo.setId(userId);
-		bo.setNome("nome1");
-		bo.setCognome("cognome1");
+		bo.setId(1);
+		
+		bo.setNome("nome");
+		bo.setCognome("cognome");
+		bo.setSesso("M");
+		bo.setDataNascita("1900-01-01");
+		bo.setDescrizione("descrizione");
+		
+		bo.setLastPositionDate("1900-01-02");
+		bo.setLastPositionLat(1.23);
+		bo.setLastPositionLong(3.45);
 		return bo;
 	}
 

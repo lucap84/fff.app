@@ -20,6 +20,9 @@ public class NationEO extends EntityObject {
 	
 	@Column(name = "International_Key")
 	private String internationalKey;
+	
+	@Column(name = "International_Code")
+	private String internationalCode;
 
 	public Integer getId() {
 		return id;
@@ -45,6 +48,15 @@ public class NationEO extends EntityObject {
 		this.internationalKey = internationalKey;
 	}
 	
+	
+	public String getInternationalCode() {
+		return internationalCode;
+	}
+
+	public void setInternationalCode(String internationalCode) {
+		this.internationalCode = internationalCode;
+	}
+
 	/*
 	 * setter if not empty
 	 */
@@ -57,7 +69,10 @@ public class NationEO extends EntityObject {
 
 	public void setInternationalKeyIfNotEmpty(String internationalKey) {
 		if(!isEmpty(internationalKey)) this.internationalKey = internationalKey;
-	}	
+	}
+	public void setInternationalCodeIfNotEmpty(String internationalCode) {
+		if(!isEmpty(internationalCode)) this.internationalCode = internationalCode;
+	}
 	
 	
 }
