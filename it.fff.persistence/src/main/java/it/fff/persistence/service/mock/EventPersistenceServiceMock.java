@@ -13,6 +13,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
+import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UserBO;
@@ -26,31 +27,33 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	@Override
 	public EventBO retrieveEvent(int eventId){
 		EventBO bo1 = new EventBO();
-		bo1.setId(1);
-		bo1.setTitolo("ev1");
-		bo1.setDescrizione("descr");
+		bo1.setId(eventId);
+		bo1.setTitolo("Evento mock");
+		bo1.setDescrizione("descrizione evento prova");
 		bo1.setDataInizio("2015-11-27_10-10-10");
 		bo1.setDurata(4);
 		
 		EventCategoryBO catBo1 = new EventCategoryBO();
-		catBo1.setId(1);
-		catBo1.setNome("cat");
-		catBo1.setDescrizione("descr cat1");
+		catBo1.setId(3);
+		catBo1.setNome("Arte e cultura");
+		catBo1.setDescrizione("Arte e cultura");
+		
 		bo1.setCategoria(catBo1);
 		
-		NationBO nazioneBo1 = new NationBO();
-		nazioneBo1.setId(1);
-		nazioneBo1.setInternationalKey("IT");
-		nazioneBo1.setNome("Italia");
+		NationBO nazioneBO1 = new NationBO();
+		nazioneBO1.setId(1);
+		nazioneBO1.setNome("Italia");
+		nazioneBO1.setInternationalKey("380");
+		nazioneBO1.setInternationalCode("ITA");
 		
 		CityBO cityBo1 = new CityBO();
 		cityBo1.setId(1);
 		cityBo1.setNome("Roma");
-		cityBo1.setNazione(nazioneBo1);
+		cityBo1.setNazione(nazioneBO1);
 		
 		PlaceBO placeBo1 = new PlaceBO();
 		placeBo1.setId(1);
-		placeBo1.setNome("place");
+		placeBo1.setNome("Luogo mock");
 		placeBo1.setGpsLat(1.234);
 		placeBo1.setGpsLong(2.345);
 		placeBo1.setVia("via 1");
@@ -60,11 +63,15 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		
 		bo1.setLocation(placeBo1);
 		
-		EventStateBO statoBo1 = new EventStateBO();
-		statoBo1.setId(2);
-		statoBo1.setNome("CANCELED");
-		statoBo1.setDescrizione("L'evento è cancellato");
-		bo1.setStato(statoBo1);
+		EventStateBO statoEventoBo1 = new EventStateBO();
+		statoEventoBo1.setId(1);
+		statoEventoBo1.setNome("Attivo");
+		statoEventoBo1.setDescrizione("EventState Attivo");
+		
+		bo1.setStato(statoEventoBo1);
+		
+		bo1.setMessages(new ArrayList<MessageBO>());
+		bo1.setPartecipazioni(new ArrayList<AttendanceBO>());
 		
 		return bo1;
 	}
@@ -135,15 +142,28 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	@Override
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws SQLException {
 		List<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
-		AttendanceBO a1 = new AttendanceBO();
-		a1.setValid(true);
-		a1.setNumPartecipanti(100);
+
+		AttendanceBO attendanceBO1 = new AttendanceBO();
+		attendanceBO1.setValid(true);
+		attendanceBO1.setNumPartecipanti(5);
+		attendanceBO1.setOrganizer(true);
 		
-		UserBO user = new UserBO();
-		user.setId(1);
-		a1.setUtente(user);
+		UserBO organizerUserBO1 = new UserPersistenceServiceMock().getUser(1);
+		attendanceBO1.setUtente(organizerUserBO1);
+		attendanceBO1.setEvent(this.retrieveEvent(1));
 		
-		attendances.add(a1);
+		AttendanceBO attendanceBO2 = new AttendanceBO();
+		attendanceBO2.setValid(true);
+		attendanceBO2.setNumPartecipanti(12);
+		attendanceBO2.setOrganizer(false);
+		
+		UserBO organizerUserBO2 = new UserPersistenceServiceMock().getUser(2);
+		attendanceBO2.setUtente(organizerUserBO2);
+		attendanceBO2.setEvent(this.retrieveEvent(2));
+		
+		
+		attendances.add(attendanceBO1);
+		attendances.add(attendanceBO2);
 		return attendances;
 	}
 
@@ -152,7 +172,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		List<EventBO> bos = new ArrayList<EventBO>();
 		EventBO bo1 = new EventBO();
 		bo1.setId(1);
-		bo1.setTitolo("ev1");
+		bo1.setTitolo("Evento mock1");
 		bo1.setDescrizione("descr");
 		bo1.setDataInizio("2015-11-27_10-10-10");
 		bo1.setDurata(4);
@@ -163,15 +183,16 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		catBo1.setDescrizione("descr cat1");
 		bo1.setCategoria(catBo1);
 		
-		NationBO nazioneBo1 = new NationBO();
-		nazioneBo1.setId(1);
-		nazioneBo1.setInternationalKey("IT");
-		nazioneBo1.setNome("Italia");
+		NationBO nazioneBO1 = new NationBO();
+		nazioneBO1.setId(1);
+		nazioneBO1.setNome("Italia");
+		nazioneBO1.setInternationalKey("380");
+		nazioneBO1.setInternationalCode("ITA");
 		
 		CityBO cityBo1 = new CityBO();
 		cityBo1.setId(1);
 		cityBo1.setNome("Roma");
-		cityBo1.setNazione(nazioneBo1);
+		cityBo1.setNazione(nazioneBO1);
 		
 		PlaceBO placeBo1 = new PlaceBO();
 		placeBo1.setId(1);
@@ -193,7 +214,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	
 		EventBO bo2 = new EventBO();
 		bo2.setId(2);
-		bo2.setTitolo("ev2");
+		bo2.setTitolo("Evento mock2");
 		bo2.setDescrizione("descr");
 		bo2.setDataInizio("2015-11-27_11-11-11");
 		bo2.setDurata(6);
@@ -204,15 +225,16 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		catbo2.setDescrizione("descr cat2");
 		bo2.setCategoria(catbo2);
 		
-		NationBO nazionebo2 = new NationBO();
-		nazionebo2.setId(2);
-		nazionebo2.setInternationalKey("JP");
-		nazionebo2.setNome("Giappone");
+		NationBO nationBO2 = new NationBO();
+		nationBO2.setId(3);
+		nationBO2.setNome("Francia");
+		nationBO2.setInternationalKey("250");
+		nationBO2.setInternationalCode("FRA");
 		
 		CityBO citybo2 = new CityBO();
 		citybo2.setId(2);
-		citybo2.setNome("Tokyo");
-		citybo2.setNazione(nazionebo2);
+		citybo2.setNome("Parigi");
+		citybo2.setNazione(nationBO2);
 		
 		PlaceBO placebo2 = new PlaceBO();
 		placebo2.setId(2);
@@ -244,31 +266,40 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 			int idCategoria, 
 			int minPartecipanti)	throws Exception {
 
-		List<EventBO> bos = new ArrayList<EventBO>();
-		EventBO bo1 = new EventBO();
-		bo1.setId(1);
-		bo1.setTitolo("ev1");
-		EventBO bo2 = new EventBO();
-		bo2.setId(2);
-		bo2.setTitolo("ev2");		
-		bos.add(bo1);
-		bos.add(bo2);
+		List<EventBO> bos = this.getEventsByUser(1);
 		
 		return bos;
 	}
 
 	@Override
 	public List<MessageBO> getEventMessages(int eventId) throws SQLException {
-		List<MessageBO> bos = new ArrayList<MessageBO>();
-		MessageBO bo1 = new MessageBO();
-		bo1.setId(1);
-		bo1.setText("aaaaaaaaaaaaa");
-		MessageBO bo2 = new MessageBO();
-		bo2.setId(2);
-		bo2.setText("bbbbbbbbbbbbb");		
-		bos.add(bo1);
-		bos.add(bo2);
-		return bos;
+		List<MessageBO> messagesBO = new ArrayList<MessageBO>();
+		MessageBO messageBO1 = new MessageBO();
+		messageBO1.setId(1);
+		messageBO1.setText("Testo messaggio mock 1");
+		messageBO1.setDataCreazione("1998-01-01");
+		messageBO1.setMsgStd(null);
+		messageBO1.setAttendance(null);
+		messageBO1.setEvent(null);
+		
+		MessageBO messageBO2 = new MessageBO();
+		messageBO2.setId(2);
+		messageBO2.setText("");
+		messageBO2.setDataCreazione("1999-01-01");
+		
+		MessageStandardBO msgstdbo1 = new MessageStandardBO();
+		msgstdbo1.setId(1);
+		msgstdbo1.setText("Non vi vedo, dove state?");
+		
+		messageBO2.setMsgStd(msgstdbo1);
+		messageBO2.setAttendance(null);
+		messageBO2.setEvent(null);
+		
+		
+		messagesBO.add(messageBO1);
+		messagesBO.add(messageBO2);
+		
+		return messagesBO;
 	}
 
 }

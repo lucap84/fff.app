@@ -42,13 +42,15 @@ public class EventService extends ApplicationService{
 	@GET
 	@Path("{eventId}/messages/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MessageDTO> getEventMessagesJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public List<MessageDTO> getEventMessagesJSON(@Context HttpServletRequest request, 
+												 @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEventMessages(request, eventId);
 	}
 	@GET
 	@Path("{eventId}/messages/xml")
 	@Produces(MediaType.APPLICATION_XML)
-	public List<MessageDTO> getEventMessagesXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId) throws BusinessException {
+	public List<MessageDTO> getEventMessagesXML(@Context HttpServletRequest request, 
+												@PathParam("eventId") String eventId) throws BusinessException {
 		return this.getEventMessages(request, eventId);
 	}	
 	
@@ -63,7 +65,9 @@ public class EventService extends ApplicationService{
 	@Path("{eventId}/attendances/{attendanceId}/messages/standard/{sdtMsgId}/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO postEventStandardMessageXML(@Context HttpServletRequest request,@PathParam("attendanceId") String attendanceId, @PathParam("sdtMsgId") String sdtMsgId) throws BusinessException {
+	public WriteResultDTO postEventStandardMessageXML(	@Context HttpServletRequest request,
+														@PathParam("attendanceId") String attendanceId, 
+														@PathParam("sdtMsgId") String sdtMsgId) throws BusinessException {
 		return postEventStandardMessage(request, attendanceId, sdtMsgId);
 	}	
 	
@@ -71,14 +75,18 @@ public class EventService extends ApplicationService{
 	@Path("{eventId}/attendances/{attendanceId}/messages/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO postEventMessageJSON(@Context HttpServletRequest request, @PathParam("attendanceId") String attendanceId, String message) throws BusinessException {
+	public WriteResultDTO postEventMessageJSON( @Context HttpServletRequest request, 
+												@PathParam("attendanceId") String attendanceId, 
+												String message) throws BusinessException {
 		return postEventMessage(request, attendanceId, message);
 	}	
 	@POST
 	@Path("{eventId}/attendances/{attendanceId}/messages/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO postEventMessageXML(@Context HttpServletRequest request, @PathParam("attendanceId") String attendanceId, String message) throws BusinessException {
+	public WriteResultDTO postEventMessageXML(	@Context HttpServletRequest request,
+												@PathParam("attendanceId") String attendanceId, 
+												String message) throws BusinessException {
 		return postEventMessage(request, attendanceId, message);
 	}	
 	
@@ -98,14 +106,14 @@ public class EventService extends ApplicationService{
 	}	
 	
 	@POST
-	@Path("{eventID}/attendances/{attendanceId}/feedback/json")
+	@Path("{eventId}/attendances/{attendanceId}/feedback/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public WriteResultDTO addFeedbackJSON(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
 		return addFeedback(request, attendance);
 	}	
 	@POST
-	@Path("{eventID}/attendances/{attendanceId}/feedback/xml")
+	@Path("{eventId}/attendances/{attendanceId}/feedback/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	public WriteResultDTO addFeedbackXML(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
@@ -162,14 +170,14 @@ public class EventService extends ApplicationService{
 	}	
 	
 	@GET
-	@Path("{eventId}/attendaces/json")
+	@Path("{eventId}/attendances/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AttendanceDTO> getAttendancesByEventJSON(@Context HttpServletRequest request, 
 														 @PathParam("eventId") String eventId) throws BusinessException {
 		return this.getAttendancesByEvent(request, eventId);
 	}
 	@GET
-	@Path("{eventId}/attendaces/xml")
+	@Path("{eventId}/attendances/xml")
 	@Produces(MediaType.APPLICATION_XML)
 	public List<AttendanceDTO> getAttendancesByEventXML(@Context HttpServletRequest request, 
 														@PathParam("eventId") String eventId) throws BusinessException {

@@ -1,6 +1,7 @@
 package it.fff.business.service.wsrest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -112,7 +113,7 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_XML)
 	public WriteResultDTO updatePasswordCodeXML(@Context HttpServletRequest request,
 												UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
-return updatePassword(request,updatePasswordDTO);
+		return updatePassword(request,updatePasswordDTO);
 }	
 	
 	@PUT
@@ -164,7 +165,11 @@ return updatePassword(request,updatePasswordDTO);
 		AuthDataResponseDTO resultDTO = null;
 		resultDTO = new AuthDataResponseDTO();
 
-		String deviceId = headers.getRequestHeader("Device").get(0);
+		String deviceId = null;
+		List<String> devicesHeader = headers.getRequestHeader("Device");
+		if(devicesHeader!=null && devicesHeader.size()>0){
+			deviceId = devicesHeader.get(0);
+		}
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
@@ -189,7 +194,11 @@ return updatePassword(request,updatePasswordDTO);
 	
 	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, SessionDTO sessionToCreate) {
 		AuthDataResponseDTO resultDTO;
-		String deviceId = headers.getRequestHeader("Device").get(0);
+		String deviceId = null;
+		List<String> devicesHeader = headers.getRequestHeader("Device");
+		if(devicesHeader!=null && devicesHeader.size()>0){
+			deviceId = devicesHeader.get(0);
+		}
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
@@ -214,7 +223,11 @@ return updatePassword(request,updatePasswordDTO);
 	
 	private WriteResultDTO logout(HttpServletRequest request, HttpHeaders headers, String userId) {
 		WriteResultDTO resultDTO;
-		String deviceId = headers.getRequestHeader("Device").get(0);
+		String deviceId = null;
+		List<String> devicesHeader = headers.getRequestHeader("Device");
+		if(devicesHeader!=null && devicesHeader.size()>0){
+			deviceId = devicesHeader.get(0);
+		}
 		try {
 			resultDTO = businessServiceFacade.logout(userId, deviceId);
 		} catch (BusinessException e) {

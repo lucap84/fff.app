@@ -1,0 +1,2630 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 14">
+<meta name=Originator content="Microsoft Word 14">
+<link rel=File-List href="REST_APIs_files/filelist.xml">
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Luca</o:Author>
+  <o:LastAuthor>Luca</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>3</o:TotalTime>
+  <o:Created>2015-12-06T18:57:00Z</o:Created>
+  <o:LastSaved>2015-12-06T18:57:00Z</o:LastSaved>
+  <o:Pages>6</o:Pages>
+  <o:Words>714</o:Words>
+  <o:Characters>4075</o:Characters>
+  <o:Lines>33</o:Lines>
+  <o:Paragraphs>9</o:Paragraphs>
+  <o:CharactersWithSpaces>4780</o:CharactersWithSpaces>
+  <o:Version>14.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="REST_APIs_files/themedata.thmx">
+<link rel=colorSchemeMapping href="REST_APIs_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:HyphenationZone>14</w:HyphenationZone>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>IT</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:EnableOpenTypeKerning/>
+   <w:DontFlipMirrorIndents/>
+   <w:OverrideTableStyleHps/>
+  </w:Compatibility>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1073786111 1 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-520092929 1073806591 9 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+.MsoPapDefault
+	{mso-style-type:export-only;
+	margin-bottom:10.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 2.0cm 2.0cm 2.0cm;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1434545915;
+	mso-list-template-ids:-1273305080;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-ansi-font-weight:bold;}
+@list l0:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	color:windowtext;}
+@list l0:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l0:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l0:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l0:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l0:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l0:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l0:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin-top:0cm;
+	mso-para-margin-right:0cm;
+	mso-para-margin-bottom:10.0pt;
+	mso-para-margin-left:0cm;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-fareast-language:EN-US;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=IT style='tab-interval:35.4pt'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><i style='mso-bidi-font-style:normal'><u><span style='font-size:20.0pt;
+line-height:115%'>REST APIs<o:p></o:p></span></u></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><i style='mso-bidi-font-style:
+normal'><span style='font-size:12.0pt;line-height:115%'>Suffissi per formato
+output:</span></i><b style='mso-bidi-font-weight:normal'><span
+style='font-size:12.0pt;line-height:115%'> </span></b><span style='font-size:
+10.0pt;line-height:115%;font-family:Consolas'>/xml, /json</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'><o:p></o:p></span></b></p>
+
+<p class=MsoListParagraphCxSpFirst style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><a name=createUser><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;line-height:
+115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><u><span
+style='font-size:16.0pt;line-height:115%'>Security Services:<o:p></o:p></span></u></b></a></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><span style='mso-bookmark:
+createUser'><![if !supportLists]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></b><![endif]><span
+style='font-size:14.0pt;line-height:115%;font-family:"Courier New";background:
+lightgrey;mso-highlight:lightgrey'>registerUser()</span></span><span
+style='mso-bookmark:createUser'><b style='mso-bidi-font-weight:normal'><u><span
+style='font-size:14.0pt;line-height:115%'><o:p></o:p></span></u></b></span></p>
+
+<span style='mso-bookmark:createUser'></span>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>REST:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>   </span></span><b><span style='font-size:12.0pt;
+line-height:115%;mso-bidi-font-family:Arial'>POST<span style='mso-tab-count:
+1'>   </span> </span></b><span lang=EN-US style='font-size:12.0pt;line-height:
+115%;font-family:Consolas;mso-ansi-language:EN-US'>/security/registration</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>RegistrationDataRequestDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>AuthDataResponseDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-tab-count:1'>   </span>Crea un account per l’utente, eseguendo
+l’algoritmo Diffie-Hellman per registrare il device per i prossimi accessi.
+Ritorna esito, ID oggetto creato e chiave pubblica del server.<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>login()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:Consolas'>/security/login</span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.2.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>SessionDTO</span><span style='font-size:12.0pt;
+line-height:115%'>;<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.2.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>Header(&quot;Device&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>AuthDataResponseDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.2.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>logout()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.3.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/security/{userId}/logout/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.3.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.3.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>Header(&quot;Device&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.3.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.3.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:Consolas'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.3.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>sendVerificationCode()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.4.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/security/{email}/verificationcode/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.4.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.4.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;email&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.4.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.4.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>checkVerificationCode()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.5.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>PUT</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/security/{email}/verificationcode/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.5.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.5.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;email&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.5.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>String verificationcode</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.5.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.5.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.6.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>updatePassword()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.6.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>PUT</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/security/{email}/password</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.6.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Parameters:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.6.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>UpdatePasswordDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.6.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Output:<span style='mso-tab-count:
+1'>           </span></span><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>WriteResultDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.6.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.0pt;
+line-height:115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></b><![endif]><b
+style='mso-bidi-font-weight:normal'><u><span lang=EN-US style='font-size:16.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Event Services:<o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>createEvent()</span><u><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></u></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.1.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.1.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>EventDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>cancelEvent()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>DELETE<span
+style='mso-tab-count:1'>           </span></b><span style='mso-tab-count:1'>            </span></span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;font-family:Consolas;
+mso-ansi-language:EN-US'>/events/{eventId}</span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.2.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.2.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>joinEvent()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.3.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events/{eventId}/attendances</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.3.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.3.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>AttendanceDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.3.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.3.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><i
+style='mso-bidi-font-style:normal'><span style='font-size:8.0pt;line-height:
+115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span
+style='mso-list:Ignore'>2.4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></i><![endif]><span style='font-size:14.0pt;line-height:
+115%;font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>searchEvents()</span><i
+style='mso-bidi-font-style:normal'><u><span style='font-size:14.0pt;line-height:
+115%'><o:p></o:p></span></u></i></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.4.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>QueryParam(&quot;gpsLat&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>QueryParam(&quot;gpsLong&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>QueryParam(&quot;idCategoria&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.2.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>QueryParam(&quot;partecipanti&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;EventDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'> <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.4.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getEvent()</span><u><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></u></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><i
+style='mso-bidi-font-style:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>2.5.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></i><![endif]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'><i
+style='mso-bidi-font-style:normal'>GET</i></b><i style='mso-bidi-font-style:
+normal'><span style='mso-tab-count:1'>     </span></i></span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:
+EN-US'>/events/{eventId}</span><i style='mso-bidi-font-style:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></i></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.5.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.5.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.5.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>EventDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.5.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.6.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAttendancesByEvent()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.6.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events/{eventId}/attendances</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.6.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.6.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.6.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;AttendanceDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.6.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.7.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>addFeedback()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.7.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;font-family:"Courier New";
+mso-ansi-language:EN-US'>{eventId}/attendances/{attendanceId}/feedback</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.7.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.7.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>AttendanceDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.7.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'>;<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.7.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.8.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>cancelAttendance()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.8.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>DELETE<span
+style='mso-tab-count:1'>           </span></b></span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:
+EN-US'>/events/{eventId}/attendances/{attendanceId}</span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.8.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.8.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.8.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;attendanceId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.8.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.8.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>postEventMessage()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>events/{eventId}/attendances/{attendanceId}/messages</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>Parameters:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New";mso-ansi-language:EN-US'>PathParam(&quot;attendanceId&quot;)</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.2.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New";mso-ansi-language:EN-US'>String
+message</span><span lang=EN-US style='font-size:12.0pt;line-height:115%;
+mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Output:<span style='mso-tab-count:
+1'>           </span></span><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New";mso-ansi-language:EN-US'>WriteResultDTO</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.9.4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>Descrizione</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:14.0pt;
+line-height:115%;font-family:"Courier New";background:lightgrey;mso-highlight:
+lightgrey;mso-ansi-language:EN-US'>postEventStandardMessage()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.1.<span style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b></span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;font-family:Consolas;
+mso-ansi-language:EN-US'>
+events/{eventId}/attendances/{attendanceId}/messages/standard/{sdtMsgId}</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.2.<span style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Parameters:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New";mso-ansi-language:EN-US'>PathParam(&quot;attendanceId&quot;)</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.2.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New";mso-ansi-language:EN-US'>PathParam(&quot;sdtMsgId&quot;)</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.3.<span style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>Output:<span
+style='mso-tab-count:1'>           </span></span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;font-family:"Courier New";mso-ansi-language:
+EN-US'>WriteResultDTO</span><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.10.4.<span style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Descrizione</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.11.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getEventMessages()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>2.11.1.<span style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/events/{eventId}/messages</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.11.2.<span
+style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.11.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%;font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.11.3.<span
+style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Output:<span style='mso-tab-count:
+1'>           </span></span><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>List&lt;MessageDTO&gt;</span><span style='font-size:
+12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.11.4.<span
+style='font:7.0pt "Times New Roman"'> </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>2.12.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;line-height:
+115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><u><span
+style='font-size:16.0pt;line-height:115%'>User Services:<o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:14.0pt;line-height:115%;font-family:"Courier New";background:
+lightgrey;mso-highlight:lightgrey'>getUser()</span><u><span style='font-size:
+14.0pt;line-height:115%'><o:p></o:p></span></u></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.1.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/users/{userId}</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.1.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>UserDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>setCurrentPosition()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/users/{userId}/events/{eventId}/position</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;eventId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PlaceDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.2.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getEventsByUser()</span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;line-height:
+115%;mso-ansi-language:EN-US'> </span></b><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.3.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/users/{userdId}/events/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.3.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.3.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.3.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;EventDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.3.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:
+eventi a cui l’utente ha partecipato come organizzatore oppure come semplice
+partecipante, ordinati in modo decrescente (più recente per primo)<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>updateUserData()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.4.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>PUT</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/users/{userId}/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.4.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.4.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>UserDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.4.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.4.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>updateProfileImage()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.5.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/users/</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;font-family:"Courier New";
+mso-ansi-language:EN-US'>{userId}/images</span><span lang=EN-US
+style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>FormDataParam(&quot;file&quot;) InputStream</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>FormDataParam(&quot;file&quot;)
+FormDataContentDisposition</span><span style='font-size:12.0pt;line-height:
+115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>3.5.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;line-height:
+115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><u><span
+style='font-size:16.0pt;line-height:115%'>Place Services:<o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:8.0pt;line-height:
+115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span
+style='mso-list:Ignore'>4.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></b><![endif]><span style='font-size:14.0pt;line-height:
+115%;font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getPlacesByDescription()</span><b
+style='mso-bidi-font-weight:normal'><u><span style='font-size:14.0pt;
+line-height:115%'><o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>4.1.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>REST:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/places/</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>4.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>4.1.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>QueryParam(&quot;description&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>4.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;PlaceDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>4.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.0pt;
+line-height:115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>5.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></b><![endif]><b
+style='mso-bidi-font-weight:normal'><u><span lang=EN-US style='font-size:16.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Premium Services:<o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>5.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>upgradeToPremium()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>5.1.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>POST</b><span
+style='mso-tab-count:1'>   </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/premium/subscriptions/{userId}</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>5.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters:</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>5.1.2.1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>PathParam(&quot;userId&quot;)</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:86.4pt;mso-add-space:
+auto;text-indent:-32.4pt;mso-list:l0 level4 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>5.1.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>SubscriptionDTO</span><span style='font-size:12.0pt;
+line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>5.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Output:</span><span style='font-size:
+12.0pt;line-height:115%;font-family:"Courier New"'> WriteResultDTO</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>5.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>: <o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.0pt;
+line-height:115%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>6.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></b><![endif]><b
+style='mso-bidi-font-weight:normal'><u><span lang=EN-US style='font-size:16.0pt;
+line-height:115%;mso-ansi-language:EN-US'>Typological Services:<o:p></o:p></span></u></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllLanguages()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.1.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/languages</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.1.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.1.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;MessageDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.1.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllSubscriptionTypes()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.2.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/subscriptionTypes</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.2.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.2.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;SubscriptionTypeDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.2.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllAchievementTypes()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.3.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/achievementTypes</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.3.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Parameters: N/A<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.3.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Output:<span style='mso-tab-count:
+1'>           </span></span><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>List&lt;AchievementTypeDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.3.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllStandardMessages()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.4.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/standardMessages</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.4.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.4.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;MessageStandardDTO &gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.4.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllAttendanceStates()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.5.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/attendanceStates</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.5.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.5.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+style='font-size:12.0pt;line-height:115%'>Output:<span style='mso-tab-count:
+1'>           </span></span><span style='font-size:12.0pt;line-height:115%;
+font-family:"Courier New"'>List&lt;AttendanceStateDTO &gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.5.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.6.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllEventStates()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.6.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/eventStates</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.6.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.6.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;EventStateDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.6.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.7.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllEventCategories()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.7.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/eventCategories</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.7.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.7.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;EventCategoryDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.7.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:39.6pt;mso-add-space:
+auto;text-indent:-21.6pt;mso-list:l0 level2 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:8.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.8.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style='font-size:14.0pt;line-height:115%;
+font-family:"Courier New";background:lightgrey;mso-highlight:lightgrey'>getAllNations()</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>6.8.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'>REST:</span></b><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><span
+style='mso-tab-count:1'>   </span><b style='mso-bidi-font-weight:normal'>GET</b><span
+style='mso-tab-count:1'>     </span></span><span lang=EN-US style='font-size:
+12.0pt;line-height:115%;font-family:Consolas;mso-ansi-language:EN-US'>/typological/nations</span><span
+lang=EN-US style='font-size:12.0pt;line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.8.2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Parameters: N/A</span></b><span style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:61.2pt;mso-add-space:
+auto;text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.8.3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Output:</span></b><span style='font-size:12.0pt;line-height:115%'><span
+style='mso-tab-count:1'>          </span></span><span style='font-size:12.0pt;
+line-height:115%;font-family:"Courier New"'>List&lt;NationDTO&gt;</span><span
+style='font-size:12.0pt;line-height:115%'><o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:61.2pt;mso-add-space:auto;
+text-indent:-25.2pt;mso-list:l0 level3 lfo1'><![if !supportLists]><span
+style='font-size:12.0pt;line-height:115%;mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>6.8.4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:12.0pt;line-height:
+115%'>Descrizione</span></b><span style='font-size:12.0pt;line-height:115%'>:<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:12.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

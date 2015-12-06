@@ -11,7 +11,7 @@ public class PremiumPersistenceServiceMock implements PremiumPersistenceService 
 	@Override
 	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO bo) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;

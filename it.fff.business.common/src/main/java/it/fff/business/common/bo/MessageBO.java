@@ -2,9 +2,13 @@ package it.fff.business.common.bo;
 
 public class MessageBO {
 
-	private int id;
+	private int	id;
 	private String text;
-	private boolean isStandard;
+	private String dataCreazione;
+	private EventBO event;
+	private AttendanceBO attendance;
+	private MessageStandardBO msgStd;
+	
 	public int getId() {
 		return id;
 	}
@@ -17,11 +21,29 @@ public class MessageBO {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public boolean isStandard() {
-		return isStandard;
+	public String getDataCreazione() {
+		return dataCreazione;
 	}
-	public void setStandard(boolean isStandard) {
-		this.isStandard = isStandard;
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+	public EventBO getEvent() {
+		return event;
+	}
+	public void setEvent(EventBO event) {
+		this.event = event;
+	}
+	public AttendanceBO getAttendance() {
+		return attendance;
+	}
+	public void setAttendance(AttendanceBO attendance) {
+		this.attendance = attendance;
+	}
+	public MessageStandardBO getMsgStd() {
+		return msgStd;
+	}
+	public void setMsgStd(MessageStandardBO msgStd) {
+		this.msgStd = msgStd;
 	}
 
 	
