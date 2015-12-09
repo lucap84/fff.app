@@ -8,11 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
@@ -22,7 +20,6 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
-import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.AchievementTypeMapper;
@@ -53,6 +50,8 @@ import it.fff.business.service.TypologicalBusinessService;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.util.BusinessServiceProvider;
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.persistence.facade.exception.PersistenceException;
 
 public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
@@ -639,10 +638,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public List<AttendanceStateDTO> getAllAttendanceStates() throws BusinessException {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws BusinessException {
 		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
-		List<AttendanceStateDTO> dtos = null;
-		List<AttendanceStateBO> bos = null;
+		List<AttendanceStateEnum> dtos = null;
+		List<AttendanceStateEnum> bos = null;
 		try {
 			bos = typologicalBusinessService.getAllAttendanceStates();
 		}
@@ -655,10 +654,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public List<EventStateDTO> getAllEventStates() throws BusinessException {
+	public List<EventStateEnum> getAllEventStates() throws BusinessException {
 		TypologicalBusinessService typologicalBusinessService = (TypologicalBusinessService)BusinessServiceProvider.getBusinessService("typologicalBusinessService");
-		List<EventStateDTO> dtos = null;
-		List<EventStateBO> bos = null;
+		List<EventStateEnum> dtos = null;
+		List<EventStateEnum> bos = null;
 		try {
 			bos = typologicalBusinessService.getAllEventStates();
 		}

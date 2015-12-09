@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.clientserver.common.dto.EventDTO;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
 public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	
@@ -47,8 +48,7 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			bo.setDurata(Integer.valueOf(dto.getDurata()));
 			bo.setDataInizio(dto.getDataInizio());
 			
-			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
-			bo.setStato(eventStateMapper.mapDTO2BO(dto.getStato()));
+			bo.setStato(dto.getStato());
 			
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			bo.setLocation(placeMapper.mapDTO2BO(dto.getLocation()));
@@ -88,6 +88,9 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			eo.setCategoria(eventCategoryMapper.mergeBO2EO(bo.getCategoria(),eo.getCategoria()));
+			
+			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
+			eo.setStato(eventStateMapper.mergeBO2EO(bo.getStato(), eo.getStato()));
 			
 		}
 		return eo;
@@ -153,8 +156,7 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			dto.setDurata(String.valueOf(bo.getDurata()));
 			dto.setDataInizio(bo.getDataInizio());
 			
-			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
-			dto.setStato(eventStateMapper.mapBO2DTO(bo.getStato()));
+			dto.setStato(bo.getStato());
 			
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			dto.setLocation(placeMapper.mapBO2DTO(bo.getLocation()));

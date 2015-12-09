@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.AchievementTypeBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
+import it.fff.business.common.eo.AttendanceStateEO;
+import it.fff.business.common.eo.EventStateEO;
 import it.fff.persistence.service.TypologicalPersistenceService;
 
 public class TypologicalPersistenceServiceMock implements TypologicalPersistenceService{
@@ -54,60 +54,61 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<EventStateBO> getAllEventStates() throws Exception {
-		List<EventStateBO> bos = new ArrayList<EventStateBO>();
-		EventStateBO bo1 = new EventStateBO();
-		bo1.setId(1);
-		bo1.setNome("Attivo");
-		bo1.setDescrizione("EventState Attivo");
+	public List<EventStateEO> getAllEventStates() throws Exception {
 		
-		EventStateBO bo2 = new EventStateBO();
-		bo2.setId(2);
-		bo2.setNome("In corso");
-		bo2.setDescrizione("EventState In corso");
+		List<EventStateEO> eos = new ArrayList<EventStateEO>();
+		EventStateEO eo1 = new EventStateEO();
+		eo1.setId(1);
+		eo1.setNome("ACTIVE");
+		eo1.setDescrizione("EventState Attivo");
+		
+		EventStateEO eo2 = new EventStateEO();
+		eo2.setId(2);
+		eo2.setNome("ONGOING");
+		eo2.setDescrizione("EventState In corso");
 
-		EventStateBO bo3 = new EventStateBO();
-		bo3.setId(3);
-		bo3.setNome("Terminato");
-		bo3.setDescrizione("EventState Terminato");
+		EventStateEO eo3 = new EventStateEO();
+		eo3.setId(3);
+		eo3.setNome("FINISHED");
+		eo3.setDescrizione("EventState Terminato");
 		
-		EventStateBO bo4 = new EventStateBO();
-		bo4.setId(4);
-		bo4.setNome("Annullato");
-		bo4.setDescrizione("EventState annullato");
+		EventStateEO eo4 = new EventStateEO();
+		eo4.setId(4);
+		eo4.setNome("CANCELED");
+		eo4.setDescrizione("EventState annullato");
 		
-		bos.add(bo1);
-		bos.add(bo2);
-		bos.add(bo3);
-		bos.add(bo4);
+		eos.add(eo1);
+		eos.add(eo2);
+		eos.add(eo3);
+		eos.add(eo4);
 		
-		return bos;
+		return eos;
 	}
 
 	@Override
-	public List<AttendanceStateBO> getAllAttendanceStates() throws Exception {
-		List<AttendanceStateBO> bos = new ArrayList<AttendanceStateBO>();
+	public List<AttendanceStateEO> getAllAttendanceStates() throws Exception {
+		List<AttendanceStateEO> eos = new ArrayList<AttendanceStateEO>();
 		
-		AttendanceStateBO bo1 = new AttendanceStateBO();
-		bo1.setId(1);
-		bo1.setNome("Rosso");
-		bo1.setDescrizione("Non rilevabile");	
+		AttendanceStateEO eo1 = new AttendanceStateEO();
+		eo1.setId(1);
+		eo1.setNome("UNDETECTED");
+		eo1.setDescrizione("Non rilevabile");	
 		
-		AttendanceStateBO bo2 = new AttendanceStateBO();
-		bo2.setId(2);
-		bo2.setNome("Giallo");
-		bo2.setDescrizione("Posizione non coincidente a quella dell’evento");	
+		AttendanceStateEO eo2 = new AttendanceStateEO();
+		eo2.setId(2);
+		eo2.setNome("OUTPLACE");
+		eo2.setDescrizione("Posizione non coincidente a quella dell’evento");	
 		
-		AttendanceStateBO bo3 = new AttendanceStateBO();
-		bo3.setId(3);
-		bo3.setNome("Verde");
-		bo3.setDescrizione("L’utente è situato nel luogo dell’evento");	
+		AttendanceStateEO eo3 = new AttendanceStateEO();
+		eo3.setId(3);
+		eo3.setNome("INPLACE");
+		eo3.setDescrizione("L’utente è situato nel luogo dell’evento");	
 		
-		bos.add(bo1);
-		bos.add(bo2);
-		bos.add(bo3);
+		eos.add(eo1);
+		eos.add(eo2);
+		eos.add(eo3);
 		
-		return bos;
+		return eos;
 	}
 
 	@Override

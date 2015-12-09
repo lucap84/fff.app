@@ -8,10 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import it.fff.business.common.bo.AchievementTypeBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
@@ -35,6 +33,7 @@ import it.fff.business.common.mapper.LanguageMapper;
 import it.fff.business.common.mapper.MessageStandardMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.SubscriptionTypeMapper;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.persistence.service.TypologicalPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -64,8 +63,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<EventStateBO> getAllEventStates() throws Exception {
-		List<EventStateBO> bos = null;
+	public List<EventStateEO> getAllEventStates() throws Exception {
+		List<EventStateEO> eos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -73,9 +72,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 			String hqlSelect = "FROM EventStateEO";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	
-	    	List<EventStateEO> eos = query.list();
-	    	
-	    	bos = EventStateMapper.getInstance().mapEOs2BOs(eos);
+	    	eos = query.list();
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -83,22 +80,19 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	     }finally {
 	        session.close(); 
 	     }
-		return bos;
+		return eos;
 	}
 
 	@Override
-	public List<AttendanceStateBO> getAllAttendanceStates() throws Exception {
-		List<AttendanceStateBO> bos = null;
-
+	public List<AttendanceStateEO> getAllAttendanceStates() throws Exception {
+		List<AttendanceStateEO> eos = null;
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
 			String hqlSelect = "FROM AttendanceStateEO";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	
-	    	List<AttendanceStateEO> eos = query.list();
-	    	
-	    	bos = AttendanceStateMapper.getInstance().mapEOs2BOs(eos);
+	    	eos = query.list();
 	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
@@ -106,7 +100,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	     }finally {
 	        session.close(); 
 	     }
-		return bos;
+		return eos;
 	}
 
 	@Override

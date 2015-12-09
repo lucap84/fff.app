@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.AttendanceStateEO;
+import it.fff.business.common.eo.EventStateEO;
 import it.fff.clientserver.common.dto.AttendanceDTO;
-import it.fff.clientserver.common.dto.AttendanceStateDTO;
 import it.fff.clientserver.common.dto.LanguageDTO;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
-public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,AttendanceStateBO,AttendanceStateEO>{
+public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,AttendanceStateEnum,AttendanceStateEO>{
 
 	private static AttendanceStateMapper mapper;
 	
@@ -29,40 +30,40 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 	
 	
 	@Override
-	public List<AttendanceStateBO> mapDTOs2BOs(List<AttendanceStateDTO> dtos) {
+	public List<AttendanceStateEnum> mapDTOs2BOs(List<AttendanceStateEnum> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AttendanceStateBO mapDTO2BO(AttendanceStateDTO dto) {
-		// TODO Auto-generated method stub
+	public AttendanceStateEnum mapDTO2BO(AttendanceStateEnum dto) {
+		if(dto==null){
+			return AttendanceStateEnum.UNKNOW;
+		}
+		return dto;
+	}
+
+	@Override
+	public List<AttendanceStateEO> mergeBOs2EOs(List<AttendanceStateEnum> bos, List<AttendanceStateEO> eso) {
 		return null;
 	}
 
 	@Override
-	public List<AttendanceStateEO> mergeBOs2EOs(List<AttendanceStateBO> bos, List<AttendanceStateEO> eso) {
-		return null;
-	}
-
-	@Override
-	public AttendanceStateEO mergeBO2EO(AttendanceStateBO bo, AttendanceStateEO eo) {
-		if(bo!=null){
+	public AttendanceStateEO mergeBO2EO(AttendanceStateEnum bo, AttendanceStateEO eo) {
+		if(bo!=null && bo!=AttendanceStateEnum.UNKNOW){
 			if(eo==null){
 				eo = new AttendanceStateEO();
 			}
-			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setDescrizioneIfNotEmpty(bo.getDescrizione());
+			eo.setNome(bo.name());
 		}
 		return eo;
 	}
 
 	@Override
-	public List<AttendanceStateBO> mapEOs2BOs(List<AttendanceStateEO> eos) {
-		List<AttendanceStateBO> bos = null;
+	public List<AttendanceStateEnum> mapEOs2BOs(List<AttendanceStateEO> eos) {
+		List<AttendanceStateEnum> bos = null;
 		if(eos!=null){
-			 bos = new ArrayList<AttendanceStateBO>();
+			 bos = new ArrayList<AttendanceStateEnum>();
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
 			for (AttendanceStateEO eo : eos) {
 				bos.add(attendanceStateMapper.mapEO2BO(eo));
@@ -72,24 +73,24 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 	}
 
 	@Override
-	public AttendanceStateBO mapEO2BO(AttendanceStateEO eo) {
-		AttendanceStateBO bo = null;
+	public AttendanceStateEnum mapEO2BO(AttendanceStateEO eo) {
+		AttendanceStateEnum bo = AttendanceStateEnum.UNKNOW;
 		if(eo!=null){
-			bo = new AttendanceStateBO();
-			bo.setId(eo.getId());
-			bo.setNome(eo.getNome());
-			bo.setDescrizione(eo.getDescrizione());
+			bo = AttendanceStateEnum.valueOf(eo.getNome());
+		}
+		else{
+			bo = AttendanceStateEnum.UNKNOW;
 		}
 		return bo;
 	}
 
 	@Override
-	public List<AttendanceStateDTO> mapBOs2DTOs(List<AttendanceStateBO> bos) {
-		List<AttendanceStateDTO> dtos = null;
+	public List<AttendanceStateEnum> mapBOs2DTOs(List<AttendanceStateEnum> bos) {
+		List<AttendanceStateEnum> dtos = null;
 		if(bos!=null){
-			dtos = new ArrayList<AttendanceStateDTO>();
+			dtos = new ArrayList<AttendanceStateEnum>();
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
-			for (AttendanceStateBO bo : bos) {
+			for (AttendanceStateEnum bo : bos) {
 				dtos.add(attendanceStateMapper.mapBO2DTO(bo));
 			}
 		}
@@ -97,17 +98,11 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateDTO,Attendan
 	}
 
 	@Override
-	public AttendanceStateDTO mapBO2DTO(AttendanceStateBO bo) {
-		AttendanceStateDTO dto = null;
-		if(bo!=null){
-			dto = new AttendanceStateDTO();
-			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
-			}
-			dto.setNome(bo.getNome());
-			dto.setDescrizione(bo.getDescrizione());
+	public AttendanceStateEnum mapBO2DTO(AttendanceStateEnum bo) {
+		if(bo==null){
+			return AttendanceStateEnum.UNKNOW;
 		}
-		return dto;
+		return bo;
 	}
 
 }

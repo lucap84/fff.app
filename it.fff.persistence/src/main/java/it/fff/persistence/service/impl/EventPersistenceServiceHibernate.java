@@ -1,6 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,14 +14,11 @@ import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
-import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.EventMapper;
-import it.fff.business.common.mapper.UserMapper;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -64,39 +60,20 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Transaction tx = null;
 	    try{
 	    	String hqlSelectOrganizerAttendance = "FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1";
 	    	Query querySelectOrganizerAttendance = session.createQuery(hqlSelectOrganizerAttendance);
 	    	querySelectOrganizerAttendance.setParameter("eventId", eventId);
 	    	querySelectOrganizerAttendance.setParameter("organizerId", organizerId);
 	    	
-	    	tx = session.beginTransaction();
-
 	    	AttendanceEO organizerAttendance =(AttendanceEO)querySelectOrganizerAttendance.uniqueResult();
 	    	if(organizerAttendance==null){
 	    		throw new HibernateException("Evento dell organizzatore da annullare non trovato");
 	    	}
-	    	//TODO suppongo che ID stato annullato == 1
-	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = 1  WHERE id=:eventId";	    	  
 
-			Query queryUpdateEvent = session.createQuery(hqlUpdateEvent);
-			queryUpdateEvent.setParameter("eventId", eventId);
-			
-			int recordUpdated = queryUpdateEvent.executeUpdate();
-			
-			tx.commit();
-			
-			result.setAffectedRecords(recordUpdated);
-			if(recordUpdated>0){
-				result.setWrittenKey(eventId);
-				result.setSuccess(true);
-			}else{
-				result.setSuccess(false);
-			}
+	    	result = this.updateEventState(eventId, EventStateEnum.CANCELED);
 			
 	    }catch (HibernateException e) {
-	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
 	        throw new Exception("HibernateException during cancelEvent() ",e);
 	    }finally {
@@ -228,6 +205,48 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	public List<MessageBO> getEventMessages(int eventId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception {
+		logger.info("modifico stato evento...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+
+	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(state);
+	    	
+	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = :eventStateId  WHERE id=:eventId";	    	  
+			Query queryUpdateEvent = session.createQuery(hqlUpdateEvent);
+			queryUpdateEvent.setParameter("eventStateId", eventStateId);
+			queryUpdateEvent.setParameter("eventId", eventId);
+			
+			int recordUpdated = queryUpdateEvent.executeUpdate();
+			
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			if(recordUpdated>0){
+				result.setWrittenKey(eventId);
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+			}
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during updateEventState() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+		logger.info("...stato evento modificato");
+		return result;
 	}
 
 }

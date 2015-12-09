@@ -3,11 +3,11 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.eo.EventStateEO;
-import it.fff.clientserver.common.dto.EventStateDTO;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
-public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,EventStateEO>{
+public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,EventStateEO>{
 	
 	private static EventStateMapper mapper;
 	
@@ -24,46 +24,51 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 
 	@Override
-	public List<EventStateBO> mapDTOs2BOs(List<EventStateDTO> dtos) {
+	public List<EventStateEnum> mapDTOs2BOs(List<EventStateEnum> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public EventStateBO mapDTO2BO(EventStateDTO dto) {
-		EventStateBO bo = null;
-		if(dto!=null){
-			bo = new EventStateBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
-				bo.setId(Integer.valueOf(dto.getId()));
-			}
-			bo.setNome(dto.getNome());
-			bo.setDescrizione(dto.getDescrizione());
+	public EventStateEnum mapDTO2BO(EventStateEnum dto) {
+		if(dto==null){
+			return EventStateEnum.UNKNOW;
 		}
-		return bo;
+		return dto;
 	}
 
 
 	@Override
-	public List<EventStateEO> mergeBOs2EOs(List<EventStateBO> bos, List<EventStateEO> eso) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EventStateEO> mergeBOs2EOs(List<EventStateEnum> bos, List<EventStateEO> eos) {
+		if(bos!=null){
+			eos = new ArrayList<EventStateEO>();
+			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
+			for (EventStateEnum bo : bos) {
+				eos.add(eventStateMapper.mergeBO2EO(bo,null));
+			}
+		}
+		return eos;
 	}
 
 
 	@Override
-	public EventStateEO mergeBO2EO(EventStateBO bo, EventStateEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+	public EventStateEO mergeBO2EO(EventStateEnum bo, EventStateEO eo) {
+		if(bo!=null && bo!=EventStateEnum.UNKNOW){
+			if(eo==null){
+				eo = new EventStateEO();
+			}
+			eo.setNome(bo.name());
+		}
+		return eo;
 	}
 
 
 	@Override
-	public List<EventStateBO> mapEOs2BOs(List<EventStateEO> eos) {
-		List<EventStateBO> bos = null;
+	public List<EventStateEnum> mapEOs2BOs(List<EventStateEO> eos) {
+		List<EventStateEnum> bos = null;
 		if(eos!=null){
-			bos = new ArrayList<EventStateBO>();
+			bos = new ArrayList<EventStateEnum>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
 			for (EventStateEO eo : eos) {
 				bos.add(eventStateMapper.mapEO2BO(eo));
@@ -74,25 +79,25 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 
 	@Override
-	public EventStateBO mapEO2BO(EventStateEO eo) {
-		EventStateBO bo = null;
+	public EventStateEnum mapEO2BO(EventStateEO eo) {
+		EventStateEnum bo = EventStateEnum.UNKNOW;
 		if(eo!=null){
-			bo = new EventStateBO();
-			bo.setId(eo.getId());
-			bo.setNome(eo.getNome());
-			bo.setDescrizione(eo.getDescrizione());
+			bo = EventStateEnum.valueOf(eo.getNome().toUpperCase());
 		}
+		else{
+			bo = EventStateEnum.UNKNOW;
+		}		
 		return bo;
 	}
 
 
 	@Override
-	public List<EventStateDTO> mapBOs2DTOs(List<EventStateBO> bos) {
-		List<EventStateDTO> dtos = null;
+	public List<EventStateEnum> mapBOs2DTOs(List<EventStateEnum> bos) {
+		List<EventStateEnum> dtos = null;
 		if(bos!=null){
-			dtos = new ArrayList<EventStateDTO>();
+			dtos = new ArrayList<EventStateEnum>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
-			for (EventStateBO bo : bos) {
+			for (EventStateEnum bo : bos) {
 				dtos.add(eventStateMapper.mapBO2DTO(bo));
 			}
 		}
@@ -101,16 +106,10 @@ public class EventStateMapper implements Mapper<EventStateDTO,EventStateBO,Event
 
 
 	@Override
-	public EventStateDTO mapBO2DTO(EventStateBO bo) {
-		EventStateDTO dto = null;
-		if(bo!=null){
-			dto = new EventStateDTO();
-			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
-			}
-			dto.setNome(bo.getNome());
-			dto.setDescrizione(bo.getDescrizione());
+	public EventStateEnum mapBO2DTO(EventStateEnum bo) {
+		if(bo==null){
+			return EventStateEnum.UNKNOW;
 		}
-		return dto;
+		return bo;
 	}
 }

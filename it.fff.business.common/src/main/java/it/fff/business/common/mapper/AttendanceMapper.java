@@ -97,9 +97,8 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			eventEO.setIdIfNotEmpty(bo.getEvent().getId());
 			eo.setEvent(eventEO);
 			
-			AttendanceStateEO stateEO = new AttendanceStateEO();
-			stateEO.setIdIfNotEmpty(bo.getStato().getId());
-			eo.setStato(stateEO);
+			AttendanceStateMapper attendanceMapper = AttendanceStateMapper.getInstance();
+			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), null));
 			
 			UserEO userEO = new UserEO();
 			userEO.setIdIfNotEmpty(bo.getUtente().getId());

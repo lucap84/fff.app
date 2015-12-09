@@ -7,7 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.*;
+import it.fff.business.common.eo.AttendanceStateEO;
+import it.fff.business.common.eo.EventStateEO;
+import it.fff.business.common.mapper.AttendanceStateMapper;
+import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.util.ErrorCodes;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 import it.fff.persistence.service.*;
@@ -534,34 +540,44 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public List<AttendanceStateBO> getAllAttendanceStates() throws PersistenceException {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
-		List<AttendanceStateBO> bos = null;
+		List<AttendanceStateEnum> bos = null;
+		List<AttendanceStateEO> eos = null;
 		try {
-			bos = typologicalPersistenceService.getAllAttendanceStates();
+			eos = typologicalPersistenceService.getAllAttendanceStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
+		
+		AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
+		bos = attendanceStateMapper.mapEOs2BOs(eos);
+		
 		return bos;
 	}
 
 	@Override
-	public List<EventStateBO> getAllEventStates() throws PersistenceException {
+	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
-		List<EventStateBO> bos = null;
+		List<EventStateEnum> bos = null;
+		List<EventStateEO> eos = null;
 		try {
-			bos = typologicalPersistenceService.getAllEventStates();
+			eos = typologicalPersistenceService.getAllEventStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
+		
+		EventStateMapper eventStateMapper = EventStateMapper.getInstance();
+		bos = eventStateMapper.mapEOs2BOs(eos);
+		
 		return bos;
 	}
 

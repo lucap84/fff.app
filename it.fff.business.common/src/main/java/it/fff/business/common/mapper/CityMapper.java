@@ -2,11 +2,8 @@ package it.fff.business.common.mapper;
 
 import java.util.List;
 
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.CityBO;
-import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.CityEO;
-import it.fff.clientserver.common.dto.AttendanceStateDTO;
 import it.fff.clientserver.common.dto.CityDTO;
 
 public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{

@@ -2,6 +2,8 @@ package it.fff.business.common.bo;
 
 import java.util.List;
 
+import it.fff.clientserver.common.enums.EventStateEnum;
+
 public class EventBO implements BusinessObject{
 
 	private int id;
@@ -9,7 +11,7 @@ public class EventBO implements BusinessObject{
 	private String descrizione;
 	private int durata;
 	private String dataInizio;
-	private EventStateBO stato;
+	private EventStateEnum stato;
 	private EventCategoryBO categoria;
 	private PlaceBO location;	
 	private List<AttendanceBO> partecipazioni;
@@ -44,10 +46,10 @@ public class EventBO implements BusinessObject{
 	public void setDataInizio(String dataInizio) {
 		this.dataInizio = dataInizio;
 	}
-	public EventStateBO getStato() {
+	public EventStateEnum getStato() {
 		return stato;
 	}
-	public void setStato(EventStateBO stato) {
+	public void setStato(EventStateEnum stato) {
 		this.stato = stato;
 	}
 	public EventCategoryBO getCategoria() {

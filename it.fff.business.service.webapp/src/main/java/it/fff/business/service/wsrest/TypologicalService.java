@@ -21,14 +21,12 @@ import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.clientserver.common.dto.AchievementTypeDTO;
-import it.fff.clientserver.common.dto.AttendanceStateDTO;
 import it.fff.clientserver.common.dto.EventCategoryDTO;
-import it.fff.clientserver.common.dto.EventStateDTO;
 import it.fff.clientserver.common.dto.LanguageDTO;
-import it.fff.clientserver.common.dto.MessageDTO;
 import it.fff.clientserver.common.dto.MessageStandardDTO;
 import it.fff.clientserver.common.dto.NationDTO;
 import it.fff.clientserver.common.dto.SubscriptionTypeDTO;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
 @Component("typologicalService")
 @Path("/typological")
@@ -96,31 +94,31 @@ public class TypologicalService extends ApplicationService {
 		return this.getAllStandardMessages(request);
 	}
 	
-	@GET
-	@Path("attendanceStates/json")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<AttendanceStateDTO> getAllAttendanceStatesJSON(@Context HttpServletRequest request) throws BusinessException {
-		return this.getAllAttendanceStates(request);
-	}
-	@GET
-	@Path("attendanceStates/xml")
-	@Produces(MediaType.APPLICATION_XML)
-	public List<AttendanceStateDTO> getAllAttendanceStatesXML(@Context HttpServletRequest request) throws BusinessException {
-		return this.getAllAttendanceStates(request);
-	}	
+//	@GET
+//	@Path("attendanceStates/json")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<AttendanceStateDTO> getAllAttendanceStatesJSON(@Context HttpServletRequest request) throws BusinessException {
+//		return this.getAllAttendanceStates(request);
+//	}
+//	@GET
+//	@Path("attendanceStates/xml")
+//	@Produces(MediaType.APPLICATION_XML)
+//	public List<AttendanceStateDTO> getAllAttendanceStatesXML(@Context HttpServletRequest request) throws BusinessException {
+//		return this.getAllAttendanceStates(request);
+//	}	
 	
-	@GET
-	@Path("eventStates/json")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<EventStateDTO> getAllEventStatesJSON(@Context HttpServletRequest request) throws BusinessException {
-		return this.getAllEventStates(request);
-	}
-	@GET
-	@Path("eventStates/xml")
-	@Produces(MediaType.APPLICATION_XML)
-	public List<EventStateDTO> getAllEventStatesXML(@Context HttpServletRequest request) throws BusinessException {
-		return this.getAllEventStates(request);
-	}
+//	@GET
+//	@Path("eventStates/json")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<EventStateEnum> getAllEventStatesJSON(@Context HttpServletRequest request) throws BusinessException {
+//		return this.getAllEventStates(request);
+//	}
+//	@GET
+//	@Path("eventStates/xml")
+//	@Produces(MediaType.APPLICATION_XML)
+//	public List<EventStateEnum> getAllEventStatesXML(@Context HttpServletRequest request) throws BusinessException {
+//		return this.getAllEventStates(request);
+//	}
 	
 	@GET
 	@Path("eventCategories/json")
@@ -206,27 +204,27 @@ public class TypologicalService extends ApplicationService {
 		return msgsStandard;
 	}	
 	
-	private List<AttendanceStateDTO> getAllAttendanceStates(HttpServletRequest request) {
-		List<AttendanceStateDTO> attendanceStates = null;
-		try{
-			attendanceStates = businessServiceFacade.getAllAttendanceStates();
-		} catch (BusinessException e) {
-			attendanceStates = new ArrayList<AttendanceStateDTO>();
-			logger.error(LogUtils.stackTrace2String(e));
-		}
-		return attendanceStates;
-	}	
+//	private List<AttendanceStateDTO> getAllAttendanceStates(HttpServletRequest request) {
+//		List<AttendanceStateDTO> attendanceStates = null;
+//		try{
+//			attendanceStates = businessServiceFacade.getAllAttendanceStates();
+//		} catch (BusinessException e) {
+//			attendanceStates = new ArrayList<AttendanceStateDTO>();
+//			logger.error(LogUtils.stackTrace2String(e));
+//		}
+//		return attendanceStates;
+//	}	
 	
-	private List<EventStateDTO> getAllEventStates(HttpServletRequest request) {
-		List<EventStateDTO> eventStates = null;
-		try{
-			eventStates = businessServiceFacade.getAllEventStates();
-		} catch (BusinessException e) {
-			eventStates = new ArrayList<EventStateDTO>();
-			logger.error(LogUtils.stackTrace2String(e));
-		}
-		return eventStates;
-	}
+//	private List<EventStateEnum> getAllEventStates(HttpServletRequest request) {
+//		List<EventStateEnum> eventStates = null;
+//		try{
+//			eventStates = businessServiceFacade.getAllEventStates();
+//		} catch (BusinessException e) {
+//			eventStates = new ArrayList<EventStateEnum>();
+//			logger.error(LogUtils.stackTrace2String(e));
+//		}
+//		return eventStates;
+//	}
 	
 	private List<EventCategoryDTO> getAllEventCategories(HttpServletRequest request) {
 		List<EventCategoryDTO> languages = null;

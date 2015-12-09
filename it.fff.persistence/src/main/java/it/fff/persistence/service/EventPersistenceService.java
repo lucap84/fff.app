@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 
@@ -13,7 +14,9 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws Exception;
 
-	public WriteResultBO cancelEvent(int eventId, int organizerId)throws Exception;
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception;
+	
+	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception;
 
 	public WriteResultBO createEvent(EventBO bo) throws Exception;
 

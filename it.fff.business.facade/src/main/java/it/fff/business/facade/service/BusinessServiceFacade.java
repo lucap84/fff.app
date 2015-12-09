@@ -2,10 +2,11 @@ package it.fff.business.facade.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.List;
 
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
 public interface BusinessServiceFacade {
 	
@@ -67,9 +68,9 @@ public interface BusinessServiceFacade {
 
 	public List<MessageStandardDTO> getAllStandardMessages() throws BusinessException;
 
-	public List<AttendanceStateDTO> getAllAttendanceStates() throws BusinessException;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws BusinessException;
 
-	public List<EventStateDTO> getAllEventStates() throws BusinessException;
+	public List<EventStateEnum> getAllEventStates() throws BusinessException;
 
 	public List<EventCategoryDTO> getAllEventCategories() throws BusinessException;
 

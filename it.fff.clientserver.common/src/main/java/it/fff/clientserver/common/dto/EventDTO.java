@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import it.fff.clientserver.common.enums.EventStateEnum;
+
 @XmlRootElement
 public class EventDTO  extends DataTransferObject{
 
@@ -15,7 +17,7 @@ public class EventDTO  extends DataTransferObject{
 	private String descrizione;
 	private String durata;
 	private String dataInizio;
-	private EventStateDTO stato;
+	private EventStateEnum stato;
 	private EventCategoryDTO categoria;
 	private PlaceDTO location;	
 	private List<AttendanceDTO> partecipazioni;
@@ -51,10 +53,10 @@ public class EventDTO  extends DataTransferObject{
 	public void setDataInizio(String dataInizio) {
 		this.dataInizio = dataInizio;
 	}
-	@XmlElement public EventStateDTO getStato() {
+	@XmlElement public EventStateEnum getStato() {
 		return stato;
 	}
-	public void setStato(EventStateDTO stato) {
+	public void setStato(EventStateEnum stato) {
 		this.stato = stato;
 	}
 	@XmlElement public EventCategoryDTO getCategoria() {

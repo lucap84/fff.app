@@ -1,5 +1,7 @@
 package it.fff.business.common.bo;
 
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+
 public class AttendanceBO implements BusinessObject{
 	
 	private int id;
@@ -9,7 +11,7 @@ public class AttendanceBO implements BusinessObject{
 	private boolean isValid;
 	private EventBO event;
 	private UserBO utente;
-	private AttendanceStateBO stato;
+	private AttendanceStateEnum stato;
 	public int getId() {
 		return id;
 	}
@@ -52,10 +54,10 @@ public class AttendanceBO implements BusinessObject{
 	public void setUtente(UserBO utente) {
 		this.utente = utente;
 	}
-	public AttendanceStateBO getStato() {
+	public AttendanceStateEnum getStato() {
 		return stato;
 	}
-	public void setStato(AttendanceStateBO stato) {
+	public void setStato(AttendanceStateEnum stato) {
 		this.stato = stato;
 	}
 	

@@ -11,13 +11,13 @@ import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -63,12 +63,12 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		
 		bo1.setLocation(placeBo1);
 		
-		EventStateBO statoEventoBo1 = new EventStateBO();
-		statoEventoBo1.setId(1);
-		statoEventoBo1.setNome("Attivo");
-		statoEventoBo1.setDescrizione("EventState Attivo");
+//		EventStateBO statoEventoBo1 = new EventStateBO();
+//		statoEventoBo1.setId(1);
+//		statoEventoBo1.setNome("Attivo");
+//		statoEventoBo1.setDescrizione("EventState Attivo");
 		
-		bo1.setStato(statoEventoBo1);
+		bo1.setStato(EventStateEnum.ACTIVE);
 		
 		bo1.setMessages(new ArrayList<MessageBO>());
 		bo1.setPartecipazioni(new ArrayList<AttendanceBO>());
@@ -206,11 +206,11 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		
 		bo1.setLocation(placeBo1);
 		
-		EventStateBO statoBo1 = new EventStateBO();
-		statoBo1.setId(1);
-		statoBo1.setNome("Chiuso");
-		statoBo1.setDescrizione("L'evento è terminato");
-		bo1.setStato(statoBo1);
+//		EventStateBO statoBo1 = new EventStateBO();
+//		statoBo1.setId(1);
+//		statoBo1.setNome("Chiuso");
+//		statoBo1.setDescrizione("L'evento è terminato");
+		bo1.setStato(EventStateEnum.FINISHED);
 	
 		EventBO bo2 = new EventBO();
 		bo2.setId(2);
@@ -245,11 +245,11 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		
 		bo2.setLocation(placebo2);
 		
-		EventStateBO statobo2 = new EventStateBO();
-		statobo2.setId(2);
-		statobo2.setNome("Aperto");
-		statobo2.setDescrizione("L'evento è aperto");
-		bo2.setStato(statobo2);		
+//		EventStateBO statobo2 = new EventStateBO();
+//		statobo2.setId(2);
+//		statobo2.setNome("Aperto");
+//		statobo2.setDescrizione("L'evento è aperto");
+		bo2.setStato(EventStateEnum.ACTIVE);		
 
 		
 		bos.add(bo1);
@@ -300,6 +300,15 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		messagesBO.add(messageBO2);
 		
 		return messagesBO;
+	}
+
+	@Override
+	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setAffectedRecords(1);
+		return resultBO;
 	}
 
 }

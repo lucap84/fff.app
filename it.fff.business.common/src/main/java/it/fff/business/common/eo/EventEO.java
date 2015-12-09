@@ -105,16 +105,45 @@ public class EventEO extends EntityObject{
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
+	
+	public String getDataInizio() {
+		return dataInizio;
+	}
 
-	@Override
-	public String toString() {
-		return this.getClass().getName()+"("+id+")";
+	public void setDataInizio(String dataInizio) {
+		this.dataInizio = dataInizio;
+	}
+
+	public EventStateEO getStato() {
+		return stato;
+	}
+
+	public void setStato(EventStateEO stato) {
+		this.stato = stato;
+	}
+
+	public PlaceEO getLocation() {
+		return location;
+	}
+
+	public void setLocation(PlaceEO location) {
+		this.location = location;
+	}
+
+	public List<MessageEO> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageEO> messages) {
+		this.messages = messages;
 	}
 	
 	/*
 	 * IfNotEmpty
 	 */
 	
+
+
 	public void setIdIfNotEmpty(int id) {
 		if(!isEmpty(id)) this.id = id;
 	}
@@ -125,5 +154,12 @@ public class EventEO extends EntityObject{
 
 	public void setDescrizioneIfNotEmpty(String descrizione) {
 		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return this.getClass().getName()+"("+id+")";
 	}
 }

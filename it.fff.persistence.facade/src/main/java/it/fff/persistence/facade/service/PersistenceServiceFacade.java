@@ -5,11 +5,11 @@ import java.util.Map;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.AttendanceStateBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.bo.EventStateBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
@@ -83,9 +83,9 @@ public interface PersistenceServiceFacade {
 
 	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException;
 
-	public List<AttendanceStateBO> getAllAttendanceStates() throws PersistenceException;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException;
 
-	public List<EventStateBO> getAllEventStates() throws PersistenceException;
+	public List<EventStateEnum> getAllEventStates() throws PersistenceException;
 
 	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException;
 
