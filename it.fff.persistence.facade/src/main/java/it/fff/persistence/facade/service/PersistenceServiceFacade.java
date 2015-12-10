@@ -63,7 +63,7 @@ public interface PersistenceServiceFacade {
 
 	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException;
 
-	public WriteResultBO generateVerficationCode(String email) throws PersistenceException;
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws PersistenceException;
 
 	public WriteResultBO logout(int userId, String deviceId) throws PersistenceException;
 
@@ -89,7 +89,9 @@ public interface PersistenceServiceFacade {
 
 	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException;
 
-	public List<NationBO> getAllNations()  throws PersistenceException;;
+	public List<NationBO> getAllNations()  throws PersistenceException;
+
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode)  throws PersistenceException;
 	
 
 }

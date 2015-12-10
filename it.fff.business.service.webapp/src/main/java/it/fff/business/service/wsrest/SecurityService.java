@@ -1,6 +1,5 @@
 package it.fff.business.service.wsrest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -114,7 +112,24 @@ public class SecurityService extends ApplicationService {
 	public WriteResultDTO updatePasswordCodeXML(@Context HttpServletRequest request,
 												UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
 		return updatePassword(request,updatePasswordDTO);
-}	
+	}	
+
+	@PUT
+	@Path("{email}/password/reset/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO resetPasswordJSON(@Context HttpServletRequest request,
+											ResetPasswordDTO resetPasswordDTO) throws BusinessException {
+		return resetPassword(request,resetPasswordDTO);
+	}
+	@PUT
+	@Path("{email}/password/reset/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO resetPasswordCodeXML(@Context HttpServletRequest request,
+			ResetPasswordDTO resetPasswordDTO) throws BusinessException {
+		return resetPassword(request,resetPasswordDTO);
+	}
 	
 	@PUT
 	@Path("{email}/verificationcode/json")
@@ -280,6 +295,18 @@ public class SecurityService extends ApplicationService {
 		}
 		return result;
 	}	
+	
+	private WriteResultDTO resetPassword(HttpServletRequest request, ResetPasswordDTO resetPasswordDTO) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.resetPassword(resetPasswordDTO);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}
 	
 	
 	

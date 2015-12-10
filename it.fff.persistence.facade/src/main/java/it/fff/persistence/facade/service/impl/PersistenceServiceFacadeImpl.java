@@ -335,12 +335,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO generateVerficationCode(String email) throws PersistenceException {
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws PersistenceException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = securityPersistenceService.generateVerficationCode(email);
+			resultBO = securityPersistenceService.saveVerficationCode(email, verificationCode);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -611,6 +611,24 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 			throw persistenceException;	
 		}
 		return bos;
+	}
+
+	@Override
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException {
+		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
+		
+		WriteResultBO resultBO = null;
+		try{
+			resultBO = securityPersistenceService.resetPassword(email, newPassword, verificationCode);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;
 	}
 
 }

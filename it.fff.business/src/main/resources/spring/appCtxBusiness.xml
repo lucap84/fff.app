@@ -20,6 +20,7 @@
 	
 	<bean name="securityBusinessService" class="it.fff.business.service.impl.SecurityBusinessServiceImpl" scope="prototype">
 		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="verificationCodeStrategy" ref="verificationCodeStrategy"/>
 	</bean>	
 	
 	<bean name="placesBusinessService" class="it.fff.business.service.impl.PlacesBusinessServiceImpl" scope="prototype">
@@ -36,6 +37,7 @@
 	
 	<!-- strategies -->
 	<bean name="imageValidationStrategy" class="it.fff.business.strategy.impl.ImageSizeValidationStrategy" />
+	<bean name="verificationCodeStrategy" class="it.fff.business.strategy.impl.VerificationCodeStategyHashing" />
 	
 	
 	

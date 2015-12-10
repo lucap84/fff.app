@@ -14,10 +14,12 @@ public interface SecurityBusinessService extends BusinessService{
 
 	WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException;
 
-	WriteResultBO generateAndVerificationCode(String email) throws PersistenceException;
+	WriteResultBO generateAndSendVerficationCode(String email) throws PersistenceException;
 
 	WriteResultBO logout(int userIdInt, String deviceId) throws PersistenceException;
 
 	Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException;
+
+	WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException;
 
 }

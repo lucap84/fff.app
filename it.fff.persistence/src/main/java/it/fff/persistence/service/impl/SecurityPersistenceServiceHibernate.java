@@ -40,11 +40,12 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	String logoutDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
 			String hqlUpdate = "UPDATE SessionEO S SET S.isLogged=0 , S.dataLogout=:logoutDate, S.sharedKey='' WHERE S.deviceId=:deviceId AND account.id IN (SELECT a.id FROM AccountEO a WHERE a.id = :userId AND a.flgValidita=1)";	    	  
 
-			tx = session.beginTransaction();
 			Query query = session.createQuery(hqlUpdate);
 			query.setString("logoutDate", logoutDate);
 			query.setInteger("userId", userId);
 			query.setString("deviceId", deviceId);
+
+			tx = session.beginTransaction();
 			int recordUpdated = query.executeUpdate();
 			tx.commit();
 			
@@ -93,6 +94,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	}
 	    	sessionEO.getAccount().setId(idAccount);
 	    	Integer sessionId = (Integer)session.save(sessionEO);//insert nuovo record session
+	    	
 	    	tx.commit();
 	    	
 	    	result.setSuccess(true);
@@ -109,12 +111,6 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		return result;
 	}
 	
-	@Override
-	public WriteResultBO generateVerficationCode(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws Exception {
 		// TODO Auto-generated method stub
@@ -133,12 +129,13 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    try{
 			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1";	    	  
 
-			tx = session.beginTransaction();
 			Query query = session.createQuery(hqlUpdate);
 			query.setParameter("newPassword", encodedNewPassword);
 			query.setParameter("userId", userId);
 			query.setParameter("email", email);
 			query.setParameter("oldPassword", encodedOldPassword);
+
+			tx = session.beginTransaction();
 			int recordUpdated = query.executeUpdate();
 			tx.commit();
 			
@@ -196,6 +193,55 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		logger.info("user registered");
 		
 		return secrets;
+	}
+
+	@Override
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws Exception {
+		logger.info("reset Password...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	String hqlSelectAccount = "SELECT A.id  FROM AccountEO A WHERE A.flgValidita = 1 AND A.email = :email AND A.verificationCode = :verificationCode AND A.flgVerificato = 1";	    	  
+	    	
+	    	
+	    	Query querySelectVerifiedAccount = session.createQuery(hqlSelectAccount);
+	    	querySelectVerifiedAccount.setParameter("email", email);
+	    	querySelectVerifiedAccount.setParameter("verificationCode", verificationCode);
+	    	
+	    	tx = session.beginTransaction();
+
+	    	Integer idAccount = (Integer)querySelectVerifiedAccount.uniqueResult();	    	
+	    	
+			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:idAccount";	    	  
+			Query queryResetPassword = session.createQuery(hqlUpdate);
+			queryResetPassword.setParameter("newPassword", newPassword);
+			queryResetPassword.setParameter("idAccount", idAccount);
+			int recordUpdated = queryResetPassword.executeUpdate();
+
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			result.setWrittenKey(idAccount);
+			result.setSuccess(true);
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during resetPassword() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+	    logger.info("...reset Password");
+		return result;
+	}
+
+	@Override
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

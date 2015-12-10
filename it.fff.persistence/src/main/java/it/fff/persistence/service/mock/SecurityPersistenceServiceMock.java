@@ -20,7 +20,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO generateVerficationCode(String email) throws SQLException {
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -70,6 +70,15 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 		secrets.put(1, device2SharedKeyA);
 		secrets.put(2, device2SharedKeyB);
 		return secrets;
+	}
+
+	@Override
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws Exception {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setAffectedRecords(1);
+		return resultBO;
 	}
 
 }

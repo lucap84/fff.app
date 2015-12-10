@@ -76,4 +76,6 @@ public interface BusinessServiceFacade {
 
 	public List<NationDTO> getAllNations() throws BusinessException;
 
+	public WriteResultDTO resetPassword(ResetPasswordDTO resetPasswordDTO) throws BusinessException;
+
 }

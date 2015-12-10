@@ -441,7 +441,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		WriteResultBO WriteResultBO = null;
 		
 		try {
-			WriteResultBO = securityBusinessService.generateAndVerificationCode(email);
+			WriteResultBO = securityBusinessService.generateAndSendVerficationCode(email);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
@@ -699,6 +699,26 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		dtos = NationMapper.getInstance().mapBOs2DTOs(bos);
 		
 		return dtos;
+	}
+
+	@Override
+	public WriteResultDTO resetPassword(ResetPasswordDTO resetPasswordDTO) throws BusinessException {
+		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
+		
+		String email = resetPasswordDTO.getEmail();
+		String newPassword = resetPasswordDTO.getNewPassword();
+		String verificationCode = resetPasswordDTO.getVerificationCode();
+
+		WriteResultBO WriteResultBO = null;
+		try {
+			WriteResultBO = securityBusinessService.resetPassword(email, newPassword, verificationCode);
+		}
+		catch (PersistenceException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_RESET_PASSWORD);
+		}
+		
+		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
+		return result;
 	}
 
 
