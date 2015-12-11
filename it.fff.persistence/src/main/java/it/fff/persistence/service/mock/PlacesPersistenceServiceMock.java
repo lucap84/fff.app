@@ -41,7 +41,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		citta.setNazione(nationBO);
 		
 		bo1.setGpsLat(1.234);
-		bo1.setGpsLat(1.456);
+		bo1.setGpsLong(1.456);
 		bo1.setVia("Via di prova");
 		bo1.setCivico("22");
 		bo1.setCap("00100");
@@ -56,7 +56,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		bo2.setTags("cultura roma musei centurione anfiteatro flavio");
 		
 		bo2.setGpsLat(1.44);
-		bo2.setGpsLat(1.45);
+		bo2.setGpsLong(1.45);
 		bo2.setVia("Via del Colosseo");
 		bo2.setCivico("1");
 		bo2.setCap("00100");

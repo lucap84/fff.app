@@ -15,4 +15,6 @@ public interface UserPersistenceService  extends PersistenceService{
 
 	public WriteResultBO updateUserData(UserBO eo) throws Exception;
 
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception;
+
 }

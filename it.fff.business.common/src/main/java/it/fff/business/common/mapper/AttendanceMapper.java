@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.EventEO;
@@ -47,10 +48,32 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			if(dto.getId()!=null && !"".equals(dto.getId())){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
+			
+			bo.setNumPartecipanti(Integer.valueOf(dto.getNumPartecipanti()));
 			bo.setValid(dto.isValid());
+			bo.setStato(dto.getStato());
+			bo.setOrganizer(dto.isOrganizer());
+			
 			if(dto.getFeedback()!=null){
 				bo.setPositiveFeedback(dto.getFeedback().isPositiveFeedback());
 			}
+			
+			if(dto.getEvent()!=null){
+				EventBO event = new EventBO();
+				if(dto.getEvent().getId()!=null && !"".equals(dto.getEvent().getId())){
+					event.setId(Integer.valueOf(dto.getEvent().getId()));
+				}
+				bo.setEvent(event);
+			}
+
+			if(dto.getUser()!=null){
+				UserBO user = new UserBO();
+				if(dto.getUser().getId()!=null && !"".equals(dto.getUser().getId())){
+					user.setId(Integer.valueOf(dto.getUser().getId()));
+				}
+				bo.setUtente(user);
+			}
+			
 		}
 		return bo;
 	}	

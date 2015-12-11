@@ -3,6 +3,8 @@ package it.fff.clientserver.common.dto;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+
 @XmlRootElement
 public class AttendanceDTO extends DataTransferObject {
 
@@ -14,7 +16,7 @@ public class AttendanceDTO extends DataTransferObject {
 	String numPartecipanti;
 	FeedbackDTO feedback;
 	boolean isValid;
-	String statusId;
+	private AttendanceStateEnum stato;
 	
 
 	@XmlElement public String getId() {
@@ -59,13 +61,12 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setNumPartecipanti(String numPartecipanti) {
 		this.numPartecipanti = numPartecipanti;
 	}
-	@XmlElement public String getStatusId() {
-		return statusId;
+	public AttendanceStateEnum getStato() {
+		return stato;
 	}
-	public void setStatusId(String statusId) {
-		this.statusId = statusId;
+	public void setStato(AttendanceStateEnum stato) {
+		this.stato = stato;
 	}
-	
 	
 	
 }

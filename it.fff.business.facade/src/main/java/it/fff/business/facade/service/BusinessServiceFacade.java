@@ -26,7 +26,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO addFeedback(AttendanceDTO attendance) throws BusinessException;
 
-	public WriteResultDTO cancelAttendance(String eventId, String attendanceId) throws BusinessException;
+	public WriteResultDTO cancelAttendance(String eventId, String userId) throws BusinessException;
 
 	public WriteResultDTO postEventMessage(String eventId, String message) throws BusinessException;
 
@@ -34,7 +34,7 @@ public interface BusinessServiceFacade {
 
 	public List<MessageDTO> getEventMessages(String eventId) throws BusinessException;
 
-	public List<EventDTO> searchEvents(String gpsLat, String gpsLong, String idCategoria, String partecipanti) throws BusinessException;
+	public List<EventDTO> searchEvents(String userGpsLat, String userGpsLong,String radiusKm, String desideredGpsLat, String desideredGpsLong, String idCategoria, String partecipanti) throws BusinessException;
 
 	public List<PlaceDTO> getPlacesByDescription(String description) throws BusinessException;
 

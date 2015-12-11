@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,6 +28,7 @@ import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.ConfigurationProvider;
 import it.fff.persistence.util.Constants;
@@ -194,4 +197,47 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
         }
         return saved;
     }	
+    
+	@Override
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception {
+		logger.info("abbandono evento (annullo partecipazione)...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	String dataAggiornamento = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	
+	    	String hqlUpdateAttendance = "UPDATE AttendanceEO set isValid = 0, dataAggiornamento=:dataAggiornamento  WHERE utente.id=:userId AND event.id=:eventId AND isValid=1";	    	  
+			Query queryUpdateEvent = session.createQuery(hqlUpdateAttendance);
+			queryUpdateEvent.setParameter("dataAggiornamento", dataAggiornamento);
+			queryUpdateEvent.setParameter("userId", userId);
+			queryUpdateEvent.setParameter("eventId", eventId);
+			
+			int recordUpdated = queryUpdateEvent.executeUpdate();
+			
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			if(recordUpdated>0){
+				result.setWrittenKey(eventId);
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+			}
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during cancelAttendance() ",e);
+	    }finally {
+	    	session.close(); 
+	    }		
+		logger.info("...evento abbandonato (partecipazione annullata)");
+		return result;
+	}    
 }

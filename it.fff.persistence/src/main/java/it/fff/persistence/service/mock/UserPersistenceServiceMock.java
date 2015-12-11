@@ -4,12 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.mapper.AccountMapper;
-import it.fff.business.common.mapper.LanguageMapper;
-import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
@@ -123,4 +118,12 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		return resultBO;
 	}
 
+	@Override
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setAffectedRecords(1);
+		return resultBO;
+	}	
 }

@@ -77,15 +77,6 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws SQLException {
-		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
-		resultBO.setSuccess(true);
-		resultBO.setAffectedRecords(1);
-		return resultBO;
-	}
-
-	@Override
 	public WriteResultBO cancelEvent(int eventId, int organizerId) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(eventId);
@@ -131,7 +122,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(AttendanceBO bo) throws SQLException {
+	public WriteResultBO createAttandance(AttendanceBO bo) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -259,12 +250,12 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLatFrom, 
-			double gpsLatTo, 
-			double gpsLongFrom,
-			double gpsLongTo, 
-			int idCategoria, 
-			int minPartecipanti)	throws Exception {
+	public List<EventBO> searchEvents(	double gpsLatFrom, 
+										double gpsLatTo, 
+										double gpsLongFrom,
+										double gpsLongTo, 
+										int idCategoria, 
+										int minPartecipanti)	throws Exception {
 
 		List<EventBO> bos = this.getEventsByUser(1);
 		

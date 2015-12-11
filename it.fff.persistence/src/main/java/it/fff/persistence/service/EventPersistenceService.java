@@ -12,8 +12,6 @@ public interface EventPersistenceService extends PersistenceService{
 	
 	public EventBO retrieveEvent(int eventId) throws Exception;
 
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws Exception;
-
 	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception;
 	
 	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception;
@@ -26,7 +24,7 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception;
 
-	public WriteResultBO createStandardEventMessage(AttendanceBO eo) throws Exception;
+	public WriteResultBO createAttandance(AttendanceBO eo) throws Exception;
 
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception;
 

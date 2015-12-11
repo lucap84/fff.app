@@ -15,5 +15,7 @@ public interface UserBusinessService extends BusinessService{
 
 	public UserBO getUser(int userId) throws  PersistenceException;
 
+	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  PersistenceException;
+
 
 }

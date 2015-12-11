@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -126,6 +127,20 @@ public class UserService extends ApplicationService{
 		return this.updateProfileImage(request,uploadedInputStream,fileDetail,userId);
 	}	
 	
+	@DELETE
+	@Path("{userId}/events/{eventId}/attendances/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public WriteResultDTO cancelAttendanceJSON(@Context HttpServletRequest request, @PathParam("userId") String userId, @PathParam("eventId") String eventId) throws BusinessException {
+		return cancelAttendance(request, eventId, userId);
+	}	
+	@DELETE
+	@Path("{userId}/events/{eventId}/attendances/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public WriteResultDTO cancelAttendanceXML(@Context HttpServletRequest request, @PathParam("userId") String userId, @PathParam("eventId") String eventId) throws BusinessException {
+		return cancelAttendance(request, eventId, userId);
+	}	
 	
 	
 	/*
@@ -212,6 +227,18 @@ public class UserService extends ApplicationService{
 		}
 		
 		return resultDTO;
+	}
+	
+	private WriteResultDTO cancelAttendance(HttpServletRequest request, String eventId, String userId) {
+		WriteResultDTO result;
+		try {
+			result = businessServiceFacade.cancelAttendance(eventId, userId);
+		} catch (BusinessException e) {
+			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
 	}	
 	
 }

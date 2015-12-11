@@ -1,5 +1,6 @@
 package it.fff.persistence.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +17,10 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -44,12 +47,6 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }	        
 	      bo = EventMapper.getInstance().mapEO2BO(eo);
 		return bo;
-	}
-
-	@Override
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -94,7 +91,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      try{
 	    	EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null);
 	    	  
-			tx = session.beginTransaction();
+			tx = session.beginTransaction();//TODO controlla se salva anche le partecipazioni (ho messo un cascade hibernate su EventEO)
 			eventId = (Integer)session.save(eventEO); 
 	        tx.commit();
 	      }catch (HibernateException e) {
@@ -133,9 +130,34 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(AttendanceBO bo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO createAttandance(AttendanceBO bo) throws Exception {
+		logger.info("creating attendance (join event)");
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    Integer eventId = null;
+	      try{
+	    	AttendanceEO attendanceEO = AttendanceMapper.getInstance().mergeBO2EO(bo, null);
+	    	  
+			tx = session.beginTransaction();
+			eventId = (Integer)session.save(attendanceEO); 
+	        tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during createAttandance() ",e);
+	      }finally {
+	         session.close(); 
+	      }			
+		
+		logger.info("attendance created");
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(eventId);
+		resultBO.setAffectedRecords(1);
+		
+		return resultBO;
 	}
 
 	@Override

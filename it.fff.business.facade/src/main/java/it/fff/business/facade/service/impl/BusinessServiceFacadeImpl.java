@@ -236,16 +236,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO cancelAttendance(String eventId, String attendanceId) throws BusinessException {
-		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
+	public WriteResultDTO cancelAttendance(String eventId, String userId) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 
 		int eventIdInt =-1;
-		int attendanceIdInt = -1;
+		int userIdInt = -1;
 		WriteResultBO WriteResultBO = null;
 		try {
-			attendanceIdInt = Integer.valueOf(attendanceIdInt);
+			userIdInt = Integer.valueOf(userId);
 			eventIdInt = Integer.valueOf(eventId);
-			WriteResultBO = eventBusinessService.cancelAttendance(eventIdInt, attendanceIdInt);
+			WriteResultBO = userBusinessService.cancelAttendance(eventIdInt, userIdInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
@@ -324,20 +324,40 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public List<EventDTO> searchEvents(String gpsLat, String gpsLong, String idCategoria, String partecipanti) throws BusinessException {
+	public List<EventDTO> searchEvents(	String userGpsLat, 
+										String userGpsLong, 
+										String radiusKm, 
+										String desideredGpsLat, 
+										String desideredGpsLong,
+										String idCategoria, 
+										String partecipanti) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 
-		double gpsLatDouble = -1;
-		double gpsLongDouble = -1;
+		double userGpsLatDouble = -1;
+		double userGpsLongDouble = -1;
+		double desideredGpsLatDouble = -1;
+		double desideredGpsLongDouble = -1;
+		double radiusKmDouble = -1;
 		int idCategoriaInt = -1;
 		int partecipantiInt = -1;
 		List<EventBO> eventsBO = null;
 		try {
 			idCategoriaInt = Integer.valueOf(idCategoria);
-			gpsLatDouble = Double.valueOf(gpsLat);
-			gpsLongDouble = Double.valueOf(gpsLong);
+			userGpsLatDouble = Double.valueOf(userGpsLat);
+			userGpsLongDouble = Double.valueOf(userGpsLong);			
+			desideredGpsLatDouble = Double.valueOf(desideredGpsLat);
+			desideredGpsLongDouble = Double.valueOf(desideredGpsLong);
+			radiusKmDouble = Double.valueOf(radiusKm);
 			partecipantiInt = Integer.valueOf(partecipanti);
-			eventsBO = eventBusinessService.searchEvents(gpsLatDouble, gpsLongDouble, idCategoriaInt, partecipantiInt);
+			
+			eventsBO = eventBusinessService.searchEvents(
+					userGpsLatDouble, 
+					userGpsLongDouble, 
+					radiusKmDouble, 
+					desideredGpsLatDouble, 
+					desideredGpsLongDouble, 
+					idCategoriaInt,
+					partecipantiInt);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);

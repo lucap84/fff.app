@@ -84,5 +84,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		return bo;
 	}
 
+	@Override
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.cancelAttendance(eventId, userId);
+		return resultBO;
+	}
 
 }

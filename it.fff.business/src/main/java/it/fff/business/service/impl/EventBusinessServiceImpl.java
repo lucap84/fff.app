@@ -1,5 +1,6 @@
 package it.fff.business.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.comparator.PlaceDistanceComparator;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.service.EventBusinessService;
@@ -57,12 +59,6 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}	
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.cancelAttendance(eventId, attendanceId);
-		return resultBO;
-	}
-
-	@Override
 	public WriteResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
 		WriteResultBO resultBO = persistenceFacade.createEventMessage(attendanceId, message);
 		return resultBO;
@@ -93,15 +89,34 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int minPartecipanti) throws PersistenceException {
-		double range= 2.0;
+	public List<EventBO> searchEvents(	double userGpsLat, 
+										double userGpsLong, 
+										double radiusKm, 
+										double desideredGpsLat, 
+										double desideredGpsLong,
+										int idCategoria, 
+										int minPartecipanti) throws PersistenceException {
 		
-		double gpsLatFrom = gpsLat-range;
-		double gpsLatTo = gpsLat+range;
-		double gpsLongFrom = gpsLong-range;
-		double gpsLongTo = gpsLong+range;
+		/*
+		 * Calcolo un quadrato come spazio di ricerca invece di un cerchio, per semplicita
+		 * Le assunzioni sono prese da: http://gis.stackexchange.com/questions/19760/how-do-i-calculate-the-bounding-box-for-given-a-distance-and-latitude-longitude
+		 */
+		double oneKm2Degrees = 0.0089982311916;
+		double diameterKm = radiusKm*2;
+		double sideOfSquareKm= diameterKm; //assumo di lavorare con un lato del quadrato
+		
+		double sideOfSquareDegrees = oneKm2Degrees*sideOfSquareKm; //trasformo km in gradi 
+		
+		double gpsLatFrom = userGpsLat-sideOfSquareDegrees;
+		double gpsLatTo = userGpsLat+sideOfSquareDegrees;
+		double gpsLongFrom = userGpsLong-sideOfSquareDegrees;
+		double gpsLongTo = userGpsLong+sideOfSquareDegrees;
 		
 		List<EventBO> bos = persistenceFacade.searchEvents(gpsLatFrom, gpsLatTo, gpsLongFrom, gpsLongTo, idCategoria, minPartecipanti);
+		
+		PlaceDistanceComparator comparator = new PlaceDistanceComparator(desideredGpsLat, desideredGpsLong);
+		Collections.sort(bos, comparator);
+		
 		return bos;
 	}
 

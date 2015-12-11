@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name="evento")
 public class EventEO extends EntityObject{
@@ -44,6 +47,7 @@ public class EventEO extends EntityObject{
 	private PlaceEO location;	
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private List<AttendanceEO> partecipazioni;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")

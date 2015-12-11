@@ -35,7 +35,7 @@ public interface PersistenceServiceFacade {
 
 	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException;
 
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException;
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException;
 
 	public WriteResultBO createEventMessage(int attendanceId, String message) throws PersistenceException;
 

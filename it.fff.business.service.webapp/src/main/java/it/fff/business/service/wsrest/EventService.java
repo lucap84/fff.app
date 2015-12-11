@@ -90,21 +90,6 @@ public class EventService extends ApplicationService{
 		return postEventMessage(request, attendanceId, message);
 	}	
 	
-	@DELETE
-	@Path("{eventId}/attendances/{attendanceId}/json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO cancelAttendanceJSON(@Context HttpServletRequest request, @PathParam("eventId") String eventId, @PathParam("attendanceId") String attendanceId) throws BusinessException {
-		return cancelAttendance(request, eventId, attendanceId);
-	}	
-	@DELETE
-	@Path("{eventId}/attendances/{attendanceId}/xml")
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO cancelAttendanceXML(@Context HttpServletRequest request, @PathParam("eventId") String eventId, @PathParam("attendanceId") String attendanceId) throws BusinessException {
-		return cancelAttendance(request, eventId, attendanceId);
-	}	
-	
 	@POST
 	@Path("{eventId}/attendances/{attendanceId}/feedback/json")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -188,21 +173,27 @@ public class EventService extends ApplicationService{
 	@Path("json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<EventDTO> searchEventsJSON(	@Context HttpServletRequest request, 
-											@QueryParam("gpsLat") String gpsLat,
-											@QueryParam("gpsLong") String gpsLong,
+											@QueryParam("userGpsLat") String userGpsLat,
+											@QueryParam("userGpsLong") String userGpsLong,
+											@QueryParam("radiusKM") String radius,
+											@QueryParam("desideredGpsLat") String desideredGpsLat,
+											@QueryParam("desideredGpsLong") String desideredGpsLong,
 											@QueryParam("idCategoria") String idCategoria,
 											@QueryParam("partecipanti") String partecipanti) throws BusinessException {
-		return this.searchEvents(request, gpsLat, gpsLong, idCategoria,partecipanti);
+		return this.searchEvents(request, userGpsLat, userGpsLong, radius, desideredGpsLat, desideredGpsLong, idCategoria,partecipanti);
 	}
 	@GET
 	@Path("xml")
 	@Produces(MediaType.APPLICATION_XML)
 	public List<EventDTO> searchEventsXML(	@Context HttpServletRequest request, 
-											@QueryParam("gpsLat") String gpsLat,
-											@QueryParam("gpsLong") String gpsLong,
+											@QueryParam("userGpsLat") String userGpsLat,
+											@QueryParam("userGpsLong") String userGpsLong,
+											@QueryParam("radiusKM") String radius,
+											@QueryParam("desideredGpsLat") String desideredGpsLat,
+											@QueryParam("desideredGpsLong") String desideredGpsLong,
 											@QueryParam("idCategoria") String idCategoria,
 											@QueryParam("partecipanti") String partecipanti) throws BusinessException {
-		return this.searchEvents(request, gpsLat, gpsLong, idCategoria,partecipanti);
+		return this.searchEvents(request, userGpsLat, userGpsLong, radius, desideredGpsLat, desideredGpsLong, idCategoria,partecipanti);
 }	
 	
 	
@@ -269,18 +260,6 @@ public class EventService extends ApplicationService{
 		return result;
 	}	
 	
-	private WriteResultDTO cancelAttendance(HttpServletRequest request, String eventId, String attendanceId) {
-		WriteResultDTO result;
-		try {
-			result = businessServiceFacade.cancelAttendance(eventId, attendanceId);
-		} catch (BusinessException e) {
-			result = new WriteResultDTO();
-			super.manageErrors(e, result, request.getLocale());
-			logger.error(LogUtils.stackTrace2String(e));
-		}
-		return result;
-	}	
-	
 	private WriteResultDTO addFeedback(HttpServletRequest request, AttendanceDTO attendance) {
 		WriteResultDTO result;
 		try {
@@ -339,10 +318,17 @@ public class EventService extends ApplicationService{
 		}
 		return attendances;
 	}	
-	private List<EventDTO> searchEvents(HttpServletRequest request, String gpsLat, String gpsLong, String idCategoria, String partecipanti) {
+	private List<EventDTO> searchEvents(HttpServletRequest request, 
+										String userGpsLat, 
+										String userGpsLong, 
+										String radiusKm,
+										String desideredGpsLat, 
+										String desideredGpsLong, 
+										String idCategoria, 
+										String partecipanti) {
 		List<EventDTO> events = null;
 		try {
-			events = businessServiceFacade.searchEvents(gpsLat, gpsLong, idCategoria, partecipanti);
+			events = businessServiceFacade.searchEvents(userGpsLat, userGpsLong, radiusKm, desideredGpsLat, desideredGpsLong, idCategoria, partecipanti);
 		} catch (BusinessException e) {
 			events = new ArrayList<EventDTO>();
 			logger.error(LogUtils.stackTrace2String(e));

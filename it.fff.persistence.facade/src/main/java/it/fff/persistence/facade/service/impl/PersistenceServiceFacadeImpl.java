@@ -99,12 +99,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId) throws PersistenceException {
-		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = eventPersistenceService.cancelAttendance(eventId,attendanceId);
+			resultBO = userPersistenceService.cancelAttendance(eventId,userId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -158,7 +158,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = eventPersistenceService.createStandardEventMessage(bo);
+			resultBO = eventPersistenceService.createAttandance(bo);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());

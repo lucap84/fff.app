@@ -18,8 +18,6 @@ public interface EventBusinessService extends BusinessService{
 
 	public WriteResultBO cancelEvent(int eventId, int organizerId) throws  PersistenceException;
 
-	public WriteResultBO cancelAttendance(int eventId, int attendanceId)  throws  PersistenceException;
-
 	public WriteResultBO postEventMessage(int attendanceId, String message)  throws  PersistenceException;
 
 	public WriteResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws  PersistenceException;
@@ -30,7 +28,7 @@ public interface EventBusinessService extends BusinessService{
 
 	public List<MessageBO> getEventMessages(int eventId) throws  PersistenceException;
 
-	public List<EventBO> searchEvents(double gpsLat, double gpsLong, int idCategoria, int partecipanti) throws  PersistenceException;
+	public List<EventBO> searchEvents(double userGpsLat, double userGpsLong, double radiusKm, double desideredGpsLat, double desideredGpsLong,int idCategoria, int partecipanti) throws  PersistenceException;
 
 	public List<EventBO> getEventsByUser(int userId) throws  PersistenceException;
 

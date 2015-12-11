@@ -26,8 +26,8 @@
          
          <!--  mappings with Entity Objects -->
         <mapping class="it.fff.business.common.eo.AccountEO" />
-        <mapping class="it.fff.business.common.eo.AchievementTypeEO" />
         <mapping class="it.fff.business.common.eo.AchievementObtainedEO" />
+        <mapping class="it.fff.business.common.eo.AchievementTypeEO" />
         <mapping class="it.fff.business.common.eo.AttendanceEO" />
         <mapping class="it.fff.business.common.eo.AttendanceStateEO" />
         <mapping class="it.fff.business.common.eo.CityEO" />
