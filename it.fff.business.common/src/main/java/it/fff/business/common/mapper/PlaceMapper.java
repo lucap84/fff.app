@@ -61,9 +61,20 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		PlaceBO bo = null;
 		if(dto!=null){
 			bo = new PlaceBO();
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setNome(dto.getNome());
+			bo.setVia(dto.getVia());
+			bo.setCivico(dto.getCap());
 			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
 			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
-			bo.setNome(dto.getNome());
+			bo.setCap(dto.getCap());
+			bo.setTags(dto.getTags());
+			
+			CityMapper cityMapper = CityMapper.getInstance();
+			bo.setCity(cityMapper.mapDTO2BO(dto.getCity()));
+			
 		}
 		return bo;
 	}
@@ -74,9 +85,20 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			if(eo==null){
 				eo = new PlaceEO();
 			}
+			if(bo.getId()>0){
+				eo.setId(bo.getId());
+			}
+			eo.setNome(bo.getNome());
+			eo.setVia(bo.getVia());
+			eo.setCivico(bo.getCap());
 			eo.setGpsLat(bo.getGpsLat());
 			eo.setGpsLong(bo.getGpsLong());
-			eo.setNome(bo.getNome());
+			eo.setCap(bo.getCap());
+			eo.setTags(bo.getTags());
+			
+			CityMapper cityMapper = CityMapper.getInstance();
+			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), null));
+			
 		}
 		return eo;
 	}
@@ -99,9 +121,19 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		PlaceBO bo = null;
 		if(eo!=null){
 			bo = new PlaceBO();
+			if(eo.getId()!=null && eo.getId()>0){
+				bo.setId(eo.getId());
+			}
 			bo.setGpsLat(eo.getGpsLat());
 			bo.setGpsLong(eo.getGpsLong());
 			bo.setNome(eo.getNome());
+			
+			bo.setCivico(eo.getCivico());
+			bo.setVia(eo.getVia());
+			bo.setCap(eo.getCap());
+			
+			CityMapper cityMapper = CityMapper.getInstance();
+			bo.setCity(cityMapper.mapEO2BO(eo.getCity()));			
 		}
 		return bo;
 	}

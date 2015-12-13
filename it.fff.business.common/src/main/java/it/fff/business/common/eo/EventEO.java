@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,7 @@ public class EventEO extends EntityObject{
 
 	@Id
 	@Column(name="ID")
+	@GeneratedValue
 	private Integer id;
 	
 	@Column(name="Titolo")
@@ -47,7 +49,6 @@ public class EventEO extends EntityObject{
 	private PlaceEO location;	
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-	@Cascade({CascadeType.SAVE_UPDATE})
 	private List<AttendanceEO> partecipazioni;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")

@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.eo.MessageEO;
@@ -56,11 +58,22 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			
 			bo.setDataCreazione(dto.getDataCreazione());
 			
-			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
-			bo.setAttendance(attendanceMapper.mapDTO2BO(dto.getAttendance()));
-			
-			EventMapper eventMapper = EventMapper.getInstance();
-			bo.setEvent(eventMapper.mapDTO2BO(dto.getEvent()));
+			//non uso mapper per evitare loop
+			if(dto.getAttendance()!=null){
+				AttendanceBO attbo = new AttendanceBO();
+				if(dto.getAttendance().getId()!=null && !"".equals(dto.getAttendance().getId())){
+					attbo.setId(Integer.valueOf(dto.getAttendance().getId()));
+				}
+				bo.setAttendance(attbo);
+			}
+				
+			if(dto.getEvent()!=null){
+				EventBO evbo = new EventBO();
+				if(dto.getEvent().getId()!=null && !"".equals(dto.getEvent().getId())){
+					evbo.setId(Integer.valueOf(dto.getEvent().getId()));
+				}
+				bo.setEvent(evbo);
+			}			
 		}
 		return bo;
 	}

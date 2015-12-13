@@ -3,7 +3,10 @@ package it.fff.business.common.mapper;
 import java.util.List;
 
 import it.fff.business.common.bo.CityBO;
+import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.CityEO;
+import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.CityDTO;
 
 public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
@@ -29,8 +32,18 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 
 	@Override
 	public CityBO mapDTO2BO(CityDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+		CityBO bo = null;
+		if(dto!=null){
+			bo = new CityBO();
+			if(dto.getId()!=null && !"".equals(dto.getId())){
+				bo.setId(Integer.valueOf(dto.getId()));
+			}
+			bo.setNome(dto.getNome());
+
+			NationMapper nationMapper = NationMapper.getInstance();
+			bo.setNazione(nationMapper.mapDTO2BO(dto.getNazione()));
+		}
+		return bo;
 	}
 
 	@Override
@@ -40,7 +53,18 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 
 	@Override
 	public CityEO mergeBO2EO(CityBO bo, CityEO eo) {
-		return null;
+		if(bo!=null){
+			if(eo==null){
+				eo = new CityEO();
+			}
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setNomeIfNotEmpty(bo.getNome());
+			
+			NationMapper nationMapper = NationMapper.getInstance();
+			eo.setNazione(nationMapper.mergeBO2EO(bo.getNazione(), null));
+			
+		}
+		return eo;
 	}
 
 	@Override
@@ -51,8 +75,16 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 
 	@Override
 	public CityBO mapEO2BO(CityEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+		CityBO bo = null;
+		if(eo!=null){
+			bo = new CityBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+			
+			NationMapper nationMapper = NationMapper.getInstance();
+			bo.setNazione(nationMapper.mapEO2BO(eo.getNazione()));
+		}
+		return bo;
 	}
 
 	@Override

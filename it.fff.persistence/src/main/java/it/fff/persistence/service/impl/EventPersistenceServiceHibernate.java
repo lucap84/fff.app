@@ -17,8 +17,11 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.EventStateEO;
+import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.init.TypologicalLoader;
@@ -89,10 +92,32 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    Transaction tx = null;
 	    Integer eventId = null;
 	      try{
+	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
 	    	EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null);
-	    	  
-			tx = session.beginTransaction();//TODO controlla se salva anche le partecipazioni (ho messo un cascade hibernate su EventEO)
-			eventId = (Integer)session.save(eventEO); 
+	    	EventStateEO stato = eventEO.getStato();
+			stato.setId(eventStateId);
+			
+	    	tx = session.beginTransaction();//TODO controlla se salva anche le partecipazioni (ho messo un cascade hibernate su EventEO)
+	    	
+	    	PlaceEO location = eventEO.getLocation();
+	    	session.saveOrUpdate(location);
+	    	session.saveOrUpdate(stato);
+
+	    	//	    	Query qGetPlace = session.createQuery("FROM PlaceEO WHERE id=:placeId");
+//	    	qGetPlace.setParameter("placeId", eventEO.getLocation().getId());
+//	    	PlaceEO placeEO = (PlaceEO)qGetPlace.uniqueResult();
+//	    	eventEO.setLocation(placeEO);
+	    	
+			eventId = (Integer)session.save(eventEO);
+			
+			for (AttendanceEO a : eventEO.getPartecipazioni()) {
+				Integer attStateId = TypologicalLoader.attendanceStateEnum2ID.get(AttendanceStateEnum.valueOf(a.getStato().getNome()));
+				a.getStato().setId(attStateId);
+				a.setEvent(eventEO);
+				session.save(a);
+			}
+			
+			
 	        tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

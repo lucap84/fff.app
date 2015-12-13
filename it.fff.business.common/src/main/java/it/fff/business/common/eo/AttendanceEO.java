@@ -2,6 +2,7 @@ package it.fff.business.common.eo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +15,7 @@ public class AttendanceEO extends EntityObject {
 
 	@Id
 	@Column(name="ID")
+	@GeneratedValue
 	private Integer id;
 	
 	@Column(name="Flg_Organizzatore")

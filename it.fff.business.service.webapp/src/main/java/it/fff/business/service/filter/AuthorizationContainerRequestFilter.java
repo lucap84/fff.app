@@ -80,10 +80,13 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 
 	private boolean isToAuthorize(String requestPath) {
 		boolean isToAuthorize = true;
-		//Bisogna sempre procedere con l'autorizzazione, tranne che per registrarsi o per fare login
+		//Bisogna sempre procedere con l'autorizzazione, tranne che per registrarsi, per fare login per recuperare la password
 		isToAuthorize &= !requestPath.matches("^security/registration.*");
 		isToAuthorize &= !requestPath.matches("^security/login.*");
-//		isToAuthorize &= !requestPath.matches("^security/logout.*");
+		
+		//servizi per reset password
+		isToAuthorize &= !requestPath.matches("^security/.*/password/reset/.*");
+		isToAuthorize &= !requestPath.matches("^security/.*/verificationcode/.*");
 		
 		return isToAuthorize;
 	}

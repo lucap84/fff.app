@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -29,7 +28,7 @@ public class AccountEO extends EntityObject {
 	private String password;
 	
 	@Column(name = "Verification_Code")
-	private int verificationCode;
+	private String verificationCode;
 	
 	@Column(name = "Flg_Validita")
 	private boolean flgValidita;
@@ -76,12 +75,12 @@ public class AccountEO extends EntityObject {
 	}
 
 
-	public int getVerificationCode() {
+	public String getVerificationCode() {
 		return verificationCode;
 	}
 
 
-	public void setVerificationCode(int verificationCode) {
+	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
 
@@ -137,7 +136,7 @@ public class AccountEO extends EntityObject {
 	public void setPasswordIfNotEmpty(String password) {
 		if(!isEmpty(password)) this.password = password;
 	}
-	public void setVerificationCodeIfNotEmpty(int verificationCode) {
+	public void setVerificationCodeIfNotEmpty(String verificationCode) {
 		if(!isEmpty(verificationCode)) this.verificationCode = verificationCode;
 	}	
 	

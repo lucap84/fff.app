@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,7 @@ import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -88,9 +90,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	Integer idAccount = (Integer)query.uniqueResult();
 
 	    	if(idAccount==null || idAccount<=0){
-	    		result.setSuccess(false);
-	    		result.setAffectedRecords(0);
-	    		return result;
+	    		throw new Exception("Account non trovato!");
 	    	}
 	    	sessionEO.getAccount().setId(idAccount);
 	    	Integer sessionId = (Integer)session.save(sessionEO);//insert nuovo record session
@@ -112,9 +112,44 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 	
 	@Override
-	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO checkVerificationCode(String email, String verificationCode) throws Exception {
+		logger.info("checkVerificationCode...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	String hqlSelectAccount = "FROM AccountEO A WHERE A.flgValidita = 1 AND A.email = :email AND A.verificationCode = :verificationCode";	    	  
+	    	
+	    	Query query = session.createQuery(hqlSelectAccount);
+	    	query.setParameter("email", email);
+	    	query.setParameter("verificationCode", verificationCode);
+	    	
+	    	tx = session.beginTransaction();
+	    	
+	    	AccountEO accountEO = (AccountEO)query.uniqueResult();
+	    	if(accountEO==null){
+	    		throw new Exception("Verification Code non corretto!");
+	    	}
+	    	accountEO.setFlgVerificato(true);// imposto il codice verificato
+	    	session.update(accountEO);
+
+	    	tx.commit();
+	    	
+	    	result.setSuccess(true);
+	    	result.setWrittenKey(accountEO.getId());
+	    	result.setAffectedRecords(1);
+	    }catch (HibernateException e) {
+	    	if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during checkVerificationCode() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+		logger.info("...checkVerificationCode");
+		return result;
 	}
 
 	@Override
@@ -240,8 +275,36 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 
 	@Override
 	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("update password...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+			String hqlUpdate = "UPDATE AccountEO set verificationCode = :verificationCode, flgVerificato = 0  WHERE email =:email AND flgValidita = 1";	    	  
+
+			Query query = session.createQuery(hqlUpdate);
+			query.setParameter("verificationCode", verificationCode);
+			query.setParameter("email", email);
+
+			tx = session.beginTransaction();
+			int recordUpdated = query.executeUpdate();
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			result.setWrittenKey(-1);
+			result.setSuccess(true);
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during updatePassword() ",e);
+	    }finally {
+	    	session.close(); 
+	    }			
+	    logger.info("...update password");
+		return result;
 	}
 
 }

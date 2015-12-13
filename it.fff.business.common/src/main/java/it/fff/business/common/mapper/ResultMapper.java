@@ -66,14 +66,18 @@ public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>
 
 	@Override
 	public WriteResultDTO mapBO2DTO(WriteResultBO bo) {
-		WriteResultDTO dto = new WriteResultDTO();
-		dto.setAffectedRecords(bo.getAffectedRecords());
-		if(!bo.isSuccess()){
-			for (String errCode : bo.getErrorCodes()) {
-				dto.putErrorInMap(errCode, errCode);
+		WriteResultDTO dto = null;
+		if(bo!=null){
+			dto = new WriteResultDTO();
+			dto.setAffectedRecords(bo.getAffectedRecords());
+			if(!bo.isSuccess()){
+				for (String errCode : bo.getErrorCodes()) {
+					dto.putErrorInMap(errCode, errCode);
+				}
 			}
+			dto.setIdentifier((String.valueOf(bo.getWrittenKey())));
 		}
-		dto.setIdentifier((String.valueOf(bo.getWrittenKey())));
+	
 		return dto;
 	}	
 

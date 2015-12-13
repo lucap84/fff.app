@@ -44,13 +44,32 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 	}
 
 	@Override
-	public List<EventCategoryEO> mergeBOs2EOs(List<EventCategoryBO> bos, List<EventCategoryEO> eso) {
-		return null;
+	public List<EventCategoryEO> mergeBOs2EOs(List<EventCategoryBO> bos, List<EventCategoryEO> eos) {
+		if(bos!=null){
+			if(eos==null){
+				eos = new ArrayList<EventCategoryEO>();
+			}
+			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
+			for (EventCategoryBO bo : bos) {
+				eos.add(eventCategoryMapper.mergeBO2EO(bo,null));
+			}
+		}
+		return eos;
 	}
 
 	@Override
 	public EventCategoryEO mergeBO2EO(EventCategoryBO bo, EventCategoryEO eo) {
-		return null;
+		if(bo!=null){
+			if(eo==null){
+				eo = new EventCategoryEO();
+			}
+			if(bo.getId()>0){
+				eo.setId(bo.getId());
+			}
+			eo.setNome(bo.getNome());
+			eo.setDescrizione(bo.getDescrizione());
+		}
+		return eo;
 	}
 
 	@Override

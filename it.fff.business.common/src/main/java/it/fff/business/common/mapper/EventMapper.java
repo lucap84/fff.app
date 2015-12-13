@@ -78,10 +78,16 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			if(eo==null){
 				eo = new EventEO();
 			}
-			eo.setId(bo.getId());
+			if(bo.getId()>0){
+				eo.setId(bo.getId());
+			}
 			eo.setTitolo(bo.getTitolo());
 			eo.setDescrizione(bo.getDescrizione());
 			eo.setDurata(bo.getDurata());
+			eo.setDataInizio(bo.getDataInizio());
+			
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
+			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), null));
 			
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			eo.setPartecipazioni(attendanceMapper.mergeBOs2EOs(bo.getPartecipazioni(),eo.getPartecipazioni()));

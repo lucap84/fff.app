@@ -45,6 +45,17 @@ public class CityEO extends EntityObject {
 	public void setNazione(NationEO nazione) {
 		this.nazione = nazione;
 	}
+
+	/*
+	 * if not null setter
+	 */
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id)) this.id = id;
+		
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.nome = nome;
+	}
 	
 
 }

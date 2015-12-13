@@ -9,13 +9,13 @@ import it.fff.clientserver.common.enums.AttendanceStateEnum;
 public class AttendanceDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 4164922390980044360L;
-	String id;
-	UserDTO user;
-	EventDTO event;
-	boolean isOrganizer;
-	String numPartecipanti;
-	FeedbackDTO feedback;
-	boolean isValid;
+	private String id;
+	private UserDTO user;
+	private String eventId;
+	private boolean isOrganizer;
+	private String numPartecipanti;
+	private boolean isPositiveFeedback;
+	private boolean isValid;
 	private AttendanceStateEnum stato;
 	
 
@@ -31,12 +31,6 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setUser(UserDTO user) {
 		this.user = user;
 	}
-	@XmlElement public EventDTO getEvent() {
-		return event;
-	}
-	public void setEvent(EventDTO event) {
-		this.event = event;
-	}
 	@XmlElement public boolean isOrganizer() {
 		return isOrganizer;
 	}
@@ -49,23 +43,30 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
 	}
-	@XmlElement public FeedbackDTO getFeedback() {
-		return feedback;
-	}
-	public void setFeedback(FeedbackDTO feedback) {
-		this.feedback = feedback;
-	}
+
 	@XmlElement public String getNumPartecipanti() {
 		return numPartecipanti;
 	}
 	public void setNumPartecipanti(String numPartecipanti) {
 		this.numPartecipanti = numPartecipanti;
 	}
-	public AttendanceStateEnum getStato() {
+	@XmlElement public AttendanceStateEnum getStato() {
 		return stato;
 	}
 	public void setStato(AttendanceStateEnum stato) {
 		this.stato = stato;
+	}
+	@XmlElement public boolean isPositiveFeedback() {
+		return isPositiveFeedback;
+	}
+	public void setPositiveFeedback(boolean isPositiveFeedback) {
+		this.isPositiveFeedback = isPositiveFeedback;
+	}
+	@XmlElement public String getEventId() {
+		return eventId;
+	}
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
 	}
 	
 	

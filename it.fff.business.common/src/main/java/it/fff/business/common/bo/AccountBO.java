@@ -7,7 +7,7 @@ public class AccountBO implements BusinessObject {
 	private int	id;
 	private String email;
 	private String password;
-	private int verificationCode;
+	private String verificationCode;
 	private boolean flgValidita;
 	private boolean flgVerificato;
 	private UserBO user;
@@ -30,10 +30,10 @@ public class AccountBO implements BusinessObject {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getVerificationCode() {
+	public String getVerificationCode() {
 		return verificationCode;
 	}
-	public void setVerificationCode(int verificationCode) {
+	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
 	public boolean isFlgValidita() {
