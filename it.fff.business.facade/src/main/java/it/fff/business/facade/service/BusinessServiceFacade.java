@@ -12,7 +12,7 @@ public interface BusinessServiceFacade {
 	
 	public EventDTO getEvent(int eventId) throws BusinessException;
 
-	public AuthDataResponseDTO createUser(RegistrationDataRequestDTO registrationData) throws BusinessException;
+	public AuthDataResponseDTO createUser(RegistrationInputDTO registrationInput) throws BusinessException;
 
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException;
 
@@ -40,7 +40,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO upgradeToPremium(String userId, SubscriptionDTO subscription) throws BusinessException;
 
-	public AuthDataResponseDTO login(SessionDTO sessionToCreate, String sharedSecretHEX) throws BusinessException;
+	public AuthDataResponseDTO login(LoginInputDTO loginInfo, String sharedSecretHEX) throws BusinessException;
 
 	public WriteResultDTO updatePassword(UpdatePasswordDTO updatePasswordDTO) throws BusinessException;
 

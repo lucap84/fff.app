@@ -22,7 +22,7 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception;
 
-	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception;
+	public WriteResultBO addFeedback(AttendanceBO bo) throws Exception;
 
 	public WriteResultBO createAttandance(AttendanceBO eo) throws Exception;
 

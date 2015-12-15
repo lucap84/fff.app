@@ -46,13 +46,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM EventCategoryEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<EventCategoryEO> eos = query.list();
-	    	
+	    	List<EventCategoryEO> eos = session.createCriteria(EventCategoryEO.class).list();
 	    	bos = EventCategoryMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllEventCategories() ",e);
@@ -69,11 +64,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM EventStateEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	eos = query.list();
-	    	
+	    	eos = session.createCriteria(EventStateEO.class).list();
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllEventStates() ",e);
@@ -89,11 +80,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM AttendanceStateEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	eos = query.list();
-	    	
+			eos = session.createCriteria(AttendanceStateEO.class).list();
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllAttendanceStates() ",e);
@@ -110,13 +97,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM MessageStandardEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<MessageStandardEO> eos = query.list();
-	    	
+	    	List<MessageStandardEO> eos = session.createCriteria(MessageStandardEO.class).list();
 	    	bos = MessageStandardMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllStandardMessages() ",e);
@@ -133,13 +115,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM AchievementTypeEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<AchievementTypeEO> eos = query.list();
-	    	
+	    	List<AchievementTypeEO> eos = session.createCriteria(AchievementTypeEO.class).list();
 	    	bos = AchievementTypeMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllAchievementTypes() ",e);
@@ -156,13 +133,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM SubscriptionTypeEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<SubscriptionTypeEO> eos = query.list();
-	    	
+	    	List<SubscriptionTypeEO> eos = session.createCriteria(SubscriptionTypeEO.class).list();
 	    	bos = SubscriptionTypeMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllSubscriptionTypes() ",e);
@@ -179,13 +151,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM LanguageEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<LanguageEO> eos = query.list();
-	    	
+	    	List<LanguageEO> eos = session.createCriteria(LanguageEO.class).list();
 	    	bos = LanguageMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllLanguages() ",e);
@@ -202,13 +169,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "FROM NationEO";	    	  
-	    	Query query = session.createQuery(hqlSelect);
-	    	
-	    	List<NationEO> eos = query.list();
-	    	
+	    	List<NationEO> eos = session.createCriteria(NationEO.class).list();
 	    	bos = NationMapper.getInstance().mapEOs2BOs(eos);
-	    	
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllNations() ",e);

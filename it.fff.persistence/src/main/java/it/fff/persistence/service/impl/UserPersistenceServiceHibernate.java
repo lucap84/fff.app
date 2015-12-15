@@ -20,7 +20,6 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.AchievementObtainedEO;
@@ -28,10 +27,10 @@ import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.UserPersistenceService;
-import it.fff.persistence.util.ConfigurationProvider;
-import it.fff.persistence.util.Constants;
 import it.fff.persistence.util.HibernateUtil;
 
 public class UserPersistenceServiceHibernate implements UserPersistenceService {
@@ -144,7 +143,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		logger.info("creando img user");
 		ProfileImageBO outputBO = null;
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
-		String uploadFolder = configurationProvider.getProperty(Constants.PROP_UPLOAD_LOCATION);
+		String uploadFolder = configurationProvider.getImageConfigProperty(Constants.PROP_IMAGE_UPLOAD_LOCATION);
 		String dirPath = uploadFolder+"\\"+boInput.getUserId()+"\\";
 		this.createDirIfNotExists(dirPath);
 		String filePath = dirPath+boInput.getFileName();

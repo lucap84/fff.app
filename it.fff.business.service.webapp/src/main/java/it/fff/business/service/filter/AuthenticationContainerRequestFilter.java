@@ -90,6 +90,7 @@ public class AuthenticationContainerRequestFilter implements ContainerRequestFil
 				
 			}
 			catch(Exception e){
+				logger.error("Error during javax.crypto operation (Diffie Hellmann algorithm)");
 				e.printStackTrace();
 			}				
 			logger.debug("< AuthenticationContainerRequestFilter");

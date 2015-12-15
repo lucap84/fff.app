@@ -6,8 +6,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SessionDTO extends DataTransferObject {
 
+	private static final long serialVersionUID = 8728685619013221329L;
+	
 	private String	id;
-	private AccountDTO account;
+	private String accountId;
 	private String deviceId;
 	private String sharedKey;
 	private boolean isLogged;
@@ -19,12 +21,6 @@ public class SessionDTO extends DataTransferObject {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	@XmlElement public AccountDTO getAccount() {
-		return account;
-	}
-	public void setAccount(AccountDTO account) {
-		this.account = account;
 	}
 	@XmlElement public String getDeviceId() {
 		return deviceId;
@@ -56,6 +52,11 @@ public class SessionDTO extends DataTransferObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
-	
+	@XmlElement public String getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
 	
 }

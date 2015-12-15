@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class RegistrationDataRequestDTO extends DataTransferObject {
+public class RegistrationInputDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 5474778690001259111L;
 	

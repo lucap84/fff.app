@@ -72,14 +72,12 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			bo.setLogged(dto.isLogged());
 			bo.setSharedKey(dto.getSharedKey());
 			
-			//Non uso accountMapper per evitare cicli
-			AccountBO bo2 = new AccountBO();
-			bo2.setEmail(dto.getAccount().getEmail());
-			bo2.setPassword(dto.getAccount().getPassword());
-			bo2.setSessions(new ArrayList<SessionBO>());
-			bo2.getSessions().add(bo); //aggiungo la sessione creata all account;
+			if(dto.getAccountId()!=null && !"".equals(dto.getAccountId())){
+				AccountBO bo2 = new AccountBO();
+				bo2.setId(Integer.valueOf(dto.getAccountId()));
+				bo.setAccount(bo2);
+			}
 			
-			bo.setAccount(bo2);//Ogni session ha il riferimento all'account relativo
 		}
 		
 		return bo;

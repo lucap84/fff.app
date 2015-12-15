@@ -1,6 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +15,7 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.eo.AttendanceEO;
+import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.EventStateEO;
 import it.fff.business.common.eo.PlaceEO;
@@ -23,7 +23,6 @@ import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -92,24 +91,21 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    Transaction tx = null;
 	    Integer eventId = null;
 	      try{
-	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
 	    	EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null);
-	    	EventStateEO stato = eventEO.getStato();
-			stato.setId(eventStateId);
 			
-	    	tx = session.beginTransaction();//TODO controlla se salva anche le partecipazioni (ho messo un cascade hibernate su EventEO)
-	    	
-	    	PlaceEO location = eventEO.getLocation();
-	    	session.saveOrUpdate(location);
-	    	session.saveOrUpdate(stato);
+	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
 
-	    	//	    	Query qGetPlace = session.createQuery("FROM PlaceEO WHERE id=:placeId");
-//	    	qGetPlace.setParameter("placeId", eventEO.getLocation().getId());
-//	    	PlaceEO placeEO = (PlaceEO)qGetPlace.uniqueResult();
-//	    	eventEO.setLocation(placeEO);
+	    	tx = session.beginTransaction();
 	    	
+	    	//Rendo managed tutti gli oggetti collegati all'evento
+	    	eventEO.setLocation((PlaceEO) session.load(PlaceEO.class, eventEO.getLocation().getId()));
+	    	eventEO.setStato((EventStateEO) session.load(EventStateEO.class, eventStateId));
+	    	eventEO.setCategoria((EventCategoryEO) session.load(EventCategoryEO.class, eventEO.getCategoria().getId()));
+	    	
+	    	//ora posso salvare l'evento
 			eventId = (Integer)session.save(eventEO);
 			
+			//salvo anche le sue partecipazioni ora che ho l'ID evento (non sono salvate in cascade)
 			for (AttendanceEO a : eventEO.getPartecipazioni()) {
 				Integer attStateId = TypologicalLoader.attendanceStateEnum2ID.get(AttendanceStateEnum.valueOf(a.getStato().getNome()));
 				a.getStato().setId(attStateId);
@@ -149,9 +145,50 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO addFeedback(AttendanceBO bo) throws Exception {
+		logger.info("addFeedback...");
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    Integer attendanceId = bo.getId();
+	      try{
+	    	  tx = session.beginTransaction();
+
+	    	  AttendanceEO eo = (AttendanceEO) session.get(AttendanceEO.class, attendanceId);
+				
+	    	  switch (bo.getFeedback()) {
+				case POSITIVE:
+					eo.setPositiveFeedback(true);
+					break;
+				case NEGATIVE:
+					eo.setPositiveFeedback(false);
+					break;
+				case UNKNOW:
+					eo.setPositiveFeedback(null);
+					break;				
+				default:
+					break;
+				}
+			
+			session.update(eo);
+			
+	        tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during addFeedback() ",e);
+	      }finally {
+	         session.close(); 
+	      }			
+		
+		logger.info("...addFeedback");
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(attendanceId);
+		resultBO.setAffectedRecords(1);
+		
+		return resultBO;
 	}
 
 	@Override

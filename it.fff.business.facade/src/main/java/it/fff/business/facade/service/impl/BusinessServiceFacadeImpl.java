@@ -82,28 +82,29 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public AuthDataResponseDTO createUser(RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
+	public AuthDataResponseDTO createUser(RegistrationInputDTO registrationInputDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
 		WriteResultBO WriteResultBO = null;
 		try {
-			userBO = UserMapper.getInstance().mapDTO2BO(registrationDataDTO);
+			userBO = UserMapper.getInstance().mapDTO2BO(registrationInputDTO);
 			WriteResultBO = userBusinessService.createUser(userBO);
 		} catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		AuthDataResponseDTO result = CustomMapper.mapWriteResult2AuthData(WriteResultBO);
+		AuthDataResponseDTO result = CustomMapper.getInstance().mapWriteResult2AuthData(WriteResultBO);
 		return result;
 	}
 	
 	@Override
-	public AuthDataResponseDTO login(SessionDTO sessionToCreate, String sharedSecretHEX) throws BusinessException {
+	public AuthDataResponseDTO login(LoginInputDTO loginInfo, String sharedSecretHEX) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
 		WriteResultBO WriteResultBO = null;
 		SessionBO sessionBO = null;
 		try {
-			sessionBO = SessionMapper.getInstance().mapDTO2BO(sessionToCreate);
+			
+			sessionBO = CustomMapper.getInstance().mapLoginInput2Session(loginInfo);
 			sessionBO.setSharedKey(sharedSecretHEX);
 			WriteResultBO = securityBusinessService.login(sessionBO);
 		}
@@ -111,7 +112,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
-		AuthDataResponseDTO result = CustomMapper.mapWriteResult2AuthData(WriteResultBO);
+		AuthDataResponseDTO result = CustomMapper.getInstance().mapWriteResult2AuthData(WriteResultBO);
 		return result;
 	}	
 

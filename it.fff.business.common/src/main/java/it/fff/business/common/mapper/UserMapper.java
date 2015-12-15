@@ -145,7 +145,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		return dto;
 	}
 
-	public UserBO mapDTO2BO(RegistrationDataRequestDTO dto) {
+	public UserBO mapDTO2BO(RegistrationInputDTO dto) {
 		UserBO bo1 = null;
 		
 		if(dto!=null){

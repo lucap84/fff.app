@@ -4,17 +4,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 
 @XmlRootElement
 public class AttendanceDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 4164922390980044360L;
 	private String id;
-	private UserDTO user;
+	private String userId;
 	private String eventId;
 	private boolean isOrganizer;
 	private String numPartecipanti;
-	private boolean isPositiveFeedback;
+	private FeedbackEnum feedback;
 	private boolean isValid;
 	private AttendanceStateEnum stato;
 	
@@ -24,12 +25,6 @@ public class AttendanceDTO extends DataTransferObject {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	@XmlElement public UserDTO getUser() {
-		return user;
-	}
-	public void setUser(UserDTO user) {
-		this.user = user;
 	}
 	@XmlElement public boolean isOrganizer() {
 		return isOrganizer;
@@ -56,17 +51,23 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setStato(AttendanceStateEnum stato) {
 		this.stato = stato;
 	}
-	@XmlElement public boolean isPositiveFeedback() {
-		return isPositiveFeedback;
-	}
-	public void setPositiveFeedback(boolean isPositiveFeedback) {
-		this.isPositiveFeedback = isPositiveFeedback;
-	}
 	@XmlElement public String getEventId() {
 		return eventId;
 	}
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+	}
+	@XmlElement public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	@XmlElement public FeedbackEnum getFeedback() {
+		return feedback;
+	}
+	public void setFeedback(FeedbackEnum feedback) {
+		this.feedback = feedback;
 	}
 	
 	

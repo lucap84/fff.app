@@ -25,7 +25,7 @@ public class AttendanceEO extends EntityObject {
 	private int numPartecipanti;
 	
 	@Column(name="Flg_Feedback")
-	private boolean isPositiveFeedback;
+	private Boolean isPositiveFeedback;
 
 	@Column(name="Data_Creazione")
 	private String dataCreazione;
@@ -75,11 +75,11 @@ public class AttendanceEO extends EntityObject {
 		this.numPartecipanti = numPartecipanti;
 	}
 
-	public boolean isPositiveFeedback() {
+	public Boolean isPositiveFeedback() {
 		return isPositiveFeedback;
 	}
 
-	public void setPositiveFeedback(boolean isPositiveFeedback) {
+	public void setPositiveFeedback(Boolean isPositiveFeedback) {
 		this.isPositiveFeedback = isPositiveFeedback;
 	}
 

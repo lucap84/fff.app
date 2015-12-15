@@ -113,7 +113,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo, boolean isPositiveFeedback) throws SQLException {
+	public WriteResultBO addFeedback(AttendanceBO bo) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -264,14 +264,21 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 
 	@Override
 	public List<MessageBO> getEventMessages(int eventId) throws SQLException {
+		EventBO event = new EventBO();
+		event.setId(1);
+		
+		AttendanceBO att = new AttendanceBO();
+		att.setId(1);
+		att.setEvent(event);
+		
 		List<MessageBO> messagesBO = new ArrayList<MessageBO>();
 		MessageBO messageBO1 = new MessageBO();
 		messageBO1.setId(1);
 		messageBO1.setText("Testo messaggio mock 1");
 		messageBO1.setDataCreazione("1998-01-01");
 		messageBO1.setMsgStd(null);
-		messageBO1.setAttendance(null);
-		messageBO1.setEvent(null);
+		messageBO1.setAttendance(att);
+		messageBO1.setEvent(event);
 		
 		MessageBO messageBO2 = new MessageBO();
 		messageBO2.setId(2);
@@ -283,8 +290,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		msgstdbo1.setText("Non vi vedo, dove state?");
 		
 		messageBO2.setMsgStd(msgstdbo1);
-		messageBO2.setAttendance(null);
-		messageBO2.setEvent(null);
+		messageBO2.setAttendance(att);
+		messageBO2.setEvent(event);
 		
 		
 		messagesBO.add(messageBO1);

@@ -46,8 +46,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public AuthDataResponseDTO registerUserJSON( @Context HttpServletRequest request,
 											@Context HttpHeaders headers,
-											RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
-		return registerUser(request, headers, registrationDataDTO);
+											RegistrationInputDTO registrationInputDTO) throws BusinessException {
+		return registerUser(request, headers, registrationInputDTO);
 	}
 	@POST
 	@Path("registration/xml")
@@ -55,8 +55,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_XML)
 	public AuthDataResponseDTO registerUserXML( @Context HttpServletRequest request,
 										   @Context HttpHeaders headers,
-										   RegistrationDataRequestDTO registrationDataDTO) throws BusinessException {
-		return registerUser(request, headers, registrationDataDTO);
+										   RegistrationInputDTO registrationInputDTO) throws BusinessException {
+		return registerUser(request, headers, registrationInputDTO);
 	}
 	@POST
 	@Path("login/json")
@@ -64,8 +64,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public AuthDataResponseDTO loginJSON(@Context HttpServletRequest request,
 									@Context HttpHeaders headers,						
-									SessionDTO sessionToCreate) throws BusinessException {
-		return login(request, headers, sessionToCreate);
+									LoginInputDTO loginInfo) throws BusinessException {
+		return login(request, headers, loginInfo);
 	}
 	@POST
 	@Path("login/xml")
@@ -73,8 +73,8 @@ public class SecurityService extends ApplicationService {
 	@Produces(MediaType.APPLICATION_XML)
 	public AuthDataResponseDTO loginXML( @Context HttpServletRequest request,
 									@Context HttpHeaders headers,						
-									SessionDTO sessionToCreate) throws BusinessException {
-		return login(request, headers, sessionToCreate);
+									LoginInputDTO loginInfo) throws BusinessException {
+		return login(request, headers, loginInfo);
 	}	
 	
 	@POST
@@ -176,7 +176,7 @@ public class SecurityService extends ApplicationService {
 	 *
 	 */
 	
-	private AuthDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationDataRequestDTO registrationDataDTO) {
+	private AuthDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationInputDTO registrationInputDTO) {
 		AuthDataResponseDTO resultDTO = null;
 		resultDTO = new AuthDataResponseDTO();
 
@@ -188,10 +188,10 @@ public class SecurityService extends ApplicationService {
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
-		registrationDataDTO.setDeviceId(deviceId);
-		registrationDataDTO.setSharedKey(sharedSecretHEX);
+		registrationInputDTO.setDeviceId(deviceId);
+		registrationInputDTO.setSharedKey(sharedSecretHEX);
 		try {
-			resultDTO = businessServiceFacade.createUser(registrationDataDTO);
+			resultDTO = businessServiceFacade.createUser(registrationInputDTO);
 		} catch (BusinessException e) {
 			resultDTO = new AuthDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
@@ -207,7 +207,7 @@ public class SecurityService extends ApplicationService {
 		return resultDTO;
 	}
 	
-	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, SessionDTO sessionToCreate) {
+	private AuthDataResponseDTO login(HttpServletRequest request, HttpHeaders headers, LoginInputDTO loginInfo) {
 		AuthDataResponseDTO resultDTO;
 		String deviceId = null;
 		List<String> devicesHeader = headers.getRequestHeader("Device");
@@ -217,10 +217,10 @@ public class SecurityService extends ApplicationService {
 		String serverPublicKey = (String)request.getAttribute("serverPubKeyEncStrB64");
 		String sharedSecretHEX = (String)request.getAttribute("sharedSecretHEX");
 		
-		sessionToCreate.setDeviceId(deviceId);
+		loginInfo.setDeviceId(deviceId);
 		
 		try {
-			resultDTO = businessServiceFacade.login(sessionToCreate, sharedSecretHEX);
+			resultDTO = businessServiceFacade.login(loginInfo, sharedSecretHEX);
 		} catch (BusinessException e) {
 			resultDTO = new AuthDataResponseDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());

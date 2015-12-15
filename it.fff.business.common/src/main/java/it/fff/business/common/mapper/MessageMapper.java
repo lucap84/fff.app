@@ -58,20 +58,15 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			
 			bo.setDataCreazione(dto.getDataCreazione());
 			
-			//non uso mapper per evitare loop
-			if(dto.getAttendance()!=null){
+			if(dto.getAttendanceId()!=null && !"".equals(dto.getAttendanceId())){
 				AttendanceBO attbo = new AttendanceBO();
-				if(dto.getAttendance().getId()!=null && !"".equals(dto.getAttendance().getId())){
-					attbo.setId(Integer.valueOf(dto.getAttendance().getId()));
-				}
+				attbo.setId(Integer.valueOf(dto.getAttendanceId()));
 				bo.setAttendance(attbo);
 			}
 				
-			if(dto.getEvent()!=null){
+			if(dto.getEventId()!=null && !"".equals(dto.getEventId())){
 				EventBO evbo = new EventBO();
-				if(dto.getEvent().getId()!=null && !"".equals(dto.getEvent().getId())){
-					evbo.setId(Integer.valueOf(dto.getEvent().getId()));
-				}
+				evbo.setId(Integer.valueOf(dto.getEventId()));
 				bo.setEvent(evbo);
 			}			
 		}
@@ -153,11 +148,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 			dto.setDataCreazione(bo.getDataCreazione());
 			
-			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
-			dto.setAttendance(attendanceMapper.mapBO2DTO(bo.getAttendance()));
+			dto.setAttendanceId(String.valueOf(bo.getAttendance().getId()));
 			
-			EventMapper eventMapper = EventMapper.getInstance();
-			dto.setEvent(eventMapper.mapBO2DTO(bo.getEvent()));
+			dto.setEventId(String.valueOf(bo.getEvent().getId()));
 			
 		}
 		return dto;

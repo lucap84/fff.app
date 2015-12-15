@@ -3,17 +3,19 @@ package it.fff.clientserver.common.dto;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-
+@XmlRootElement
 public class AccountDTO extends DataTransferObject {
 
+	private static final long serialVersionUID = -71986174187350978L;
 	private String id;
 	private String email;
 	private String password;
 	private String verificationCode;
 	private boolean flgValidita;
 	private boolean flgVerificato;
-	private UserDTO user;
+	private String userId;
 	private List<SessionDTO> sessions;
 	
 	@XmlElement public String getId() {
@@ -52,17 +54,17 @@ public class AccountDTO extends DataTransferObject {
 	public void setFlgVerificato(boolean flgVerificato) {
 		this.flgVerificato = flgVerificato;
 	}
-	@XmlElement public UserDTO getUser() {
-		return user;
-	}
-	public void setUser(UserDTO user) {
-		this.user = user;
-	}
 	@XmlElement public List<SessionDTO> getSessions() {
 		return sessions;
 	}
 	public void setSessions(List<SessionDTO> sessions) {
 		this.sessions = sessions;
+	}
+	@XmlElement public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

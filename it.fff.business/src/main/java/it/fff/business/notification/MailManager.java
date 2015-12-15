@@ -14,17 +14,21 @@ import javax.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
 import it.fff.business.service.impl.SecurityBusinessServiceImpl;
-import it.fff.business.util.ConfigurationProvider;
-import it.fff.business.util.Constants;
 
 public class MailManager {
 	
 	private static final Logger logger = LogManager.getLogger(MailManager.class);
 	
 	private static MailManager mailManager;
+	private boolean mailSenderEnabled;
 	
 	private MailManager(){
+		ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+		String emailSenderEnabled = confProvider.getEmailProperty(Constants.PROP_MAIL_SENDER_ENABLED);
+		this.mailSenderEnabled = "1".equals(emailSenderEnabled);
 	}
 
 	public static MailManager getInstance(){
@@ -36,6 +40,9 @@ public class MailManager {
 	
 	public boolean sendVerificationCodeMail(String email, String verificationCode){
 		boolean success = true;
+		if(!this.mailSenderEnabled){
+			return success;
+		}
 		ConfigurationProvider configProvider = ConfigurationProvider.getInstance();
 		Properties mailProperties = configProvider.getEmailProperties();
 		

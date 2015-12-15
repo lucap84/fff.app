@@ -2,23 +2,18 @@ package it.fff.business.service.impl;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.dbcp.pool.impl.GenericKeyedObjectPool.Config;
-import org.eclipse.jdt.internal.compiler.batch.Main;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.strategy.VerificationCodeStrategy;
-import it.fff.business.util.ConfigurationProvider;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
-import it.fff.persistence.service.impl.SecurityPersistenceServiceHibernate;
 
 public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	

@@ -1,13 +1,14 @@
 package it.fff.business.common.bo;
 
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 
 public class AttendanceBO implements BusinessObject{
 	
 	private int id;
 	private boolean isOrganizer;
 	private int numPartecipanti;
-	private boolean isPositiveFeedback;
+	private FeedbackEnum feedback;
 	private boolean isValid;
 	private EventBO event;
 	private UserBO utente;
@@ -29,12 +30,6 @@ public class AttendanceBO implements BusinessObject{
 	}
 	public void setNumPartecipanti(int numPartecipanti) {
 		this.numPartecipanti = numPartecipanti;
-	}
-	public boolean isPositiveFeedback() {
-		return isPositiveFeedback;
-	}
-	public void setPositiveFeedback(boolean isPositiveFeedback) {
-		this.isPositiveFeedback = isPositiveFeedback;
 	}
 	public boolean isValid() {
 		return isValid;
@@ -60,6 +55,11 @@ public class AttendanceBO implements BusinessObject{
 	public void setStato(AttendanceStateEnum stato) {
 		this.stato = stato;
 	}
-	
+	public FeedbackEnum getFeedback() {
+		return feedback;
+	}
+	public void setFeedback(FeedbackEnum feedback) {
+		this.feedback = feedback;
+	}
 	
 }
