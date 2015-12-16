@@ -7,6 +7,7 @@ import it.fff.business.facade.exception.BusinessException;
 import it.fff.clientserver.common.dto.*;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 
 public interface BusinessServiceFacade {
 	
@@ -24,7 +25,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO joinEvent(AttendanceDTO attendanceToCreate) throws BusinessException;
 
-	public WriteResultDTO addFeedback(AttendanceDTO attendance) throws BusinessException;
+	public WriteResultDTO addFeedback(String attendanceId, FeedbackEnum feedback) throws BusinessException;
 
 	public WriteResultDTO cancelAttendance(String eventId, String userId) throws BusinessException;
 

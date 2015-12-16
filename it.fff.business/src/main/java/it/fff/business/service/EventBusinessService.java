@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.persistence.facade.exception.PersistenceException;
@@ -24,7 +25,7 @@ public interface EventBusinessService extends BusinessService{
 
 	public WriteResultBO joinEvent(AttendanceBO bo) throws  PersistenceException;
 
-	public WriteResultBO addFeedback(AttendanceBO bo) throws  PersistenceException;
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws  PersistenceException;
 
 	public List<MessageBO> getEventMessages(int eventId) throws  PersistenceException;
 

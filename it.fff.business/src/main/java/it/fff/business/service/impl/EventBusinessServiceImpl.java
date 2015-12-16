@@ -12,6 +12,7 @@ import it.fff.business.comparator.PlaceDistanceComparator;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.service.EventBusinessService;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 
@@ -77,8 +78,8 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.addFeedback(bo);
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
+		WriteResultBO resultBO = persistenceFacade.addFeedback(attendanceId, feedback);
 		return resultBO;
 	}
 

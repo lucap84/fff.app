@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -94,16 +95,22 @@ public class EventService extends ApplicationService{
 	@Path("{eventId}/attendances/{attendanceId}/feedback/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public WriteResultDTO addFeedbackJSON(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
-		return addFeedback(request, attendance);
+	public WriteResultDTO addFeedbackJSON(	@Context HttpServletRequest request, 
+											@PathParam("eventId") String eventId,
+											@PathParam("attendanceId") String attendanceId,
+											FeedbackEnum feedback) throws BusinessException {
+		return addFeedback(request, eventId, attendanceId, feedback);
 	}	
 	@POST
 	@Path("{eventId}/attendances/{attendanceId}/feedback/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public WriteResultDTO addFeedbackXML(@Context HttpServletRequest request, AttendanceDTO attendance) throws BusinessException {
-		return addFeedback(request, attendance);
-	}	
+	public WriteResultDTO addFeedbackXML(	@Context HttpServletRequest request, 
+											@PathParam("eventId") String eventId,
+											@PathParam("attendanceId") String attendanceId,
+											FeedbackEnum feedback) throws BusinessException {
+		return addFeedback(request, eventId, attendanceId, feedback);
+}	
 	
 	@POST
 	@Path("{eventId}/attendances/json")
@@ -260,10 +267,10 @@ public class EventService extends ApplicationService{
 		return result;
 	}	
 	
-	private WriteResultDTO addFeedback(HttpServletRequest request, AttendanceDTO attendance) {
+	private WriteResultDTO addFeedback(HttpServletRequest request, String eventId, String attendanceId, FeedbackEnum feedback) {
 		WriteResultDTO result;
 		try {
-			result = businessServiceFacade.addFeedback(attendance);
+			result = businessServiceFacade.addFeedback(attendanceId, feedback);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
 			super.manageErrors(e, result, request.getLocale());

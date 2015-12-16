@@ -14,6 +14,7 @@ import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.facade.exception.PersistenceException;
 import it.fff.persistence.facade.service.PersistenceServiceFacade;
 import it.fff.persistence.service.*;
@@ -171,12 +172,12 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo) throws PersistenceException {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = eventPersistenceService.addFeedback(bo);
+			resultBO = eventPersistenceService.addFeedback(attendanceId, feedback);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());

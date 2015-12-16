@@ -5,6 +5,7 @@ import java.util.List;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 
@@ -22,7 +23,7 @@ public interface EventPersistenceService extends PersistenceService{
 
 	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception;
 
-	public WriteResultBO addFeedback(AttendanceBO bo) throws Exception;
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws Exception;
 
 	public WriteResultBO createAttandance(AttendanceBO eo) throws Exception;
 

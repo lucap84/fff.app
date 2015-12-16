@@ -52,6 +52,7 @@ import it.fff.business.util.BusinessServiceProvider;
 import it.fff.clientserver.common.dto.*;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.facade.exception.PersistenceException;
 
 public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
@@ -220,13 +221,15 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO addFeedback(AttendanceDTO attendance) throws BusinessException {
+	public WriteResultDTO addFeedback(String attendanceId, FeedbackEnum feedback) throws BusinessException {
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		
+		int attendanceIdInt = -1;
+		
 		WriteResultBO WriteResultBO = null;
-		AttendanceBO bo = AttendanceMapper.getInstance().mapDTO2BO(attendance);
 		try {
-			WriteResultBO = eventBusinessService.addFeedback(bo);
+			attendanceIdInt = Integer.valueOf(attendanceId);
+			WriteResultBO = eventBusinessService.addFeedback(attendanceIdInt, feedback);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_ADDFEEDBACK);

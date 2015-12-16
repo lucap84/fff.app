@@ -1,5 +1,6 @@
 package it.fff.persistence.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,11 +19,15 @@ import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.EventStateEO;
+import it.fff.business.common.eo.MessageEO;
+import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -134,30 +139,97 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 	@Override
 	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("post messaggio custom...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	String dataCreazione = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	
+	    	tx = session.beginTransaction();
+
+	    	MessageEO messageEO = new MessageEO();
+	    	messageEO.setText(message);
+	    	messageEO.setDataCreazione(dataCreazione);
+	    	messageEO.setMsgStd(null);
+	    	
+	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
+	    	EventEO eventEO = attendanceEO.getEvent();
+	    	messageEO.setAttendance(attendanceEO);
+	    	messageEO.setEvent(eventEO);
+
+	    	session.save(messageEO);
+			
+	    	tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during createEventMessage() ",e);
+	      }finally {
+	         session.close(); 
+	      }	
+	    
+		logger.info("...post messaggio custom");
+		return result;
 	}
 
 	@Override
 	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("post messaggio standard...");
+		
+		WriteResultBO result = new WriteResultBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	String dataCreazione = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	
+	    	tx = session.beginTransaction();
+
+	    	MessageEO messageEO = new MessageEO();
+	    	messageEO.setDataCreazione(dataCreazione);
+	    	messageEO.setMsgStd(null);
+	    	
+	    	MessageStandardEO msgStndEO = (MessageStandardEO)session.get(MessageStandardEO.class, stdMsgId);
+	    	messageEO.setText(msgStndEO.getStandardText());
+	    	
+	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
+	    	EventEO eventEO = attendanceEO.getEvent();
+	    	messageEO.setAttendance(attendanceEO);
+	    	messageEO.setEvent(eventEO);
+
+	    	session.save(messageEO);
+			
+	    	tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during createEventMessage() ",e);
+	      }finally {
+	         session.close(); 
+	      }	
+	    
+		logger.info("...post messaggio standard");
+		return result;
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo) throws Exception {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws Exception {
 		logger.info("addFeedback...");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 	    Transaction tx = null;
-	    Integer attendanceId = bo.getId();
 	      try{
 	    	  tx = session.beginTransaction();
 
-	    	  AttendanceEO eo = (AttendanceEO) session.get(AttendanceEO.class, attendanceId);
+	    	  AttendanceEO eo = (AttendanceEO) session.get(AttendanceEO.class, new Integer(attendanceId));
 				
-	    	  switch (bo.getFeedback()) {
+	    	  switch (feedback) {
 				case POSITIVE:
 					eo.setPositiveFeedback(true);
 					break;

@@ -18,6 +18,7 @@ import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -97,7 +98,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	@Override
 	public WriteResultBO createEventMessage(int attendanceId, String message) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;
@@ -106,16 +107,16 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	@Override
 	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(stdMsgId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;
 	}
 
 	@Override
-	public WriteResultBO addFeedback(AttendanceBO bo) throws SQLException {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws SQLException {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;
