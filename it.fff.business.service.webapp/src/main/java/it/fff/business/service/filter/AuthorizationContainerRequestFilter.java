@@ -119,7 +119,7 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 	private boolean isRequestTimingAcceptable(String dateHeader) {
 		Date clientDate = null;
 		try {
-			clientDate = DHSecureConfiguration.DATE_FORMATTER.parse(dateHeader);
+			clientDate = Constants.DATE_FORMATTER.parse(dateHeader);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

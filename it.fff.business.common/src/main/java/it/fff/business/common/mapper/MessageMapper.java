@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
@@ -74,13 +76,13 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 	}
 
 	@Override
-	public List<MessageEO> mergeBOs2EOs(List<MessageBO> bos, List<MessageEO> eos) {
+	public List<MessageEO> mergeBOs2EOs(List<MessageBO> bos, List<MessageEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public MessageEO mergeBO2EO(MessageBO bo, MessageEO eo) {
+	public MessageEO mergeBO2EO(MessageBO bo, MessageEO eo, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -143,7 +145,7 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 				if(bo.getId()>0){
 					dto.setId(String.valueOf(bo.getId()));
 				}
-				bo.setText(dto.getText());
+				dto.setText(bo.getText());
 			}
 
 			dto.setDataCreazione(bo.getDataCreazione());

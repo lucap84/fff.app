@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.eo.AchievementObtainedEO;
@@ -39,13 +41,13 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 
 
 	@Override
-	public  List<AchievementObtainedEO> mergeBOs2EOs(List<AchievementBO> bos, List<AchievementObtainedEO> eos) {
+	public  List<AchievementObtainedEO> mergeBOs2EOs(List<AchievementBO> bos, List<AchievementObtainedEO> eos, Session session) {
 		return null;
 	}
 
 
 	@Override
-	public AchievementObtainedEO mergeBO2EO(AchievementBO bo, AchievementObtainedEO eo) {
+	public AchievementObtainedEO mergeBO2EO(AchievementBO bo, AchievementObtainedEO eo, Session session) {
 		return null;
 		
 	}

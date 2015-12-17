@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.util.Constants;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.strategy.VerificationCodeStrategy;
@@ -43,7 +44,7 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 		//Inizializzo le validita dell'account
 		session.setLogged(true);
 		//imposto la data login della prima sessione
-		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+		String loginDate = Constants.DATE_FORMATTER.format(new Date());
 		session.setDataLogin(loginDate);		
 		WriteResultBO bo = persistenceFacade.login(session);
 		return bo;

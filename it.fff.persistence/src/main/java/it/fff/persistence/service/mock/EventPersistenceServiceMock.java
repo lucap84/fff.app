@@ -136,6 +136,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		List<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
 
 		AttendanceBO attendanceBO1 = new AttendanceBO();
+		attendanceBO1.setId(1);
 		attendanceBO1.setValid(true);
 		attendanceBO1.setNumPartecipanti(5);
 		attendanceBO1.setOrganizer(true);
@@ -145,6 +146,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		attendanceBO1.setEvent(this.retrieveEvent(1));
 		
 		AttendanceBO attendanceBO2 = new AttendanceBO();
+		attendanceBO2.setId(2);
 		attendanceBO2.setValid(true);
 		attendanceBO2.setNumPartecipanti(12);
 		attendanceBO2.setOrganizer(false);
@@ -203,6 +205,9 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 //		statoBo1.setNome("Chiuso");
 //		statoBo1.setDescrizione("L'evento è terminato");
 		bo1.setStato(EventStateEnum.FINISHED);
+		
+		List<AttendanceBO> attendancesByEvent1 = this.getAttendancesByEvent(bo1.getId());
+		bo1.setPartecipazioni(attendancesByEvent1);
 	
 		EventBO bo2 = new EventBO();
 		bo2.setId(2);
@@ -243,6 +248,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 //		statobo2.setDescrizione("L'evento è aperto");
 		bo2.setStato(EventStateEnum.ACTIVE);		
 
+		List<AttendanceBO> attendancesByEvent2 = this.getAttendancesByEvent(bo2.getId());
+		bo2.setPartecipazioni(attendancesByEvent2);
 		
 		bos.add(bo1);
 		bos.add(bo2);

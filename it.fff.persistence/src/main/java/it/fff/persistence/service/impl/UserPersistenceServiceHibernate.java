@@ -46,9 +46,10 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    Transaction tx = null;
 	    Integer id = null;
 	      try{
-	    	  UserEO userEO = UserMapper.getInstance().mergeBO2EO(userBO,null);
+	    	  tx = session.beginTransaction();
+
+	    	  UserEO userEO = UserMapper.getInstance().mergeBO2EO(userBO,null, session);
 	    	  
-			tx = session.beginTransaction();
 			id = (Integer)session.save(userEO); 
 			 
 			AccountEO accountEO = userEO.getAccount();
@@ -113,7 +114,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			tx = session.beginTransaction();
 			
 			eo = (UserEO) session.get(UserEO.class, bo.getId());
-			eo = UserMapper.getInstance().mergeBO2EO(bo, eo);
+			eo = UserMapper.getInstance().mergeBO2EO(bo, eo, session);
 			session.update(eo);
 			
 //			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()
@@ -209,7 +210,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    try{
 	    	tx = session.beginTransaction();
 	    	
-	    	String dataAggiornamento = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
 	    	
 	    	String hqlUpdateAttendance = "UPDATE AttendanceEO set isValid = 0, dataAggiornamento=:dataAggiornamento  WHERE utente.id=:userId AND event.id=:eventId AND isValid=1";	    	  
 			Query queryUpdateEvent = session.createQuery(hqlUpdateAttendance);

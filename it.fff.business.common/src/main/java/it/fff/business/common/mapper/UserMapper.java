@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
 import it.fff.clientserver.common.dto.*;
@@ -171,7 +173,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	}
 
 	@Override
-	public UserEO mergeBO2EO(UserBO bo, UserEO eo) {
+	public UserEO mergeBO2EO(UserBO bo, UserEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new UserEO();
@@ -187,15 +189,15 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			eo.setLastPositionDateIfNotEmpty(bo.getLastPositionDate());
 			
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
-			List<LanguageEO> lingueEO = languageMapper.mergeBOs2EOs(bo.getLingue(),null);
+			List<LanguageEO> lingueEO = languageMapper.mergeBOs2EOs(bo.getLingue(),null, session);
 			eo.setLingue(lingueEO);
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
-			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null);
+			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null, session);
 			eo.setAccount(accountEO);
 			
 			NationMapper nationMapper = NationMapper.getInstance();
-			NationEO nazionalitaEO = nationMapper.mergeBO2EO(bo.getNazionalita(),null);
+			NationEO nazionalitaEO = nationMapper.mergeBO2EO(bo.getNazionalita(),null, session);
 			eo.setNazionalita(nazionalitaEO);
 		}
 		return eo;
@@ -208,7 +210,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	}
 
 	@Override
-	public List<UserEO> mergeBOs2EOs(List<UserBO> bos, List<UserEO> eos) {
+	public List<UserEO> mergeBOs2EOs(List<UserBO> bos, List<UserEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,12 @@
 package it.fff.business.common.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class Constants {
 	
+	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+			
 	/*
 	 * Security constants
 	 */

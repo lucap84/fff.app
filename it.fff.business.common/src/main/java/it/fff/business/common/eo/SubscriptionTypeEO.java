@@ -26,6 +26,12 @@ public class SubscriptionTypeEO extends EntityObject {
 	@Column(name = "Descrizione")
 	private String descrizione;
 	
+	@Column(name = "Durata_Giorni")
+	private Integer	durataGiorni;
+	
+	@Column(name = "Durata_Mesi")
+	private Integer	durataMesi;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoAbbonamento", cascade = CascadeType.ALL)
 	private List<PriceEO> prezzi;
 
@@ -55,6 +61,22 @@ public class SubscriptionTypeEO extends EntityObject {
 
 	public List<PriceEO> getPrezzi() {
 		return prezzi;
+	}
+	
+	public Integer getDurataGiorni() {
+		return durataGiorni;
+	}
+
+	public void setDurataGiorni(Integer durataGiorni) {
+		this.durataGiorni = durataGiorni;
+	}
+
+	public Integer getDurataMesi() {
+		return durataMesi;
+	}
+
+	public void setDurataMesi(Integer durataMesi) {
+		this.durataMesi = durataMesi;
 	}
 
 	public void setPrezzi(List<PriceEO> prezzi) {

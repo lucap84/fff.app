@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.eo.AccountEO;
@@ -37,12 +39,12 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 	}
 
 	@Override
-	public List<AccountEO> mergeBOs2EOs(List<AccountBO> bos, List<AccountEO> eso) {
+	public List<AccountEO> mergeBOs2EOs(List<AccountBO> bos, List<AccountEO> eso, Session session) {
 		return null;
 	}
 
 	@Override
-	public AccountEO mergeBO2EO(AccountBO bo, AccountEO eo) {
+	public AccountEO mergeBO2EO(AccountBO bo, AccountEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new AccountEO();

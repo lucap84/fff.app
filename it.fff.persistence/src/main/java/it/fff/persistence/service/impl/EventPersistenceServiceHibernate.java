@@ -24,6 +24,7 @@ import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
@@ -96,26 +97,26 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    Transaction tx = null;
 	    Integer eventId = null;
 	      try{
-	    	EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null);
-			
-	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
-
-	    	tx = session.beginTransaction();
+				tx = session.beginTransaction();
+				
+				EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null, session);
+				
+				Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
 	    	
-	    	//Rendo managed tutti gli oggetti collegati all'evento
-	    	eventEO.setLocation((PlaceEO) session.load(PlaceEO.class, eventEO.getLocation().getId()));
-	    	eventEO.setStato((EventStateEO) session.load(EventStateEO.class, eventStateId));
-	    	eventEO.setCategoria((EventCategoryEO) session.load(EventCategoryEO.class, eventEO.getCategoria().getId()));
-	    	
-	    	//ora posso salvare l'evento
-			eventId = (Integer)session.save(eventEO);
-			
-			//salvo anche le sue partecipazioni ora che ho l'ID evento (non sono salvate in cascade)
-			for (AttendanceEO a : eventEO.getPartecipazioni()) {
-				Integer attStateId = TypologicalLoader.attendanceStateEnum2ID.get(AttendanceStateEnum.valueOf(a.getStato().getNome()));
-				a.getStato().setId(attStateId);
-				a.setEvent(eventEO);
-				session.save(a);
+				//Rendo managed tutti gli oggetti collegati all'evento
+				eventEO.setLocation((PlaceEO) session.load(PlaceEO.class, eventEO.getLocation().getId()));
+				eventEO.setStato((EventStateEO) session.load(EventStateEO.class, eventStateId));
+				eventEO.setCategoria((EventCategoryEO) session.load(EventCategoryEO.class, eventEO.getCategoria().getId()));
+				
+				//ora posso salvare l'evento
+				eventId = (Integer)session.save(eventEO);
+				
+				//salvo anche le sue partecipazioni ora che ho l'ID evento (non sono salvate in cascade)
+				for (AttendanceEO a : eventEO.getPartecipazioni()) {
+					Integer attStateId = TypologicalLoader.attendanceStateEnum2ID.get(AttendanceStateEnum.valueOf(a.getStato().getNome()));
+					a.getStato().setId(attStateId);
+					a.setEvent(eventEO);
+					session.save(a);
 			}
 			
 			
@@ -147,7 +148,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-	    	String dataCreazione = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
 	    	
 	    	tx = session.beginTransaction();
 
@@ -186,7 +187,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-	    	String dataCreazione = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
 	    	
 	    	tx = session.beginTransaction();
 
@@ -272,9 +273,10 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    Transaction tx = null;
 	    Integer eventId = null;
 	      try{
-	    	AttendanceEO attendanceEO = AttendanceMapper.getInstance().mergeBO2EO(bo, null);
+	    	tx = session.beginTransaction();
+
+	    	AttendanceEO attendanceEO = AttendanceMapper.getInstance().mergeBO2EO(bo, null, session);
 	    	  
-			tx = session.beginTransaction();
 			eventId = (Integer)session.save(attendanceEO); 
 	        tx.commit();
 	      }catch (HibernateException e) {
@@ -312,6 +314,10 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	query.setParameter("userId", userId);
 	    	
 	    	List<EventEO> eventsEO = query.list();
+	    	List<AttendanceEO> partecipazioni = null;
+	    	for (EventEO eventEO : eventsEO) { //recupero le partecipazioni che altrimenti sono lazy
+				partecipazioni = eventEO.getPartecipazioni();
+			}
 	    	
 	    	bos = EventMapper.getInstance().mapEOs2BOs(eventsEO);
 	    	

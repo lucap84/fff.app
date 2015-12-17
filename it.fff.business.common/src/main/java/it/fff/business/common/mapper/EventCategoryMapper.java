@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.clientserver.common.dto.EventCategoryDTO;
@@ -44,21 +46,21 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 	}
 
 	@Override
-	public List<EventCategoryEO> mergeBOs2EOs(List<EventCategoryBO> bos, List<EventCategoryEO> eos) {
+	public List<EventCategoryEO> mergeBOs2EOs(List<EventCategoryBO> bos, List<EventCategoryEO> eos, Session session) {
 		if(bos!=null){
 			if(eos==null){
 				eos = new ArrayList<EventCategoryEO>();
 			}
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			for (EventCategoryBO bo : bos) {
-				eos.add(eventCategoryMapper.mergeBO2EO(bo,null));
+				eos.add(eventCategoryMapper.mergeBO2EO(bo,null,session));
 			}
 		}
 		return eos;
 	}
 
 	@Override
-	public EventCategoryEO mergeBO2EO(EventCategoryBO bo, EventCategoryEO eo) {
+	public EventCategoryEO mergeBO2EO(EventCategoryBO bo, EventCategoryEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new EventCategoryEO();

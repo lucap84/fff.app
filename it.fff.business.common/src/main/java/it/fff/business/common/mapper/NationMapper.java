@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.eo.EventEO;
@@ -39,7 +41,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	}
 	
 	@Override
-	public NationEO mergeBO2EO(NationBO bo, NationEO eo) {
+	public NationEO mergeBO2EO(NationBO bo, NationEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo= new NationEO();
@@ -84,7 +86,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	}
 
 	@Override
-	public List<NationEO> mergeBOs2EOs(List<NationBO> bos, List<NationEO> eos) {
+	public List<NationEO> mergeBOs2EOs(List<NationBO> bos, List<NationEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

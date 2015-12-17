@@ -11,6 +11,7 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.util.Constants;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -50,7 +51,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		SessionBO firstSession = creatingAccount.getSessions().get(0);
 		firstSession.setLogged(true);
 		//imposto la data login della prima sessione
-		String loginDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+		String loginDate = Constants.DATE_FORMATTER.format(new Date());
 		firstSession.setDataLogin(loginDate);
 		
 		WriteResultBO resultBO = persistenceFacade.registerUser(userBO);

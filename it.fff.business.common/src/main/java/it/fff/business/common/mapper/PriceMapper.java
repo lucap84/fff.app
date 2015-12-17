@@ -2,6 +2,8 @@ package it.fff.business.common.mapper;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.PriceBO;
 import it.fff.business.common.eo.PriceEO;
 import it.fff.clientserver.common.dto.PriceDTO;
@@ -21,13 +23,13 @@ public class PriceMapper implements Mapper<PriceDTO,PriceBO,PriceEO>{
 	}
 
 	@Override
-	public List<PriceEO> mergeBOs2EOs(List<PriceBO> bos, List<PriceEO> eos) {
+	public List<PriceEO> mergeBOs2EOs(List<PriceBO> bos, List<PriceEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PriceEO mergeBO2EO(PriceBO bo, PriceEO eo) {
+	public PriceEO mergeBO2EO(PriceBO bo, PriceEO eo, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.eo.AccountEO;
@@ -25,14 +27,14 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 	}
 	
 	@Override
-	public List<SessionEO> mergeBOs2EOs(List<SessionBO> bos, List<SessionEO> eos) {
+	public List<SessionEO> mergeBOs2EOs(List<SessionBO> bos, List<SessionEO> eos, Session session) {
 		if(bos!=null){
 			if(eos==null){
 				eos = new ArrayList<SessionEO>();
 			}
 			for (SessionBO bo : bos) {
 				SessionMapper sessionMapper = SessionMapper.getInstance();
-				SessionEO eo = sessionMapper.mergeBO2EO(bo,null);
+				SessionEO eo = sessionMapper.mergeBO2EO(bo,null, session);
 				eos.add(eo);
 			}
 		}
@@ -40,7 +42,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 	}
 	
 	@Override
-	public SessionEO mergeBO2EO(SessionBO bo, SessionEO eo) {
+	public SessionEO mergeBO2EO(SessionBO bo, SessionEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new SessionEO();
@@ -52,7 +54,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			eo.setDataLoginIfNotEmpty(bo.getDataLogin());
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
-			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null);
+			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null, session);
 			eo.setAccount(accountEO);
 		}
 		return eo;

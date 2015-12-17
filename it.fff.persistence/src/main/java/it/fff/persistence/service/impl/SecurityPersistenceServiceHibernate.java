@@ -21,6 +21,7 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.service.SecurityPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -39,7 +40,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-	    	String logoutDate = DHSecureConfiguration.DATE_FORMATTER.format(new Date());
+	    	String logoutDate = Constants.DATE_FORMATTER.format(new Date());
 			String hqlUpdate = "UPDATE SessionEO S SET S.isLogged=0 , S.dataLogout=:logoutDate, S.sharedKey='' WHERE S.deviceId=:deviceId AND account.id IN (SELECT a.id FROM AccountEO a WHERE a.id = :userId AND a.flgValidita=1)";	    	  
 
 			Query query = session.createQuery(hqlUpdate);
@@ -69,10 +70,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	public WriteResultBO login(SessionBO sessionBO) throws Exception {
 		logger.info("logout client and device...");
 		
-		SessionEO sessionEO = SessionMapper.getInstance().mergeBO2EO(sessionBO, null);
 		
-		String email = sessionEO.getAccount().getEmail();
-		String password = sessionEO.getAccount().getPassword();
 		
 		WriteResultBO result = new WriteResultBO();
 		
@@ -80,10 +78,14 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-	    	String hqlSelectAccount = "SELECT A.id  FROM AccountEO A WHERE A.flgValidita = 1 AND A.email = :email AND A.password = :password";	    	  
 	    	
 	    	tx = session.beginTransaction();
+
+	    	SessionEO sessionEO = SessionMapper.getInstance().mergeBO2EO(sessionBO, null, session);
+	    	String email = sessionEO.getAccount().getEmail();
+	    	String password = sessionEO.getAccount().getPassword();
 	    	
+	    	String hqlSelectAccount = "SELECT A.id  FROM AccountEO A WHERE A.flgValidita = 1 AND A.email = :email AND A.password = :password";	    	  
 	    	Query query = session.createQuery(hqlSelectAccount);
 	    	query.setParameter("email", email);
 	    	query.setParameter("password", password);

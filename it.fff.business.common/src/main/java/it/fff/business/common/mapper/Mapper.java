@@ -2,6 +2,8 @@ package it.fff.business.common.mapper;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 public interface Mapper<DTO,BO,EO> {
 	
 	//DTO ----> BO
@@ -12,9 +14,9 @@ public interface Mapper<DTO,BO,EO> {
 	
 	//BO ----> EO
 	
-	public List<EO> mergeBOs2EOs(List<BO> bos, List<EO> eos);
+	public List<EO> mergeBOs2EOs(List<BO> bos, List<EO> eos, Session session);
 	
-	public EO mergeBO2EO(BO bo,EO eo);
+	public EO mergeBO2EO(BO bo,EO eo, Session session);
 	
 	//BO <---- EO
 	

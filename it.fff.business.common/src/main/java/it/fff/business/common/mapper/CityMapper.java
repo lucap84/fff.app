@@ -2,6 +2,8 @@ package it.fff.business.common.mapper;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.CityEO;
@@ -47,12 +49,12 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 	}
 
 	@Override
-	public List<CityEO> mergeBOs2EOs(List<CityBO> bos, List<CityEO> eso) {
+	public List<CityEO> mergeBOs2EOs(List<CityBO> bos, List<CityEO> eos, Session session) {
 		return null;
 	}
 
 	@Override
-	public CityEO mergeBO2EO(CityBO bo, CityEO eo) {
+	public CityEO mergeBO2EO(CityBO bo, CityEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new CityEO();
@@ -61,7 +63,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 			eo.setNomeIfNotEmpty(bo.getNome());
 			
 			NationMapper nationMapper = NationMapper.getInstance();
-			eo.setNazione(nationMapper.mergeBO2EO(bo.getNazione(), null));
+			eo.setNazione(nationMapper.mergeBO2EO(bo.getNazione(), null, session));
 			
 		}
 		return eo;

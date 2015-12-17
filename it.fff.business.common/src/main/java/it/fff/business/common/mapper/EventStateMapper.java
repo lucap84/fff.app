@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.eo.EventStateEO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
@@ -40,12 +42,12 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 
 
 	@Override
-	public List<EventStateEO> mergeBOs2EOs(List<EventStateEnum> bos, List<EventStateEO> eos) {
+	public List<EventStateEO> mergeBOs2EOs(List<EventStateEnum> bos, List<EventStateEO> eos, Session session) {
 		if(bos!=null){
 			eos = new ArrayList<EventStateEO>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
 			for (EventStateEnum bo : bos) {
-				eos.add(eventStateMapper.mergeBO2EO(bo,null));
+				eos.add(eventStateMapper.mergeBO2EO(bo,null, session));
 			}
 		}
 		return eos;
@@ -53,7 +55,7 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 
 
 	@Override
-	public EventStateEO mergeBO2EO(EventStateEnum bo, EventStateEO eo) {
+	public EventStateEO mergeBO2EO(EventStateEnum bo, EventStateEO eo, Session session) {
 		if(bo!=null && bo!=EventStateEnum.UNKNOW){
 			if(eo==null){
 				eo = new EventStateEO();

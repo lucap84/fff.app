@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.UserBO;
@@ -99,7 +101,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	}
 	
 	@Override
-	public AttendanceEO mergeBO2EO(AttendanceBO bo, AttendanceEO eo) {
+	public AttendanceEO mergeBO2EO(AttendanceBO bo, AttendanceEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new AttendanceEO();
@@ -130,7 +132,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			}
 			
 			AttendanceStateMapper attendanceMapper = AttendanceStateMapper.getInstance();
-			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), eo.getStato()));
+			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), eo.getStato(), session));
 			
 			if(bo.getUtente()!=null && bo.getUtente().getId()>0 && eo.getUtente()==null){
 				UserEO userEO = new UserEO();
@@ -189,14 +191,14 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 
 
 	@Override
-	public List<AttendanceEO> mergeBOs2EOs(List<AttendanceBO> bos, List<AttendanceEO> eos) {
+	public List<AttendanceEO> mergeBOs2EOs(List<AttendanceBO> bos, List<AttendanceEO> eos, Session session) {
 		if(bos!=null){
 			if(eos==null){
 				eos = new  ArrayList<AttendanceEO>();
 			}
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceBO bo : bos) {
-				AttendanceEO eo = attendanceMapper.mergeBO2EO(bo, null);
+				AttendanceEO eo = attendanceMapper.mergeBO2EO(bo, null, session);
 				eos.add(eo);
 			}
 		}

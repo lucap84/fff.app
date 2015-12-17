@@ -10,6 +10,8 @@ public class SubscriptionTypeDTO extends DataTransferObject {
 
 	private String id;
 	private String nome;
+	private String durataGiorni;
+	private String durataMesi;
 	private String descrizione;
 
 	@XmlElement public String getId() {
@@ -23,6 +25,18 @@ public class SubscriptionTypeDTO extends DataTransferObject {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	@XmlElement public String getDurataGiorni() {
+		return durataGiorni;
+	}
+	public void setDurataGiorni(String durataGiorni) {
+		this.durataGiorni = durataGiorni;
+	}
+	@XmlElement public String getDurataMesi() {
+		return durataMesi;
+	}
+	public void setDurataMesi(String durataMesi) {
+		this.durataMesi = durataMesi;
 	}
 	@XmlElement public String getDescrizione() {
 		return descrizione;

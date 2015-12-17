@@ -166,26 +166,36 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo1.setId(1);
 		bo1.setNome("Settimanale");
 		bo1.setDescrizione("Settimanale");
+		bo1.setDurataGiorni(7);
+		bo1.setDurataMesi(0);
 
 		SubscriptionTypeBO bo2 = new SubscriptionTypeBO();
 		bo2.setId(1);
 		bo2.setNome("Mensile");
 		bo2.setDescrizione("Mensile");
+		bo2.setDurataGiorni(0);
+		bo2.setDurataMesi(1);
 		
 		SubscriptionTypeBO bo3 = new SubscriptionTypeBO();
 		bo3.setId(1);
 		bo3.setNome("Trimestrale");
 		bo3.setDescrizione("Trimestrale");
+		bo3.setDurataGiorni(0);
+		bo3.setDurataMesi(3);
 		
 		SubscriptionTypeBO bo4 = new SubscriptionTypeBO();
 		bo4.setId(1);
 		bo4.setNome("Annuale");
 		bo4.setDescrizione("Annuale");
+		bo4.setDurataGiorni(0);
+		bo4.setDurataMesi(12);
 		
 		SubscriptionTypeBO bo5 = new SubscriptionTypeBO();
 		bo5.setId(1);
 		bo5.setNome("Perpetuo");
 		bo5.setDescrizione("Perpetuo");
+		bo5.setDurataGiorni(999);
+		bo5.setDurataMesi(999);
 		
 		bos.add(bo1);
 		bos.add(bo2);

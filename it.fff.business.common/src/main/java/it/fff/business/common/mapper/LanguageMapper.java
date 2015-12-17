@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.clientserver.common.dto.LanguageDTO;
@@ -51,7 +53,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 	}
 
 	@Override
-	public List<LanguageEO> mergeBOs2EOs(List<LanguageBO> bos, List<LanguageEO> eos) {
+	public List<LanguageEO> mergeBOs2EOs(List<LanguageBO> bos, List<LanguageEO> eos, Session session) {
 		if(bos!=null){
 			if(eos==null){
 				eos = new ArrayList<LanguageEO>();
@@ -59,7 +61,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 			eos.clear();//elimino vecchie lingue eventualmente presenti per mettere le nuove
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageBO bo : bos) {
-				LanguageEO linguaEO = languageMapper.mergeBO2EO(bo, null);
+				LanguageEO linguaEO = languageMapper.mergeBO2EO(bo, null, session);
 				eos.add(linguaEO);
 			}
 		}
@@ -67,7 +69,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 	}
 
 	@Override
-	public LanguageEO mergeBO2EO(LanguageBO bo, LanguageEO eo) {
+	public LanguageEO mergeBO2EO(LanguageBO bo, LanguageEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new LanguageEO();

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
@@ -67,13 +68,13 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	}
 
 	@Override
-	public List<EventEO> mergeBOs2EOs(List<EventBO> bos, List<EventEO> eso) {
+	public List<EventEO> mergeBOs2EOs(List<EventBO> bos, List<EventEO> eso, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public EventEO mergeBO2EO(EventBO bo, EventEO eo) {
+	public EventEO mergeBO2EO(EventBO bo, EventEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new EventEO();
@@ -87,16 +88,16 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			eo.setDataInizio(bo.getDataInizio());
 			
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
-			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), null));
+			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), null, session));
 			
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
-			eo.setPartecipazioni(attendanceMapper.mergeBOs2EOs(bo.getPartecipazioni(),eo.getPartecipazioni()));
+			eo.setPartecipazioni(attendanceMapper.mergeBOs2EOs(bo.getPartecipazioni(),eo.getPartecipazioni(), session));
 			
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
-			eo.setCategoria(eventCategoryMapper.mergeBO2EO(bo.getCategoria(),eo.getCategoria()));
+			eo.setCategoria(eventCategoryMapper.mergeBO2EO(bo.getCategoria(),eo.getCategoria(), session));
 			
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
-			eo.setStato(eventStateMapper.mergeBO2EO(bo.getStato(), eo.getStato()));
+			eo.setStato(eventStateMapper.mergeBO2EO(bo.getStato(), eo.getStato(), session));
 			
 		}
 		return eo;

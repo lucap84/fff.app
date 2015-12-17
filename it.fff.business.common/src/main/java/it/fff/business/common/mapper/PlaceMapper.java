@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.clientserver.common.dto.PlaceDTO;
@@ -80,7 +82,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	}
 
 	@Override
-	public PlaceEO mergeBO2EO(PlaceBO bo, PlaceEO eo) {
+	public PlaceEO mergeBO2EO(PlaceBO bo, PlaceEO eo, Session session) {
 		if(bo!=null){
 			if(eo==null){
 				eo = new PlaceEO();
@@ -97,7 +99,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			eo.setTags(bo.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
-			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), null));
+			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), null, session));
 			
 		}
 		return eo;
@@ -145,7 +147,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	}
 
 	@Override
-	public List<PlaceEO> mergeBOs2EOs(List<PlaceBO> bos, List<PlaceEO> eos) {
+	public List<PlaceEO> mergeBOs2EOs(List<PlaceBO> bos, List<PlaceEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

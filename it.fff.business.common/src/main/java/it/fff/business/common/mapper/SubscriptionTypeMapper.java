@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.eo.SubscriptionTypeEO;
 import it.fff.clientserver.common.dto.SubscriptionTypeDTO;
@@ -44,6 +46,8 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 				dto.setId(String.valueOf(bo.getId()));
 			}
 			dto.setNome(bo.getNome());
+			dto.setDurataGiorni(String.valueOf(bo.getDurataGiorni()));
+			dto.setDurataMesi(String.valueOf(bo.getDurataMesi()));
 			dto.setDescrizione(bo.getDescrizione());
 		}
 		return dto;
@@ -69,6 +73,8 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 			bo = new SubscriptionTypeBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
+			bo.setDurataGiorni(Integer.valueOf(eo.getDurataGiorni()));
+			bo.setDurataMesi(Integer.valueOf(eo.getDurataMesi()));
 			bo.setDescrizione(eo.getDescrizione());
 		}
 		return bo;
@@ -82,20 +88,33 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 
 	@Override
 	public SubscriptionTypeBO mapDTO2BO(SubscriptionTypeDTO dto) {
+		SubscriptionTypeBO bo = null;
+		if(dto!=null){
+			bo = new SubscriptionTypeBO();
+			bo.setNome(dto.getNome());
+			bo.setId(Integer.valueOf(dto.getId()));
+			bo.setDescrizione(dto.getDescrizione());
+			bo.setDurataGiorni(Integer.valueOf(dto.getDurataGiorni()));
+			bo.setDurataMesi(Integer.valueOf(dto.getDurataMesi()));
+		}
+		
+		return bo;
+	}
+
+	@Override
+	public List<SubscriptionTypeEO> mergeBOs2EOs(List<SubscriptionTypeBO> bos, List<SubscriptionTypeEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<SubscriptionTypeEO> mergeBOs2EOs(List<SubscriptionTypeBO> bos, List<SubscriptionTypeEO> eos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SubscriptionTypeEO mergeBO2EO(SubscriptionTypeBO bo, SubscriptionTypeEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+	public SubscriptionTypeEO mergeBO2EO(SubscriptionTypeBO bo, SubscriptionTypeEO eo, Session session) {
+		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (SubscriptionTypeEO)session.load(SubscriptionTypeEO.class, bo.getId());
+			}
+		}
+		return eo;
 	}
 
 }

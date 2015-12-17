@@ -2,6 +2,8 @@ package it.fff.business.common.mapper;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.WriteResultDTO;
@@ -35,13 +37,13 @@ public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>
 	}
 
 	@Override
-	public List<Void> mergeBOs2EOs(List<WriteResultBO> bos, List<Void> eos) {
+	public List<Void> mergeBOs2EOs(List<WriteResultBO> bos, List<Void> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void mergeBO2EO(WriteResultBO bo, Void eo) {
+	public Void mergeBO2EO(WriteResultBO bo, Void eo, Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

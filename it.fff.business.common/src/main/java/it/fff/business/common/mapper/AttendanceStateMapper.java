@@ -3,6 +3,8 @@ package it.fff.business.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.eo.AttendanceEO;
@@ -44,12 +46,12 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	}
 
 	@Override
-	public List<AttendanceStateEO> mergeBOs2EOs(List<AttendanceStateEnum> bos, List<AttendanceStateEO> eso) {
+	public List<AttendanceStateEO> mergeBOs2EOs(List<AttendanceStateEnum> bos, List<AttendanceStateEO> eos, Session session) {
 		return null;
 	}
 
 	@Override
-	public AttendanceStateEO mergeBO2EO(AttendanceStateEnum bo, AttendanceStateEO eo) {
+	public AttendanceStateEO mergeBO2EO(AttendanceStateEnum bo, AttendanceStateEO eo, Session session) {
 		if(bo!=null && bo!=AttendanceStateEnum.UNKNOW){
 			if(eo==null){
 				eo = new AttendanceStateEO();
