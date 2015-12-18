@@ -8,15 +8,15 @@ public class UpdatePasswordDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -1729953261607706096L;
 	
-	private String userId;
+	private int userId;
 	private String email;
 	private String oldPassword;
 	private String newPassword;
 	
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	@XmlElement public String getEmail() {

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class LoginInputDTO extends DataTransferObject {
 	
+	private static final long serialVersionUID = -4615940402452748477L;
 	private String email;
 	private String password;
 	private String deviceId;

@@ -41,7 +41,7 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 		EventBO bo = null;
 		if(dto!=null){
 			bo = new EventBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setTitolo(dto.getTitolo());
@@ -156,11 +156,11 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 		if(bo!=null){
 			dto = new EventDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setTitolo(bo.getTitolo());
 			dto.setDescrizione(bo.getDescrizione());
-			dto.setDurata(String.valueOf(bo.getDurata()));
+			dto.setDurata(bo.getDurata());
 			dto.setDataInizio(bo.getDataInizio());
 			
 			dto.setStato(bo.getStato());

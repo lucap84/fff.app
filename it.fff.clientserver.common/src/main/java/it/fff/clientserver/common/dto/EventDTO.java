@@ -12,10 +12,10 @@ import it.fff.clientserver.common.enums.EventStateEnum;
 public class EventDTO  extends DataTransferObject{
 
 	private static final long serialVersionUID = -6847395962948284696L;
-	private String id;
+	private int id;
 	private String titolo;
 	private String descrizione;
-	private String durata;
+	private int durata;
 	private String dataInizio;
 	private EventStateEnum stato;
 	private EventCategoryDTO categoria;
@@ -23,11 +23,17 @@ public class EventDTO  extends DataTransferObject{
 	private List<AttendanceDTO> partecipazioni;
 	private List<MessageDTO> messages;
 	
-	@XmlElement public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+	public int getDurata() {
+		return durata;
+	}
+	public void setDurata(int durata) {
+		this.durata = durata;
 	}
 	@XmlElement public String getTitolo() {
 		return titolo;
@@ -40,12 +46,6 @@ public class EventDTO  extends DataTransferObject{
 	}
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
-	}
-	@XmlElement public String getDurata() {
-		return durata;
-	}
-	public void setDurata(String durata) {
-		this.durata = durata;
 	}
 	@XmlElement public String getDataInizio() {
 		return dataInizio;

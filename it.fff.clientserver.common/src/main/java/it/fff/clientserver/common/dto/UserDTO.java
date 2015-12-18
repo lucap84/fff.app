@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class UserDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -1979200792665108748L;
-	private String	id;
+	private int	id;
 	private String nome;
 	private String cognome;
 	private String dataNascita;
@@ -18,16 +18,16 @@ public class UserDTO extends DataTransferObject {
 	private String lastPositionLat;
 	private String lastPositionLong;
 	private String lastPositionDate;		
-	private String numUpdate;	
+	private int numUpdate;	
 	private boolean flagAttivo;
 	private NationDTO nazionalita; 
 	private List<LanguageDTO> lingue;
 	private List<AchievementDTO> achievements;
 	private AccountDTO account;
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {
@@ -78,10 +78,10 @@ public class UserDTO extends DataTransferObject {
 	public void setLastPositionDate(String lastPositionDate) {
 		this.lastPositionDate = lastPositionDate;
 	}
-	@XmlElement public String getNumUpdate() {
+	@XmlElement public int getNumUpdate() {
 		return numUpdate;
 	}
-	public void setNumUpdate(String numUpdate) {
+	public void setNumUpdate(int numUpdate) {
 		this.numUpdate = numUpdate;
 	}
 	@XmlElement public boolean isFlagAttivo() {

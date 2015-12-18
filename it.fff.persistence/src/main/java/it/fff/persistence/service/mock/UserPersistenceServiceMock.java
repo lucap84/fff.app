@@ -28,7 +28,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
 	public ProfileImageBO updateProfileImage(ProfileImageBO eoInput) throws SQLException {
-		eoInput.setImgHashCode("0101010101010");
+		eoInput.setImgHashCode(1010101);
 		return eoInput;
 	}
 

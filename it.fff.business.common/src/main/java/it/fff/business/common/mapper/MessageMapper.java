@@ -52,7 +52,7 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 				bo.setMsgStd(stdbo);
 			}
 			else{
-				if(dto.getId()!=null && "".equals(dto.getId())){
+				if(dto.getId()>0){
 					bo.setId(Integer.valueOf(dto.getId()));
 				}
 				bo.setText(dto.getText());
@@ -60,13 +60,13 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			
 			bo.setDataCreazione(dto.getDataCreazione());
 			
-			if(dto.getAttendanceId()!=null && !"".equals(dto.getAttendanceId())){
+			if(dto.getAttendanceId()>0){
 				AttendanceBO attbo = new AttendanceBO();
 				attbo.setId(Integer.valueOf(dto.getAttendanceId()));
 				bo.setAttendance(attbo);
 			}
 				
-			if(dto.getEventId()!=null && !"".equals(dto.getEventId())){
+			if(dto.getEventId()>0){
 				EventBO evbo = new EventBO();
 				evbo.setId(Integer.valueOf(dto.getEventId()));
 				bo.setEvent(evbo);
@@ -138,21 +138,21 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			dto = new MessageDTO();
 			
 			if(bo.getMsgStd()!=null){
-				dto.setId(String.valueOf(bo.getMsgStd().getId()));
+				dto.setId(bo.getMsgStd().getId());
 				dto.setStandard(true);
 				dto.setText(bo.getMsgStd().getText());
 			}else{
 				if(bo.getId()>0){
-					dto.setId(String.valueOf(bo.getId()));
+					dto.setId(bo.getId());
 				}
 				dto.setText(bo.getText());
 			}
 
 			dto.setDataCreazione(bo.getDataCreazione());
 			
-			dto.setAttendanceId(String.valueOf(bo.getAttendance().getId()));
+			dto.setAttendanceId(bo.getAttendance().getId());
 			
-			dto.setEventId(String.valueOf(bo.getEvent().getId()));
+			dto.setEventId(bo.getEvent().getId());
 			
 		}
 		return dto;

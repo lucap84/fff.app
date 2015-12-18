@@ -9,17 +9,17 @@ public class SubscriptionDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 2676798868000641946L;
 	
-	private String	id;
+	private int	id;
 	private String dataInizio;
 	private String dataFine;
 	private String sconto;
-	private String userIdAbbonato;
+	private int userIdAbbonato;
 	private SubscriptionTypeDTO tipo;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getDataInizio() {
@@ -40,10 +40,10 @@ public class SubscriptionDTO extends DataTransferObject {
 	public void setSconto(String sconto) {
 		this.sconto = sconto;
 	}
-	@XmlElement public String getUserIdAbbonato() {
+	@XmlElement public int getUserIdAbbonato() {
 		return userIdAbbonato;
 	}
-	public void setUserIdAbbonato(String userIdAbbonato) {
+	public void setUserIdAbbonato(int userIdAbbonato) {
 		this.userIdAbbonato = userIdAbbonato;
 	}
 	@XmlElement public SubscriptionTypeDTO getTipo() {

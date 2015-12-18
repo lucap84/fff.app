@@ -36,7 +36,7 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 		EventCategoryBO bo = null;
 		if(dto!=null){
 			bo = new EventCategoryBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
@@ -118,7 +118,7 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 		if(bo!=null){
 			dto = new EventCategoryDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
 			dto.setDescrizione(bo.getDescrizione());

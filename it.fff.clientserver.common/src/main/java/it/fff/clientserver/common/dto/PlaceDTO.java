@@ -8,7 +8,7 @@ public class PlaceDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -6876900976330417334L;
 	
-	private String id;
+	private int id;
 	private String nome;
 	private String gpsLat;
 	private String gpsLong;
@@ -18,10 +18,10 @@ public class PlaceDTO extends DataTransferObject {
 	private String tags;
 	private CityDTO city;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {

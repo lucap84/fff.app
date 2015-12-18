@@ -8,18 +8,18 @@ public class SessionDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 8728685619013221329L;
 	
-	private String	id;
-	private String accountId;
+	private int	id;
+	private int accountId;
 	private String deviceId;
 	private String sharedKey;
 	private boolean isLogged;
 	private String dataLogin;
 	private String dataLogout;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getDeviceId() {
@@ -52,10 +52,10 @@ public class SessionDTO extends DataTransferObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
-	@XmlElement public String getAccountId() {
+	@XmlElement public int getAccountId() {
 		return accountId;
 	}
-	public void setAccountId(String accountId) {
+	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
 	

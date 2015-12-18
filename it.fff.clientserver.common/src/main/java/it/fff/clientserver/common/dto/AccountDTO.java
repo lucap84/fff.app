@@ -9,19 +9,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AccountDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = -71986174187350978L;
-	private String id;
+	private int id;
 	private String email;
 	private String password;
 	private String verificationCode;
 	private boolean flgValidita;
 	private boolean flgVerificato;
-	private String userId;
+	private int userId;
 	private List<SessionDTO> sessions;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getEmail() {
@@ -60,10 +60,10 @@ public class AccountDTO extends DataTransferObject {
 	public void setSessions(List<SessionDTO> sessions) {
 		this.sessions = sessions;
 	}
-	@XmlElement public String getUserId() {
+	@XmlElement public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	

@@ -96,7 +96,7 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 		if(bo!=null){
 			dto = new AchievementTypeDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
 			dto.setDescrizione(bo.getDescrizione());

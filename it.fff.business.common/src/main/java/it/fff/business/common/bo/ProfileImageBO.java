@@ -11,7 +11,7 @@ public class ProfileImageBO implements BusinessObject{
 	private Map<String,String> parameters;
 	private long size;
 	private String type;
-	private String imgHashCode;
+	private int imgHashCode;
 	
 	public int getUserId() {
 		return userId;
@@ -55,10 +55,10 @@ public class ProfileImageBO implements BusinessObject{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getImgHashCode() {
+	public int getImgHashCode() {
 		return imgHashCode;
 	}
-	public void setImgHashCode(String imgHashCode) {
+	public void setImgHashCode(int imgHashCode) {
 		this.imgHashCode = imgHashCode;
 	}
 	

@@ -10,9 +10,9 @@ import it.fff.clientserver.common.enums.FeedbackEnum;
 public class AttendanceDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 4164922390980044360L;
-	private String id;
-	private String userId;
-	private String eventId;
+	private int id;
+	private int userId;
+	private int eventId;
 	private boolean isOrganizer;
 	private String numPartecipanti;
 	private FeedbackEnum feedback;
@@ -20,10 +20,10 @@ public class AttendanceDTO extends DataTransferObject {
 	private AttendanceStateEnum stato;
 	
 
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public boolean isOrganizer() {
@@ -51,16 +51,16 @@ public class AttendanceDTO extends DataTransferObject {
 	public void setStato(AttendanceStateEnum stato) {
 		this.stato = stato;
 	}
-	@XmlElement public String getEventId() {
+	@XmlElement public int getEventId() {
 		return eventId;
 	}
-	public void setEventId(String eventId) {
+	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-	@XmlElement public String getUserId() {
+	@XmlElement public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	@XmlElement public FeedbackEnum getFeedback() {

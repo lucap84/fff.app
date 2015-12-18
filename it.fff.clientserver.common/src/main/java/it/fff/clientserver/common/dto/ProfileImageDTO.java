@@ -17,7 +17,7 @@ public class ProfileImageDTO extends DataTransferObject {
 	private Map<String,String> parameters;
 	private long size;
 	private String type;
-	private String imgHashCode;
+	private int imgHashCode;
 	
 	
 	@XmlElement public int getUserId() {
@@ -62,10 +62,10 @@ public class ProfileImageDTO extends DataTransferObject {
 	public void setSize(long size) {
 		this.size = size;
 	}
-	@XmlElement public String getImgHashCode() {
+	@XmlElement public int getImgHashCode() {
 		return imgHashCode;
 	}
-	public void setImgHashCode(String imgHashCode) {
+	public void setImgHashCode(int imgHashCode) {
 		this.imgHashCode = imgHashCode;
 	}
 	

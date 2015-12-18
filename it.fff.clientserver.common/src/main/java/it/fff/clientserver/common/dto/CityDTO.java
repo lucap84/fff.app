@@ -8,14 +8,14 @@ public class CityDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = 3296851846357818430L;
 	
-	private String id;
+	private int id;
 	private String nome;
 	private NationDTO nazione;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {

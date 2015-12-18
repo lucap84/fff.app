@@ -29,7 +29,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		UserBO bo = null;
 		if(dto!=null){
 			bo = new UserBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			AccountMapper accountMapper = AccountMapper.getInstance();
@@ -64,7 +64,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		if(bo!=null){
 			dto = new UserDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			dto.setAccount(accountMapper.mapBO2DTO(bo.getAccount()));

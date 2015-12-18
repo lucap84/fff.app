@@ -8,10 +8,10 @@ public class WriteResultDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -2437136485588097533L;
 	private int affectedRecords;
-	private String identifier;
+	private int identifier;
 	
 	public WriteResultDTO() {
-		this.identifier = "-1";
+		this.identifier = -1;
 		this.affectedRecords = -1;
 	}
 
@@ -23,11 +23,11 @@ public class WriteResultDTO extends DataTransferObject {
 		this.affectedRecords = affectedRecords;
 	}
 
-	@XmlElement public String getIdentifier() {
+	@XmlElement public int getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(String identifier) {
+	public void setIdentifier(int identifier) {
 		this.identifier = identifier;
 	}
 	

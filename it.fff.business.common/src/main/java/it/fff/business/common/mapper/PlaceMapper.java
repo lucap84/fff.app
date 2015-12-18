@@ -43,7 +43,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		if(bo!=null){
 			dto = new PlaceDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
 			dto.setGpsLat(String.valueOf(bo.getGpsLat()));
@@ -63,7 +63,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		PlaceBO bo = null;
 		if(dto!=null){
 			bo = new PlaceBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());

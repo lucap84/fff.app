@@ -43,7 +43,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 		LanguageBO bo = null;
 		if(dto!=null){
 			bo = new LanguageBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
@@ -127,7 +127,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 		if(bo!=null){
 			dto = new LanguageDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
 			dto.setIso639_1(bo.getIso639_1());

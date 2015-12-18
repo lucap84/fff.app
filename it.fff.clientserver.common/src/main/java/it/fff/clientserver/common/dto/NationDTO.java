@@ -8,15 +8,15 @@ public class NationDTO extends DataTransferObject{
 	
 	private static final long serialVersionUID = 6302943037577058100L;
 	
-	private String	id;
+	private int	id;
 	private String nome;
 	private String internationalKey;
 	private String internationalCode;
 
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {

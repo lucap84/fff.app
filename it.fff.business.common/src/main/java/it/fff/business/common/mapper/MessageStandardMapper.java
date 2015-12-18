@@ -43,7 +43,7 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 		if(bo!=null){
 			dto = new MessageStandardDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setText(bo.getText());
 		}

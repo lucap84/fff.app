@@ -8,17 +8,17 @@ public class MessageDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -2780061228505810088L;
 	
-	private String	id;
+	private int	id;
 	private String text;
 	private String dataCreazione;
-	private String eventId;
-	private String attendanceId;
+	private int eventId;
+	private int attendanceId;
 	private boolean isStandard;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getText() {
@@ -39,16 +39,16 @@ public class MessageDTO extends DataTransferObject {
 	public void setStandard(boolean isStandard) {
 		this.isStandard = isStandard;
 	}
-	@XmlElement public String getEventId() {
+	@XmlElement public int getEventId() {
 		return eventId;
 	}
-	public void setEventId(String eventId) {
+	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-	@XmlElement public String getAttendanceId() {
+	@XmlElement public int getAttendanceId() {
 		return attendanceId;
 	}
-	public void setAttendanceId(String attendanceId) {
+	public void setAttendanceId(int attendanceId) {
 		this.attendanceId = attendanceId;
 	}
 	

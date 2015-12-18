@@ -34,7 +34,7 @@ public class SubscriptionMapper implements Mapper<SubscriptionDTO,SubscriptionBO
 		SubscriptionBO bo = null;
 		if(dto!=null){
 			 bo = new SubscriptionBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setDataInizio(dto.getDataInizio());

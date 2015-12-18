@@ -77,7 +77,7 @@ public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>
 					dto.putErrorInMap(errCode, errCode);
 				}
 			}
-			dto.setIdentifier((String.valueOf(bo.getWrittenKey())));
+			dto.setIdentifier(bo.getWrittenKey());
 		}
 	
 		return dto;

@@ -48,7 +48,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 		AttendanceBO bo = null;
 		if(dto!=null){
 			bo = new AttendanceBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			
@@ -59,13 +59,13 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			
 			bo.setFeedback(dto.getFeedback());
 			
-			if(dto.getEventId()!=null && !"".equals(dto.getEventId())){
+			if(dto.getEventId()>0){
 				EventBO event = new EventBO();
 				event.setId(Integer.valueOf(dto.getEventId()));
 				bo.setEvent(event);
 			}
 
-			if(dto.getUserId()!=null && !"".equals(dto.getUserId())){
+			if(dto.getUserId()>0){
 				UserBO user = new UserBO();
 				user.setId(Integer.valueOf(dto.getUserId()));
 				bo.setUtente(user);
@@ -92,10 +92,10 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	public AttendanceDTO mapBO2DTO(AttendanceBO bo) {
 		AttendanceDTO dto = new AttendanceDTO();
 		if(bo!=null){
-			dto.setId(String.valueOf(bo.getId()));
+			dto.setId(bo.getId());
 			dto.setValid(bo.isValid());
 			
-			dto.setUserId(String.valueOf(bo.getUtente().getId()));
+			dto.setUserId(bo.getUtente().getId());
 		}
 		return dto;
 	}

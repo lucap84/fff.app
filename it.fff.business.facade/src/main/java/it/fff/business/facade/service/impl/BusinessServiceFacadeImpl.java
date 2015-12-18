@@ -421,17 +421,15 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public WriteResultDTO updatePassword(UpdatePasswordDTO updatePasswordDTO) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 
-		String userId = updatePasswordDTO.getUserId();
+		int userId = updatePasswordDTO.getUserId();
 		String email = updatePasswordDTO.getEmail();
 		String encodedOldPassword = updatePasswordDTO.getOldPassword();
 		String encodedNewPassword = updatePasswordDTO.getNewPassword();
 		
-		int userIdInt = -1;
 		WriteResultBO WriteResultBO = null;
 		
 		try {
-			userIdInt = Integer.valueOf(userId);
-			WriteResultBO = securityBusinessService.updatePassword(userIdInt, email, encodedOldPassword, encodedNewPassword);
+			WriteResultBO = securityBusinessService.updatePassword(userId, email, encodedOldPassword, encodedNewPassword);
 		}
 		catch (PersistenceException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATEPSW);

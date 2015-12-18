@@ -8,14 +8,14 @@ public class EventCategoryDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = -9136818810867065420L;
 
-	private String id;
+	private int id;
 	private String nome;
 	private String descrizione;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {

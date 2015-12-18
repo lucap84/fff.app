@@ -8,16 +8,16 @@ public class LanguageDTO extends DataTransferObject{
 
 	private static final long serialVersionUID = 8981419652322518045L;
 	
-	private String	id;
+	private int	id;
 	private String nome;
 	private String iso639_1;
 	private String iso639_2;
 	private String iso639_3;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getNome() {

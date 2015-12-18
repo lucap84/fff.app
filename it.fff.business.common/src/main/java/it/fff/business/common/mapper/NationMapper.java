@@ -31,7 +31,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 		NationBO bo = null;
 		if(dto!=null){
 			bo = new NationBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
@@ -71,7 +71,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 		if(bo!=null){
 			dto = new NationDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setInternationalKey(bo.getInternationalKey());
 			dto.setNome(bo.getNome());

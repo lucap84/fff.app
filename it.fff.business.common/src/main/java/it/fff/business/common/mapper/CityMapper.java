@@ -37,7 +37,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 		CityBO bo = null;
 		if(dto!=null){
 			bo = new CityBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
@@ -101,7 +101,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 		if(bo!=null){
 			dto = new CityDTO();
 			if(bo.getId()>0){
-				dto.setId(String.valueOf(bo.getId()));
+				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
 			

@@ -65,7 +65,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 		SessionBO bo = null;
 		if(dto!=null){
 			bo = new SessionBO();
-			if(dto.getId()!=null && !"".equals(dto.getId())){
+			if(dto.getId()>0){
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setDataLogin(dto.getDataLogin());
@@ -74,7 +74,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			bo.setLogged(dto.isLogged());
 			bo.setSharedKey(dto.getSharedKey());
 			
-			if(dto.getAccountId()!=null && !"".equals(dto.getAccountId())){
+			if(dto.getAccountId()>0){
 				AccountBO bo2 = new AccountBO();
 				bo2.setId(Integer.valueOf(dto.getAccountId()));
 				bo.setAccount(bo2);

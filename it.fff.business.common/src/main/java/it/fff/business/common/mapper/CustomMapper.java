@@ -28,7 +28,7 @@ public class CustomMapper {
 				dto.putErrorInMap(errCode, errCode);
 			}
 		}
-		dto.setUserId((String.valueOf(bo.getWrittenKey())));
+		dto.setUserId(bo.getWrittenKey());
 		return dto;
 	}
 

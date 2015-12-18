@@ -7,14 +7,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AchievementDTO {
 	
-	private String	id;
+	private int	id;
 	private String dataOttenimento;
 	private AchievementTypeDTO type;
 	
-	@XmlElement public String getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	@XmlElement public String getDataOttenimento() {

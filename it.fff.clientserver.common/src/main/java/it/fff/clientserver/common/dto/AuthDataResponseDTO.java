@@ -7,13 +7,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AuthDataResponseDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -7260208612326225230L;
-	private String userId;
+	private int userId;
 	private String serverPublicKey;
 	
-	@XmlElement public String getUserId() {
+	@XmlElement public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	@XmlElement public String getServerPublicKey() {

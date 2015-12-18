@@ -151,7 +151,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
 			outputBO = boInput;
-			outputBO.setImgHashCode(String.valueOf(boInput.getImageInputStream().hashCode()));
+			outputBO.setImgHashCode(boInput.getImageInputStream().hashCode());
 		}
 		if(outputBO!=null){
 			logger.info("Img user created");
