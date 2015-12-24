@@ -6,15 +6,28 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <!-- 
-        
-        <property name="hibernate.connection.url">jdbc:mysql://127.6.253.2:3306/jbossews2tomcat7</property>
+
+       
+        <!-- db4free.net (85.10.205.173) 
+        <property name="hibernate.connection.url">jdbc:mysql://85.10.205.173:3306/flokker</property>
         <property name="hibernate.connection.username">businapp</property>
         <property name="hibernate.connection.password">businpsw</property>
         -->
+
+        <!-- openshift (127.6.253.2) 
+        <property name="hibernate.connection.url">jdbc:mysql://127.6.253.2:3306/jbossews2tomcat7</property>
+        <property name="hibernate.connection.username">businapp</property>
+        <property name="hibernate.connection.password">businpsw</property>
+		-->
+		
+		<!-- localhost
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/fff</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">admin</property>
+        -->
+        <property name="hibernate.connection.url">jdbc:mysql://85.10.205.173:3306/flokker</property>
+        <property name="hibernate.connection.username">businapp</property>
+        <property name="hibernate.connection.password">businpsw</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <!-- hibernate.current_session_context_class: jta | thread | managed | custom.Class 
         (thread) org.hibernate.context.ThreadLocalSessionContext

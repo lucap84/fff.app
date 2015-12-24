@@ -39,7 +39,6 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		
 		bo.setNome("nome");
 		bo.setCognome("cognome");
-		bo.setSesso("M");
 		bo.setDataNascita("1900-01-01");
 		bo.setDescrizione("descrizione");
 		bo.setFlagAttivo(true);

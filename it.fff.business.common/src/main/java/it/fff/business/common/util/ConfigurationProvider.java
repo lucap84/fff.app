@@ -1,8 +1,10 @@
 package it.fff.business.common.util;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 
@@ -43,7 +45,7 @@ public class ConfigurationProvider {
 	private void loadConfigurationFromFile() throws IOException{
 		InputStream authInputStream = getClass().getClassLoader().getResourceAsStream(this.authConfigPropertiesFileName);
 		InputStream mailInputStream = getClass().getClassLoader().getResourceAsStream(this.mailConfigPropertiesFileName);
-		InputStream persistenceInputStream = getClass().getClassLoader().getResourceAsStream(this.mailConfigPropertiesFileName);
+		InputStream imagesInputStream = getClass().getClassLoader().getResourceAsStream(this.imagesPropertiesFileName);
 		
 		if (authInputStream != null) {
 			authConfigProperties.load(authInputStream);
@@ -57,13 +59,50 @@ public class ConfigurationProvider {
 			throw new FileNotFoundException("property file '" + mailConfigPropertiesFileName + "' not found in the classpath");
 		}
 
-		if (persistenceInputStream != null) {
-			imagesConfigProperties.load(persistenceInputStream);
+		if (imagesInputStream != null) {
+			imagesConfigProperties.load(imagesInputStream);
 		} else {
 			throw new FileNotFoundException("property file '" + imagesPropertiesFileName + "' not found in the classpath");
 		}		
 		
 	}
+	
+	public String loadStringFromFile(String fileName){
+		InputStream fis = getClass().getClassLoader().getResourceAsStream(fileName);
+		String stringFromInputStream = getStringFromInputStream(fis);
+		return stringFromInputStream;
+	}
+	
+	// convert InputStream to String
+	private static String getStringFromInputStream(InputStream is) {
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
+	}
+
 	
 	public String getAuthProperty(String propertyName){
 		return authConfigProperties.getProperty(propertyName);	

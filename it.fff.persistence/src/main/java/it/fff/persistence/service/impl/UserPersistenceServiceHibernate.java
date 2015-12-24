@@ -45,18 +45,21 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		Session session = sessionFactory.openSession();
 	    Transaction tx = null;
 	    Integer id = null;
-	      try{
-	    	  tx = session.beginTransaction();
+	    try{
+	    	tx = session.beginTransaction();
 
-	    	  UserEO userEO = UserMapper.getInstance().mergeBO2EO(userBO,null, session);
+	    	UserEO userEO = UserMapper.getInstance().mergeBO2EO(userBO,null, session);
+	    	
+	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
+	    	userEO.setDataCreazione(dataCreazione);
 	    	  
 			id = (Integer)session.save(userEO); 
 			 
 			AccountEO accountEO = userEO.getAccount();
 			accountEO.setId(id);
 			session.save(accountEO);
-	         
-	         tx.commit();
+			 
+			 tx.commit();
 	      }
 	      catch(ConstraintViolationException e){
 		         if (tx!=null) tx.rollback();
@@ -115,12 +118,11 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			
 			eo = (UserEO) session.get(UserEO.class, bo.getId());
 			eo = UserMapper.getInstance().mergeBO2EO(bo, eo, session);
-			session.update(eo);
 			
-//			UserEO eoTOUpdate = (UserEO) session.load(UserEO.class, eo.getId()); //TODO prova con load()
-//			eoTOUpdate.setNome(eo.getNome());
-//			eoTOUpdate.setCognome(eo.getCognome());
-//			eoTOUpdate.setNumUpdate(99);
+	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+	    	eo.setDataAggiornamento(dataAggiornamento);
+	    	
+			session.update(eo);
 			
 			tx.commit();
 	      }catch (HibernateException e) {

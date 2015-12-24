@@ -12,7 +12,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
+import it.fff.business.common.util.Constants;
+
+@NamedQueries({
+	@NamedQuery(name=Constants.QY_UPDATE_ACCOUNT_PSW, query="UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1")
+})
 @Entity
 @Table(name = "account")
 public class AccountEO extends EntityObject {

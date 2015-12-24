@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	
@@ -106,7 +107,8 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			bo.setLastPositionDate(eo.getLastPositionDate());
 			bo.setLastPositionLat(eo.getLastPositionLat());
 			bo.setLastPositionLong(eo.getLastPositionLong());
-			bo.setSesso(eo.getSesso());
+			
+			bo.setSesso(UserSexEnum.valueOf(eo.getSesso().toUpperCase()));
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			bo.setAccount(accountMapper.mapEO2BO(eo.getAccount()));
@@ -181,19 +183,20 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
 			eo.setCognomeIfNotEmpty(bo.getCognome());
-			eo.setSessoIfNotEmpty(bo.getSesso());
+			eo.setSessoIfNotEmpty(bo.getSesso().toString());
 			eo.setDataNascitaIfNotEmpty(bo.getDataNascita());
 			eo.setDescrizioneIfNotEmpty(bo.getDescrizione());
 			eo.setLastPositionLatIfNotEmpty(bo.getLastPositionLat());
 			eo.setLastPositionLongIfNotEmpty(bo.getLastPositionLong());
 			eo.setLastPositionDateIfNotEmpty(bo.getLastPositionDate());
+			eo.setFlagAttivo(bo.isFlagAttivo());
 			
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
-			List<LanguageEO> lingueEO = languageMapper.mergeBOs2EOs(bo.getLingue(),null, session);
+			List<LanguageEO> lingueEO = languageMapper.mergeBOs2EOs(bo.getLingue(),eo.getLingue(), session);
 			eo.setLingue(lingueEO);
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
-			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null, session);
+			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), eo.getAccount(), session);
 			eo.setAccount(accountEO);
 			
 			NationMapper nationMapper = NationMapper.getInstance();

@@ -2,13 +2,15 @@ package it.fff.business.common.bo;
 
 import java.util.List;
 
+import it.fff.clientserver.common.enums.UserSexEnum;
+
 public class UserBO implements BusinessObject {
 
 	private int	id;
 	private String nome;
 	private String cognome;
 	private String dataNascita;
-	private String sesso;
+	private UserSexEnum sesso;
 	private String descrizione;
 	private double lastPositionLat;
 	private double lastPositionLong;
@@ -44,10 +46,10 @@ public class UserBO implements BusinessObject {
 	public void setDataNascita(String dataNascita) {
 		this.dataNascita = dataNascita;
 	}
-	public String getSesso() {
+	public UserSexEnum getSesso() {
 		return sesso;
 	}
-	public void setSesso(String sesso) {
+	public void setSesso(UserSexEnum sesso) {
 		this.sesso = sesso;
 	}
 	public String getDescrizione() {

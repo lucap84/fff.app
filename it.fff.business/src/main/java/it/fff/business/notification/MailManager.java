@@ -62,12 +62,14 @@ public class MailManager {
 			 */
 			
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("assistance@fff.com"));
+			message.setFrom(new InternetAddress("info@flokker.com"));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(email));
 			message.setSubject("Verification Code FFF");
 			message.setSentDate(new Date());
 			
-			String htmlMail = "<h2>FFF customer service</h2><br/><br/><b>verification code:</b>&nbsp;&nbsp;"+verificationCode;
+			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_VERIFICATIONCODE);
+			String htmlMail = htmlMailTemplate.replace("{VERIFICATION_CODE}", verificationCode);
+			
 			message.setContent(htmlMail, "text/html");
 			
 			Transport.send(message);

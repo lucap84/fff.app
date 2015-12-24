@@ -164,15 +164,15 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1";	    	  
-
-			Query query = session.createQuery(hqlUpdate);
+	    	tx = session.beginTransaction();
+//			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1";	    	  
+//			Query query = session.createQuery(hqlUpdate);
+	    	Query query = session.getNamedQuery(Constants.QY_UPDATE_ACCOUNT_PSW);
 			query.setParameter("newPassword", encodedNewPassword);
 			query.setParameter("userId", userId);
 			query.setParameter("email", email);
 			query.setParameter("oldPassword", encodedOldPassword);
 
-			tx = session.beginTransaction();
 			int recordUpdated = query.executeUpdate();
 			tx.commit();
 			
@@ -253,7 +253,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 
 	    	Integer idAccount = (Integer)querySelectVerifiedAccount.uniqueResult();	    	
 	    	
-			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:idAccount";	    	  
+			String hqlUpdate = "UPDATE AccountEO set password = :newPassword  WHERE id =:idAccount AND flgVerificato = 1";	    	  
 			Query queryResetPassword = session.createQuery(hqlUpdate);
 			queryResetPassword.setParameter("newPassword", newPassword);
 			queryResetPassword.setParameter("idAccount", idAccount);
@@ -297,7 +297,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 			
 			result.setAffectedRecords(recordUpdated);
 			result.setWrittenKey(-1);
-			result.setSuccess(true);
+			result.setSuccess(recordUpdated>0);
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();

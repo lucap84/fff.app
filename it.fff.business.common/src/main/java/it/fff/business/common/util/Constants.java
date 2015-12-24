@@ -27,10 +27,17 @@ public class Constants {
 	public static final String PROP_MAIL_HOST 				= "mail.smtp.host";
 	public static final String PROP_MAIL_PORT 				= "mail.smtp.port";	
 	
+	public static final String MAIL_TEMPLATE_VERIFICATIONCODE	= "templates\\verificationCodeMail.html";
+	
 	/*
 	 * Persistence constants
 	 */
 	public static final String IMAGE_CONF_FILENAME 			= "images.properties";
-	
 	public static final String PROP_IMAGE_UPLOAD_LOCATION	= "server.filesystem.location.upload";
+	
+	/*
+	 * Named Queries
+	 */
+	public static final String QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER	= "getAttendanceByEventAndOrganizer";
+	public static final String QY_UPDATE_ACCOUNT_PSW				= "updateAccountPassword";
 }

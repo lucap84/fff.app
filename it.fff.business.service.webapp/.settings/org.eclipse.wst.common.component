@@ -21,7 +21,7 @@
         <dependent-module archiveName="it.fff.persistence-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.persistence/it.fff.persistence">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="it.fff.clientserver.common-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.clientserver.common/it.fff.clientserver.common">
+        <dependent-module archiveName="it.fff.clientserver.common-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/it.fff.clientserver.common/it.fff.clientserver.common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/it.fff.business.service.webapp/build/classes"/>

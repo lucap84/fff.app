@@ -10,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
@@ -28,10 +30,10 @@ import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
+
 
 public class EventPersistenceServiceHibernate implements EventPersistenceService{
 
@@ -66,8 +68,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 	    try{
-	    	String hqlSelectOrganizerAttendance = "FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1";
-	    	Query querySelectOrganizerAttendance = session.createQuery(hqlSelectOrganizerAttendance);
+//	    	String hqlSelectOrganizerAttendance = "FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1";
+//	    	Query querySelectOrganizerAttendance = session.createQuery(hqlSelectOrganizerAttendance);
+	    	Query querySelectOrganizerAttendance = session.getNamedQuery(Constants.QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER);
 	    	querySelectOrganizerAttendance.setParameter("eventId", eventId);
 	    	querySelectOrganizerAttendance.setParameter("organizerId", organizerId);
 	    	

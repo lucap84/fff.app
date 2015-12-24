@@ -70,6 +70,12 @@ public class UserEO extends EntityObject {
 	@Column(name = "Flg_Attivo")
 	private boolean flagAttivo;
 	
+	@Column(name = "Data_Creazione")
+	private String dataCreazione;
+	
+	@Column(name = "Data_Aggiornamento")
+	private String dataAggiornamento;
+	
 	@ManyToOne
 	@JoinColumn(name = "Nazionalita_ID")
 	private NationEO nazionalita; 
@@ -227,6 +233,24 @@ public class UserEO extends EntityObject {
 
 	public void setAbbonamenti(List<SubscriptionEO> abbonamenti) {
 		this.abbonamenti = abbonamenti;
+	}
+	
+	
+
+	public String getDataCreazione() {
+		return dataCreazione;
+	}
+
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+
+	public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
+
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
 	}
 
 	/*

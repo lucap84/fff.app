@@ -3,6 +3,9 @@ package it.fff.clientserver.common.dto;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import it.fff.clientserver.common.enums.UserSexEnum;
+
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlRootElement
@@ -13,7 +16,7 @@ public class UserDTO extends DataTransferObject {
 	private String nome;
 	private String cognome;
 	private String dataNascita;
-	private String sesso;
+	private UserSexEnum sesso;
 	private String descrizione;
 	private String lastPositionLat;
 	private String lastPositionLong;
@@ -48,10 +51,10 @@ public class UserDTO extends DataTransferObject {
 	public void setDataNascita(String dataNascita) {
 		this.dataNascita = dataNascita;
 	}
-	@XmlElement public String getSesso() {
+	@XmlElement public UserSexEnum getSesso() {
 		return sesso;
 	}
-	public void setSesso(String sesso) {
+	public void setSesso(UserSexEnum sesso) {
 		this.sesso = sesso;
 	}
 	@XmlElement public String getDescrizione() {

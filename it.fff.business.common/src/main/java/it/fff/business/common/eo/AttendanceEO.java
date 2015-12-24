@@ -8,7 +8,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
+import it.fff.business.common.util.Constants;
+
+@NamedQueries({
+	@NamedQuery(name=Constants.QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER, query="FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1")		
+})
 @Entity
 @Table(name = "partecipazione")
 public class AttendanceEO extends EntityObject {
