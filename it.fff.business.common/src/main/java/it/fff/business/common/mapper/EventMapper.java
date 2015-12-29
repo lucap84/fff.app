@@ -1,6 +1,8 @@
 package it.fff.business.common.mapper;
 
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +108,7 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	@Override
 	public List<EventBO> mapEOs2BOs(List<EventEO> eos) {
 		List<EventBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<EventBO>();
 			EventMapper eventMapper = EventMapper.getInstance();
 			for (EventEO eo : eos) {
@@ -119,12 +121,21 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	@Override
 	public EventBO mapEO2BO(EventEO eo) {
 		EventBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new EventBO();
 			bo.setId(eo.getId());
 			bo.setTitolo(eo.getTitolo());
 			bo.setDescrizione(eo.getDescrizione());
 			bo.setDurata(eo.getDurata());
+			bo.setDataInizio(eo.getDataInizio());
+			
+			bo.setStato(EventStateEnum.valueOf(eo.getStato().getNome()));
+
+			MessageMapper messageMapper = MessageMapper.getInstance();
+			bo.setMessages(messageMapper.mapEOs2BOs(eo.getMessages()));
+			
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
+			bo.setLocation(placeMapper.mapEO2BO(eo.getLocation()));
 			
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			bo.setPartecipazioni(attendanceMapper.mapEOs2BOs(eo.getPartecipazioni()));
@@ -165,11 +176,11 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			
 			dto.setStato(bo.getStato());
 			
-			PlaceMapper placeMapper = PlaceMapper.getInstance();
-			dto.setLocation(placeMapper.mapBO2DTO(bo.getLocation()));
-			
 			MessageMapper messageMapper = MessageMapper.getInstance();
 			dto.setMessages(messageMapper.mapBOs2DTOs(bo.getMessages()));
+			
+			PlaceMapper placeMapper = PlaceMapper.getInstance();
+			dto.setLocation(placeMapper.mapBO2DTO(bo.getLocation()));
 			
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			dto.setPartecipazioni(attendanceMapper.mapBOs2DTOs(bo.getPartecipazioni()));	

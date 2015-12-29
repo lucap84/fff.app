@@ -11,6 +11,8 @@ import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.AchievementTypeEO;
 import it.fff.clientserver.common.dto.AchievementDTO;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,AchievementObtainedEO>{
 
 	private static AchievementMapper mapper;
@@ -56,7 +58,7 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 	@Override
 	public List<AchievementBO> mapEOs2BOs(List<AchievementObtainedEO> eos) {
 		List<AchievementBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<AchievementBO>();
 			AchievementMapper achievementMapper = AchievementMapper.getInstance();
 			for (AchievementObtainedEO eo : eos) {
@@ -70,7 +72,7 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 	@Override
 	public AchievementBO mapEO2BO(AchievementObtainedEO eo) {
 		AchievementBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new AchievementBO();
 			bo.setId(eo.getId());
 			bo.setDataOttenimento(eo.getDataCreazione());

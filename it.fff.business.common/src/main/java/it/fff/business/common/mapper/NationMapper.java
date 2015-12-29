@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	@Override
 	public NationBO mapEO2BO(NationEO eo) {
 		NationBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new NationBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
@@ -94,7 +96,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	@Override
 	public List<NationBO> mapEOs2BOs(List<NationEO> eos) {
 		List<NationBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<NationBO>();
 			NationMapper nationMapper = NationMapper.getInstance();
 			for (NationEO eo : eos) {

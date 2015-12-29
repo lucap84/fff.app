@@ -10,8 +10,8 @@ public class PlaceDTO extends DataTransferObject {
 	
 	private int id;
 	private String nome;
-	private String gpsLat;
-	private String gpsLong;
+	private double gpsLat;
+	private double gpsLong;
 	private String via;
 	private String civico;
 	private String cap;
@@ -30,16 +30,16 @@ public class PlaceDTO extends DataTransferObject {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	@XmlElement public String getGpsLat() {
+	@XmlElement public double getGpsLat() {
 		return gpsLat;
 	}
-	public void setGpsLat(String gpsLat) {
+	public void setGpsLat(double gpsLat) {
 		this.gpsLat = gpsLat;
 	}
-	@XmlElement public String getGpsLong() {
+	@XmlElement public double getGpsLong() {
 		return gpsLong;
 	}
-	public void setGpsLong(String gpsLong) {
+	public void setGpsLong(double gpsLong) {
 		this.gpsLong = gpsLong;
 	}
 	@XmlElement public String getVia() {

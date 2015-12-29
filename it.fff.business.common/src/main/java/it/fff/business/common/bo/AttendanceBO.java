@@ -10,6 +10,8 @@ public class AttendanceBO implements BusinessObject{
 	private int numPartecipanti;
 	private FeedbackEnum feedback;
 	private boolean isValid;
+	private String dataCreazione;
+	private String dataAggiornamento;
 	private EventBO event;
 	private UserBO utente;
 	private AttendanceStateEnum stato;
@@ -59,7 +61,22 @@ public class AttendanceBO implements BusinessObject{
 		return feedback;
 	}
 	public void setFeedback(FeedbackEnum feedback) {
+		if(feedback==null){
+			feedback = FeedbackEnum.UNKNOW;
+		}
 		this.feedback = feedback;
+	}
+	public String getDataCreazione() {
+		return dataCreazione;
+	}
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+	public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
 	}
 	
 }

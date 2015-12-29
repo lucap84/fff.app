@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	@Override
 	public List<AttendanceStateEnum> mapEOs2BOs(List<AttendanceStateEO> eos) {
 		List<AttendanceStateEnum> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			 bos = new ArrayList<AttendanceStateEnum>();
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
 			for (AttendanceStateEO eo : eos) {
@@ -77,7 +79,7 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	@Override
 	public AttendanceStateEnum mapEO2BO(AttendanceStateEO eo) {
 		AttendanceStateEnum bo = AttendanceStateEnum.UNKNOW;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = AttendanceStateEnum.valueOf(eo.getNome());
 		}
 		else{

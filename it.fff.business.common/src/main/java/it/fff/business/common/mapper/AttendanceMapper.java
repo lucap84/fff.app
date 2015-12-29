@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,8 +96,16 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 		if(bo!=null){
 			dto.setId(bo.getId());
 			dto.setValid(bo.isValid());
+			dto.setFeedback(bo.getFeedback());
+			dto.setNumPartecipanti(bo.getNumPartecipanti());
+			dto.setOrganizer(bo.isOrganizer());
+			dto.setStato(bo.getStato());
+			dto.setDataCreazione(bo.getDataCreazione());
+			dto.setDataAggiornamento(bo.getDataAggiornamento());
 			
+			dto.setEventId(bo.getEvent().getId());
 			dto.setUserId(bo.getUtente().getId());
+			
 		}
 		return dto;
 	}
@@ -146,7 +156,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	@Override
 	public List<AttendanceBO> mapEOs2BOs(List<AttendanceEO> eos) {
 		List<AttendanceBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new  ArrayList<AttendanceBO>();
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			for (AttendanceEO eo : eos) {
@@ -159,12 +169,14 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	@Override
 	public AttendanceBO mapEO2BO(AttendanceEO eo) {
 		AttendanceBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new AttendanceBO();
 			bo.setId(eo.getId());
 			bo.setNumPartecipanti(eo.getNumPartecipanti());
 			bo.setOrganizer(eo.isOrganizer());
 			bo.setValid(eo.isValid());
+			bo.setDataCreazione(eo.getDataCreazione());
+			bo.setDataAggiornamento(eo.getDataAggiornamento());
 
 			if(eo.isPositiveFeedback()==null){
 				bo.setFeedback(FeedbackEnum.UNKNOW);

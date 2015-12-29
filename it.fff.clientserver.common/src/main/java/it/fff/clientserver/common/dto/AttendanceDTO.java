@@ -14,9 +14,11 @@ public class AttendanceDTO extends DataTransferObject {
 	private int userId;
 	private int eventId;
 	private boolean isOrganizer;
-	private String numPartecipanti;
+	private int numPartecipanti;
 	private FeedbackEnum feedback;
 	private boolean isValid;
+	private String dataCreazione;
+	private String dataAggiornamento;
 	private AttendanceStateEnum stato;
 	
 
@@ -39,10 +41,10 @@ public class AttendanceDTO extends DataTransferObject {
 		this.isValid = isValid;
 	}
 
-	@XmlElement public String getNumPartecipanti() {
+	@XmlElement public int getNumPartecipanti() {
 		return numPartecipanti;
 	}
-	public void setNumPartecipanti(String numPartecipanti) {
+	public void setNumPartecipanti(int numPartecipanti) {
 		this.numPartecipanti = numPartecipanti;
 	}
 	@XmlElement public AttendanceStateEnum getStato() {
@@ -68,6 +70,18 @@ public class AttendanceDTO extends DataTransferObject {
 	}
 	public void setFeedback(FeedbackEnum feedback) {
 		this.feedback = feedback;
+	}
+	@XmlElement public String getDataCreazione() {
+		return dataCreazione;
+	}
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+	@XmlElement public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
 	}
 	
 	

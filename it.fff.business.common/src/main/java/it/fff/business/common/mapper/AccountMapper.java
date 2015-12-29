@@ -1,15 +1,20 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.clientserver.common.dto.AccountDTO;
+import it.fff.clientserver.common.dto.EventDTO;
+import it.fff.clientserver.common.dto.SessionDTO;
 
 public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 	
@@ -87,8 +92,38 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 
 	@Override
 	public AccountBO mapEO2BO(AccountEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+		AccountBO bo = null;
+		if(eo!=null && isInitialized(eo)){
+			bo = new AccountBO();
+			bo.setId(eo.getId());
+			bo.setEmail(eo.getEmail());
+			bo.setFlgValidita(eo.isFlgValidita());
+			bo.setFlgVerificato(eo.isFlgVerificato());
+			bo.setPassword(eo.getPassword());
+			bo.setVerificationCode(eo.getVerificationCode());
+			
+			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
+			List<SessionBO> sessionsBO = null;
+			
+			List<SessionEO> sessionsEO = eo.getSessions();
+			if(sessionsEO!=null && isInitialized(sessionsEO)){
+				sessionsBO = new ArrayList<SessionBO>();
+				for (SessionEO ssEO : sessionsEO) {
+					SessionBO ssBO = new SessionBO();
+					ssBO.setAccount(bo); //set del parent
+					ssBO.setId(ssEO.getId());
+					ssBO.setDeviceId(ssEO.getDeviceId());
+					ssBO.setSharedKey(ssEO.getSharedKey());
+					ssBO.setLogged(ssEO.isLogged());
+					ssBO.setDataLogin(ssEO.getDataLogin());
+					ssBO.setDataLogout(ssEO.getDataLogout());
+					
+					sessionsBO.add(ssBO);
+				}
+			}
+			bo.setSessions(sessionsBO);			
+		}
+		return bo;
 	}
 
 	@Override
@@ -99,8 +134,24 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 
 	@Override
 	public AccountDTO mapBO2DTO(AccountBO bo) {
-		// TODO Auto-generated method stub
-		return null;
+		AccountDTO dto = null;
+		if(bo!=null){
+			dto = new AccountDTO();
+			if(bo.getId()>0){
+				dto.setId(bo.getId());
+			}
+			dto.setId(bo.getId());
+			dto.setEmail(bo.getEmail());
+			dto.setFlgValidita(bo.isFlgValidita());
+			dto.setFlgVerificato(bo.isFlgVerificato());
+			dto.setPassword(bo.getPassword());
+			dto.setVerificationCode(bo.getVerificationCode());
+			
+			//Posso usare i mapper senza creare cicli perche i dto hanno solo l'id degli oggetti padre all'interno
+			dto.setSessions(SessionMapper.getInstance().mapBOs2DTOs(bo.getSessions()));
+			
+		}
+		return dto;
 	}
 	
 	

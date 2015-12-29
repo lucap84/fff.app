@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +71,7 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 	@Override
 	public List<EventStateEnum> mapEOs2BOs(List<EventStateEO> eos) {
 		List<EventStateEnum> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<EventStateEnum>();
 			EventStateMapper eventStateMapper = EventStateMapper.getInstance();
 			for (EventStateEO eo : eos) {
@@ -83,7 +85,7 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 	@Override
 	public EventStateEnum mapEO2BO(EventStateEO eo) {
 		EventStateEnum bo = EventStateEnum.UNKNOW;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = EventStateEnum.valueOf(eo.getNome().toUpperCase());
 		}
 		else{

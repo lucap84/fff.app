@@ -49,6 +49,8 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		Session session = sessionFactory.openSession();
 	      try{
 	    	 eo = (EventEO) session.get(EventEO.class, eventId);
+	    	 int size = eo.getPartecipazioni().size();
+	    	 EventCategoryEO categoria = eo.getCategoria();
 	      }catch (HibernateException e) {
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during retrieveEvent() ",e);
@@ -67,7 +69,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 	    try{
+	    	tx = session.beginTransaction();
 //	    	String hqlSelectOrganizerAttendance = "FROM AttendanceEO A WHERE A.event.id = :eventId AND A.utente.id = :organizerId AND isOrganizer=1 AND A.isValid = 1";
 //	    	Query querySelectOrganizerAttendance = session.createQuery(hqlSelectOrganizerAttendance);
 	    	Query querySelectOrganizerAttendance = session.getNamedQuery(Constants.QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER);
@@ -79,9 +83,26 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    		throw new HibernateException("Evento dell organizzatore da annullare non trovato");
 	    	}
 
-	    	result = this.updateEventState(eventId, EventStateEnum.CANCELED);
+	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.CANCELED);
+	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+	    	
+	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = :eventStateId, dataAggiornamento = :dataAggiornamento  WHERE id=:eventId";	    	  
+			Query queryUpdateEvent = session.createQuery(hqlUpdateEvent);
+			queryUpdateEvent.setParameter("eventStateId", eventStateId);
+			queryUpdateEvent.setParameter("dataAggiornamento", dataAggiornamento);
+			queryUpdateEvent.setParameter("eventId", eventId);
+			
+			int recordUpdated = queryUpdateEvent.executeUpdate();
+			
+			tx.commit();
+			
+			result.setAffectedRecords(recordUpdated);
+			result.setSuccess(recordUpdated>0);
+			result.setWrittenKey(eventId);
+	    	
 			
 	    }catch (HibernateException e) {
+	    	if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
 	        throw new Exception("HibernateException during cancelEvent() ",e);
 	    }finally {
@@ -279,7 +300,10 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	tx = session.beginTransaction();
 
 	    	AttendanceEO attendanceEO = AttendanceMapper.getInstance().mergeBO2EO(bo, null, session);
-	    	  
+	    	
+	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
+	    	attendanceEO.setDataCreazione(dataCreazione);
+	    	
 			eventId = (Integer)session.save(attendanceEO); 
 	        tx.commit();
 	      }catch (HibernateException e) {
@@ -301,8 +325,27 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 	@Override
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<AttendanceBO> bos = null;
+		List<AttendanceEO> eos = null;
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try{
+			String hqlSelect = "FROM AttendanceEO a WHERE a.event.id = :eventId AND a.isValid = 1 ";	    	  
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("eventId", eventId);
+	    	
+	    	eos = query.list();
+	    	
+	    }catch (HibernateException e) {
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getAttendancesByEvent() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+
+		bos = AttendanceMapper.getInstance().mapEOs2BOs(eos);
+		return bos;
 	}
 
 	@Override
@@ -342,27 +385,36 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 										int minPartecipanti)	throws Exception {
 
 		List<EventBO> bos = null;
-
+		List<EventEO> eos = null;
+		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
-			String hqlSelect = "SELECT FROM EventEO e JOIN PlaceEO p JOIN CategoriaEventoEO c WHERE c.id = :idCategoria AND p.gpsLat BETWEEN :gpsLatFrom AND :gpsLatTo AND p.gpsLong BETWEEN :gpsLongFrom AND :gpsLongTo";	    	  
+			Integer stateActiveId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.ACTIVE);
+			Integer stateOngoingId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.ONGOING);
+			
+			String hqlSelect = "SELECT e FROM EventEO AS e JOIN e.location AS p JOIN e.categoria AS c WHERE c.id = :idCategoria AND (e.stato.id= :stateActiveId OR e.stato.id= :stateOngoingId) AND p.gpsLat BETWEEN :gpsLatFrom AND :gpsLatTo AND p.gpsLong BETWEEN :gpsLongFrom AND :gpsLongTo";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("idCategoria", idCategoria);
+	    	query.setParameter("stateActiveId", stateActiveId);
+	    	query.setParameter("stateOngoingId", stateOngoingId);
 	    	query.setParameter("gpsLatFrom", gpsLatFrom);
 	    	query.setParameter("gpsLatTo", gpsLatTo);
 	    	query.setParameter("gpsLongFrom", gpsLongFrom);
 	    	query.setParameter("gpsLongTo", gpsLongTo);
 	    	
-	    	List<Object[]> list = query.list();
-	    	list.size();
+	    	eos = query.list();
 			
 	    }catch (HibernateException e) {
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during searchEvents() ",e);
 	     }finally {
 	        session.close(); 
-	     }	
+	     }
+		
+		EventMapper eventMapper = EventMapper.getInstance();
+		bos = eventMapper.mapEOs2BOs(eos);
+		
 		return bos;
 	}
 
@@ -396,12 +448,8 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 			tx.commit();
 			
 			result.setAffectedRecords(recordUpdated);
-			if(recordUpdated>0){
-				result.setWrittenKey(eventId);
-				result.setSuccess(true);
-			}else{
-				result.setSuccess(false);
-			}
+			result.setSuccess(recordUpdated>0);
+			result.setWrittenKey(eventId);
 			
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();

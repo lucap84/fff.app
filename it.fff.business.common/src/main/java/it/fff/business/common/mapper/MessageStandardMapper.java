@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 	@Override
 	public List<MessageStandardBO> mapEOs2BOs(List<MessageStandardEO> eos) {
 		List<MessageStandardBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<MessageStandardBO>();
 			MessageStandardMapper messageStandardMapper = MessageStandardMapper.getInstance();
 			for (MessageStandardEO eo : eos) {
@@ -66,7 +68,7 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 	@Override
 	public MessageStandardBO mapEO2BO(MessageStandardEO eo) {
 		MessageStandardBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new MessageStandardBO();
 			bo.setId(eo.getId());
 			bo.setText(eo.getStandardText());

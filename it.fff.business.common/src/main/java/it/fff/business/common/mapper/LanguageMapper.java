@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +88,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 	@Override
 	public List<LanguageBO> mapEOs2BOs(List<LanguageEO> eos) {
 		List<LanguageBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<LanguageBO>();
 			LanguageMapper languageMapper = LanguageMapper.getInstance();
 			for (LanguageEO eo : eos) {
@@ -99,7 +101,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 	@Override
 	public LanguageBO mapEO2BO(LanguageEO eo) {
 		LanguageBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new LanguageBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

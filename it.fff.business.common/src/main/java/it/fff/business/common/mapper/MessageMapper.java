@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 	@Override
 	public List<MessageBO> mapEOs2BOs(List<MessageEO> eos) {
 		List<MessageBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<MessageBO>();
 			MessageMapper messageMapper = MessageMapper.getInstance();
 			for (MessageEO eo : eos) {
@@ -103,7 +105,7 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 	@Override
 	public MessageBO mapEO2BO(MessageEO eo) {
 		MessageBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new MessageBO();
 			bo.setId(eo.getId());
 			

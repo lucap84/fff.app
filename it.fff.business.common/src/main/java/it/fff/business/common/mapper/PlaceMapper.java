@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +48,13 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 				dto.setId(bo.getId());
 			}
 			dto.setNome(bo.getNome());
-			dto.setGpsLat(String.valueOf(bo.getGpsLat()));
-			dto.setGpsLong(String.valueOf(bo.getGpsLong()));
+			dto.setGpsLat(bo.getGpsLat());
+			dto.setGpsLong(bo.getGpsLong());
 			dto.setCivico(bo.getCivico());
 			dto.setVia(bo.getVia());
 			dto.setCap(bo.getCap());
+			
+			dto.setTags(bo.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			dto.setCity(cityMapper.mapBO2DTO(bo.getCity()));
@@ -108,7 +112,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	@Override
 	public List<PlaceBO> mapEOs2BOs(List<PlaceEO> eos) {
 		List<PlaceBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<PlaceBO>();
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			for (PlaceEO eo : eos) {
@@ -121,7 +125,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	@Override
 	public PlaceBO mapEO2BO(PlaceEO eo) {
 		PlaceBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new PlaceBO();
 			if(eo.getId()!=null && eo.getId()>0){
 				bo.setId(eo.getId());
@@ -133,6 +137,8 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			bo.setCivico(eo.getCivico());
 			bo.setVia(eo.getVia());
 			bo.setCap(eo.getCap());
+			
+			bo.setTags(eo.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			bo.setCity(cityMapper.mapEO2BO(eo.getCity()));			

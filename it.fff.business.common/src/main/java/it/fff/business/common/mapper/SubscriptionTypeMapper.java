@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 	@Override
 	public List<SubscriptionTypeBO> mapEOs2BOs(List<SubscriptionTypeEO> eos) {
 		List<SubscriptionTypeBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<SubscriptionTypeBO>();
 			SubscriptionTypeMapper subscriptionTypeMapper = SubscriptionTypeMapper.getInstance();
 			for (SubscriptionTypeEO eo : eos) {
@@ -69,7 +71,7 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 	@Override
 	public SubscriptionTypeBO mapEO2BO(SubscriptionTypeEO eo) {
 		SubscriptionTypeBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new SubscriptionTypeBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

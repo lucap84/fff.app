@@ -2,6 +2,7 @@ package it.fff.business.common.eo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -54,7 +55,7 @@ public class AttendanceEO extends EntityObject {
 	@JoinColumn(name = "Utente_ID", nullable = false)
 	private UserEO utente;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "Stato_ID", nullable = false)
 	private AttendanceStateEO stato;
 

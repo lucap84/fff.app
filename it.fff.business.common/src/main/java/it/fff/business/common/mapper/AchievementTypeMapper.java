@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 	@Override
 	public List<AchievementTypeBO> mapEOs2BOs(List<AchievementTypeEO> eos) {
 		List<AchievementTypeBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<AchievementTypeBO>();
 			AchievementTypeMapper achievementTypeMapper = AchievementTypeMapper.getInstance();
 			for (AchievementTypeEO eo : eos) {
@@ -68,7 +70,7 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 	@Override
 	public AchievementTypeBO mapEO2BO(AchievementTypeEO eo) {
 		AchievementTypeBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new AchievementTypeBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

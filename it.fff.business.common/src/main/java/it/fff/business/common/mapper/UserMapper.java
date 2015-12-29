@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +98,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	@Override
 	public UserBO mapEO2BO(UserEO eo) {
 		UserBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new UserBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

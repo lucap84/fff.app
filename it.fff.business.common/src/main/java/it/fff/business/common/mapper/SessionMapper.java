@@ -105,13 +105,31 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 
 	@Override
 	public List<SessionDTO> mapBOs2DTOs(List<SessionBO> bos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SessionDTO> dtos = null;
+		if(bos!=null){
+			dtos = new ArrayList<SessionDTO>();
+			for (SessionBO bo : bos) {
+				SessionMapper sessionMapper = SessionMapper.getInstance();
+				SessionDTO dto = sessionMapper.mapBO2DTO(bo);
+				dtos.add(dto);
+			}
+		}
+		return dtos;
 	}
 
 	@Override
 	public SessionDTO mapBO2DTO(SessionBO bo) {
-		// TODO Auto-generated method stub
-		return null;
+		SessionDTO dto = null;
+		if(bo!=null){
+			dto = new SessionDTO();
+			dto.setAccountId(bo.getId());
+			dto.setId(bo.getId());
+			dto.setDeviceId(bo.getDeviceId());
+			dto.setSharedKey(bo.getSharedKey());
+			dto.setLogged(bo.isLogged());
+			dto.setDataLogin(bo.getDataLogin());
+			dto.setDataLogout(bo.getDataLogout());
+		}
+		return dto;
 	}	
 }

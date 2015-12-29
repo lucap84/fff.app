@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.List;
 
 import org.hibernate.Session;
@@ -78,7 +80,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 	@Override
 	public CityBO mapEO2BO(CityEO eo) {
 		CityBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new CityBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +79,7 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 	@Override
 	public List<EventCategoryBO> mapEOs2BOs(List<EventCategoryEO> eos) {
 		List<EventCategoryBO> bos = null;
-		if(eos!=null){
+		if(eos!=null && isInitialized(eos)){
 			bos = new ArrayList<EventCategoryBO>();
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			for (EventCategoryEO eo : eos) {
@@ -90,7 +92,7 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 	@Override
 	public EventCategoryBO mapEO2BO(EventCategoryEO eo) {
 		EventCategoryBO bo = null;
-		if(eo!=null){
+		if(eo!=null && isInitialized(eo)){
 			bo = new EventCategoryBO();
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());

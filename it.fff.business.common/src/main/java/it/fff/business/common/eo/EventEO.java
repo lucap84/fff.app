@@ -48,6 +48,9 @@ public class EventEO extends EntityObject{
 	@JoinColumn(name = "Luogo_ID", nullable = false)
 	private PlaceEO location;	
 	
+	@Column(name="Data_Aggiornamento")
+	private String dataAggiornamento;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private List<AttendanceEO> partecipazioni;
 	
@@ -143,11 +146,21 @@ public class EventEO extends EntityObject{
 		this.messages = messages;
 	}
 	
+	
+	
 	/*
 	 * IfNotEmpty
 	 */
 	
 
+
+	public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
+
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
+	}
 
 	public void setIdIfNotEmpty(int id) {
 		if(!isEmpty(id)) this.id = id;
