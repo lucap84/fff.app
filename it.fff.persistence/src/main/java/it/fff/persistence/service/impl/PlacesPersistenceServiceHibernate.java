@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.PlaceBO;
@@ -35,16 +36,22 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
-			String hqlSelect = "FROM PlaceEO WHERE nome LIKE :description OR tags LIKE :description ";	    	  
+		Transaction tx = null;
+	      try{
+	    	tx = session.beginTransaction();
+			
+	    	String hqlSelect = "FROM PlaceEO WHERE nome LIKE :description OR tags LIKE :description ";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("description", "%"+description+"%");
 	    	
 	    	List<PlaceEO> placesEO = query.list();
 	    	
+	    	tx.commit();
+	    	
 	    	bos = PlaceMapper.getInstance().mapEOs2BOs(placesEO);
 	    	
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during searchEvents() ",e);
 	     }finally {

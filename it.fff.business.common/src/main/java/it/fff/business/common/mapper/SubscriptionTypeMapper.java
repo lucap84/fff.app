@@ -113,6 +113,8 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 	public SubscriptionTypeEO mergeBO2EO(SubscriptionTypeBO bo, SubscriptionTypeEO eo, Session session) {
 		if(bo!=null){
 			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO				
 				eo = (SubscriptionTypeEO)session.load(SubscriptionTypeEO.class, bo.getId());
 			}
 		}

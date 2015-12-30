@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.LanguageBO;
+import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.clientserver.common.dto.LanguageDTO;
 
@@ -73,16 +74,27 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 	@Override
 	public LanguageEO mergeBO2EO(LanguageBO bo, LanguageEO eo, Session session) {
 		if(bo!=null){
-			if(eo==null){
-				eo = new LanguageEO();
+			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO
+				eo = (LanguageEO)session.load(LanguageEO.class, bo.getId());
 			}
-			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setIso639_1IfNotEmpty(bo.getIso639_1());
-			eo.setIso639_2IfNotEmpty(bo.getIso639_2());
-			eo.setIso639_3IfNotEmpty(bo.getIso639_3());
 		}
 		return eo;
+//		if(bo!=null){
+//			if(bo.getId()>0){
+//				eo = (LanguageEO)session.load(LanguageEO.class, bo.getId());
+//			}
+//			if(eo==null){
+//				eo = new LanguageEO();
+//			}
+//			eo.setIdIfNotEmpty(bo.getId());
+//			eo.setNomeIfNotEmpty(bo.getNome());
+//			eo.setIso639_1IfNotEmpty(bo.getIso639_1());
+//			eo.setIso639_2IfNotEmpty(bo.getIso639_2());
+//			eo.setIso639_3IfNotEmpty(bo.getIso639_3());
+//		}
+//		return eo;
 	}
 
 	@Override

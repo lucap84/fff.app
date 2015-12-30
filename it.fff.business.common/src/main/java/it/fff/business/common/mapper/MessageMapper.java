@@ -11,7 +11,11 @@ import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.eo.AttendanceEO;
+import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.MessageEO;
+import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.clientserver.common.dto.MessageDTO;
 
 public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
@@ -85,8 +89,30 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 	@Override
 	public MessageEO mergeBO2EO(MessageBO bo, MessageEO eo, Session session) {
-		// TODO Auto-generated method stub
-		return null;
+		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (MessageEO)session.load(MessageEO.class, bo.getId());
+			}
+			if(eo==null){
+				eo = new MessageEO();
+			}
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setDataCreazioneIfNotEmpty(bo.getDataCreazione());
+			eo.setTextIfNotEmpty(bo.getText());
+			
+			MessageStandardEO msgStdEO = MessageStandardMapper.getInstance().mergeBO2EO(bo.getMsgStd(),eo.getMsgStd(),session);
+			eo.setMsgStd(msgStdEO);
+			
+			if(bo.getAttendance()!=null && bo.getAttendance().getId()>0){
+				AttendanceEO attEO = (AttendanceEO)session.load(AttendanceEO.class, bo.getAttendance().getId());
+				eo.setAttendance(attEO);
+			}
+			if(bo.getEvent()!=null && bo.getEvent().getId()>0){
+				EventEO evEO = (EventEO)session.load(EventEO.class, bo.getEvent().getId());
+				eo.setEvent(evEO);
+			}
+		}
+		return eo;
 	}
 
 	@Override

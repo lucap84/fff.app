@@ -51,13 +51,16 @@ public class SubscriptionMapper implements Mapper<SubscriptionDTO,SubscriptionBO
 	@Override
 	public SubscriptionEO mergeBO2EO(SubscriptionBO bo, SubscriptionEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (SubscriptionEO)session.load(SubscriptionEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new SubscriptionEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
-			eo.setDataInizio(bo.getDataInizio());
-			eo.setDataFine(bo.getDataFine());
-			eo.setSconto(bo.getSconto());
+			eo.setDataInizioIfNotEmpty(bo.getDataInizio());
+			eo.setDataFineIfNotEmpty(bo.getDataFine());
+			eo.setScontoIfNotEmpty(bo.getSconto());
 			
 			if(bo.getUserIdAbbonato()>0){
 				UserEO abbonatoEO = (UserEO)session.load(UserEO.class, bo.getUserIdAbbonato());

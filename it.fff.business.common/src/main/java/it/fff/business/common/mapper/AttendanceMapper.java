@@ -113,6 +113,9 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 	@Override
 	public AttendanceEO mergeBO2EO(AttendanceBO bo, AttendanceEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (AttendanceEO)session.load(AttendanceEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new AttendanceEO();
 			}
@@ -136,8 +139,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			}
 			
 			if(bo.getEvent()!=null && bo.getEvent().getId()>0 && eo.getEvent()==null){
-				EventEO eventEO = new EventEO(); //Evito mapping ciclici (EventBO ha una lista di attendances)!
-				eventEO.setIdIfNotEmpty(bo.getEvent().getId());
+				EventEO eventEO = (EventEO)session.load(EventEO.class, bo.getEvent().getId());
 				eo.setEvent(eventEO);
 			}
 			
@@ -145,8 +147,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), eo.getStato(), session));
 			
 			if(bo.getUtente()!=null && bo.getUtente().getId()>0 && eo.getUtente()==null){
-				UserEO userEO = new UserEO();
-				userEO.setIdIfNotEmpty(bo.getUtente().getId());
+				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getEvent().getId());
 				eo.setUtente(userEO);
 			}
 		}

@@ -45,12 +45,18 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	@Override
 	public NationEO mergeBO2EO(NationBO bo, NationEO eo, Session session) {
 		if(bo!=null){
-			if(eo==null){
-				eo= new NationEO();
+			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO
+				eo = (NationEO)session.load(NationEO.class, bo.getId());
 			}
-			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
+//			if(eo==null){
+//				eo= new NationEO();
+//				eo.setIdIfNotEmpty(bo.getId());
+//				eo.setNomeIfNotEmpty(bo.getNome());
+//				eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
+//				eo.setInternationalCodeIfNotEmpty(bo.getInternationalCode());
+//			}
 		}
 		return eo;
 	}

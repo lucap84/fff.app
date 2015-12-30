@@ -173,11 +173,10 @@ public class EventEO extends EntityObject{
 	public void setDescrizioneIfNotEmpty(String descrizione) {
 		if(!isEmpty(descrizione)) this.descrizione = descrizione;
 	}
-	
-	
-
-	@Override
-	public String toString() {
-		return this.getClass().getName()+"("+id+")";
+	public void setDurataIfNotEmpty(int durata) {
+		if(!isEmpty(durata)) this.durata = durata;
+	}
+	public void setDataInizioIfNotEmpty(String dataInizio) {
+		if(!isEmpty(dataInizio)) this.dataInizio = dataInizio;
 	}
 }

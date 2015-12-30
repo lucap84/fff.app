@@ -88,22 +88,23 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	@Override
 	public PlaceEO mergeBO2EO(PlaceBO bo, PlaceEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (PlaceEO)session.load(PlaceEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new PlaceEO();
 			}
-			if(bo.getId()>0){
-				eo.setId(bo.getId());
-			}
-			eo.setNome(bo.getNome());
-			eo.setVia(bo.getVia());
-			eo.setCivico(bo.getCap());
-			eo.setGpsLat(bo.getGpsLat());
-			eo.setGpsLong(bo.getGpsLong());
-			eo.setCap(bo.getCap());
-			eo.setTags(bo.getTags());
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setNomeIfNotEmpty(bo.getNome());
+			eo.setViaIfNotEmpty(bo.getVia());
+			eo.setCivicoIfNotEmpty(bo.getCivico());
+			eo.setGpsLatIfNotEmpty(bo.getGpsLat());
+			eo.setGpsLongIfNotEmpty(bo.getGpsLong());
+			eo.setCapIfNotEmpty(bo.getCap());
+			eo.setTagsIfNotEmpty(bo.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
-			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), null, session));
+			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), eo.getCity(), session));
 			
 		}
 		return eo;

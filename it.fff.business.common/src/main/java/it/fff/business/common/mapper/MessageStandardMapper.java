@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.MessageStandardBO;
+import it.fff.business.common.eo.MessageEO;
 import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.clientserver.common.dto.MessageStandardDTO;
 
@@ -96,8 +97,14 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 
 	@Override
 	public MessageStandardEO mergeBO2EO(MessageStandardBO bo, MessageStandardEO eo, Session session) {
-		// TODO Auto-generated method stub
-		return null;
+		if(bo!=null){
+			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO				
+				eo = (MessageStandardEO)session.load(MessageStandardEO.class, bo.getId());
+			}
+		}
+		return eo;
 	}
 
 }

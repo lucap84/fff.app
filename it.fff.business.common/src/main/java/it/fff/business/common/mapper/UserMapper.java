@@ -179,6 +179,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	@Override
 	public UserEO mergeBO2EO(UserBO bo, UserEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (UserEO)session.load(UserEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new UserEO();
 			}
@@ -202,7 +205,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			eo.setAccount(accountEO);
 			
 			NationMapper nationMapper = NationMapper.getInstance();
-			NationEO nazionalitaEO = nationMapper.mergeBO2EO(bo.getNazionalita(),null, session);
+			NationEO nazionalitaEO = nationMapper.mergeBO2EO(bo.getNazionalita(),eo.getNazionalita(), session);
 			eo.setNazionalita(nazionalitaEO);
 		}
 		return eo;

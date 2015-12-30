@@ -82,5 +82,20 @@ public class MessageEO extends EntityObject {
 	public void setMsgStd(MessageStandardEO msgStd) {
 		this.msgStd = msgStd;
 	}
+	/*
+	 * if not empty methods
+	 */
+
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id))this.id=id;
+	}
+
+	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
+		if(!isEmpty(dataCreazione))this.dataCreazione=dataCreazione;
+	}
+
+	public void setTextIfNotEmpty(String text) {
+		if(!isEmpty(text))this.text=text;
+	}
 	
 }

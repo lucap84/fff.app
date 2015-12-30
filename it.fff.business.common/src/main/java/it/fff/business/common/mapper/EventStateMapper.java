@@ -59,10 +59,9 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 	@Override
 	public EventStateEO mergeBO2EO(EventStateEnum bo, EventStateEO eo, Session session) {
 		if(bo!=null && bo!=EventStateEnum.UNKNOW){
-			if(eo==null){
-				eo = new EventStateEO();
-			}
-			eo.setNome(bo.name());
+			//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+			//Quindi non ho setter sul EO			
+			eo = (EventStateEO)session.load(EventStateEO.class, bo.getId());
 		}
 		return eo;
 	}

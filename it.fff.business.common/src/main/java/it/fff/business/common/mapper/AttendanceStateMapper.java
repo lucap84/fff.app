@@ -55,10 +55,7 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	@Override
 	public AttendanceStateEO mergeBO2EO(AttendanceStateEnum bo, AttendanceStateEO eo, Session session) {
 		if(bo!=null && bo!=AttendanceStateEnum.UNKNOW){
-			if(eo==null){
-				eo = new AttendanceStateEO();
-			}
-			eo.setNome(bo.name());
+			eo = (AttendanceStateEO)session.load(AttendanceStateEO.class, bo.getId());
 		}
 		return eo;
 	}

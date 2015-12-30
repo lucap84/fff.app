@@ -113,5 +113,30 @@ public class PlaceEO extends EntityObject {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id))this.id = id;
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome))this.nome = nome;
+	}
+	public void setViaIfNotEmpty(String via) {
+		if(!isEmpty(via))this.via = via;
+	}
+	public void setCivicoIfNotEmpty(String civico) {
+		if(!isEmpty(civico))this.civico = civico;
+	}
+	public void setGpsLatIfNotEmpty(double gpsLat) {
+		if(!isEmpty(gpsLat))this.gpsLat = gpsLat;
+	}
+	public void setGpsLongIfNotEmpty(double gpsLong) {
+		if(!isEmpty(gpsLong))this.gpsLong = gpsLong;
+	}
+	public void setCapIfNotEmpty(String cap) {
+		if(!isEmpty(cap))this.cap = cap;
+	}
+	public void setTagsIfNotEmpty(String tags) {
+		if(!isEmpty(tags))this.tags = tags;
+	}
 	
 }

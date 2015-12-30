@@ -44,6 +44,9 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 	@Override
 	public SessionEO mergeBO2EO(SessionBO bo, SessionEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (SessionEO)session.load(SessionEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new SessionEO();
 			}
@@ -54,7 +57,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			eo.setDataLoginIfNotEmpty(bo.getDataLogin());
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
-			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), null, session);
+			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), eo.getAccount(), session);
 			eo.setAccount(accountEO);
 		}
 		return eo;

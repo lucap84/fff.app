@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.EventCategoryBO;
+import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.clientserver.common.dto.EventCategoryDTO;
 
@@ -64,16 +65,26 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 	@Override
 	public EventCategoryEO mergeBO2EO(EventCategoryBO bo, EventCategoryEO eo, Session session) {
 		if(bo!=null){
-			if(eo==null){
-				eo = new EventCategoryEO();
-			}
 			if(bo.getId()>0){
-				eo.setId(bo.getId());
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO
+				eo = (EventCategoryEO)session.load(EventCategoryEO.class, bo.getId());
 			}
-			eo.setNome(bo.getNome());
-			eo.setDescrizione(bo.getDescrizione());
 		}
 		return eo;
+		
+//		if(bo!=null){
+//			if(bo.getId()>0){
+//				eo = (EventCategoryEO)session.load(EventCategoryEO.class, bo.getId());
+//			}
+//			if(eo==null){
+//				eo = new EventCategoryEO();
+//			}
+//			eo.setIdIfNotEmpty(bo.getId());
+//			eo.setNomeIfNotEmpty(bo.getNome());
+//			eo.setDescrizioneIfNotEmpty(bo.getDescrizione());
+//		}
+//		return eo;
 	}
 
 	@Override

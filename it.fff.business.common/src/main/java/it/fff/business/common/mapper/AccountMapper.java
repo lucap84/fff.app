@@ -51,6 +51,9 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 	@Override
 	public AccountEO mergeBO2EO(AccountBO bo, AccountEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (AccountEO)session.load(AccountEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new AccountEO();
 			}
@@ -62,24 +65,31 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			eo.setVerificationCodeIfNotEmpty(bo.getVerificationCode());
 			
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
-			List<SessionEO> sessionsEO = new ArrayList<SessionEO>();
+			List<SessionEO> sessionsEO  = null;
 			
 			List<SessionBO> sessionsBO = bo.getSessions();
-			if(sessionsBO==null){
-				sessionsBO = new ArrayList<SessionBO>();
+			if(sessionsBO!=null){
+				sessionsEO = new ArrayList<SessionEO>();
+				for (SessionBO ssBO : sessionsBO) {
+					SessionEO ssEO = null;
+					if(ssBO.getId()>0){
+						ssEO = (SessionEO)session.load(SessionEO.class, ssBO.getId());
+					}
+					else{
+						ssEO = new SessionEO();
+					}
+					ssEO.setAccount(eo); //set del parent
+					ssEO.setIdIfNotEmpty(ssBO.getId());
+					ssEO.setDeviceIdIfNotEmpty(ssBO.getDeviceId());
+					ssEO.setSharedKeyIfNotEmpty(ssBO.getSharedKey());
+					ssEO.setLogged(ssBO.isLogged());
+					ssEO.setDataLoginIfNotEmpty(ssBO.getDataLogin());
+					ssEO.setDataLogoutIfNotEmpty(ssBO.getDataLogout());
+					sessionsEO.add(ssEO);
+				}
+				
+				eo.setSessions(sessionsEO);
 			}
-			for (SessionBO ssBO : sessionsBO) {
-				SessionEO ssEO = new SessionEO();
-				ssEO.setAccount(eo); //set del parent
-				ssEO.setIdIfNotEmpty(ssBO.getId());
-				ssEO.setDeviceIdIfNotEmpty(ssBO.getDeviceId());
-				ssEO.setSharedKeyIfNotEmpty(ssBO.getSharedKey());
-				ssEO.setLogged(ssBO.isLogged());
-				ssEO.setDataLoginIfNotEmpty(ssBO.getDataLogin());
-				ssEO.setDataLogoutIfNotEmpty(ssBO.getDataLogout());
-				sessionsEO.add(ssEO);
-			}
-			eo.setSessions(sessionsEO);
 		}
 		return eo;
 	}

@@ -42,5 +42,19 @@ public class EventCategoryEO extends EntityObject {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+
+	/*
+	 * if empty methods
+	 */
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id))this.id = id;
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome))this.nome = nome;
+	}
+
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione))this.descrizione = descrizione;
+	}
 	
 }

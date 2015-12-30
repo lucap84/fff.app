@@ -90,13 +90,19 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 				
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-	      try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	 eo = (UserEO) session.get(UserEO.class, userId);
 	    	 //get dei campi lazy richiesti in output prima che si chiuda la sessione hibernate
 	    	 int size = eo.getLingue().size();
 	    	 int size2 = eo.getAchievements().size();
 	    	 int size3 = eo.getAbbonamenti().size();
+	    	 
+	    	 tx.commit();
 	      }catch (HibernateException e) {
+	    	  if(tx!=null)tx.rollback();
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during getUser() ",e);
 	      }finally {

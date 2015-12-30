@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.CityBO;
+import it.fff.business.common.eo.AchievementTypeEO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.EventEO;
@@ -58,17 +59,29 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 	@Override
 	public CityEO mergeBO2EO(CityBO bo, CityEO eo, Session session) {
 		if(bo!=null){
-			if(eo==null){
-				eo = new CityEO();
+			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO
+				eo = (CityEO)session.load(CityEO.class, bo.getId());
 			}
-			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNomeIfNotEmpty(bo.getNome());
-			
-			NationMapper nationMapper = NationMapper.getInstance();
-			eo.setNazione(nationMapper.mergeBO2EO(bo.getNazione(), null, session));
-			
 		}
 		return eo;
+		
+//		if(bo!=null){
+//			if(bo.getId()>0){
+//				eo = (CityEO)session.load(CityEO.class, bo.getId());
+//			}
+//			if(eo==null){
+//				eo = new CityEO();
+//			}
+//			eo.setIdIfNotEmpty(bo.getId());
+//			eo.setNomeIfNotEmpty(bo.getNome());
+//			
+//			NationMapper nationMapper = NationMapper.getInstance();
+//			eo.setNazione(nationMapper.mergeBO2EO(bo.getNazione(), eo.getNazione(), session));
+//			
+//		}
+//		return eo;
 	}
 
 	@Override

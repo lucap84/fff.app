@@ -47,14 +47,21 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 	      try{
+	    	 tx = session.beginTransaction();
+	    	 
 	    	 eo = (EventEO) session.get(EventEO.class, eventId);
 	    	 int size = eo.getPartecipazioni().size();
 	    	 EventCategoryEO categoria = eo.getCategoria();
+	    	 
+	    	 tx.commit();
 	      }catch (HibernateException e) {
+	    	 if(tx!=null)tx.rollback();
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during retrieveEvent() ",e);
 	      }finally {
+	    	 if(tx!=null)tx.rollback();
 	         session.close(); 
 	      }	        
 	      bo = EventMapper.getInstance().mapEO2BO(eo);
@@ -83,7 +90,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    		throw new HibernateException("Evento dell organizzatore da annullare non trovato");
 	    	}
 
-	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.CANCELED);
+	    	Integer eventStateId = EventStateEnum.CANCELED.getId();
 	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
 	    	
 	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = :eventStateId, dataAggiornamento = :dataAggiornamento  WHERE id=:eventId";	    	  
@@ -125,7 +132,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				
 				EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null, session);
 				
-				Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(eventBO.getStato());
+				Integer eventStateId = eventBO.getStato().getId();
 	    	
 				//Rendo managed tutti gli oggetti collegati all'evento
 				eventEO.setLocation((PlaceEO) session.load(PlaceEO.class, eventEO.getLocation().getId()));
@@ -137,7 +144,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				
 				//salvo anche le sue partecipazioni ora che ho l'ID evento (non sono salvate in cascade)
 				for (AttendanceEO a : eventEO.getPartecipazioni()) {
-					Integer attStateId = TypologicalLoader.attendanceStateEnum2ID.get(AttendanceStateEnum.valueOf(a.getStato().getNome()));
+					Integer attStateId = AttendanceStateEnum.valueOf(a.getStato().getNome()).getId();
 					a.getStato().setId(attStateId);
 					a.setEvent(eventEO);
 					session.save(a);
@@ -295,7 +302,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 	    Transaction tx = null;
-	    Integer eventId = null;
+	    Integer attendaceId = null;
 	      try{
 	    	tx = session.beginTransaction();
 
@@ -304,7 +311,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
 	    	attendanceEO.setDataCreazione(dataCreazione);
 	    	
-			eventId = (Integer)session.save(attendanceEO); 
+			attendaceId = (Integer)session.save(attendanceEO); 
 	        tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
@@ -317,7 +324,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		logger.info("attendance created");
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setSuccess(true);
-		resultBO.setWrittenKey(eventId);
+		resultBO.setWrittenKey(attendaceId);
 		resultBO.setAffectedRecords(1);
 		
 		return resultBO;
@@ -330,14 +337,19 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	      try{
+	    	 tx = session.beginTransaction();
 			String hqlSelect = "FROM AttendanceEO a WHERE a.event.id = :eventId AND a.isValid = 1 ";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("eventId", eventId);
 	    	
 	    	eos = query.list();
 	    	
+	    	tx.commit();
+	    	
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAttendancesByEvent() ",e);
 	     }finally {
@@ -354,22 +366,30 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 		try{
-			String hqlSelect = "FROM EventEO e JOIN AttendanceEO a WHERE a.utente.id = :userId AND a.isValid = 1 ";	    	  
+			tx = session.beginTransaction();
+
+			String hqlSelect = "SELECT ev FROM EventEO AS ev WHERE ev.id IN(SELECT e.id FROM AttendanceEO AS a JOIN a.event AS e WHERE a.utente.id = :userId AND a.isValid = 1 AND (e.stato.id= :eventStateActive OR e.stato.id= :eventStateOngoing))";	    	  
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("userId", userId);
+	    	query.setParameter("eventStateActive", EventStateEnum.ACTIVE.getId());
+	    	query.setParameter("eventStateOngoing", EventStateEnum.ONGOING.getId());
 	    	
 	    	List<EventEO> eventsEO = query.list();
 	    	List<AttendanceEO> partecipazioni = null;
 	    	for (EventEO eventEO : eventsEO) { //recupero le partecipazioni che altrimenti sono lazy
 				partecipazioni = eventEO.getPartecipazioni();
 			}
+
+	    	tx.commit();
 	    	
 	    	bos = EventMapper.getInstance().mapEOs2BOs(eventsEO);
 	    	
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during searchEvents() ",e);
+	        throw new Exception("HibernateException during getEventsByUser() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -389,9 +409,12 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
-			Integer stateActiveId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.ACTIVE);
-			Integer stateOngoingId = TypologicalLoader.eventStateEnum2ID.get(EventStateEnum.ONGOING);
+		Transaction tx = null;
+	      try{
+	    	tx = session.beginTransaction();
+			
+	    	Integer stateActiveId = EventStateEnum.ACTIVE.getId();
+			Integer stateOngoingId = EventStateEnum.ONGOING.getId();
 			
 			String hqlSelect = "SELECT e FROM EventEO AS e JOIN e.location AS p JOIN e.categoria AS c WHERE c.id = :idCategoria AND (e.stato.id= :stateActiveId OR e.stato.id= :stateOngoingId) AND p.gpsLat BETWEEN :gpsLatFrom AND :gpsLatTo AND p.gpsLong BETWEEN :gpsLongFrom AND :gpsLongTo";	    	  
 	    	Query query = session.createQuery(hqlSelect);
@@ -405,7 +428,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	
 	    	eos = query.list();
 			
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during searchEvents() ",e);
 	     }finally {
@@ -425,7 +450,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception {
+	public WriteResultBO updateEventState(int eventId, EventStateEnum eventState) throws Exception {
 		logger.info("modifico stato evento...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -436,7 +461,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    try{
 	    	tx = session.beginTransaction();
 
-	    	Integer eventStateId = TypologicalLoader.eventStateEnum2ID.get(state);
+	    	Integer eventStateId = eventState.getId();
 	    	
 	    	String hqlUpdateEvent = "UPDATE EventEO set stato.id = :eventStateId  WHERE id=:eventId";	    	  
 			Query queryUpdateEvent = session.createQuery(hqlUpdateEvent);

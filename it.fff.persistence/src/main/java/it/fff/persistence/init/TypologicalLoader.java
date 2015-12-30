@@ -18,8 +18,8 @@ public class TypologicalLoader {
 	
 	private static final Logger logger = LogManager.getLogger(TypologicalLoader.class);
 	
-	public static Map<EventStateEnum,Integer> eventStateEnum2ID = new HashMap<EventStateEnum,Integer>();
-	public static Map<AttendanceStateEnum,Integer> attendanceStateEnum2ID = new HashMap<AttendanceStateEnum,Integer>();
+//	public static Map<EventStateEnum,Integer> eventStateEnum2ID = new HashMap<EventStateEnum,Integer>();
+//	public static Map<AttendanceStateEnum,Integer> attendanceStateEnum2ID = new HashMap<AttendanceStateEnum,Integer>();
 
 	public TypologicalLoader(){
 		logger.debug("Loading typological data...");
@@ -44,7 +44,8 @@ public class TypologicalLoader {
 		for (EventStateEO eventStateEO : allEventStates) {
 			try{
 				EventStateEnum valueOf = EventStateEnum.valueOf(eventStateEO.getNome());
-				eventStateEnum2ID.put(valueOf, eventStateEO.getId());
+				valueOf.setId(eventStateEO.getId());
+//				eventStateEnum2ID.put(valueOf, eventStateEO.getId());
 			}
 			catch(IllegalArgumentException e){
 				logger.error("State not Recognized! :"+eventStateEO.getNome());
@@ -68,7 +69,8 @@ public class TypologicalLoader {
 		for (AttendanceStateEO attendanceState : allAttendanceStates) {
 			try{
 				AttendanceStateEnum valueOf = AttendanceStateEnum.valueOf(attendanceState.getNome());
-				attendanceStateEnum2ID.put(valueOf, attendanceState.getId());
+				valueOf.setId(attendanceState.getId());
+//				attendanceStateEnum2ID.put(valueOf, attendanceState.getId());
 			}
 			catch(IllegalArgumentException e){
 				logger.error("State not Recognized! :"+attendanceState.getNome());

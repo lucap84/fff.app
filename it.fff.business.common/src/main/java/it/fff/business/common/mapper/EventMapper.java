@@ -78,16 +78,17 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 	@Override
 	public EventEO mergeBO2EO(EventBO bo, EventEO eo, Session session) {
 		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (EventEO)session.load(EventEO.class, bo.getId());
+			}
 			if(eo==null){
 				eo = new EventEO();
 			}
-			if(bo.getId()>0){
-				eo.setId(bo.getId());
-			}
-			eo.setTitolo(bo.getTitolo());
-			eo.setDescrizione(bo.getDescrizione());
-			eo.setDurata(bo.getDurata());
-			eo.setDataInizio(bo.getDataInizio());
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setTitoloIfNotEmpty(bo.getTitolo());
+			eo.setDescrizioneIfNotEmpty(bo.getDescrizione());
+			eo.setDurataIfNotEmpty(bo.getDurata());
+			eo.setDataInizioIfNotEmpty(bo.getDataInizio());
 			
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), null, session));

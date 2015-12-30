@@ -199,7 +199,10 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 	      try{
+	    	 tx = session.beginTransaction();
+	    	 
 	    	  String hqlSelect = "SELECT S.account.id, S.deviceId, S.sharedKey  FROM SessionEO S WHERE S.isLogged = 1";	    	  
 	    	  Query query = session.createQuery(hqlSelect);
 	    	  List<Object[]> results = query.list();
@@ -220,7 +223,10 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    		  userSecrets.put(deviceId, sharedKey);
 	    		  secrets.put(userId, userSecrets);
 	    		}
+	    	  
+	    	tx.commit();
 	      }catch (HibernateException e) {
+	    	  if(tx!=null)tx.rollback();
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during retrieveClientSecrets() ",e);
 	      }finally {
@@ -242,14 +248,13 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
+	    	tx = session.beginTransaction();
+
 	    	String hqlSelectAccount = "SELECT A.id  FROM AccountEO A WHERE A.flgValidita = 1 AND A.email = :email AND A.verificationCode = :verificationCode AND A.flgVerificato = 1";	    	  
-	    	
 	    	
 	    	Query querySelectVerifiedAccount = session.createQuery(hqlSelectAccount);
 	    	querySelectVerifiedAccount.setParameter("email", email);
 	    	querySelectVerifiedAccount.setParameter("verificationCode", verificationCode);
-	    	
-	    	tx = session.beginTransaction();
 
 	    	Integer idAccount = (Integer)querySelectVerifiedAccount.uniqueResult();	    	
 	    	
@@ -285,14 +290,15 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
-			String hqlUpdate = "UPDATE AccountEO set verificationCode = :verificationCode, flgVerificato = 0  WHERE email =:email AND flgValidita = 1";	    	  
+	    	tx = session.beginTransaction();
 
+	    	String hqlUpdate = "UPDATE AccountEO set verificationCode = :verificationCode, flgVerificato = 0  WHERE email =:email AND flgValidita = 1";	    	  
 			Query query = session.createQuery(hqlUpdate);
 			query.setParameter("verificationCode", verificationCode);
 			query.setParameter("email", email);
 
-			tx = session.beginTransaction();
 			int recordUpdated = query.executeUpdate();
+			
 			tx.commit();
 			
 			result.setAffectedRecords(recordUpdated);

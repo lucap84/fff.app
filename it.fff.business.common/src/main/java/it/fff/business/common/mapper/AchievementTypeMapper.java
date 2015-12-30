@@ -51,7 +51,14 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 
 	@Override
 	public AchievementTypeEO mergeBO2EO(AchievementTypeBO bo, AchievementTypeEO eo, Session session) {
-		return null;
+		if(bo!=null){
+			if(bo.getId()>0){
+				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
+				//Quindi non ho setter sul EO
+				eo = (AchievementTypeEO)session.load(AchievementTypeEO.class, bo.getId());
+			}
+		}
+		return eo;
 	}
 
 	@Override

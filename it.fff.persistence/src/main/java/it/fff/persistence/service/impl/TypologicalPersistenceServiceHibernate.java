@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.EventBO;
@@ -45,10 +46,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<EventCategoryEO> eos = session.createCriteria(EventCategoryEO.class).list();
 	    	bos = EventCategoryMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllEventCategories() ",e);
 	     }finally {
@@ -63,9 +70,15 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	eos = session.createCriteria(EventStateEO.class).list();
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllEventStates() ",e);
 	     }finally {
@@ -79,9 +92,15 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 		List<AttendanceStateEO> eos = null;
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 			eos = session.createCriteria(AttendanceStateEO.class).list();
+			
+			tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllAttendanceStates() ",e);
 	     }finally {
@@ -96,10 +115,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<MessageStandardEO> eos = session.createCriteria(MessageStandardEO.class).list();
 	    	bos = MessageStandardMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllStandardMessages() ",e);
 	     }finally {
@@ -114,10 +139,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<AchievementTypeEO> eos = session.createCriteria(AchievementTypeEO.class).list();
 	    	bos = AchievementTypeMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllAchievementTypes() ",e);
 	     }finally {
@@ -132,10 +163,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<SubscriptionTypeEO> eos = session.createCriteria(SubscriptionTypeEO.class).list();
 	    	bos = SubscriptionTypeMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllSubscriptionTypes() ",e);
 	     }finally {
@@ -150,10 +187,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<LanguageEO> eos = session.createCriteria(LanguageEO.class).list();
 	    	bos = LanguageMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllLanguages() ",e);
 	     }finally {
@@ -168,10 +211,16 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		try{
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
 	    	List<NationEO> eos = session.createCriteria(NationEO.class).list();
 	    	bos = NationMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllNations() ",e);
 	     }finally {
