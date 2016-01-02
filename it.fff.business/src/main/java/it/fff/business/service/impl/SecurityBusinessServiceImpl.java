@@ -68,7 +68,8 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 		String verificationCode = verificationCodeStrategy.generateVerificationCode(email);
 
 		WriteResultBO bo = persistenceFacade.saveVerficationCode(email, verificationCode);
-
+		logger.info("...verification code persistence done");
+		
 		boolean isSent = false;
 		if(bo!=null && bo.isSuccess()){
 			//TODO send email dopo esito generazione e scrittura su db
@@ -78,8 +79,8 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 			if(!isSent){
 				throw new PersistenceException("Invio mail verification code non riuscito", null);
 			}
+			logger.info("...verification code mail sent");
 		}
-		
 		
 		return bo;
 	}

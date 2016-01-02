@@ -58,6 +58,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		firstSession.setDataLogin(loginDate);
 		
 		WriteResultBO resultBO = persistenceFacade.registerUser(userBO);
+		logger.info("...createUser persistence done");
 		
 		//Se registrazione avvenuta con successo invio email di conferma
 		boolean isSent = false;
@@ -70,9 +71,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			if(!isSent){
 				throw new PersistenceException("Invio mail verification code non riuscito", null);
 			}		
+			logger.info("...createUser mail sent");
 		}
 		
-		logger.info("...createUser");
 		return resultBO;
 	}
 

@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
-import it.fff.business.service.impl.SecurityBusinessServiceImpl;
 
 public class MailManager {
 	
@@ -55,18 +54,23 @@ public class MailManager {
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(email));
 			message.setSubject("Verification Code");
 			message.setSentDate(new Date());
+			logger.debug("Mime Message created");
 			
 			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_VERIFICATIONCODE);
 			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", email.split("@")[0]);
 			htmlMail = htmlMail.replace("{VERIFICATION_CODE}", verificationCode);
+			logger.debug("Mail placeholders set");
 			
 			message.setContent(htmlMail, "text/html");
 			
-			Transport.send(message);
+			MailWorker worker = new MailWorker(message);
+			Thread t = new Thread(worker);
+			t.start();
 
-			logger.info("Mail inviata con successo");
+			logger.info("Mail asynch worker avviato...");
 
 		} catch (MessagingException e) {
+			logger.error("MessagingException during sendVerificationCodeMail");
 			throw new RuntimeException(e);
 		}
 		
@@ -90,17 +94,22 @@ public class MailManager {
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(mailUtente));
 			message.setSubject("Registration confirm");
 			message.setSentDate(new Date());
+			logger.debug("Mime Message created");
 			
 			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_REGISTRATIONCONFIRM);
 			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", nomeUtente);
+			logger.debug("Mail placeholders set");
 			
 			message.setContent(htmlMail, "text/html");
 			
-			Transport.send(message);
+			MailWorker worker = new MailWorker(message);
+			Thread t = new Thread(worker);
+			t.start();
 
-			logger.info("Mail inviata con successo");
+			logger.info("Mail asynch worker avviato...");
 
 		} catch (MessagingException e) {
+			logger.error("MessagingException during sendRegistrationConfirmMail");
 			throw new RuntimeException(e);
 		}
 		
@@ -120,6 +129,7 @@ public class MailManager {
 						return new PasswordAuthentication(username, password);
 					}
 				  });
+		logger.debug("Mail Session created");
 		return session;
 	}
 }
