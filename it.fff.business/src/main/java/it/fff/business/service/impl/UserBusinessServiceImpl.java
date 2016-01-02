@@ -3,6 +3,8 @@ package it.fff.business.service.impl;
 
 import java.util.Date;
 
+import javax.activation.MailcapCommandMap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +14,7 @@ import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.util.Constants;
+import it.fff.business.notification.MailManager;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
@@ -55,7 +58,21 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		firstSession.setDataLogin(loginDate);
 		
 		WriteResultBO resultBO = persistenceFacade.registerUser(userBO);
-		logger.info("...createUser end");
+		
+		//Se registrazione avvenuta con successo invio email di conferma
+		boolean isSent = false;
+		if(resultBO!=null && resultBO.isSuccess()){
+			String nomeUtente = userBO.getNome();
+			String mailUtente = userBO.getAccount().getEmail();
+			
+			isSent  = MailManager.getInstance().sendRegistrationConfirmMail(mailUtente, nomeUtente);
+
+			if(!isSent){
+				throw new PersistenceException("Invio mail verification code non riuscito", null);
+			}		
+		}
+		
+		logger.info("...createUser");
 		return resultBO;
 	}
 

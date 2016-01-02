@@ -43,18 +43,7 @@ public class MailManager {
 		if(!this.mailSenderEnabled){
 			return success;
 		}
-		ConfigurationProvider configProvider = ConfigurationProvider.getInstance();
-		Properties mailProperties = configProvider.getEmailProperties();
-		
-		final String username = mailProperties.getProperty(Constants.PROP_MAIL_USERNAME);
-		final String password = mailProperties.getProperty(Constants.PROP_MAIL_PASSWORD);
-		
-		Session session = Session.getInstance(mailProperties,
-				  new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				  });		
+		Session session = getMailSessionInstance();	
 		
 		try {
 			/*	Activate access for less secure apps
@@ -64,11 +53,12 @@ public class MailManager {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("info@flokker.com"));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(email));
-			message.setSubject("Verification Code FFF");
+			message.setSubject("Verification Code");
 			message.setSentDate(new Date());
 			
 			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_VERIFICATIONCODE);
-			String htmlMail = htmlMailTemplate.replace("{VERIFICATION_CODE}", verificationCode);
+			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", email.split("@")[0]);
+			htmlMail = htmlMail.replace("{VERIFICATION_CODE}", verificationCode);
 			
 			message.setContent(htmlMail, "text/html");
 			
@@ -81,5 +71,55 @@ public class MailManager {
 		}
 		
 		return success;
+	}
+
+	public boolean sendRegistrationConfirmMail(String mailUtente, String nomeUtente) {
+		boolean success = true;
+		if(!this.mailSenderEnabled){
+			return success;
+		}
+		Session session = getMailSessionInstance();		
+		
+		try {
+			/*	Activate access for less secure apps
+			 *	https://www.google.com/settings/security/lesssecureapps 
+			 */
+			
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("info@flokker.com"));
+			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(mailUtente));
+			message.setSubject("Registration confirm");
+			message.setSentDate(new Date());
+			
+			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_REGISTRATIONCONFIRM);
+			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", nomeUtente);
+			
+			message.setContent(htmlMail, "text/html");
+			
+			Transport.send(message);
+
+			logger.info("Mail inviata con successo");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return success;
+	}
+
+	private Session getMailSessionInstance() {
+		ConfigurationProvider configProvider = ConfigurationProvider.getInstance();
+		Properties mailProperties = configProvider.getEmailProperties();
+		
+		final String username = mailProperties.getProperty(Constants.PROP_MAIL_USERNAME);
+		final String password = mailProperties.getProperty(Constants.PROP_MAIL_PASSWORD);
+		
+		Session session = Session.getInstance(mailProperties,
+				  new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				  });
+		return session;
 	}
 }

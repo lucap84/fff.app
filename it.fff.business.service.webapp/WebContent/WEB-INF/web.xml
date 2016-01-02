@@ -23,10 +23,10 @@
 	    <param-name>jersey.config.server.provider.classnames</param-name>
 	    <param-value>
 	    org.glassfish.jersey.media.multipart.MultiPartFeature
-	    ,it.fff.business.service.filter.AuthenticationContainerRequestFilter
-	    ,it.fff.business.service.filter.AuthorizationContainerRequestFilter
 	    </param-value>
 	    <!-- 
+	    ,it.fff.business.service.filter.AuthenticationContainerRequestFilter
+	    ,it.fff.business.service.filter.AuthorizationContainerRequestFilter
 	    Per abilitare la sicurezza, includere i due filtri AuthenticationContainerRequestFilter, AuthorizationContainerRequestFilter
 	    
 	    org.glassfish.jersey.media.multipart.MultiPartFeature,

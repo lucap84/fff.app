@@ -70,15 +70,16 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 		WriteResultBO bo = persistenceFacade.saveVerficationCode(email, verificationCode);
 
 		boolean isSent = false;
-		if(bo.isSuccess()){
+		if(bo!=null && bo.isSuccess()){
 			//TODO send email dopo esito generazione e scrittura su db
 			MailManager mailManager = MailManager.getInstance();
 			isSent = mailManager.sendVerificationCodeMail(email, verificationCode);
+
+			if(!isSent){
+				throw new PersistenceException("Invio mail verification code non riuscito", null);
+			}
 		}
 		
-		if(!isSent){
-			throw new PersistenceException("Invio mail verification code non riuscito", null);
-		}
 		
 		return bo;
 	}
