@@ -72,7 +72,7 @@ public class ResultMapper implements Mapper<WriteResultDTO, WriteResultBO, Void>
 		if(bo!=null){
 			dto = new WriteResultDTO();
 			dto.setAffectedRecords(bo.getAffectedRecords());
-			if(!bo.isSuccess()){
+			if(!bo.isSuccess() && bo.getErrorCodes()!=null){
 				for (String errCode : bo.getErrorCodes()) {
 					dto.putErrorInMap(errCode, errCode);
 				}

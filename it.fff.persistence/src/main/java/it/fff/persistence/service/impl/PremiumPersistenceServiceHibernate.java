@@ -37,17 +37,14 @@ public class PremiumPersistenceServiceHibernate implements PremiumPersistenceSer
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
+		Integer subscriptionId = null;
 	    try{
 	    	tx = session.beginTransaction();
 
+	    	//TODO check se utente ha già un premium nello stesso intervallo temporale (in caso sarebbe meglioaggiungere il premium a partire dalla data fine di quello corrente)
 	    	SubscriptionMapper mapper = SubscriptionMapper.getInstance();
 	    	SubscriptionEO subscriptionEO = mapper.mergeBO2EO(bo, null, session);
-
-	    	//RendoManaged i campi Entity di Subscription
-	    	subscriptionEO.setAbbonato((UserEO)session.load(UserEO.class, subscriptionEO.getAbbonato().getId()));
-	    	subscriptionEO.setTipo((SubscriptionTypeEO)session.load(SubscriptionTypeEO.class, subscriptionEO.getTipo().getId()));
-	    	
-	    	session.save(subscriptionEO);
+	    	subscriptionId = (Integer)session.save(subscriptionEO);
 			
 	    	tx.commit();
 	      }catch (HibernateException e) {
@@ -59,6 +56,10 @@ public class PremiumPersistenceServiceHibernate implements PremiumPersistenceSer
 	      }	
 	    
 		logger.info("...upgradeToPremium");
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(subscriptionId);
+		resultBO.setAffectedRecords(1);		
 		return result;
 	}
 

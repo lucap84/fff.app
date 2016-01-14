@@ -1,17 +1,17 @@
 package it.fff.persistence.service.impl;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
@@ -26,11 +26,11 @@ import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
+import it.fff.business.common.mapper.MessageMapper;
 import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.persistence.init.TypologicalLoader;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -52,8 +52,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	 tx = session.beginTransaction();
 	    	 
 	    	 eo = (EventEO) session.get(EventEO.class, eventId);
-	    	 int size = eo.getPartecipazioni().size();
-	    	 EventCategoryEO categoria = eo.getCategoria();
+	    	 Hibernate.initialize(eo);
 	    	 
 	    	 tx.commit();
 	      }catch (HibernateException e) {
@@ -173,11 +172,10 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
 		logger.info("post messaggio custom...");
 		
-		WriteResultBO result = new WriteResultBO();
-		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
+		Integer messageId = null;
 	    try{
 	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
 	    	
@@ -189,15 +187,22 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	messageEO.setMsgStd(null);
 	    	
 	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
+	    	
+	    	//Check attendee is the organizer
+	    	if(!attendanceEO.isOrganizer()){
+	    		if (tx!=null) tx.rollback();
+	    		throw new Exception("User is not the organizer!");
+	    	}
+	    	
 	    	EventEO eventEO = attendanceEO.getEvent();
 	    	messageEO.setAttendance(attendanceEO);
 	    	messageEO.setEvent(eventEO);
 
-	    	session.save(messageEO);
+	    	messageId = (Integer)session.save(messageEO);
 			
 	    	tx.commit();
 	      }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
+	         if (tx!=null) tx.rollback();	         
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during createEventMessage() ",e);
 	      }finally {
@@ -205,36 +210,38 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }	
 	    
 		logger.info("...post messaggio custom");
-		return result;
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(messageId);
+		resultBO.setAffectedRecords(1);		
+		return resultBO;
 	}
 
 	@Override
 	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
 		logger.info("post messaggio standard...");
 		
-		WriteResultBO result = new WriteResultBO();
-		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
+		Integer messageId = null;
 	    try{
 	    	String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
 	    	
 	    	tx = session.beginTransaction();
 
-	    	MessageEO messageEO = new MessageEO();
-	    	messageEO.setDataCreazione(dataCreazione);
-	    	messageEO.setMsgStd(null);
-	    	
 	    	MessageStandardEO msgStndEO = (MessageStandardEO)session.get(MessageStandardEO.class, stdMsgId);
-	    	messageEO.setText(msgStndEO.getStandardText());
-	    	
 	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
 	    	EventEO eventEO = attendanceEO.getEvent();
+
+	    	MessageEO messageEO = new MessageEO();
+	    	messageEO.setMsgStd(msgStndEO);
+	    	messageEO.setDataCreazione(dataCreazione);
+	    	messageEO.setText(null);
 	    	messageEO.setAttendance(attendanceEO);
 	    	messageEO.setEvent(eventEO);
 
-	    	session.save(messageEO);
+	    	messageId = (Integer)session.save(messageEO);
 			
 	    	tx.commit();
 	      }catch (HibernateException e) {
@@ -246,7 +253,11 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }	
 	    
 		logger.info("...post messaggio standard");
-		return result;
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(messageId);
+		resultBO.setAffectedRecords(1);			
+		return resultBO;
 	}
 
 	@Override
@@ -377,9 +388,11 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	query.setParameter("eventStateOngoing", EventStateEnum.ONGOING.getId());
 	    	
 	    	List<EventEO> eventsEO = query.list();
-	    	List<AttendanceEO> partecipazioni = null;
-	    	for (EventEO eventEO : eventsEO) { //recupero le partecipazioni che altrimenti sono lazy
-				partecipazioni = eventEO.getPartecipazioni();
+	    	
+	    	for (EventEO eventEO : eventsEO) { //recupero e inizializzo le partecipazioni
+				for (AttendanceEO attendanceEO :  eventEO.getPartecipazioni()) {
+					Hibernate.initialize(attendanceEO);
+				}
 			}
 
 	    	tx.commit();
@@ -445,8 +458,32 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 	@Override
 	public List<MessageBO> getEventMessages(int eventId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<MessageBO> bos = null;
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+
+			String hqlSelect = "SELECT m FROM MessageEO AS m WHERE m.event.id= :eventId";	    	  
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("eventId", eventId);
+	    	
+	    	List<MessageEO> messagesEO = query.list();
+
+	    	tx.commit();
+	    	
+	    	bos = MessageMapper.getInstance().mapEOs2BOs(messagesEO);
+	    	
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getEventMessages() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bos;
 	}
 
 	@Override

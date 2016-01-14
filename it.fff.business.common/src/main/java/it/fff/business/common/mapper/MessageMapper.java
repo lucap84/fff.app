@@ -67,15 +67,11 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			bo.setDataCreazione(dto.getDataCreazione());
 			
 			if(dto.getAttendanceId()>0){
-				AttendanceBO attbo = new AttendanceBO();
-				attbo.setId(Integer.valueOf(dto.getAttendanceId()));
-				bo.setAttendance(attbo);
+				bo.setAttendanceId(dto.getAttendanceId());
 			}
 				
 			if(dto.getEventId()>0){
-				EventBO evbo = new EventBO();
-				evbo.setId(Integer.valueOf(dto.getEventId()));
-				bo.setEvent(evbo);
+				bo.setEventId(dto.getEventId());
 			}			
 		}
 		return bo;
@@ -103,12 +99,12 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			MessageStandardEO msgStdEO = MessageStandardMapper.getInstance().mergeBO2EO(bo.getMsgStd(),eo.getMsgStd(),session);
 			eo.setMsgStd(msgStdEO);
 			
-			if(bo.getAttendance()!=null && bo.getAttendance().getId()>0){
-				AttendanceEO attEO = (AttendanceEO)session.load(AttendanceEO.class, bo.getAttendance().getId());
+			if(bo.getAttendanceId()!=null && bo.getAttendanceId()>0){
+				AttendanceEO attEO = (AttendanceEO)session.load(AttendanceEO.class, bo.getAttendanceId());
 				eo.setAttendance(attEO);
 			}
-			if(bo.getEvent()!=null && bo.getEvent().getId()>0){
-				EventEO evEO = (EventEO)session.load(EventEO.class, bo.getEvent().getId());
+			if(bo.getEventId()!=null && bo.getEventId()>0){
+				EventEO evEO = (EventEO)session.load(EventEO.class, bo.getEventId());
 				eo.setEvent(evEO);
 			}
 		}
@@ -140,8 +136,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			bo.setText(eo.getText());
 			bo.setDataCreazione(eo.getDataCreazione());
 			
-			EventMapper eventMapper = EventMapper.getInstance();
-			bo.setEvent(eventMapper.mapEO2BO(eo.getEvent()));
+			bo.setEventId(eo.getEvent().getId());
+			
+			bo.setAttendanceId(eo.getAttendance().getId());
 		}
 		return bo;
 	}
@@ -178,9 +175,9 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 
 			dto.setDataCreazione(bo.getDataCreazione());
 			
-			dto.setAttendanceId(bo.getAttendance().getId());
+			dto.setAttendanceId(bo.getAttendanceId());
 			
-			dto.setEventId(bo.getEvent().getId());
+			dto.setEventId(bo.getEventId());
 			
 		}
 		return dto;

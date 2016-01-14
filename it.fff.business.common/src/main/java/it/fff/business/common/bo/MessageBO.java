@@ -5,8 +5,8 @@ public class MessageBO {
 	private int	id;
 	private String text;
 	private String dataCreazione;
-	private EventBO event;
-	private AttendanceBO attendance;
+	private Integer eventId;
+	private Integer attendanceId;
 	private MessageStandardBO msgStd;
 	
 	public int getId() {
@@ -27,25 +27,23 @@ public class MessageBO {
 	public void setDataCreazione(String dataCreazione) {
 		this.dataCreazione = dataCreazione;
 	}
-	public EventBO getEvent() {
-		return event;
-	}
-	public void setEvent(EventBO event) {
-		this.event = event;
-	}
-	public AttendanceBO getAttendance() {
-		return attendance;
-	}
-	public void setAttendance(AttendanceBO attendance) {
-		this.attendance = attendance;
-	}
 	public MessageStandardBO getMsgStd() {
 		return msgStd;
 	}
 	public void setMsgStd(MessageStandardBO msgStd) {
 		this.msgStd = msgStd;
 	}
-
-	
+	public Integer getEventId() {
+		return eventId;
+	}
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
+	}
+	public Integer getAttendanceId() {
+		return attendanceId;
+	}
+	public void setAttendanceId(Integer attendanceId) {
+		this.attendanceId = attendanceId;
+	}
 	
 }

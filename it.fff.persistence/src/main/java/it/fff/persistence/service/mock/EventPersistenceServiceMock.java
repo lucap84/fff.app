@@ -285,8 +285,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		messageBO1.setText("Testo messaggio mock 1");
 		messageBO1.setDataCreazione("1998-01-01");
 		messageBO1.setMsgStd(null);
-		messageBO1.setAttendance(att);
-		messageBO1.setEvent(event);
+		messageBO1.setAttendanceId(att.getId());
+		messageBO1.setEventId(event.getId());
 		
 		MessageBO messageBO2 = new MessageBO();
 		messageBO2.setId(2);
@@ -298,8 +298,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		msgstdbo1.setText("Non vi vedo, dove state?");
 		
 		messageBO2.setMsgStd(msgstdbo1);
-		messageBO2.setAttendance(att);
-		messageBO2.setEvent(event);
+		messageBO2.setAttendanceId(att.getId());
+		messageBO2.setEventId(event.getId());
 		
 		
 		messagesBO.add(messageBO1);
