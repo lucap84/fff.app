@@ -97,16 +97,24 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    	
 	    	 eo = (UserEO) session.get(UserEO.class, userId);
 	    	 
-	    	 //inizializzo i campi lazy richiesti in output prima che si chiuda la sessione hibernate
-	    	 for (LanguageEO l :  eo.getLingue()) {
-	    		 Hibernate.initialize(l);
-			 }
-	    	 for (AchievementObtainedEO a :  eo.getAchievements()) {
-	    		 Hibernate.initialize(a);
-			 }
-	    	 for (SubscriptionEO s :  eo.getAbbonamenti()) {
-	    		 Hibernate.initialize(s);
-			 }	    	 
+	    	 if(eo!=null){
+		    	 //inizializzo i campi lazy richiesti in output prima che si chiuda la sessione hibernate
+		    	 for (LanguageEO l :  eo.getLingue()) {
+			    	 if(l!=null){
+			    		 Hibernate.initialize(l);
+			    	 }
+				 }
+		    	 for (AchievementObtainedEO a :  eo.getAchievements()) {
+			    	 if(a!=null){
+			    		 Hibernate.initialize(a);
+			    	 }
+				 }
+		    	 for (SubscriptionEO s :  eo.getAbbonamenti()) {
+			    	 if(s!=null){
+			    		 Hibernate.initialize(s);
+			    	 }
+				 }	    	 
+	    	 }
 	    	 
 	    	 tx.commit();
 	      }catch (HibernateException e) {
@@ -131,12 +139,14 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			tx = session.beginTransaction();
 			
 			eo = (UserEO) session.get(UserEO.class, bo.getId());
-			eo = UserMapper.getInstance().mergeBO2EO(bo, eo, session);
-			
-	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
-	    	eo.setDataAggiornamento(dataAggiornamento);
-	    	
-			session.update(eo);
+			if(eo!=null){
+				eo = UserMapper.getInstance().mergeBO2EO(bo, eo, session);
+				
+		    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+		    	eo.setDataAggiornamento(dataAggiornamento);
+		    	
+				session.update(eo);
+			}
 			
 			tx.commit();
 	      }catch (HibernateException e) {

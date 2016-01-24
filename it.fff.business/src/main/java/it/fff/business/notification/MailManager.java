@@ -7,7 +7,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -56,7 +55,10 @@ public class MailManager {
 			message.setSentDate(new Date());
 			logger.debug("Mime Message created");
 			
-			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_VERIFICATIONCODE);
+			ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+			String templatePath = confProvider.getEmailProperty(Constants.PROP_MAIL_TEMPLATE_VERIFICATIONCODE);
+			
+			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(templatePath);
 			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", email.split("@")[0]);
 			htmlMail = htmlMail.replace("{VERIFICATION_CODE}", verificationCode);
 			logger.debug("Mail placeholders set");
@@ -96,7 +98,10 @@ public class MailManager {
 			message.setSentDate(new Date());
 			logger.debug("Mime Message created");
 			
-			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(Constants.MAIL_TEMPLATE_REGISTRATIONCONFIRM);
+			ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+			String templatePath = confProvider.getEmailProperty(Constants.PROP_MAIL_TEMPLATE_REGISTRATIONCONFIRM);
+			
+			String htmlMailTemplate = ConfigurationProvider.getInstance().loadStringFromFile(templatePath);
 			String htmlMail = htmlMailTemplate.replace("{USER_NAME}", nomeUtente);
 			logger.debug("Mail placeholders set");
 			

@@ -7,8 +7,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class ConfigurationProvider {
+	
+	private static final Logger logger = LogManager.getLogger(ConfigurationProvider.class);
 	
 	private static ConfigurationProvider configurationProvider;
 	private Properties authConfigProperties;
@@ -49,26 +55,49 @@ public class ConfigurationProvider {
 		
 		if (authInputStream != null) {
 			authConfigProperties.load(authInputStream);
+			logger.debug(this.authConfigPropertiesFileName+" loaded from file");
 		} else {
+			logger.error("error during loading file: "+this.authConfigPropertiesFileName);
 			throw new FileNotFoundException("property file '" + authConfigPropertiesFileName + "' not found in the classpath");
 		}		
 		
 		if (mailInputStream != null) {
 			mailConfigProperties.load(mailInputStream);
+			logger.debug(this.mailConfigPropertiesFileName+" loaded from file");
 		} else {
+			logger.error("error during loading file: "+this.mailConfigPropertiesFileName);
 			throw new FileNotFoundException("property file '" + mailConfigPropertiesFileName + "' not found in the classpath");
 		}
 
 		if (imagesInputStream != null) {
 			imagesConfigProperties.load(imagesInputStream);
+			logger.debug(this.imagesPropertiesFileName+" loaded from file");
 		} else {
+			logger.error("error during loading file: "+this.imagesPropertiesFileName);
 			throw new FileNotFoundException("property file '" + imagesPropertiesFileName + "' not found in the classpath");
 		}		
 		
 	}
 	
 	public String loadStringFromFile(String fileName){
+		logger.debug("Loading file: "+fileName);
+		if(fileName==null){
+			logger.error("Nessun file specificato");
+			return null;
+		}
+		
+		if(!SystemUtils.IS_OS_WINDOWS){
+			logger.debug("We are running in NON-Windows environment: "+SystemUtils.OS_NAME+"("+SystemUtils.OS_VERSION+")");
+			fileName = fileName.replace("\\", "/");	
+			logger.debug("Backslashes changed in slashes ("+fileName+")");
+		}
+		
 		InputStream fis = getClass().getClassLoader().getResourceAsStream(fileName);
+		
+		if(fis==null){
+			logger.error("File '"+fileName+"' non caricato");
+			return null;
+		}
 		String stringFromInputStream = getStringFromInputStream(fis);
 		return stringFromInputStream;
 	}

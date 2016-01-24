@@ -27,8 +27,8 @@ public class Constants {
 	public static final String PROP_MAIL_HOST 				= "mail.smtp.host";
 	public static final String PROP_MAIL_PORT 				= "mail.smtp.port";	
 	
-	public static final String MAIL_TEMPLATE_REGISTRATIONCONFIRM	= "templates\\registrazioneAvvenutaConSuccesso.html";
-	public static final String MAIL_TEMPLATE_VERIFICATIONCODE		= "templates\\verificationCodeMail.html";
+	public static final String PROP_MAIL_TEMPLATE_REGISTRATIONCONFIRM 	= "mail.template.confirm.registration";
+	public static final String PROP_MAIL_TEMPLATE_VERIFICATIONCODE 	= "mail.template.verificationcode";
 	
 	/*
 	 * Persistence constants

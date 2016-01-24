@@ -1,6 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	 tx = session.beginTransaction();
 	    	 
 	    	 eo = (EventEO) session.get(EventEO.class, eventId);
-	    	 Hibernate.initialize(eo);
+	    	 if(eo!=null){
+	    		 Hibernate.initialize(eo);
+	    	 }
 	    	 
 	    	 tx.commit();
 	      }catch (HibernateException e) {
@@ -60,7 +61,6 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	         e.printStackTrace();
 	         throw new Exception("HibernateException during retrieveEvent() ",e);
 	      }finally {
-	    	 if(tx!=null)tx.rollback();
 	         session.close(); 
 	      }	        
 	      bo = EventMapper.getInstance().mapEO2BO(eo);
@@ -188,17 +188,22 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	
 	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
 	    	
-	    	//Check attendee is the organizer
-	    	if(!attendanceEO.isOrganizer()){
-	    		if (tx!=null) tx.rollback();
-	    		throw new Exception("User is not the organizer!");
+	    	if(attendanceEO!=null){
+		    	//Check attendee is the organizer
+		    	if(!attendanceEO.isOrganizer()){
+		    		if (tx!=null) tx.rollback();
+		    		throw new Exception("User is not the organizer!");
+		    	}
+		    	
+		    	EventEO eventEO = attendanceEO.getEvent();
+		    	messageEO.setAttendance(attendanceEO);
+		    	messageEO.setEvent(eventEO);
+	
+		    	messageId = (Integer)session.save(messageEO);
 	    	}
-	    	
-	    	EventEO eventEO = attendanceEO.getEvent();
-	    	messageEO.setAttendance(attendanceEO);
-	    	messageEO.setEvent(eventEO);
-
-	    	messageId = (Integer)session.save(messageEO);
+	    	else{
+	    		throw new Exception("Attendance ("+attendanceId+") not found");
+	    	}
 			
 	    	tx.commit();
 	      }catch (HibernateException e) {
@@ -232,17 +237,22 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 
 	    	MessageStandardEO msgStndEO = (MessageStandardEO)session.get(MessageStandardEO.class, stdMsgId);
 	    	AttendanceEO attendanceEO = (AttendanceEO)session.get(AttendanceEO.class, attendanceId);
-	    	EventEO eventEO = attendanceEO.getEvent();
-
-	    	MessageEO messageEO = new MessageEO();
-	    	messageEO.setMsgStd(msgStndEO);
-	    	messageEO.setDataCreazione(dataCreazione);
-	    	messageEO.setText(null);
-	    	messageEO.setAttendance(attendanceEO);
-	    	messageEO.setEvent(eventEO);
-
-	    	messageId = (Integer)session.save(messageEO);
-			
+	    	
+	    	if(msgStndEO!=null && attendanceEO!=null){
+		    	EventEO eventEO = attendanceEO.getEvent();
+	
+		    	MessageEO messageEO = new MessageEO();
+		    	messageEO.setMsgStd(msgStndEO);
+		    	messageEO.setDataCreazione(dataCreazione);
+		    	messageEO.setText(null);
+		    	messageEO.setAttendance(attendanceEO);
+		    	messageEO.setEvent(eventEO);
+	
+		    	messageId = (Integer)session.save(messageEO);
+	    	}
+	    	else{
+	    		throw new Exception("Attendance ("+attendanceId+") e/o Standard message ("+stdMsgId+")non trovati");
+	    	}
 	    	tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
@@ -271,22 +281,27 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	  tx = session.beginTransaction();
 
 	    	  AttendanceEO eo = (AttendanceEO) session.get(AttendanceEO.class, new Integer(attendanceId));
+			  
+	    	  if(eo!=null){
+		    	  switch (feedback) {
+					case POSITIVE:
+						eo.setPositiveFeedback(true);
+						break;
+					case NEGATIVE:
+						eo.setPositiveFeedback(false);
+						break;
+					case UNKNOW:
+						eo.setPositiveFeedback(null);
+						break;				
+					default:
+						break;
+					}
 				
-	    	  switch (feedback) {
-				case POSITIVE:
-					eo.setPositiveFeedback(true);
-					break;
-				case NEGATIVE:
-					eo.setPositiveFeedback(false);
-					break;
-				case UNKNOW:
-					eo.setPositiveFeedback(null);
-					break;				
-				default:
-					break;
-				}
-			
-			session.update(eo);
+		    	  session.update(eo);
+	    	  }
+	    	  else{
+	    		  throw new Exception("Attendance ("+attendanceId+") non trovato");
+	    	  }
 			
 	        tx.commit();
 	      }catch (HibernateException e) {
@@ -391,7 +406,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    	
 	    	for (EventEO eventEO : eventsEO) { //recupero e inizializzo le partecipazioni
 				for (AttendanceEO attendanceEO :  eventEO.getPartecipazioni()) {
-					Hibernate.initialize(attendanceEO);
+			    	 if(attendanceEO!=null){
+			    		 Hibernate.initialize(attendanceEO);
+			    	 }
 				}
 			}
 
