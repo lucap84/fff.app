@@ -79,4 +79,6 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO resetPassword(ResetPasswordDTO resetPasswordDTO) throws BusinessException;
 
+	public EmailInfoDTO isExistingEmail(String email) throws BusinessException;
+
 }

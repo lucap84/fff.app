@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
@@ -107,6 +108,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
 		WriteResultBO resultBO = persistenceFacade.cancelAttendance(eventId, userId);
 		return resultBO;
+	}
+
+	@Override
+	public EmailInfoBO isExistingEmail(String email) throws PersistenceException {
+		EmailInfoBO result = persistenceFacade.isExistingEmail(email);
+		return result;
 	}
 
 }

@@ -1,5 +1,6 @@
 package it.fff.business.service;
 
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
@@ -16,6 +17,8 @@ public interface UserBusinessService extends BusinessService{
 	public UserBO getUser(int userId) throws  PersistenceException;
 
 	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  PersistenceException;
+
+	public EmailInfoBO isExistingEmail(String email)  throws  PersistenceException;
 
 
 }

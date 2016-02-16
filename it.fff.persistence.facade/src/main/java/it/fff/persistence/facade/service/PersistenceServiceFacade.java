@@ -5,6 +5,7 @@ import java.util.Map;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
@@ -92,7 +93,9 @@ public interface PersistenceServiceFacade {
 
 	public List<NationBO> getAllNations()  throws PersistenceException;
 
-	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode)  throws PersistenceException;
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException;
+
+	public EmailInfoBO isExistingEmail(String email) throws PersistenceException;
 	
 
 }

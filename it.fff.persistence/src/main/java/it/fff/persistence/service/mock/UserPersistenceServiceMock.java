@@ -8,6 +8,7 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.ProfileImageBO;
@@ -124,5 +125,15 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;
+	}
+
+	@Override
+	public EmailInfoBO isExistingEmail(String email) throws Exception {
+		EmailInfoBO bo = new EmailInfoBO();
+		bo.setEmail(email);
+		bo.setExisting(false);
+		bo.setValidAccount(false);
+		bo.setVerifiedAccount(false);
+		return bo;
 	}	
 }

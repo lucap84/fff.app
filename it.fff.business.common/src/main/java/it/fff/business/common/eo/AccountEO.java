@@ -18,7 +18,8 @@ import org.hibernate.annotations.NamedQuery;
 import it.fff.business.common.util.Constants;
 
 @NamedQueries({
-	@NamedQuery(name=Constants.QY_UPDATE_ACCOUNT_PSW, query="UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1")
+	@NamedQuery(name=Constants.QY_UPDATE_ACCOUNT_PSW, query="UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1"),
+	@NamedQuery(name=Constants.QY_GET_INFO_BY_MAIL, query="SELECT a.id, a.flgValidita, a.flgVerificato FROM AccountEO a WHERE a.email = :email")
 })
 @Entity
 @Table(name = "account")

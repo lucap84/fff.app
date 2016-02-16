@@ -631,4 +631,22 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		return resultBO;
 	}
 
+	@Override
+	public EmailInfoBO isExistingEmail(String email) throws PersistenceException {
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		EmailInfoBO resultBO = null;
+		try{
+			resultBO = userPersistenceService.isExistingEmail(email);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		
+		return resultBO;
+	}
+
 }

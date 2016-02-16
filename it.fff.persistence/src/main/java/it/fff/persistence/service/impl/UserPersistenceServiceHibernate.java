@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,7 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
@@ -264,6 +267,55 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    	session.close(); 
 	    }		
 		logger.info("...evento abbandonato (partecipazione annullata)");
+		return result;
+	}
+
+	@Override
+	public EmailInfoBO isExistingEmail(String email) throws Exception {
+		logger.info("check mail esistente...");
+		
+		EmailInfoBO result = new EmailInfoBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	Query query = session.getNamedQuery(Constants.QY_GET_INFO_BY_MAIL);	    	  
+	    	query.setParameter("email", email);
+
+	    	List<Object[]> results = query.list();
+	    	  
+	    	Integer accountId = null;
+	    	Boolean flgValidita = null;
+	    	Boolean flgVerificato = null;
+	    	  
+	    	for (Object[] row: results) {
+	    		accountId = (Integer)row[0];
+	    		flgValidita = (Boolean)row[1];
+	    		flgVerificato = (Boolean)row[2];
+    		}
+	    	
+			tx.commit();
+			
+			if(accountId!=null && accountId>0){
+				result.setEmail(email);
+				result.setExisting(true);
+				result.setValidAccount(flgValidita);
+				result.setVerifiedAccount(flgVerificato);
+			}else{
+				result.setExisting(false);
+			}
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	    }finally {
+	    	session.close(); 
+	    }		
+		logger.info("...check mail completato");
 		return result;
 	}    
 }

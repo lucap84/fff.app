@@ -140,7 +140,20 @@ public class UserService extends ApplicationService{
 	@Produces(MediaType.APPLICATION_XML)
 	public WriteResultDTO cancelAttendanceXML(@Context HttpServletRequest request, @PathParam("userId") String userId, @PathParam("eventId") String eventId) throws BusinessException {
 		return cancelAttendance(request, eventId, userId);
-	}	
+	}
+	
+	@GET
+	@Path("emails/{email}/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public EmailInfoDTO isExistingEmailSON(@Context HttpServletRequest request, @PathParam("email") String email) throws BusinessException {
+		return isExistingEmail(request, email);
+	}
+	@GET
+	@Path("emails/{email}/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public EmailInfoDTO isExistingEmailXML(@Context HttpServletRequest request, @PathParam("email") String email) throws BusinessException {
+		return isExistingEmail(request, email);
+	}		
 	
 	
 	/*
@@ -235,6 +248,18 @@ public class UserService extends ApplicationService{
 			result = businessServiceFacade.cancelAttendance(eventId, userId);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}
+	
+	private EmailInfoDTO isExistingEmail(HttpServletRequest request, String email) {
+		EmailInfoDTO result = null;
+		try {
+			result = businessServiceFacade.isExistingEmail(email);
+		} catch (BusinessException e) {
+			result = new EmailInfoDTO();
 			super.manageErrors(e, result, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}

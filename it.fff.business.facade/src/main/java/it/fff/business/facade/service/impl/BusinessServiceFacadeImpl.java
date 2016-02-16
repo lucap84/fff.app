@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
@@ -26,6 +27,7 @@ import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.AttendanceStateMapper;
 import it.fff.business.common.mapper.CustomMapper;
+import it.fff.business.common.mapper.EmailInfoMapper;
 import it.fff.business.common.mapper.EventCategoryMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.EventStateMapper;
@@ -741,6 +743,23 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		
 		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
 		return result;
+	}
+
+	@Override
+	public EmailInfoDTO isExistingEmail(String email) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		
+		EmailInfoDTO resultDTO = null;
+		EmailInfoBO resultBO = null;
+		try {
+			resultBO = userBusinessService.isExistingEmail(email);
+		}
+		catch (PersistenceException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_EXISTING_MAIL);
+		}
+		
+		resultDTO = EmailInfoMapper.getInstance().mapBO2DTO(resultBO);
+		return resultDTO;
 	}
 
 
