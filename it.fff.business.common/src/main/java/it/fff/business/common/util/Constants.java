@@ -35,6 +35,9 @@ public class Constants {
 	 */
 	public static final String IMAGE_CONF_FILENAME 			= "images.properties";
 	public static final String PROP_IMAGE_UPLOAD_LOCATION	= "server.filesystem.location.upload";
+	public static final String PROP_IMAGE_EXTENSION			= "server.image.extension";
+	public static final String PROP_IMAGE_MAXSIZE			= "server.image.maxsize";
+	public static final String PROP_IMAGE_MAXSIDE			= "server.image.maxside";
 	
 	/*
 	 * Named Queries

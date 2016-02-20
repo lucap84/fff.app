@@ -82,10 +82,16 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException {
 		logger.info("updateProfileImage start...");
+		
+		logger.debug("image validation...");
 		if(!imageValidationStrategy.isValid(imgBO)){
-			throw new RuntimeException("Immagine in input non validata!");
+			logger.debug("image is not valid, resizing...");
+			imgBO = imageValidationStrategy.validate(imgBO);
 		}
+		logger.debug("...image validation successfully finished");
+		
 		ProfileImageBO bo = persistenceFacade.updateProfileImage(imgBO);
+		
 		logger.info("...updateProfileImage end");
 		return bo;
 	}

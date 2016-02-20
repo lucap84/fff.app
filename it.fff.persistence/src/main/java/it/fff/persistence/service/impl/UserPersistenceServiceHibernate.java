@@ -210,7 +210,6 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
     	boolean saved = true;
     	OutputStream outpuStream = null;
         try {
-            outpuStream = new FileOutputStream(new File(serverLocation));
             int read = 0;
             byte[] bytes = new byte[1024];
  
@@ -218,12 +217,20 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 outpuStream.write(bytes, 0, read);
             }
-            outpuStream.flush();
-            outpuStream.close();
+
         } catch (IOException e) {
         	saved = false;
             e.printStackTrace();
         }
+        finally {
+        	try {
+                outpuStream.flush();
+                outpuStream.close();
+        		outpuStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
         return saved;
     }	
     

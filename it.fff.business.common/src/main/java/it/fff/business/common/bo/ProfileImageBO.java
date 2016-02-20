@@ -1,5 +1,6 @@
 package it.fff.business.common.bo;
 
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public class ProfileImageBO implements BusinessObject{
 	private long size;
 	private String type;
 	private int imgHashCode;
+	private String extension;
 	
 	public int getUserId() {
 		return userId;
@@ -61,6 +63,11 @@ public class ProfileImageBO implements BusinessObject{
 	public void setImgHashCode(int imgHashCode) {
 		this.imgHashCode = imgHashCode;
 	}
-	
+	public String getExtension() {
+		return extension;
+	}
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 	
 }

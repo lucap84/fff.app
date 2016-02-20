@@ -133,8 +133,22 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			bo = new ProfileImageBO();
 			bo.setImageInputStream(dto.getImageInputStream());
 			bo.setFileName(dto.getFileName());
+			bo.setName(dto.getName());
 			bo.setUserId(dto.getUserId());
 			bo.setImgHashCode(dto.getImgHashCode());
+			bo.setSize(dto.getSize());
+			bo.setType(dto.getType());
+			bo.setParameters(dto.getParameters());
+			
+			if(dto.getFileName()!=null && !"".equals(dto.getFileName())){
+				String ext = "";
+				String[] split = dto.getFileName().split("\\.");
+				if(split.length>1){
+					ext = split[1];
+				}
+				bo.setExtension(ext);
+			}
+			
 		}
 		return bo;
 	}
