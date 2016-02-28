@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -68,18 +69,18 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 					specificError += "Nonce duplicated; ";
 				}				
 				
-				Integer UserIdInt = null;
+				Integer userIdInt = null;
 				try{
-					UserIdInt = Integer.valueOf(userId);
+					userIdInt = Integer.valueOf(userId);
 				}
 				catch(NumberFormatException e){
 					authorized &= false;
 					specificError += "UserId not valid; ";
 				}
-				String sharedKey = secureConfiguration.retrieveSharedKey(UserIdInt, deviceHeader);
+				String sharedKey = secureConfiguration.retrieveSharedKey(userIdInt, deviceHeader);
 				String rebuiltAuthHeader = "";
 				if(sharedKey!=null && !"".equals(sharedKey)){
-					rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, UserIdInt, method, requestPath, dateHeader, nonce);
+					rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, userIdInt, method, requestPath, dateHeader, nonce);
 				}
 				
 				if(!rebuiltAuthHeader.equals(authHeader)){//se il digest HMAC ricalcolato sul server non corrisponde al client, non si viene autorizzati
@@ -124,11 +125,15 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 			e.printStackTrace();
 		}
 		Date serverDate = new Date();
-		long diff = serverDate.getTime() - clientDate.getTime();
-		long diffSeconds = diff / 1000 % 60;
-		
+		long diffSeconds = getDateDiff(clientDate, serverDate, TimeUnit.SECONDS);
+		logger.debug("call "+diffSeconds+" seconds old");
 		return diffSeconds<this.expirationDuration;
 	}
+	
+	private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}	
 	
 	private boolean isNewNonce(String nonce) {
 		Integer newNonce = new BigInteger(nonce).intValue();
