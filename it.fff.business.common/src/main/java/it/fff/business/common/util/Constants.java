@@ -40,6 +40,12 @@ public class Constants {
 	public static final String PROP_IMAGE_MAXSIDE			= "server.image.maxside";
 	
 	/*
+	 * Places constants 
+	 */
+	public static final String PLACES_CONF_FILENAME 		= "places.properties";
+	public static final String PROP_GOOGLE_APIKEY			= "google.apikey";
+	
+	/*
 	 * Named Queries
 	 */
 	public static final String QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER	= "getAttendanceByEventAndOrganizer";

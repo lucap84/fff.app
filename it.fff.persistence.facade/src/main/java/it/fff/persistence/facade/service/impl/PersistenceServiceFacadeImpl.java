@@ -284,14 +284,27 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		List<PlaceBO> bos = null;
-		try{
-			bos = placesPersistenceService.getPlacesByDescription(description);
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+//		try{
+//			bos = placesPersistenceService.getPlacesByDescription(description);
+//		}
+//		catch(Exception e){
+//			logger.error(e.getMessage());
+//			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+//			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+//			throw persistenceException;			
+//		}
+		
+		if(bos==null || bos.size()==0){
+			try{
+				bos = placesPersistenceService.getPlacesByDescriptionFromExternalService(description);
+			}
+			catch(Exception e){
+				logger.error(e.getMessage());
+				PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+				throw persistenceException;			
+			}
+			
 		}
 
 		return bos;		

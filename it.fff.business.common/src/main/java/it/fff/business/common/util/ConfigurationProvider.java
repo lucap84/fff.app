@@ -20,10 +20,12 @@ public class ConfigurationProvider {
 	private Properties authConfigProperties;
 	private Properties mailConfigProperties;
 	private Properties imagesConfigProperties;
+	private Properties placesConfigProperties;
 	
 	String mailConfigPropertiesFileName;
 	String authConfigPropertiesFileName;
 	String imagesPropertiesFileName;
+	String placesPropertiesFileName;
 	
 	private ConfigurationProvider(){
 		 authConfigProperties = new Properties();
@@ -32,6 +34,8 @@ public class ConfigurationProvider {
 		 mailConfigPropertiesFileName = Constants.MAIL_CONF_FILENAME;
 		 imagesConfigProperties = new Properties();
 		 imagesPropertiesFileName = Constants.IMAGE_CONF_FILENAME;
+		 placesConfigProperties = new Properties();
+		 placesPropertiesFileName = Constants.PLACES_CONF_FILENAME;		 
 		 try {
 			this.loadConfigurationFromFile();
 		} catch (FileNotFoundException e) {
@@ -52,6 +56,7 @@ public class ConfigurationProvider {
 		InputStream authInputStream = getClass().getClassLoader().getResourceAsStream(this.authConfigPropertiesFileName);
 		InputStream mailInputStream = getClass().getClassLoader().getResourceAsStream(this.mailConfigPropertiesFileName);
 		InputStream imagesInputStream = getClass().getClassLoader().getResourceAsStream(this.imagesPropertiesFileName);
+		InputStream placesInputStream = getClass().getClassLoader().getResourceAsStream(this.placesPropertiesFileName);
 		
 		if (authInputStream != null) {
 			authConfigProperties.load(authInputStream);
@@ -75,6 +80,14 @@ public class ConfigurationProvider {
 		} else {
 			logger.error("error during loading file: "+this.imagesPropertiesFileName);
 			throw new FileNotFoundException("property file '" + imagesPropertiesFileName + "' not found in the classpath");
+		}
+		
+		if (placesInputStream != null) {
+			placesConfigProperties.load(placesInputStream);
+			logger.debug(this.placesPropertiesFileName+" loaded from file");
+		} else {
+			logger.error("error during loading file: "+this.placesPropertiesFileName);
+			throw new FileNotFoundException("property file '" + placesPropertiesFileName + "' not found in the classpath");
 		}		
 		
 	}
@@ -157,5 +170,11 @@ public class ConfigurationProvider {
 		return this.imagesConfigProperties;
 	}	
 	
-
+	public String getPlacesConfigProperty(String propertyName){
+		return placesConfigProperties.getProperty(propertyName);	
+	}
+	
+	public Properties getPlacesConfigProperties(){
+		return this.placesConfigProperties;
+	}	
 }
