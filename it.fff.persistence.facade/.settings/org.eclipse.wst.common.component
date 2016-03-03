@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="it.fff.persistence.facade">
+    <wb-module deploy-name="it.fff.integration.facade">
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/resources"/>
         <dependent-module archiveName="it.fff.business.common.jar" deploy-path="/" handle="module:/resource/it.fff.business.common/it.fff.business.common">
