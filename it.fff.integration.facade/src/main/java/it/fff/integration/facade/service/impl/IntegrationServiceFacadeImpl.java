@@ -16,6 +16,7 @@ import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.external.service.PlacesExternalService;
+import it.fff.external.util.ExternalServiceProvider;
 import it.fff.integration.facade.exception.PersistenceException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 import it.fff.persistence.service.*;
@@ -283,7 +284,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
-		PlacesExternalService placesExternalService = (PlacesExternalService)PersistenceServiceProvider.getPersistenceService("placesExternalService");
+		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		
 		List<PlaceBO> bos = null;
 //		try{
