@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>it.fff.business</name>
+	<name>it.fff.integration.facade</name>
 	<comment></comment>
 	<projects>
 		<project>it.fff.business.common</project>
+		<project>it.fff.persistence</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

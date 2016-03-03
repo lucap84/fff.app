@@ -5,8 +5,5 @@
         <dependent-module archiveName="it.fff.business.common.jar" deploy-path="/" handle="module:/resource/it.fff.business.common/it.fff.business.common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="it.fff.persistence.facade.jar" deploy-path="/" handle="module:/resource/it.fff.persistence.facade/it.fff.persistence.facade">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
     </wb-module>
 </project-modules>
