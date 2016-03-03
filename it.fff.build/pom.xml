@@ -9,7 +9,8 @@
     <module>../it.fff.clientserver.common</module>
     <module>../it.fff.business.common</module>
     <module>../it.fff.persistence</module>
-    <module>../it.fff.persistence.facade</module>
+    <module>../it.fff.externalservices</module>
+    <module>../it.fff.integration.facade</module>
     <module>../it.fff.business</module>
     <module>../it.fff.business.facade</module>
     <module>../it.fff.business.service.webapp</module>

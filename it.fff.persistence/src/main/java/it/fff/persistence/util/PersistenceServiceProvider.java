@@ -7,11 +7,10 @@ import it.fff.persistence.service.PersistenceService;
 public class PersistenceServiceProvider {
 
 	public static PersistenceService getPersistenceService(String beanName) {
-		PersistenceService persistenceService = (PersistenceService)ApplicationContextProvider.
+		PersistenceService service = (PersistenceService)ApplicationContextProvider.
 				getApplicationContext().
 				getBean(beanName);
-		return persistenceService;
-		
+		return service;
 	}
 	
 }

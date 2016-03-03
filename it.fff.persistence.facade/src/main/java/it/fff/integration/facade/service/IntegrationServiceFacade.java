@@ -1,4 +1,4 @@
-package it.fff.persistence.facade.service;
+package it.fff.integration.facade.service;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.integration.facade.exception.PersistenceException;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.LanguageBO;
@@ -23,9 +24,8 @@ import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
-import it.fff.persistence.facade.exception.PersistenceException;
 
-public interface PersistenceServiceFacade {
+public interface IntegrationServiceFacade {
 
 	public EventBO retrieveEvent(int eventId) throws PersistenceException;
 

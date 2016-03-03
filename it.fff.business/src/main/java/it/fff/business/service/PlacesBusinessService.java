@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.persistence.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.PersistenceException;
 
 public interface PlacesBusinessService extends BusinessService{
 

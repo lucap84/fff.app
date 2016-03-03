@@ -13,33 +13,34 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.service.EventBusinessService;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.persistence.facade.exception.PersistenceException;
-import it.fff.persistence.facade.service.PersistenceServiceFacade;
+import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class EventBusinessServiceImpl implements EventBusinessService{
 	
 	private static final Logger logger = LogManager.getLogger(EventBusinessServiceImpl.class);
 	
-	private PersistenceServiceFacade persistenceFacade;
+	private IntegrationServiceFacade integrationFacade;
 
-	public PersistenceServiceFacade getPersistenceFacade() {
-		return persistenceFacade;
+	
+	public IntegrationServiceFacade getIntegrationFacade() {
+		return integrationFacade;
 	}
 
-	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
-		this.persistenceFacade = persistenceFacade;
-	}	
-	
+	public void setIntegrationFacade(IntegrationServiceFacade integrationFacade) {
+		this.integrationFacade = integrationFacade;
+	}
+
 	@Override
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
-		List<AttendanceBO> attendances =persistenceFacade.getAttendancesByEvent(eventId);
+		List<AttendanceBO> attendances =integrationFacade.getAttendancesByEvent(eventId);
 		return attendances;
 	}	
 	
 	@Override
 	public EventBO getEvent(int eventId) throws PersistenceException{
 		logger.info("EventBusinessServiceImpl retrieving event...");
-		EventBO event = persistenceFacade.retrieveEvent(eventId);
+		EventBO event = integrationFacade.retrieveEvent(eventId);
 		if(event!=null){
 			logger.info("EventBusinessServiceImpl retrieved");
 		}
@@ -48,44 +49,44 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	
 	@Override
 	public WriteResultBO createEvent(EventBO bo) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.createEvent(bo);
+		WriteResultBO resultBO = integrationFacade.createEvent(bo);
 		return resultBO;
 	}
 
 
 	@Override
 	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.cancelEvent(eventId, organizerId);
+		WriteResultBO resultBO = integrationFacade.cancelEvent(eventId, organizerId);
 		return resultBO;
 	}	
 
 	@Override
 	public WriteResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.createEventMessage(attendanceId, message);
+		WriteResultBO resultBO = integrationFacade.createEventMessage(attendanceId, message);
 		return resultBO;
 	}
 
 	@Override
 	public WriteResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.createStandardEventMessage(attendanceId, stdMsgId);
+		WriteResultBO resultBO = integrationFacade.createStandardEventMessage(attendanceId, stdMsgId);
 		return resultBO;
 	}
 
 	@Override
 	public WriteResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.joinEvent(bo);
+		WriteResultBO resultBO = integrationFacade.joinEvent(bo);
 		return resultBO;
 	}
 
 	@Override
 	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.addFeedback(attendanceId, feedback);
+		WriteResultBO resultBO = integrationFacade.addFeedback(attendanceId, feedback);
 		return resultBO;
 	}
 
 	@Override
 	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
-		List<MessageBO> bos = persistenceFacade.getEventMessages(eventId);
+		List<MessageBO> bos = integrationFacade.getEventMessages(eventId);
 		return bos;
 	}
 
@@ -113,7 +114,7 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 		double gpsLongFrom = userGpsLong-sideOfSquareDegrees;
 		double gpsLongTo = userGpsLong+sideOfSquareDegrees;
 		
-		List<EventBO> bos = persistenceFacade.searchEvents(gpsLatFrom, gpsLatTo, gpsLongFrom, gpsLongTo, idCategoria, minPartecipanti);
+		List<EventBO> bos = integrationFacade.searchEvents(gpsLatFrom, gpsLatTo, gpsLongFrom, gpsLongTo, idCategoria, minPartecipanti);
 		
 		PlaceDistanceComparator comparator = new PlaceDistanceComparator(desideredGpsLat, desideredGpsLong);
 		Collections.sort(bos, comparator);
@@ -123,7 +124,7 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 
 	@Override
 	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
-		List<EventBO> bos = persistenceFacade.getEventsByUser(userId);
+		List<EventBO> bos = integrationFacade.getEventsByUser(userId);
 		return bos;
 	}
 	

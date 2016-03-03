@@ -19,24 +19,24 @@ import it.fff.business.notification.MailManager;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.fff.persistence.facade.exception.PersistenceException;
-import it.fff.persistence.facade.service.PersistenceServiceFacade;
+import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class UserBusinessServiceImpl implements UserBusinessService {
 	
 	private static final Logger logger = LogManager.getLogger(UserBusinessServiceImpl.class);
 
-	private PersistenceServiceFacade persistenceFacade;
+	private IntegrationServiceFacade integrationFacade;
 	private ImageValidationStrategy imageValidationStrategy;
-
-	public PersistenceServiceFacade getPersistenceFacade() {
-		return persistenceFacade;
+	
+	public IntegrationServiceFacade getIntegrationFacade() {
+		return integrationFacade;
 	}
-	
-	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
-		this.persistenceFacade = persistenceFacade;
-	}	
-	
+
+	public void setIntegrationFacade(IntegrationServiceFacade integrationFacade) {
+		this.integrationFacade = integrationFacade;
+	}
+
 	public ImageValidationStrategy getImageValidationStrategy() {
 		return imageValidationStrategy;
 	}
@@ -58,7 +58,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		String loginDate = Constants.DATE_FORMATTER.format(new Date());
 		firstSession.setDataLogin(loginDate);
 		
-		WriteResultBO resultBO = persistenceFacade.registerUser(userBO);
+		WriteResultBO resultBO = integrationFacade.registerUser(userBO);
 		logger.info("...createUser persistence done");
 		
 		//Se registrazione avvenuta con successo invio email di conferma
@@ -90,7 +90,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		}
 		logger.debug("...image validation successfully finished");
 		
-		ProfileImageBO bo = persistenceFacade.updateProfileImage(imgBO);
+		ProfileImageBO bo = integrationFacade.updateProfileImage(imgBO);
 		
 		logger.info("...updateProfileImage end");
 		return bo;
@@ -99,26 +99,26 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
 	@Override
 	public WriteResultBO updateUserData(UserBO userBO) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.updateUserData(userBO);
+		WriteResultBO resultBO = integrationFacade.updateUserData(userBO);
 		return resultBO;
 	}
 
 
 	@Override
 	public UserBO getUser(int userId) throws PersistenceException {
-		UserBO bo = persistenceFacade.getUser(userId);
+		UserBO bo = integrationFacade.getUser(userId);
 		return bo;
 	}
 
 	@Override
 	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.cancelAttendance(eventId, userId);
+		WriteResultBO resultBO = integrationFacade.cancelAttendance(eventId, userId);
 		return resultBO;
 	}
 
 	@Override
 	public EmailInfoBO isExistingEmail(String email) throws PersistenceException {
-		EmailInfoBO result = persistenceFacade.isExistingEmail(email);
+		EmailInfoBO result = integrationFacade.isExistingEmail(email);
 		return result;
 	}
 

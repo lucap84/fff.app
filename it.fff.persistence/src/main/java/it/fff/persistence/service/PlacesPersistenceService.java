@@ -11,6 +11,5 @@ public interface PlacesPersistenceService extends PersistenceService{
 
 	public List<PlaceBO> getPlacesByDescription(String description) throws Exception;
 
-	public List<PlaceBO> getPlacesByDescriptionFromExternalService(String description) throws Exception;
 
 }

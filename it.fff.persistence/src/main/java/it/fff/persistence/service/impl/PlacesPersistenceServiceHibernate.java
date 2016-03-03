@@ -10,20 +10,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.GeocodingApiRequest;
-import com.google.maps.model.GeocodingResult;
-
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.PlaceEO;
-import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.PlaceMapper;
-import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -67,20 +57,4 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 		return bos;
 	}
 
-	@Override
-	public List<PlaceBO> getPlacesByDescriptionFromExternalService(String description) throws Exception {
-		
-		ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
-		String apiKEY = confProvider.getPlacesConfigProperty(Constants.PROP_GOOGLE_APIKEY);
-		
-		GeoApiContext context = new GeoApiContext().setApiKey(apiKEY);
-		
-//		GeocodingResult[] results =  GeocodingApi.geocode(context,description).await();
-		GeocodingApiRequest geocodingRequest = GeocodingApi.newRequest(context);
-		GeocodingResult[] results = geocodingRequest.address(description).await();
-		
-		System.out.println(results[0].formattedAddress);
-		
-		return null;
-	}
 }

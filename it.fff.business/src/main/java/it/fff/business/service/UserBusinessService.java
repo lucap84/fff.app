@@ -4,7 +4,7 @@ import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.persistence.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.PersistenceException;
 
 public interface UserBusinessService extends BusinessService{
 

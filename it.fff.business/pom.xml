@@ -29,8 +29,8 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>it.fff.persistence.facade</groupId>
-			<artifactId>it.fff.persistence.facade</artifactId>
+			<groupId>it.fff.integration.facade</groupId>
+			<artifactId>it.fff.integration.facade</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>

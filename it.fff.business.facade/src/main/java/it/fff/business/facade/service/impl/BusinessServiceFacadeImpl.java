@@ -55,7 +55,7 @@ import it.fff.clientserver.common.dto.*;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.persistence.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.PersistenceException;
 
 public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	

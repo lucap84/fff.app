@@ -10,7 +10,7 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
-import it.fff.persistence.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.PersistenceException;
 
 public interface TypologicalBusinessService extends BusinessService{
 

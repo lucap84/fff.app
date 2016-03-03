@@ -70,9 +70,4 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		return places;
 	}
 
-	@Override
-	public List<PlaceBO> getPlacesByDescriptionFromExternalService(String description) throws Exception {
-		return getPlacesByDescription(description);
-	}
-
 }

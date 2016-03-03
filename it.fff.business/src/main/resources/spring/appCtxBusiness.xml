@@ -7,32 +7,32 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
-	<import resource="classpath:spring/appCtxPersistenceFacade.xml"/>
+	<import resource="classpath:spring/appCtxIntegrationFacade.xml"/>
 	
 	<bean name="eventBusinessService" class="it.fff.business.service.impl.EventBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 	</bean>
 
 	<bean name="userBusinessService" class="it.fff.business.service.impl.UserBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 		<property name="imageValidationStrategy" ref="imageValidationStrategy"/>
 	</bean>
 	
 	<bean name="securityBusinessService" class="it.fff.business.service.impl.SecurityBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 		<property name="verificationCodeStrategy" ref="verificationCodeStrategy"/>
 	</bean>	
 	
 	<bean name="placesBusinessService" class="it.fff.business.service.impl.PlacesBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 	</bean>
 	
 	<bean name="premiumBusinessService" class="it.fff.business.service.impl.PremiumBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 	</bean>
 	
 	<bean name="typologicalBusinessService" class="it.fff.business.service.impl.TypologicalBusinessServiceImpl" scope="prototype">
-		<property name="persistenceFacade" ref="persistenceFacade"/>
+		<property name="integrationFacade" ref="integrationFacade"/>
 	</bean>		
 	
 	<!-- strategies -->

@@ -5,9 +5,9 @@ import java.util.List;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.integration.facade.exception.PersistenceException;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
-import it.fff.persistence.facade.exception.PersistenceException;
 
 public interface EventBusinessService extends BusinessService{
 	

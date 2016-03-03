@@ -4,7 +4,7 @@ import java.util.Map;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.persistence.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.PersistenceException;
 
 public interface SecurityBusinessService extends BusinessService{
 

@@ -4,7 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>it.fff.business.common</project>
-		<project>it.fff.persistence.facade</project>
+		<project>it.fff.integration.facade</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

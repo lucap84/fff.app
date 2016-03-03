@@ -11,66 +11,67 @@ import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.service.TypologicalBusinessService;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
-import it.fff.persistence.facade.exception.PersistenceException;
-import it.fff.persistence.facade.service.PersistenceServiceFacade;
+import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class TypologicalBusinessServiceImpl implements TypologicalBusinessService {
 
-	private PersistenceServiceFacade persistenceFacade;
+	private IntegrationServiceFacade integrationFacade;
 
-	public PersistenceServiceFacade getPersistenceFacade() {
-		return persistenceFacade;
+
+	public IntegrationServiceFacade getIntegrationFacade() {
+		return integrationFacade;
 	}
 
-	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
-		this.persistenceFacade = persistenceFacade;
+	public void setIntegrationFacade(IntegrationServiceFacade integrationFacade) {
+		this.integrationFacade = integrationFacade;
 	}
 
 	@Override
 	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
-		List<EventCategoryBO> bos = persistenceFacade.getAllEventCategories();
+		List<EventCategoryBO> bos = integrationFacade.getAllEventCategories();
 		return bos;
 	}
 
 	@Override
 	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
-		List<EventStateEnum> bos = persistenceFacade.getAllEventStates();
+		List<EventStateEnum> bos = integrationFacade.getAllEventStates();
 		return bos;
 	}
 
 	@Override
 	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
-		List<AttendanceStateEnum> bos = persistenceFacade.getAllAttendanceStates();
+		List<AttendanceStateEnum> bos = integrationFacade.getAllAttendanceStates();
 		return bos;
 	}
 
 	@Override
 	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
-		List<MessageStandardBO> bos = persistenceFacade.getAllStandardMessages();
+		List<MessageStandardBO> bos = integrationFacade.getAllStandardMessages();
 		return bos;
 	}
 
 	@Override
 	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
-		List<AchievementTypeBO> bos = persistenceFacade.getAllAchievementTypes();
+		List<AchievementTypeBO> bos = integrationFacade.getAllAchievementTypes();
 		return bos;
 	}
 
 	@Override
 	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
-		List<SubscriptionTypeBO> bos = persistenceFacade.getAllSubscriptionTypes();
+		List<SubscriptionTypeBO> bos = integrationFacade.getAllSubscriptionTypes();
 		return bos;
 	}
 
 	@Override
 	public List<LanguageBO> getAllLanguages() throws PersistenceException {
-		List<LanguageBO> bos = persistenceFacade.getAllLanguages();
+		List<LanguageBO> bos = integrationFacade.getAllLanguages();
 		return bos;
 	}
 
 	@Override
 	public List<NationBO> getAllNations() throws PersistenceException {
-		List<NationBO> bos = persistenceFacade.getAllNations();
+		List<NationBO> bos = integrationFacade.getAllNations();
 		return bos;
 	}
 }

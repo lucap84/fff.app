@@ -3,24 +3,28 @@ package it.fff.business.service.impl;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.service.PremiumBusinessService;
-import it.fff.persistence.facade.exception.PersistenceException;
-import it.fff.persistence.facade.service.PersistenceServiceFacade;
+import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class PremiumBusinessServiceImpl implements PremiumBusinessService {
 
-	private PersistenceServiceFacade persistenceFacade;
+	private IntegrationServiceFacade integrationFacade;
 	
-	public PersistenceServiceFacade getPersistenceFacade() {
-		return persistenceFacade;
+	public IntegrationServiceFacade getIntegrationFacade() {
+		return integrationFacade;
 	}
-	
-	public void setPersistenceFacade(PersistenceServiceFacade persistenceFacade) {
-		this.persistenceFacade = persistenceFacade;
+
+
+
+	public void setIntegrationFacade(IntegrationServiceFacade integrationFacade) {
+		this.integrationFacade = integrationFacade;
 	}
-	
+
+
+
 	@Override
 	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException {
-		WriteResultBO resultBO = persistenceFacade.upgradeToPremium(userId, subscriptionBO);
+		WriteResultBO resultBO = integrationFacade.upgradeToPremium(userId, subscriptionBO);
 		return resultBO;
 	}
 

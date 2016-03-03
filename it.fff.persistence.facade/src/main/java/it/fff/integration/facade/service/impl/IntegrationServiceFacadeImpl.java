@@ -1,4 +1,4 @@
-package it.fff.persistence.facade.service.impl;
+package it.fff.integration.facade.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -15,14 +15,15 @@ import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.persistence.facade.exception.PersistenceException;
-import it.fff.persistence.facade.service.PersistenceServiceFacade;
+import it.fff.external.service.PlacesExternalService;
+import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.service.IntegrationServiceFacade;
 import it.fff.persistence.service.*;
 import it.fff.persistence.util.PersistenceServiceProvider;
 
-public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
+public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	
-	private static final Logger logger = LogManager.getLogger(PersistenceServiceFacadeImpl.class);
+	private static final Logger logger = LogManager.getLogger(IntegrationServiceFacadeImpl.class);
 
 	@Override
 	public EventBO retrieveEvent(int eventId) throws PersistenceException{
@@ -282,6 +283,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
+		PlacesExternalService placesExternalService = (PlacesExternalService)PersistenceServiceProvider.getPersistenceService("placesExternalService");
 		
 		List<PlaceBO> bos = null;
 //		try{
@@ -296,7 +298,7 @@ public class PersistenceServiceFacadeImpl implements PersistenceServiceFacade{
 		
 		if(bos==null || bos.size()==0){
 			try{
-				bos = placesPersistenceService.getPlacesByDescriptionFromExternalService(description);
+				bos = placesExternalService.getPlacesByDescription(description);
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());
