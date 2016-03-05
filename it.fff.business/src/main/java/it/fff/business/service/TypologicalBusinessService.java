@@ -10,24 +10,24 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 
 public interface TypologicalBusinessService extends BusinessService{
 
-	public List<EventCategoryBO> getAllEventCategories() throws  PersistenceException;
+	public List<EventCategoryBO> getAllEventCategories() throws  IntegrationException;
 
-	public List<EventStateEnum> getAllEventStates() throws  PersistenceException;
+	public List<EventStateEnum> getAllEventStates() throws  IntegrationException;
 
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws  PersistenceException;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws  IntegrationException;
 
-	public List<MessageStandardBO> getAllStandardMessages() throws  PersistenceException;
+	public List<MessageStandardBO> getAllStandardMessages() throws  IntegrationException;
 
-	public List<AchievementTypeBO> getAllAchievementTypes() throws  PersistenceException;
+	public List<AchievementTypeBO> getAllAchievementTypes() throws  IntegrationException;
 
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws  PersistenceException;
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws  IntegrationException;
 
-	public List<LanguageBO> getAllLanguages() throws  PersistenceException;
+	public List<LanguageBO> getAllLanguages() throws  IntegrationException;
 
-	public List<NationBO> getAllNations() throws  PersistenceException;;
+	public List<NationBO> getAllNations() throws  IntegrationException;;
 
 }

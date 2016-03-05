@@ -19,7 +19,7 @@ import it.fff.business.notification.MailManager;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class UserBusinessServiceImpl implements UserBusinessService {
@@ -46,7 +46,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}	
 	
 	@Override
-	public WriteResultBO createUser(UserBO userBO) throws PersistenceException {
+	public WriteResultBO createUser(UserBO userBO) throws IntegrationException {
 		logger.info("createUser start...");
 		//Inizializzo le validita dell'account
 		AccountBO creatingAccount = userBO.getAccount();
@@ -70,7 +70,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			isSent  = MailManager.getInstance().sendRegistrationConfirmMail(mailUtente, nomeUtente);
 
 			if(!isSent){
-				throw new PersistenceException("Invio mail verification code non riuscito", null);
+				throw new IntegrationException("Invio mail verification code non riuscito", null);
 			}		
 			logger.info("...createUser mail sent");
 		}
@@ -80,7 +80,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException {
+	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
 		logger.info("updateProfileImage start...");
 		
 		logger.debug("image validation...");
@@ -98,26 +98,26 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	
 
 	@Override
-	public WriteResultBO updateUserData(UserBO userBO) throws PersistenceException {
+	public WriteResultBO updateUserData(UserBO userBO) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.updateUserData(userBO);
 		return resultBO;
 	}
 
 
 	@Override
-	public UserBO getUser(int userId) throws PersistenceException {
+	public UserBO getUser(int userId) throws IntegrationException {
 		UserBO bo = integrationFacade.getUser(userId);
 		return bo;
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.cancelAttendance(eventId, userId);
 		return resultBO;
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws PersistenceException {
+	public EmailInfoBO isExistingEmail(String email) throws IntegrationException {
 		EmailInfoBO result = integrationFacade.isExistingEmail(email);
 		return result;
 	}

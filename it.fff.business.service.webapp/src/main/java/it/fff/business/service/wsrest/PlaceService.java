@@ -38,15 +38,19 @@ public class PlaceService extends ApplicationService{
 	@Path("json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PlaceDTO> getPlacesByDescriptionJSON(@Context HttpServletRequest request, 
-											  		 @QueryParam("description") String description) throws BusinessException {
-		return this.getPlacesByDescription(request, description);
+											  		 @QueryParam("description") String description,
+											  		@QueryParam("userGpsLat") String userGpsLat,
+													@QueryParam("userGpsLong") String userGpsLong) throws BusinessException {
+		return this.getPlacesByDescription(request, description, userGpsLat, userGpsLong);
 	}
 	@GET
 	@Path("xml")
 	@Produces(MediaType.APPLICATION_XML)
 	public List<PlaceDTO> getPlacesByDescriptionXML(@Context HttpServletRequest request, 
-													@QueryParam("description") String description) throws BusinessException {
-		return this.getPlacesByDescription(request, description);
+													@QueryParam("description") String description,
+											  		@QueryParam("userGpsLat") String userGpsLat,
+													@QueryParam("userGpsLong") String userGpsLong) throws BusinessException {
+		return this.getPlacesByDescription(request, description, userGpsLat, userGpsLong);
 	}
 	
 	/*
@@ -62,10 +66,10 @@ public class PlaceService extends ApplicationService{
 	 *
 	 */	
 	
-	private List<PlaceDTO> getPlacesByDescription(HttpServletRequest request, String description) {
+	private List<PlaceDTO> getPlacesByDescription(HttpServletRequest request, String description, String userGpsLat, String userGpsLong) {
 		List<PlaceDTO> places;
 		try {
-			places = businessServiceFacade.getPlacesByDescription(description);
+			places = businessServiceFacade.getPlacesByDescription(description, userGpsLat, userGpsLong);
 		} catch (BusinessException e) {
 			places = new ArrayList<PlaceDTO>();
 			logger.error(LogUtils.stackTrace2String(e));

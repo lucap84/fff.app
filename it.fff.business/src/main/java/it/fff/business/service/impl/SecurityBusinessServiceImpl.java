@@ -13,7 +13,7 @@ import it.fff.business.notification.MailManager;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.strategy.VerificationCodeStrategy;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class SecurityBusinessServiceImpl implements SecurityBusinessService{
@@ -40,7 +40,7 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public WriteResultBO login(SessionBO session) throws PersistenceException {
+	public WriteResultBO login(SessionBO session) throws IntegrationException {
 		//Inizializzo le validita dell'account
 		session.setLogged(true);
 		//imposto la data login della prima sessione
@@ -51,19 +51,19 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.updatePassword(userId, email, encodedOldPassword, encodedNewPassword);
 		return bo;
 	}
 
 	@Override
-	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
+	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.checkVerificationCode(email, verificationcode);
 		return bo;
 	}
 
 	@Override
-	public WriteResultBO generateAndSendVerficationCode(String email) throws PersistenceException {
+	public WriteResultBO generateAndSendVerficationCode(String email) throws IntegrationException {
 		
 		String verificationCode = verificationCodeStrategy.generateVerificationCode(email);
 
@@ -77,7 +77,7 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 			isSent = mailManager.sendVerificationCodeMail(email, verificationCode);
 
 			if(!isSent){
-				throw new PersistenceException("Invio mail verification code non riuscito", null);
+				throw new IntegrationException("Invio mail verification code non riuscito", null);
 			}
 			logger.info("...verification code mail sent");
 		}
@@ -86,19 +86,19 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public WriteResultBO logout(int userId,String deviceId) throws PersistenceException {
+	public WriteResultBO logout(int userId,String deviceId) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.logout(userId, deviceId);
 		return bo;
 	}
 
 	@Override
-	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws IntegrationException {
 		Map<Integer, Map<String, String>> secrets = integrationFacade.retrieveClientSecrets();
 		return secrets;
 	}
 
 	@Override
-	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException {
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.resetPassword(email, newPassword, verificationCode);
 		return bo;
 	}	

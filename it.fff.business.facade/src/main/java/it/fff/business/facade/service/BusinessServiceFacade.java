@@ -37,7 +37,7 @@ public interface BusinessServiceFacade {
 
 	public List<EventDTO> searchEvents(String userGpsLat, String userGpsLong,String radiusKm, String desideredGpsLat, String desideredGpsLong, String idCategoria, String partecipanti) throws BusinessException;
 
-	public List<PlaceDTO> getPlacesByDescription(String description) throws BusinessException;
+	public List<PlaceDTO> getPlacesByDescription(String description, String gpsLat, String gpsLong) throws BusinessException;
 
 	public WriteResultDTO upgradeToPremium(String userId, SubscriptionDTO subscription) throws BusinessException;
 

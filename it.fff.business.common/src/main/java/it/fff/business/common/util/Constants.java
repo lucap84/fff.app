@@ -43,9 +43,10 @@ public class Constants {
 	 * Places constants 
 	 */
 	public static final String PLACES_CONF_FILENAME 		= "places.properties";
-	public static final String PROP_GOOGLE_APIKEY			= "google.geolocation.apikey";
-	public static final String PROP_GOOGLE_MAX_CALLS		= "google.geolocation.maxcallsperday";
-	public static final String PROP_GOOGLE_PREMIUM			= "google.geolocation.accountpremium";
+	public static final String PROP_GOOGLE_APIKEY			= "google.geocoding.apikey";
+	public static final String PROP_GOOGLE_MAX_CALLS		= "google.geocoding.maxcallsperday";
+	public static final String PROP_GOOGLE_PREMIUM			= "google.geocoding.accountpremium";
+	public static final String PROP_GOOGLE_TTL				= "google.geocoding.caching.ttl.days";
 	
 	/*
 	 * Named Queries

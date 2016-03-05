@@ -4,21 +4,21 @@ import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 
 public interface UserBusinessService extends BusinessService{
 
-	public WriteResultBO createUser(UserBO userBO) throws  PersistenceException;
+	public WriteResultBO createUser(UserBO userBO) throws  IntegrationException;
 
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws  PersistenceException;
+	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws  IntegrationException;
 
-	public WriteResultBO updateUserData(UserBO userBO) throws  PersistenceException;
+	public WriteResultBO updateUserData(UserBO userBO) throws  IntegrationException;
 
-	public UserBO getUser(int userId) throws  PersistenceException;
+	public UserBO getUser(int userId) throws  IntegrationException;
 
-	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  PersistenceException;
+	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  IntegrationException;
 
-	public EmailInfoBO isExistingEmail(String email)  throws  PersistenceException;
+	public EmailInfoBO isExistingEmail(String email)  throws  IntegrationException;
 
 
 }

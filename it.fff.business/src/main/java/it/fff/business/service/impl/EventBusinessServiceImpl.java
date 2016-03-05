@@ -13,7 +13,7 @@ import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.service.EventBusinessService;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class EventBusinessServiceImpl implements EventBusinessService{
@@ -32,13 +32,13 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws IntegrationException {
 		List<AttendanceBO> attendances =integrationFacade.getAttendancesByEvent(eventId);
 		return attendances;
 	}	
 	
 	@Override
-	public EventBO getEvent(int eventId) throws PersistenceException{
+	public EventBO getEvent(int eventId) throws IntegrationException{
 		logger.info("EventBusinessServiceImpl retrieving event...");
 		EventBO event = integrationFacade.retrieveEvent(eventId);
 		if(event!=null){
@@ -48,44 +48,44 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 	
 	@Override
-	public WriteResultBO createEvent(EventBO bo) throws PersistenceException {
+	public WriteResultBO createEvent(EventBO bo) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.createEvent(bo);
 		return resultBO;
 	}
 
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.cancelEvent(eventId, organizerId);
 		return resultBO;
 	}	
 
 	@Override
-	public WriteResultBO postEventMessage(int attendanceId, String message) throws PersistenceException {
+	public WriteResultBO postEventMessage(int attendanceId, String message) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.createEventMessage(attendanceId, message);
 		return resultBO;
 	}
 
 	@Override
-	public WriteResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
+	public WriteResultBO postStandardEventMessage(int attendanceId, int stdMsgId) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.createStandardEventMessage(attendanceId, stdMsgId);
 		return resultBO;
 	}
 
 	@Override
-	public WriteResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
+	public WriteResultBO joinEvent(AttendanceBO bo) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.joinEvent(bo);
 		return resultBO;
 	}
 
 	@Override
-	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.addFeedback(attendanceId, feedback);
 		return resultBO;
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
+	public List<MessageBO> getEventMessages(int eventId) throws IntegrationException {
 		List<MessageBO> bos = integrationFacade.getEventMessages(eventId);
 		return bos;
 	}
@@ -97,7 +97,7 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 										double desideredGpsLat, 
 										double desideredGpsLong,
 										int idCategoria, 
-										int minPartecipanti) throws PersistenceException {
+										int minPartecipanti) throws IntegrationException {
 		
 		/*
 		 * Calcolo un quadrato come spazio di ricerca invece di un cerchio, per semplicita
@@ -123,7 +123,7 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
+	public List<EventBO> getEventsByUser(int userId) throws IntegrationException {
 		List<EventBO> bos = integrationFacade.getEventsByUser(userId);
 		return bos;
 	}

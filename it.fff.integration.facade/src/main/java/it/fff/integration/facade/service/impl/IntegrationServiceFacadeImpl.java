@@ -17,7 +17,7 @@ import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.external.service.PlacesExternalService;
 import it.fff.external.util.ExternalServiceProvider;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 import it.fff.persistence.service.*;
 import it.fff.persistence.util.PersistenceServiceProvider;
@@ -27,7 +27,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	private static final Logger logger = LogManager.getLogger(IntegrationServiceFacadeImpl.class);
 
 	@Override
-	public EventBO retrieveEvent(int eventId) throws PersistenceException{
+	public EventBO retrieveEvent(int eventId) throws IntegrationException{
 		logger.debug("retrieving event ({}) ...",eventId);
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
@@ -37,7 +37,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -45,7 +45,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws PersistenceException {
+	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
 		logger.debug("aggiornando img utente ...");
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
@@ -55,7 +55,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -66,7 +66,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO createEvent(EventBO bo) throws PersistenceException {
+	public WriteResultBO createEvent(EventBO bo) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -75,7 +75,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -84,7 +84,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -93,7 +93,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -102,7 +102,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -111,7 +111,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -120,7 +120,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO createEventMessage(int attendanceId, String message) throws PersistenceException {
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -129,7 +129,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -138,7 +138,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -147,7 +147,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -156,7 +156,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO joinEvent(AttendanceBO bo) throws PersistenceException {
+	public WriteResultBO joinEvent(AttendanceBO bo) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -165,7 +165,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -174,7 +174,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -183,7 +183,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -192,7 +192,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
+	public List<MessageBO> getEventMessages(int eventId) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		List<MessageBO> bos = null;
@@ -201,7 +201,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -210,7 +210,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<EventBO> searchEvents(double gpsLatFrom,double gpsLatTo, double gpsLongFrom, double gpsLongTo, int idCategoria, int minPartecipanti) throws PersistenceException {
+	public List<EventBO> searchEvents(double gpsLatFrom,double gpsLatTo, double gpsLongFrom, double gpsLongTo, int idCategoria, int minPartecipanti) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 
 		List<EventBO> bos = null;
@@ -219,7 +219,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -228,7 +228,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
+	public List<EventBO> getEventsByUser(int userId) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		List<EventBO> bos = null;
@@ -237,7 +237,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -247,7 +247,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws IntegrationException {
 		EventPersistenceService eventPersistenceService = (EventPersistenceService)PersistenceServiceProvider.getPersistenceService("eventPersistenceService");
 		
 		List<AttendanceBO> bos = null;
@@ -256,7 +256,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -264,7 +264,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 	
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws PersistenceException {
+	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -273,7 +273,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -282,11 +282,12 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description) throws PersistenceException {
+	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws IntegrationException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		
 		List<PlaceBO> bos = null;
+		
 //		try{
 //			bos = placesPersistenceService.getPlacesByDescription(description);
 //		}
@@ -299,11 +300,11 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		if(bos==null || bos.size()==0){
 			try{
-				bos = placesExternalService.getPlacesByDescription(description);
+				bos = placesExternalService.getPlacesByDescription(token);
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());
-				PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+				IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 				throw persistenceException;			
 			}
@@ -314,7 +315,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -323,7 +324,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -332,7 +333,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
+	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -341,7 +342,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -351,7 +352,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws PersistenceException {
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -360,7 +361,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -369,7 +370,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO logout(int userId, String deviceId) throws PersistenceException {
+	public WriteResultBO logout(int userId, String deviceId) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -378,7 +379,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -387,7 +388,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException {
+	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws IntegrationException {
 		PremiumPersistenceService premiumPersistenceService = (PremiumPersistenceService)PersistenceServiceProvider.getPersistenceService("premiumPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -396,7 +397,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -405,7 +406,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 	
 	@Override
-	public WriteResultBO registerUser(UserBO userBO) throws PersistenceException {
+	public WriteResultBO registerUser(UserBO userBO) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
 		WriteResultBO resultBO = null;
@@ -414,7 +415,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -422,7 +423,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 	
 	@Override
-	public WriteResultBO login(SessionBO session) throws PersistenceException {
+	public WriteResultBO login(SessionBO session) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 
 		WriteResultBO resultBO = null;
@@ -431,7 +432,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -440,7 +441,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}	
 
 	@Override
-	public WriteResultBO updateUserData(UserBO userBO) throws PersistenceException {
+	public WriteResultBO updateUserData(UserBO userBO) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -449,7 +450,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -458,7 +459,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public UserBO getUser(int userId) throws PersistenceException {
+	public UserBO getUser(int userId) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		UserBO boOutput = null;
@@ -467,7 +468,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -476,7 +477,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		Map<Integer, Map<String, String>> secrets = null;
@@ -484,7 +485,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			secrets = securityPersistenceService.retrieveClientSecrets();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -492,7 +493,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<LanguageBO> getAllLanguages() throws PersistenceException {
+	public List<LanguageBO> getAllLanguages() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<LanguageBO> bos = null;
@@ -500,7 +501,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllLanguages();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -508,7 +509,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<SubscriptionTypeBO> bos = null;
@@ -516,7 +517,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllSubscriptionTypes();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -524,7 +525,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
+	public List<AchievementTypeBO> getAllAchievementTypes() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<AchievementTypeBO> bos = null;
@@ -532,7 +533,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllAchievementTypes();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -540,7 +541,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
+	public List<MessageStandardBO> getAllStandardMessages() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<MessageStandardBO> bos = null;
@@ -548,7 +549,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllStandardMessages();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -556,7 +557,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<AttendanceStateEnum> bos = null;
@@ -565,7 +566,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			eos = typologicalPersistenceService.getAllAttendanceStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -577,7 +578,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
+	public List<EventStateEnum> getAllEventStates() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<EventStateEnum> bos = null;
@@ -586,7 +587,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			eos = typologicalPersistenceService.getAllEventStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -598,7 +599,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
+	public List<EventCategoryBO> getAllEventCategories() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<EventCategoryBO> bos = null;
@@ -606,7 +607,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllEventCategories();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -614,7 +615,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<NationBO> getAllNations() throws PersistenceException {
+	public List<NationBO> getAllNations() throws IntegrationException {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<NationBO> bos = null;
@@ -622,7 +623,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllNations();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
@@ -630,7 +631,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException {
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException {
 		SecurityPersistenceService securityPersistenceService = (SecurityPersistenceService)PersistenceServiceProvider.getPersistenceService("securityPersistenceService");
 		
 		WriteResultBO resultBO = null;
@@ -639,7 +640,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
@@ -648,7 +649,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws PersistenceException {
+	public EmailInfoBO isExistingEmail(String email) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		EmailInfoBO resultBO = null;
@@ -657,7 +658,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}

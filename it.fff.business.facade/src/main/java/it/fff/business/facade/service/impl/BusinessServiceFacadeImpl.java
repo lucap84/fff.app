@@ -55,7 +55,7 @@ import it.fff.clientserver.common.dto.*;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 
 public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	
@@ -71,7 +71,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EventBusinessService eventBusinessService = (EventBusinessService)BusinessServiceProvider.getBusinessService("eventBusinessService");
 		try {
 			eventBO = eventBusinessService.getEvent(eventId);
-		} catch (PersistenceException e) {
+		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETEVENT);
 		}
 		if(eventBO!=null){
@@ -92,7 +92,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			userBO = UserMapper.getInstance().mapDTO2BO(registrationInputDTO);
 			WriteResultBO = userBusinessService.createUser(userBO);
-		} catch (PersistenceException e) {
+		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
 		AuthDataResponseDTO result = CustomMapper.getInstance().mapWriteResult2AuthData(WriteResultBO);
@@ -111,7 +111,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			sessionBO.setSharedKey(sharedSecretHEX);
 			WriteResultBO = securityBusinessService.login(sessionBO);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
@@ -127,7 +127,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			imgBO = UserMapper.getInstance().mapDTO2BO(dto);
 			imgBO = userBusinessService.updateProfileImage(imgBO);
-		} catch (PersistenceException e) {
+		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);
 		}
 		if(imgBO!=null){
@@ -155,7 +155,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
-		} catch (PersistenceException e) {
+		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
 		}
 		
@@ -173,7 +173,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		WriteResultBO WriteResultBO = null;
 		try {
 			WriteResultBO = eventBusinessService.createEvent(bo);
-		} catch (PersistenceException e) {
+		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
 		}
 		
@@ -197,7 +197,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELEVENT);
 		}
 		
@@ -214,7 +214,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = eventBusinessService.joinEvent(bo);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_JOINEVENT);
 		}
 		
@@ -233,7 +233,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			attendanceIdInt = Integer.valueOf(attendanceId);
 			WriteResultBO = eventBusinessService.addFeedback(attendanceIdInt, feedback);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_ADDFEEDBACK);
 		}
 		
@@ -256,7 +256,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CANCELATTENDANCES);
 		}
 		
@@ -277,7 +277,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTMSG);
 		}
 		
@@ -300,7 +300,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_POSTSTDMSG);
 		}
 		
@@ -321,7 +321,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETEVENTMSG);
 		}
 		
@@ -368,7 +368,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEACRHEVENTS);
 		}
 		
@@ -377,14 +377,21 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public List<PlaceDTO> getPlacesByDescription(String description) throws BusinessException {
+	public List<PlaceDTO> getPlacesByDescription(String description, String gpsLat, String gpsLong) throws BusinessException {
 		PlacesBusinessService placesBusinessService = (PlacesBusinessService)BusinessServiceProvider.getBusinessService("placesBusinessService");
 
+		double gpsLatDouble = 0;
+		double gpsLongDouble = 0;
 		List<PlaceBO> placesBO = null;
 		try {
-			placesBO = placesBusinessService.getPlacesByDescription(description);
+			gpsLatDouble = Double.valueOf(gpsLat);
+			gpsLongDouble = Double.valueOf(gpsLong);
+			placesBO = placesBusinessService.getPlacesByDescription(description, gpsLatDouble, gpsLongDouble);
 		}
-		catch (PersistenceException e) {
+		catch(NumberFormatException e){
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC);
+		}		
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETPLACES);
 		}
 		
@@ -409,7 +416,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPGRADE_TO_PREMIUM);
 		}
 		
@@ -433,7 +440,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = securityBusinessService.updatePassword(userId, email, encodedOldPassword, encodedNewPassword);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATEPSW);
 		}
 		
@@ -450,7 +457,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = securityBusinessService.checkVerificationCode(email, verificationcode);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CHECK_VERIFICATIONCODE);
 		}
 		
@@ -467,7 +474,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = securityBusinessService.generateAndSendVerficationCode(email);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
 		}
 		
@@ -488,7 +495,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SEND_VERIFICATIONCODE);
 		}
 		
@@ -506,7 +513,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = userBusinessService.updateUserData(userBO);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_UPDATE_USERDATA);
 		}
 		
@@ -530,7 +537,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_SET_CURRENTPOSITION);
 		}
 		
@@ -551,7 +558,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_EVENTSBYUSER);
 		}
 		
@@ -573,7 +580,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_USER);
 		}
 		
@@ -590,7 +597,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			clientSecrets = securityBusinessService.retrieveClientSecrets();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}
 		
@@ -605,7 +612,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			languagesBO = typologicalBusinessService.getAllLanguages();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		languagesDTO = LanguageMapper.getInstance().mapBOs2DTOs(languagesBO);
@@ -621,7 +628,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllSubscriptionTypes();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = SubscriptionTypeMapper.getInstance().mapBOs2DTOs(bos);
@@ -637,7 +644,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllAchievementTypes();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = AchievementTypeMapper.getInstance().mapBOs2DTOs(bos);
@@ -653,7 +660,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllStandardMessages();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = MessageStandardMapper.getInstance().mapBOs2DTOs(bos);
@@ -669,7 +676,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllAttendanceStates();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = AttendanceStateMapper.getInstance().mapBOs2DTOs(bos);
@@ -685,7 +692,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllEventStates();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = EventStateMapper.getInstance().mapBOs2DTOs(bos);
@@ -701,7 +708,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllEventCategories();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = EventCategoryMapper.getInstance().mapBOs2DTOs(bos);
@@ -717,7 +724,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			bos = typologicalBusinessService.getAllNations();
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GENERIC);
 		}		
 		dtos = NationMapper.getInstance().mapBOs2DTOs(bos);
@@ -737,7 +744,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = securityBusinessService.resetPassword(email, newPassword, verificationCode);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_RESET_PASSWORD);
 		}
 		
@@ -754,7 +761,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			resultBO = userBusinessService.isExistingEmail(email);
 		}
-		catch (PersistenceException e) {
+		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_EXISTING_MAIL);
 		}
 		

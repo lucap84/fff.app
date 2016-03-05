@@ -3,7 +3,7 @@ package it.fff.business.service.impl;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.service.PremiumBusinessService;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class PremiumBusinessServiceImpl implements PremiumBusinessService {
@@ -23,7 +23,7 @@ public class PremiumBusinessServiceImpl implements PremiumBusinessService {
 
 
 	@Override
-	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws PersistenceException {
+	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO subscriptionBO) throws IntegrationException {
 		WriteResultBO resultBO = integrationFacade.upgradeToPremium(userId, subscriptionBO);
 		return resultBO;
 	}

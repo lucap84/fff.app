@@ -27,7 +27,18 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		GeocodingApiRequest geocodingRequest = GeocodingApi.newRequest(context);
 		GeocodingResult[] results = geocodingRequest.address(description).await();
 		
-		System.out.println(results[0].formattedAddress);
+		for (int i = 0; i < results.length; i++) {
+			System.out.println("*********************");
+			GeocodingResult geocodingResult = results[i];
+			System.out.println("placeId: "+geocodingResult.placeId);
+			System.out.println("partialMatch: "+geocodingResult.partialMatch);
+			System.out.println("addressComponents: "+geocodingResult.addressComponents);
+			System.out.println("formattedAddress: "+geocodingResult.formattedAddress);
+			System.out.println("types: "+geocodingResult.types);
+			System.out.println("postcodeLocalities: "+geocodingResult.postcodeLocalities);
+			System.out.println("geometry: "+geocodingResult.geometry);
+			System.out.println("*********************");
+		}
 		
 		List<PlaceBO> places = new ArrayList<PlaceBO>();
 		

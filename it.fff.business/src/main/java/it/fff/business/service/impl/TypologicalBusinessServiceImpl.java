@@ -11,7 +11,7 @@ import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.service.TypologicalBusinessService;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
-import it.fff.integration.facade.exception.PersistenceException;
+import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
 public class TypologicalBusinessServiceImpl implements TypologicalBusinessService {
@@ -28,49 +28,49 @@ public class TypologicalBusinessServiceImpl implements TypologicalBusinessServic
 	}
 
 	@Override
-	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
+	public List<EventCategoryBO> getAllEventCategories() throws IntegrationException {
 		List<EventCategoryBO> bos = integrationFacade.getAllEventCategories();
 		return bos;
 	}
 
 	@Override
-	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
+	public List<EventStateEnum> getAllEventStates() throws IntegrationException {
 		List<EventStateEnum> bos = integrationFacade.getAllEventStates();
 		return bos;
 	}
 
 	@Override
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws IntegrationException {
 		List<AttendanceStateEnum> bos = integrationFacade.getAllAttendanceStates();
 		return bos;
 	}
 
 	@Override
-	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
+	public List<MessageStandardBO> getAllStandardMessages() throws IntegrationException {
 		List<MessageStandardBO> bos = integrationFacade.getAllStandardMessages();
 		return bos;
 	}
 
 	@Override
-	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
+	public List<AchievementTypeBO> getAllAchievementTypes() throws IntegrationException {
 		List<AchievementTypeBO> bos = integrationFacade.getAllAchievementTypes();
 		return bos;
 	}
 
 	@Override
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws IntegrationException {
 		List<SubscriptionTypeBO> bos = integrationFacade.getAllSubscriptionTypes();
 		return bos;
 	}
 
 	@Override
-	public List<LanguageBO> getAllLanguages() throws PersistenceException {
+	public List<LanguageBO> getAllLanguages() throws IntegrationException {
 		List<LanguageBO> bos = integrationFacade.getAllLanguages();
 		return bos;
 	}
 
 	@Override
-	public List<NationBO> getAllNations() throws PersistenceException {
+	public List<NationBO> getAllNations() throws IntegrationException {
 		List<NationBO> bos = integrationFacade.getAllNations();
 		return bos;
 	}
