@@ -10,6 +10,18 @@ import it.fff.clientserver.common.dto.PriceDTO;
 
 public class PriceMapper implements Mapper<PriceDTO,PriceBO,PriceEO>{
 
+	private static PriceMapper mapper;
+	
+	private PriceMapper(){
+	}
+	
+	public static PriceMapper getInstance(){
+		if(mapper==null){
+			mapper= new  PriceMapper();
+		}
+		return mapper;
+	}
+	
 	@Override
 	public List<PriceBO> mapDTOs2BOs(List<PriceDTO> dtos) {
 		// TODO Auto-generated method stub

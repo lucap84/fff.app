@@ -6,6 +6,7 @@ import java.util.List;
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
+import it.fff.business.common.bo.PlaceTypeBO;
 import it.fff.external.service.PlacesExternalService;
 
 public class PlacesExternalServiceMock implements PlacesExternalService {
@@ -15,7 +16,10 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		PlaceBO bo1 = new PlaceBO();
 		bo1.setId(1);
 		bo1.setNome("Chiringuito");
-		bo1.setTags("birra alcol biliardino caffe");
+		
+		PlaceTypeBO placeType = new PlaceTypeBO();
+		placeType.setId(1);
+		placeType.setNome("point of interest");
 		
 		NationBO nationBO = new NationBO();
 		nationBO.setId(1);
@@ -28,12 +32,13 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		citta.setNome("Roma");
 		citta.setNazione(nationBO);
 		
+		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
 		bo1.setGpsLat(1.234);
 		bo1.setGpsLong(1.456);
-		bo1.setVia("Via di prova");
+		bo1.setRoute("Via di prova");
 		bo1.setCivico("22");
 		bo1.setCap("00100");
-
+		bo1.setPlaceType(placeType);
 		bo1.setCity(citta);
 		
 		
@@ -41,14 +46,18 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		PlaceBO bo2 = new PlaceBO();
 		bo2.setId(2);
 		bo2.setNome("Colosseo");
-		bo2.setTags("cultura roma musei centurione anfiteatro flavio");
 		
+		PlaceTypeBO placeType2 = new PlaceTypeBO();
+		placeType2.setId(1);
+		placeType2.setNome("route");
+		
+		bo2.setPlaceKey("l9d0sRMgU7ZhLxMRxAOFkC83j7f");
 		bo2.setGpsLat(1.44);
 		bo2.setGpsLong(1.45);
-		bo2.setVia("Via del Colosseo");
+		bo2.setRoute("Piazza del Colosseo");
 		bo2.setCivico("1");
 		bo2.setCap("00100");
-
+		bo2.setPlaceType(placeType2);
 		bo2.setCity(citta);		
 		
 		List<PlaceBO> places = new ArrayList<PlaceBO>();

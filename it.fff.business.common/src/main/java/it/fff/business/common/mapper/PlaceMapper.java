@@ -51,10 +51,11 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			dto.setGpsLat(bo.getGpsLat());
 			dto.setGpsLong(bo.getGpsLong());
 			dto.setCivico(bo.getCivico());
-			dto.setVia(bo.getVia());
+			dto.setRoute(bo.getRoute());
 			dto.setCap(bo.getCap());
 			
-			dto.setTags(bo.getTags());
+			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
+			dto.setPlaceType(placeTypeMapper.mapBO2DTO(bo.getPlaceType()));
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			dto.setCity(cityMapper.mapBO2DTO(bo.getCity()));
@@ -71,12 +72,11 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
-			bo.setVia(dto.getVia());
+			bo.setRoute(dto.getRoute());
 			bo.setCivico(dto.getCap());
 			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
 			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
 			bo.setCap(dto.getCap());
-			bo.setTags(dto.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			bo.setCity(cityMapper.mapDTO2BO(dto.getCity()));
@@ -96,12 +96,11 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setViaIfNotEmpty(bo.getVia());
+			eo.setRouteIfNotEmpty(bo.getRoute());
 			eo.setCivicoIfNotEmpty(bo.getCivico());
 			eo.setGpsLatIfNotEmpty(bo.getGpsLat());
 			eo.setGpsLongIfNotEmpty(bo.getGpsLong());
 			eo.setCapIfNotEmpty(bo.getCap());
-			eo.setTagsIfNotEmpty(bo.getTags());
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), eo.getCity(), session));
@@ -136,10 +135,10 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			bo.setNome(eo.getNome());
 			
 			bo.setCivico(eo.getCivico());
-			bo.setVia(eo.getVia());
+			bo.setRoute(eo.getRoute());
 			bo.setCap(eo.getCap());
 			
-			bo.setTags(eo.getTags());
+			
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			bo.setCity(cityMapper.mapEO2BO(eo.getCity()));			

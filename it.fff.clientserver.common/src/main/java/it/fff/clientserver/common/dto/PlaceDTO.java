@@ -12,11 +12,11 @@ public class PlaceDTO extends DataTransferObject {
 	private String nome;
 	private double gpsLat;
 	private double gpsLong;
-	private String via;
+	private String route;
 	private String civico;
 	private String cap;
-	private String tags;
 	private CityDTO city;
+	private PlaceTypeDTO placeType;
 	
 	@XmlElement public int getId() {
 		return id;
@@ -30,6 +30,12 @@ public class PlaceDTO extends DataTransferObject {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	@XmlElement public String getRoute() {
+		return route;
+	}
+	public void setRoute(String route) {
+		this.route = route;
+	}
 	@XmlElement public double getGpsLat() {
 		return gpsLat;
 	}
@@ -41,12 +47,6 @@ public class PlaceDTO extends DataTransferObject {
 	}
 	public void setGpsLong(double gpsLong) {
 		this.gpsLong = gpsLong;
-	}
-	@XmlElement public String getVia() {
-		return via;
-	}
-	public void setVia(String via) {
-		this.via = via;
 	}
 	@XmlElement public String getCivico() {
 		return civico;
@@ -60,18 +60,16 @@ public class PlaceDTO extends DataTransferObject {
 	public void setCap(String cap) {
 		this.cap = cap;
 	}
-	@XmlElement public String getTags() {
-		return tags;
-	}
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
 	@XmlElement public CityDTO getCity() {
 		return city;
 	}
 	public void setCity(CityDTO city) {
 		this.city = city;
 	}
-	
-
+	@XmlElement public PlaceTypeDTO getPlaceType() {
+		return placeType;
+	}
+	public void setPlaceType(PlaceTypeDTO placeType) {
+		this.placeType = placeType;
+	}
 }

@@ -28,7 +28,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description) throws Exception {
+	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
 		List<PlaceBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -39,7 +39,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 			
 	    	String hqlSelect = "FROM PlaceEO WHERE nome LIKE :description OR tags LIKE :description ";	    	  
 	    	Query query = session.createQuery(hqlSelect);
-	    	query.setParameter("description", "%"+description+"%");
+	    	query.setParameter("description", "%"+token+"%");
 	    	
 	    	List<PlaceEO> placesEO = query.list();
 	    	

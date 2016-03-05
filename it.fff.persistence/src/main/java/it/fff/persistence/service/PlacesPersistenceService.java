@@ -9,7 +9,7 @@ public interface PlacesPersistenceService extends PersistenceService{
 
 	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws Exception;
 
-	public List<PlaceBO> getPlacesByDescription(String description) throws Exception;
+	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception;
 
 
 }

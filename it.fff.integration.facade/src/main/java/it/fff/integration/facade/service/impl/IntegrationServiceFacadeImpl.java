@@ -1,7 +1,10 @@
 package it.fff.integration.facade.service.impl;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +14,8 @@ import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.EventStateEO;
 import it.fff.business.common.mapper.AttendanceStateMapper;
 import it.fff.business.common.mapper.EventStateMapper;
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
@@ -288,16 +293,32 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		List<PlaceBO> bos = null;
 		
-//		try{
-//			bos = placesPersistenceService.getPlacesByDescription(description);
-//		}
-//		catch(Exception e){
-//			logger.error(e.getMessage());
-//			PersistenceException persistenceException = new PersistenceException(e.getMessage(),e);
-//			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-//			throw persistenceException;			
-//		}
+		try{
+			bos = placesPersistenceService.getPlacesByDescription(token, gpsLat, gpsLong);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
 		
+		int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_TTL));
+		
+		boolean resultsAreValid = true;
+		
+		if(bos!=null && bos.size()>0){
+			for (PlaceBO placeBO : bos) {
+				String dataAggiornamento = placeBO.getDataAggiornamento();
+				
+				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
+					resultsAreValid = false;
+					break;
+				}
+			}
+			
+		}
+		//TODO
 		if(bos==null || bos.size()==0){
 			try{
 				bos = placesExternalService.getPlacesByDescription(token);
@@ -665,5 +686,24 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		return resultBO;
 	}
+	
+	private boolean isPlaceStillValid(String date, int expirationDays) {
+		Date cachedDate = null;
+		try {
+			cachedDate = Constants.DATE_FORMATTER.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Date currentDate = new Date();
+		long diffDays = getDateDiff(cachedDate, currentDate, TimeUnit.DAYS);
+		logger.debug("Place data "+diffDays+" days old");
+		
+		return diffDays<=expirationDays;
+	}
+	
+	private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}	
 
 }
