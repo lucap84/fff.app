@@ -45,5 +45,13 @@ public class KeywordEO extends EntityObject {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+	public List<PlaceEO> getRelatedPlaces() {
+		return relatedPlaces;
+	}
+
+	public void setRelatedPlaces(List<PlaceEO> relatedPlaces) {
+		this.relatedPlaces = relatedPlaces;
+	}
 	
 }

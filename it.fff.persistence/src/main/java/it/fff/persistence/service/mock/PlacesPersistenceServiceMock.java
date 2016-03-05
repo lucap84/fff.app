@@ -9,6 +9,7 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.PlaceTypeBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.dto.CityDTO;
 import it.fff.persistence.service.PlacesPersistenceService;
 
@@ -52,6 +53,8 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		bo1.setCap("00100");
 		bo1.setPlaceType(placeType);
 		bo1.setCity(citta);
+		bo1.setDataCreazione("2016-01-01");
+		bo1.setDataAggiornamento("2016-01-01");
 		
 		
 		
@@ -70,13 +73,24 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		bo2.setCivico("1");
 		bo2.setCap("00100");
 		bo2.setPlaceType(placeType2);
-		bo2.setCity(citta);		
+		bo2.setCity(citta);	
+		bo2.setDataCreazione("2016-01-02");
+		bo2.setDataAggiornamento("2016-01-02");		
 		
 		List<PlaceBO> places = new ArrayList<PlaceBO>();
 		places.add(bo1);
 		places.add(bo2);
 		
 		return places;
+	}
+
+	@Override
+	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws Exception {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setAffectedRecords(1);
+		return resultBO;
 	}
 
 }

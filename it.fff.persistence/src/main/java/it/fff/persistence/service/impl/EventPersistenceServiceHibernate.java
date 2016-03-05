@@ -114,7 +114,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }finally {
 	    	session.close(); 
 	    }			
-		logger.info("...eveno annullato");
+		logger.info("...evento annullato");
 		return result;
 	}
 

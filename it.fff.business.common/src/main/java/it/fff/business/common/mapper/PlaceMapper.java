@@ -130,15 +130,19 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			if(eo.getId()!=null && eo.getId()>0){
 				bo.setId(eo.getId());
 			}
+			bo.setPlaceKey(eo.getPlaceKey());
+			bo.setNome(eo.getNome());
+			bo.setRoute(eo.getRoute());
+			bo.setCivico(eo.getCivico());
 			bo.setGpsLat(eo.getGpsLat());
 			bo.setGpsLong(eo.getGpsLong());
-			bo.setNome(eo.getNome());
-			
-			bo.setCivico(eo.getCivico());
-			bo.setRoute(eo.getRoute());
 			bo.setCap(eo.getCap());
 			
+			bo.setDataAggiornamento(eo.getDataAggiornamento());
+			bo.setDataCreazione(eo.getDataCreazione());
 			
+			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
+			bo.setPlaceType(placeTypeMapper.mapEO2BO(eo.getPlaceType()));
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			bo.setCity(cityMapper.mapEO2BO(eo.getCity()));			

@@ -1,13 +1,17 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.List;
 
 import org.hibernate.Session;
 
+import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.PlaceTypeBO;
 import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.clientserver.common.dto.PlaceDTO;
 import it.fff.clientserver.common.dto.PlaceTypeDTO;
+import it.fff.clientserver.common.enums.EventStateEnum;
 
 public class PlaceTypeMapper implements Mapper<PlaceTypeDTO,PlaceTypeBO,PlaceTypeEO>{
 
@@ -55,8 +59,13 @@ public class PlaceTypeMapper implements Mapper<PlaceTypeDTO,PlaceTypeBO,PlaceTyp
 
 	@Override
 	public PlaceTypeBO mapEO2BO(PlaceTypeEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+		PlaceTypeBO bo = null;
+		if(eo!=null && isInitialized(eo)){
+			bo = new PlaceTypeBO();
+			bo.setId(eo.getId());
+			bo.setNome(eo.getNome());
+		}
+		return bo;
 	}
 
 	@Override

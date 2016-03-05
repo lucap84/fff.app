@@ -294,7 +294,8 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		List<PlaceBO> bos = null;
 		
 		try{
-			bos = placesPersistenceService.getPlacesByDescription(token, gpsLat, gpsLong);
+			//Search on FLOKKER Database
+			bos = placesPersistenceService.getPlacesByDescription(token, gpsLat, gpsLong);	
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -305,22 +306,27 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_TTL));
 		
-		boolean resultsAreValid = true;
+		boolean flokkerPlacesAreValid = false;
 		
 		if(bos!=null && bos.size()>0){
+			flokkerPlacesAreValid = true;
 			for (PlaceBO placeBO : bos) {
 				String dataAggiornamento = placeBO.getDataAggiornamento();
 				
 				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
-					resultsAreValid = false;
+					flokkerPlacesAreValid = false;
 					break;
 				}
 			}
-			
 		}
-		//TODO
-		if(bos==null || bos.size()==0){
+		
+		
+		if(flokkerPlacesAreValid){
+			return bos;
+		}
+		else {//Se i risultati del DB interno FLOKKER non sono soddisfacenti cerco su servizio esterno
 			try{
+				//Search on GOOGLE service
 				bos = placesExternalService.getPlacesByDescription(token);
 			}
 			catch(Exception e){
@@ -329,7 +335,18 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 				throw persistenceException;			
 			}
+		}
+		
+		//Se ho ottenuto risultati dalla ricerca su servizio esterno
+		if(bos!=null && bos.size()>0){
 			
+			for (PlaceBO placeBO : bos) {
+				try {
+					placesPersistenceService.saveOrUpdatePlace(placeBO, token);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		return bos;		
