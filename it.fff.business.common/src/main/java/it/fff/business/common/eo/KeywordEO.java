@@ -1,7 +1,8 @@
 package it.fff.business.common.eo;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "keyword")
@@ -24,11 +26,11 @@ public class KeywordEO extends EntityObject {
 	@Column(name="Token")
 	private String token;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "luogo_keyword", 
 		joinColumns = 		 { @JoinColumn(name = "Keyword_ID") }, 
 		inverseJoinColumns = { @JoinColumn(name = "Luogo_ID") })
-	private List<PlaceEO> relatedPlaces;	
+	private Set<PlaceEO> relatedPlaces;	
 
 	public Integer getId() {
 		return id;
@@ -46,12 +48,22 @@ public class KeywordEO extends EntityObject {
 		this.token = token;
 	}
 
-	public List<PlaceEO> getRelatedPlaces() {
+	public Set<PlaceEO> getRelatedPlaces() {
 		return relatedPlaces;
 	}
 
-	public void setRelatedPlaces(List<PlaceEO> relatedPlaces) {
+	public void setRelatedPlaces(Set<PlaceEO> relatedPlaces) {
 		this.relatedPlaces = relatedPlaces;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		KeywordEO k2 = (KeywordEO)obj;
+		return this.id.equals(k2.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.token.hashCode();
+	}
 }

@@ -1,6 +1,6 @@
 package it.fff.business.common.eo;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -57,11 +56,8 @@ public class PlaceEO extends EntityObject {
 	@JoinColumn(name = "TipoLuogo_ID", nullable = false)
 	private PlaceTypeEO placeType;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "luogo_keyword", 
-		joinColumns = 		 { @JoinColumn(name = "Luogo_ID") }, 
-		inverseJoinColumns = { @JoinColumn(name = "Keyword_ID") })
-	private List<KeywordEO> keywords;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "relatedPlaces")
+	private Set<KeywordEO> keywords;
 	
 
 	public Integer getId() {
@@ -157,5 +153,21 @@ public class PlaceEO extends EntityObject {
 	public void setCapIfNotEmpty(String cap) {
 		if(!isEmpty(cap))this.cap = cap;
 	}
+	public Set<KeywordEO> getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(Set<KeywordEO> keywords) {
+		this.keywords = keywords;
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		PlaceEO p2 = (PlaceEO)obj;
+		return this.id.equals(p2.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.placeKey.hashCode();
+	}
 }
