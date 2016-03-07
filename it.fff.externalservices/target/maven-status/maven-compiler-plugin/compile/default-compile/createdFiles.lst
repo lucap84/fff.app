@@ -3,3 +3,4 @@ it\fff\external\util\ExternalServiceProvider.class
 it\fff\external\service\ExternalService.class
 it\fff\external\service\mock\PlacesExternalServiceMock.class
 it\fff\external\service\impl\PlacesExternalServiceGoogle.class
+it\fff\external\service\impl\PlacesExternalServiceGoogle$1.class

@@ -28,7 +28,7 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/it.fff.business.service.webapp/build/classes"/>
-        <property name="component.exclusion.patterns" value="WEB-INF/ibm-web-bnd.xmi,WEB-INF/ibm-web-ext.xmi"/>
         <property name="context-root" value="it.fff.business.service.webapp"/>
+        <property name="component.exclusion.patterns"/>
     </wb-module>
 </project-modules>
