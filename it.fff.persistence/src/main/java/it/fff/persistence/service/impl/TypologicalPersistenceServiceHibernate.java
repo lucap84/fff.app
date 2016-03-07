@@ -23,6 +23,7 @@ import it.fff.business.common.eo.EventStateEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.business.common.eo.NationEO;
+import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.business.common.eo.SubscriptionTypeEO;
 import it.fff.business.common.mapper.AchievementMapper;
 import it.fff.business.common.mapper.AchievementTypeMapper;
@@ -33,8 +34,11 @@ import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.mapper.LanguageMapper;
 import it.fff.business.common.mapper.MessageStandardMapper;
 import it.fff.business.common.mapper.NationMapper;
+import it.fff.business.common.mapper.PlaceTypeMapper;
 import it.fff.business.common.mapper.SubscriptionTypeMapper;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.persistence.service.TypologicalPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -65,8 +69,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<EventStateEO> getAllEventStates() throws Exception {
-		List<EventStateEO> eos = null;
+	public List<EventStateEnum> getAllEventStates() throws Exception {
+		List<EventStateEnum> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -74,7 +78,8 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    try{
 	    	tx = session.beginTransaction();
 	    	
-	    	eos = session.createCriteria(EventStateEO.class).list();
+	    	List<EventStateEO> eos = session.createCriteria(EventStateEO.class).list();
+	    	bos = EventStateMapper.getInstance().mapEOs2BOs(eos);
 	    	
 	    	tx.commit();
 	    }catch (HibernateException e) {
@@ -84,19 +89,20 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	     }finally {
 	        session.close(); 
 	     }
-		return eos;
+		return bos;
 	}
 
 	@Override
-	public List<AttendanceStateEO> getAllAttendanceStates() throws Exception {
-		List<AttendanceStateEO> eos = null;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception {
+		List<AttendanceStateEnum> bos = null;
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 	    try{
 	    	tx = session.beginTransaction();
 	    	
-			eos = session.createCriteria(AttendanceStateEO.class).list();
+			List<AttendanceStateEO> eos = session.createCriteria(AttendanceStateEO.class).list();
+			bos = AttendanceStateMapper.getInstance().mapEOs2BOs(eos);
 			
 			tx.commit();
 	    }catch (HibernateException e) {
@@ -106,7 +112,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	     }finally {
 	        session.close(); 
 	     }
-		return eos;
+		return bos;
 	}
 
 	@Override
@@ -223,6 +229,30 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getAllNations() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bos;
+	}
+
+	@Override
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception {
+		List<PlaceTypeEnum> bos = null;
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	List<PlaceTypeEO> eos = session.createCriteria(PlaceTypeEO.class).list();
+	    	bos = PlaceTypeMapper.getInstance().mapEOs2BOs(eos);
+	    	
+	    	tx.commit();
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getAllEventStates() ",e);
 	     }finally {
 	        session.close(); 
 	     }

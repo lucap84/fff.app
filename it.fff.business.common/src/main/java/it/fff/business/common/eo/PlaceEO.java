@@ -27,8 +27,8 @@ public class PlaceEO extends EntityObject {
 	@Column(name="Nome")
 	private String nome;
 	
-	@Column(name="Route")
-	private String route;
+	@Column(name="Address_Route")
+	private String addressRoute;
 	
 	@Column(name="Civico")
 	private String civico;
@@ -78,11 +78,11 @@ public class PlaceEO extends EntityObject {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getRoute() {
-		return route;
+	public String getAddressRoute() {
+		return addressRoute;
 	}
-	public void setRoute(String route) {
-		this.route = route;
+	public void setAddressRoute(String addressRoute) {
+		this.addressRoute = addressRoute;
 	}
 	public String getCivico() {
 		return civico;
@@ -138,8 +138,8 @@ public class PlaceEO extends EntityObject {
 	public void setNomeIfNotEmpty(String nome) {
 		if(!isEmpty(nome))this.nome = nome;
 	}
-	public void setRouteIfNotEmpty(String route) {
-		if(!isEmpty(route))this.route = route;
+	public void setAddressRouteIfNotEmpty(String addressRoute) {
+		if(!isEmpty(addressRoute))this.addressRoute = addressRoute;
 	}
 	public void setCivicoIfNotEmpty(String civico) {
 		if(!isEmpty(civico))this.civico = civico;

@@ -58,7 +58,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		placeBo1.setNome("Luogo mock");
 		placeBo1.setGpsLat(1.234);
 		placeBo1.setGpsLong(2.345);
-		placeBo1.setRoute("via 1");
+		placeBo1.setAddressRoute("via 1");
 		placeBo1.setCivico("civico 1");
 		placeBo1.setCap("Cap 00100");
 		placeBo1.setCity(cityBo1);
@@ -195,7 +195,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		placeBo1.setNome("place");
 		placeBo1.setGpsLat(1.234);
 		placeBo1.setGpsLong(2.345);
-		placeBo1.setRoute("via 1");
+		placeBo1.setAddressRoute("via 1");
 		placeBo1.setCivico("civico 1");
 		placeBo1.setCap("Cap 00100");
 		placeBo1.setCity(cityBo1);

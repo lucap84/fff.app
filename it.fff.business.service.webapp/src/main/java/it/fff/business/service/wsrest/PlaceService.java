@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -53,6 +54,26 @@ public class PlaceService extends ApplicationService{
 		return this.getPlacesByDescription(request, description, userGpsLat, userGpsLong);
 	}
 	
+	@GET
+	@Path("cities/{cityName}/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public CityDTO getCityByNameJSON(@Context HttpServletRequest request,
+													 @PathParam("cityName") String cityName,
+											  		 @QueryParam("nationKey") String nationKey)
+											  		 throws BusinessException {
+		return this.getCityByName(request, cityName, nationKey);
+	}
+	@GET
+	@Path("cities/{cityName}/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public CityDTO getCityByNameXML(@Context HttpServletRequest request,
+													 @PathParam("cityName") String cityName,
+											  		 @QueryParam("nationKey") String nationKey)
+											  		 throws BusinessException {
+		return this.getCityByName(request, cityName, nationKey);
+	}	
+
+
 	/*
 	 *	
 	 *
@@ -75,5 +96,9 @@ public class PlaceService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return places;
+	}
+	
+	private CityDTO getCityByName(HttpServletRequest request, String cityName, String nationKey) {
+		return new CityDTO();
 	}	
 }

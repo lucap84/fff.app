@@ -1,7 +1,6 @@
 package it.fff.persistence.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -19,11 +18,8 @@ import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.KeywordEO;
 import it.fff.business.common.eo.PlaceEO;
-import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.KeywordMapper;
 import it.fff.business.common.mapper.PlaceMapper;
-import it.fff.business.common.util.Constants;
-import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 

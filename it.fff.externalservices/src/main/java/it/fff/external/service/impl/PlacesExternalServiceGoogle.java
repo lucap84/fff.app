@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.GeocodingApiRequest;
@@ -15,12 +18,14 @@ import com.google.maps.model.GeocodingResult;
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
-import it.fff.business.common.bo.PlaceTypeBO;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.external.service.PlacesExternalService;
 
 public class PlacesExternalServiceGoogle implements PlacesExternalService {
+	
+	private static final Logger logger = LogManager.getLogger(PlacesExternalServiceGoogle.class);
 
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String description) throws Exception {
@@ -52,6 +57,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				String gNome = geocodingResult.formattedAddress;
 				AddressType gAddressType = geocodingResult.types[0];
 				String gRoute = null;
+				String gStreetAddress = null;
 				String gCivico = null;
 				String gCitta = null;
 				String gRegione = null;
@@ -67,7 +73,8 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 					AddressComponent addressComponent = geocodingResult.addressComponents[j];
 					
 					switch(addressComponent.types[0]){
-						case ROUTE: gRoute = addressComponent.longName; break;
+						case ROUTE: gRoute = addressComponent.longName; break;	
+						case STREET_ADDRESS: gStreetAddress = addressComponent.longName; break;
 						case STREET_NUMBER: gCivico = addressComponent.longName; break;
 						case LOCALITY: gCitta = addressComponent.longName; break;
 						case ADMINISTRATIVE_AREA_LEVEL_1: gRegione = addressComponent.longName; break;
@@ -93,6 +100,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				System.out.println("partialMatch: "+gPartialMatch);
 				System.out.println("formattedAddress: "+gNome);
 				System.out.println("gRoute: "+gRoute);
+				System.out.println("gStreetAddress: "+gStreetAddress);
 				System.out.println("gCivico: "+gCivico);
 				System.out.println("latitudine: "+gLat);
 				System.out.println("longitudine: "+gLong);
@@ -109,7 +117,13 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				PlaceBO bo = new PlaceBO();
 				bo.setPlaceKey(gPlaceId);
 				bo.setNome(gNome);
-				bo.setRoute(gRoute);
+				
+				if(gStreetAddress!=null && gStreetAddress.length()>0){
+					bo.setAddressRoute(gStreetAddress);
+				}
+				else{
+					bo.setAddressRoute(gRoute);
+				}
 				bo.setCivico(gCivico);
 				bo.setGpsLat(gLat);
 				bo.setGpsLong(gLong);
@@ -125,13 +139,21 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				
 				NationBO nazioneBO = new NationBO();
 				nazioneBO.setNome(gNazioneLongName);
-				nazioneBO.setInternationalCode(gNazioneShortName);
+				nazioneBO.setInternationalKey(gNazioneShortName);
 				
+				cittaBO.setNazione(nazioneBO);
 				bo.setCity(cittaBO);
 				
-				PlaceTypeBO placeTypeBO = new PlaceTypeBO();
-				placeTypeBO.setNome(gAddressType.name());
+				PlaceTypeEnum placeTypeBO = null;
+				try{
+					
+					placeTypeBO = PlaceTypeEnum.valueOf(gAddressType.name());
+				}
+				catch(IllegalArgumentException e){
+					logger.error("State not Recognized! :"+gAddressType.name());
+				}
 				bo.setPlaceType(placeTypeBO);
+			
 				
 				//Add to list
 				placesBO.add(bo);

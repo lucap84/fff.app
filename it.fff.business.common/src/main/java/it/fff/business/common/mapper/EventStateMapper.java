@@ -5,14 +5,16 @@ import static org.hibernate.Hibernate.isInitialized;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import it.fff.business.common.eo.EventStateEO;
-import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 
 public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,EventStateEO>{
 	
+	private static final Logger logger = LogManager.getLogger(EventStateMapper.class);
 	private static EventStateMapper mapper;
 	
 	private EventStateMapper(){
@@ -29,8 +31,15 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 
 	@Override
 	public List<EventStateEnum> mapDTOs2BOs(List<EventStateEnum> dtos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<EventStateEnum> bos = null;
+		if(dtos!=null){
+			 bos = new  ArrayList<EventStateEnum>();
+			 EventStateMapper mapper = EventStateMapper.getInstance();
+			for (EventStateEnum dto : dtos) {
+				bos.add(mapper.mapDTO2BO(dto));
+			}
+		}
+		return bos; 
 	}
 
 
@@ -85,7 +94,13 @@ public class EventStateMapper implements Mapper<EventStateEnum,EventStateEnum,Ev
 	public EventStateEnum mapEO2BO(EventStateEO eo) {
 		EventStateEnum bo = EventStateEnum.UNKNOW;
 		if(eo!=null && isInitialized(eo)){
-			bo = EventStateEnum.valueOf(eo.getNome().toUpperCase());
+			try{
+				bo = EventStateEnum.valueOf(eo.getNome().toUpperCase());
+				bo.setId(eo.getId());
+			}
+			catch(IllegalArgumentException e){
+				logger.error("State not Recognized! :"+eo.getNome());
+			}
 		}
 		else{
 			bo = EventStateEnum.UNKNOW;

@@ -51,7 +51,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			dto.setGpsLat(bo.getGpsLat());
 			dto.setGpsLong(bo.getGpsLong());
 			dto.setCivico(bo.getCivico());
-			dto.setRoute(bo.getRoute());
+			dto.setRoute(bo.getAddressRoute());
 			dto.setCap(bo.getCap());
 			
 			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
@@ -72,7 +72,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			bo.setNome(dto.getNome());
-			bo.setRoute(dto.getRoute());
+			bo.setAddressRoute(dto.getRoute());
 			bo.setCivico(dto.getCap());
 			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
 			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
@@ -96,7 +96,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			}
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setNomeIfNotEmpty(bo.getNome());
-			eo.setRouteIfNotEmpty(bo.getRoute());
+			eo.setAddressRouteIfNotEmpty(bo.getAddressRoute());
 			eo.setCivicoIfNotEmpty(bo.getCivico());
 			eo.setGpsLatIfNotEmpty(bo.getGpsLat());
 			eo.setGpsLongIfNotEmpty(bo.getGpsLong());
@@ -132,7 +132,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			}
 			bo.setPlaceKey(eo.getPlaceKey());
 			bo.setNome(eo.getNome());
-			bo.setRoute(eo.getRoute());
+			bo.setAddressRoute(eo.getAddressRoute());
 			bo.setCivico(eo.getCivico());
 			bo.setGpsLat(eo.getGpsLat());
 			bo.setGpsLong(eo.getGpsLong());

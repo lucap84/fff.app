@@ -64,6 +64,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 				//Quindi non ho setter sul EO
 				eo = (CityEO)session.load(CityEO.class, bo.getId());
 			}
+
 		}
 		return eo;
 		

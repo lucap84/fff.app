@@ -11,6 +11,11 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.EventStateEO;
+import it.fff.business.common.mapper.AttendanceStateMapper;
+import it.fff.business.common.mapper.EventStateMapper;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.persistence.service.TypologicalPersistenceService;
 
 public class TypologicalPersistenceServiceMock implements TypologicalPersistenceService{
@@ -54,7 +59,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<EventStateEO> getAllEventStates() throws Exception {
+	public List<EventStateEnum> getAllEventStates() throws Exception {
 		
 		List<EventStateEO> eos = new ArrayList<EventStateEO>();
 		EventStateEO eo1 = new EventStateEO();
@@ -82,11 +87,13 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		eos.add(eo3);
 		eos.add(eo4);
 		
-		return eos;
+		List<EventStateEnum> bos = EventStateMapper.getInstance().mapEOs2BOs(eos);
+		
+		return bos;
 	}
 
 	@Override
-	public List<AttendanceStateEO> getAllAttendanceStates() throws Exception {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception {
 		List<AttendanceStateEO> eos = new ArrayList<AttendanceStateEO>();
 		
 		AttendanceStateEO eo1 = new AttendanceStateEO();
@@ -108,7 +115,8 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		eos.add(eo2);
 		eos.add(eo3);
 		
-		return eos;
+		List<AttendanceStateEnum> bos = AttendanceStateMapper.getInstance().mapEOs2BOs(eos);
+		return bos;
 	}
 
 	@Override
@@ -260,6 +268,88 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bos.add(bo2);
 		bos.add(bo3);
 		return bos;
+	}
+
+	@Override
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception {
+		
+		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_1.setId(1);
+		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_2.setId(2);
+		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_3.setId(3);
+		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_4.setId(4);
+		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_5.setId(5);
+		PlaceTypeEnum.AIRPORT.setId(6);
+		PlaceTypeEnum.BUS_STATION.setId(7);
+		PlaceTypeEnum.CHURCH.setId(8);
+		PlaceTypeEnum.COLLOQUIAL_AREA.setId(9);
+		PlaceTypeEnum.COUNTRY.setId(10);
+		PlaceTypeEnum.ESTABLISHMENT.setId(11);
+		PlaceTypeEnum.FINANCE.setId(12);
+		PlaceTypeEnum.INTERSECTION.setId(13);
+		PlaceTypeEnum.LOCALITY.setId(14);
+		PlaceTypeEnum.NATURAL_FEATURE.setId(15);
+		PlaceTypeEnum.NEIGHBORHOOD.setId(16);
+		PlaceTypeEnum.PARK.setId(17);
+		PlaceTypeEnum.PLACE_OF_WORSHIP.setId(18);
+		PlaceTypeEnum.POINT_OF_INTEREST.setId(19);
+		PlaceTypeEnum.POLITICAL.setId(20);
+		PlaceTypeEnum.POST_OFFICE.setId(21);
+		PlaceTypeEnum.POSTAL_CODE.setId(22);
+		PlaceTypeEnum.PREMISE.setId(23);
+		PlaceTypeEnum.ROUTE.setId(24);
+		PlaceTypeEnum.STREET_ADDRESS.setId(25);
+		PlaceTypeEnum.SUBLOCALITY.setId(26);
+		PlaceTypeEnum.SUBLOCALITY_LEVEL_1.setId(27);
+		PlaceTypeEnum.SUBLOCALITY_LEVEL_2.setId(28);
+		PlaceTypeEnum.SUBLOCALITY_LEVEL_3.setId(29);
+		PlaceTypeEnum.SUBLOCALITY_LEVEL_4.setId(30);
+		PlaceTypeEnum.SUBLOCALITY_LEVEL_5.setId(31);
+		PlaceTypeEnum.SUBPREMISE.setId(32);
+		PlaceTypeEnum.SUBWAY_STATION.setId(33);
+		PlaceTypeEnum.TRAIN_STATION.setId(34);
+		PlaceTypeEnum.TRANSIT_STATION.setId(35);
+		PlaceTypeEnum.UNKNOW.setId(36);
+		
+		List<PlaceTypeEnum> placeTypes = new ArrayList<PlaceTypeEnum>();
+		
+		placeTypes.add(PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_1);
+		placeTypes.add(PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_2);
+		placeTypes.add(PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_3);
+		placeTypes.add(PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_4);
+		placeTypes.add(PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_5);
+		placeTypes.add(PlaceTypeEnum.AIRPORT);
+		placeTypes.add(PlaceTypeEnum.BUS_STATION);
+		placeTypes.add(PlaceTypeEnum.CHURCH);
+		placeTypes.add(PlaceTypeEnum.COLLOQUIAL_AREA);
+		placeTypes.add(PlaceTypeEnum.COUNTRY);
+		placeTypes.add(PlaceTypeEnum.ESTABLISHMENT);
+		placeTypes.add(PlaceTypeEnum.FINANCE);
+		placeTypes.add(PlaceTypeEnum.INTERSECTION);
+		placeTypes.add(PlaceTypeEnum.LOCALITY);
+		placeTypes.add(PlaceTypeEnum.NATURAL_FEATURE);
+		placeTypes.add(PlaceTypeEnum.NEIGHBORHOOD);
+		placeTypes.add(PlaceTypeEnum.PARK);
+		placeTypes.add(PlaceTypeEnum.PLACE_OF_WORSHIP);
+		placeTypes.add(PlaceTypeEnum.POINT_OF_INTEREST);
+		placeTypes.add(PlaceTypeEnum.POLITICAL);
+		placeTypes.add(PlaceTypeEnum.POST_OFFICE);
+		placeTypes.add(PlaceTypeEnum.POSTAL_CODE);
+		placeTypes.add(PlaceTypeEnum.PREMISE);
+		placeTypes.add(PlaceTypeEnum.ROUTE);
+		placeTypes.add(PlaceTypeEnum.STREET_ADDRESS);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY_LEVEL_1);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY_LEVEL_2);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY_LEVEL_3);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY_LEVEL_4);
+		placeTypes.add(PlaceTypeEnum.SUBLOCALITY_LEVEL_5);
+		placeTypes.add(PlaceTypeEnum.SUBPREMISE);
+		placeTypes.add(PlaceTypeEnum.SUBWAY_STATION);
+		placeTypes.add(PlaceTypeEnum.TRAIN_STATION);
+		placeTypes.add(PlaceTypeEnum.TRANSIT_STATION);
+		placeTypes.add(PlaceTypeEnum.UNKNOW);
+		
+		return placeTypes;
 	}
 
 }

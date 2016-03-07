@@ -3,6 +3,8 @@ package it.fff.clientserver.common.dto;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
+
 @XmlRootElement
 public class PlaceDTO extends DataTransferObject {
 	
@@ -16,7 +18,7 @@ public class PlaceDTO extends DataTransferObject {
 	private String civico;
 	private String cap;
 	private CityDTO city;
-	private PlaceTypeDTO placeType;
+	private PlaceTypeEnum placeType;
 	
 	@XmlElement public int getId() {
 		return id;
@@ -66,10 +68,10 @@ public class PlaceDTO extends DataTransferObject {
 	public void setCity(CityDTO city) {
 		this.city = city;
 	}
-	@XmlElement public PlaceTypeDTO getPlaceType() {
+	@XmlElement public PlaceTypeEnum getPlaceType() {
 		return placeType;
 	}
-	public void setPlaceType(PlaceTypeDTO placeType) {
+	public void setPlaceType(PlaceTypeEnum placeType) {
 		this.placeType = placeType;
 	}
 }

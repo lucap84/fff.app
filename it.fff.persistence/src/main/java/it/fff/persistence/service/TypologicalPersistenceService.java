@@ -9,15 +9,17 @@ import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.eo.AttendanceStateEO;
-import it.fff.business.common.eo.EventStateEO;
+import it.fff.clientserver.common.enums.AttendanceStateEnum;
+import it.fff.clientserver.common.enums.EventStateEnum;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 
 public interface TypologicalPersistenceService extends PersistenceService {
 
 	public List<EventCategoryBO> getAllEventCategories() throws Exception;
 
-	public List<EventStateEO> getAllEventStates() throws Exception;
+	public List<EventStateEnum> getAllEventStates() throws Exception;
 
-	public List<AttendanceStateEO> getAllAttendanceStates() throws Exception;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception;
 
 	public List<MessageStandardBO> getAllStandardMessages() throws Exception;
 
@@ -28,5 +30,7 @@ public interface TypologicalPersistenceService extends PersistenceService {
 	public List<LanguageBO> getAllLanguages() throws Exception;
 
 	public List<NationBO> getAllNations() throws Exception;
+	
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception;
 
 }

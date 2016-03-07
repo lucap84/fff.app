@@ -1,12 +1,13 @@
 package it.fff.business.common.bo;
 
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 
 public class PlaceBO implements BusinessObject {
 
 	private int id;
 	private String placeKey;
 	private String nome;
-	private String route;
+	private String addressRoute;
 	private String civico;
 	private double gpsLat;
 	private double gpsLong;
@@ -14,7 +15,7 @@ public class PlaceBO implements BusinessObject {
 	private String dataCreazione;
 	private String dataAggiornamento;	
 	private CityBO city;
-	private PlaceTypeBO placeType;
+	private PlaceTypeEnum placeType;
 	
 	public int getId() {
 		return id;
@@ -34,11 +35,11 @@ public class PlaceBO implements BusinessObject {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getRoute() {
-		return route;
+	public String getAddressRoute() {
+		return addressRoute;
 	}
-	public void setRoute(String route) {
-		this.route = route;
+	public void setAddressRoute(String addressRoute) {
+		this.addressRoute = addressRoute;
 	}
 	public String getCivico() {
 		return civico;
@@ -82,10 +83,10 @@ public class PlaceBO implements BusinessObject {
 	public void setCity(CityBO city) {
 		this.city = city;
 	}
-	public PlaceTypeBO getPlaceType() {
+	public PlaceTypeEnum getPlaceType() {
 		return placeType;
 	}
-	public void setPlaceType(PlaceTypeBO placeType) {
+	public void setPlaceType(PlaceTypeEnum placeType) {
 		this.placeType = placeType;
 	}
 

@@ -304,11 +304,11 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			throw persistenceException;			
 		}
 		
-		int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_TTL));
 		
 		boolean flokkerPlacesAreValid = false;
 		
 		if(bos!=null && bos.size()>0){
+			int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_TTL));
 			flokkerPlacesAreValid = true;
 			for (PlaceBO placeBO : bos) {
 				String dataAggiornamento = placeBO.getDataAggiornamento();
@@ -599,18 +599,14 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<AttendanceStateEnum> bos = null;
-		List<AttendanceStateEO> eos = null;
 		try {
-			eos = typologicalPersistenceService.getAllAttendanceStates();
+			bos = typologicalPersistenceService.getAllAttendanceStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
-		
-		AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
-		bos = attendanceStateMapper.mapEOs2BOs(eos);
 		
 		return bos;
 	}
@@ -620,18 +616,14 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService)PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
 		
 		List<EventStateEnum> bos = null;
-		List<EventStateEO> eos = null;
 		try {
-			eos = typologicalPersistenceService.getAllEventStates();
+			bos = typologicalPersistenceService.getAllEventStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;	
 		}
-		
-		EventStateMapper eventStateMapper = EventStateMapper.getInstance();
-		bos = eventStateMapper.mapEOs2BOs(eos);
 		
 		return bos;
 	}

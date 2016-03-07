@@ -78,6 +78,7 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 		AttendanceStateEnum bo = AttendanceStateEnum.UNKNOW;
 		if(eo!=null && isInitialized(eo)){
 			bo = AttendanceStateEnum.valueOf(eo.getNome());
+			bo.setId(eo.getId());
 		}
 		else{
 			bo = AttendanceStateEnum.UNKNOW;

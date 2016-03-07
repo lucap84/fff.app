@@ -6,7 +6,7 @@ import java.util.List;
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
-import it.fff.business.common.bo.PlaceTypeBO;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.external.service.PlacesExternalService;
 
 public class PlacesExternalServiceMock implements PlacesExternalService {
@@ -15,11 +15,9 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 	public List<PlaceBO> getPlacesByDescription(String description) throws Exception {
 		PlaceBO bo1 = new PlaceBO();
 		bo1.setId(1);
-		bo1.setNome("Chiringuito");
+		bo1.setNome("El Chiringuito Libre");
 		
-		PlaceTypeBO placeType = new PlaceTypeBO();
-		placeType.setId(1);
-		placeType.setNome("point of interest");
+		PlaceTypeEnum placeType = PlaceTypeEnum.UNKNOW;
 		
 		NationBO nationBO = new NationBO();
 		nationBO.setId(1);
@@ -33,13 +31,15 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		citta.setNazione(nationBO);
 		
 		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
-		bo1.setGpsLat(1.234);
-		bo1.setGpsLong(1.456);
-		bo1.setRoute("Via di prova");
-		bo1.setCivico("22");
-		bo1.setCap("00100");
+		bo1.setGpsLat(41.856616);
+		bo1.setGpsLong(12.476971);
+		bo1.setAddressRoute("Largo Riccardi Beato Placido");
+		bo1.setCivico("1");
+		bo1.setCap("00154");
 		bo1.setPlaceType(placeType);
 		bo1.setCity(citta);
+		bo1.setDataCreazione("2016-01-01_00-00-00");
+		bo1.setDataAggiornamento("2016-01-01_00-00-00");
 		
 		
 		
@@ -47,18 +47,18 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		bo2.setId(2);
 		bo2.setNome("Colosseo");
 		
-		PlaceTypeBO placeType2 = new PlaceTypeBO();
-		placeType2.setId(1);
-		placeType2.setNome("route");
+		PlaceTypeEnum placeType2 = PlaceTypeEnum.UNKNOW;
 		
 		bo2.setPlaceKey("l9d0sRMgU7ZhLxMRxAOFkC83j7f");
-		bo2.setGpsLat(1.44);
-		bo2.setGpsLong(1.45);
-		bo2.setRoute("Piazza del Colosseo");
+		bo2.setGpsLat(41.89021);
+		bo2.setGpsLong(12.492231);
+		bo2.setAddressRoute("Piazza del Colosseo");
 		bo2.setCivico("1");
-		bo2.setCap("00100");
+		bo2.setCap("00184");
 		bo2.setPlaceType(placeType2);
-		bo2.setCity(citta);		
+		bo2.setCity(citta);	
+		bo2.setDataCreazione("2016-01-02");
+		bo2.setDataAggiornamento("2016-01-02");		
 		
 		List<PlaceBO> places = new ArrayList<PlaceBO>();
 		places.add(bo1);
