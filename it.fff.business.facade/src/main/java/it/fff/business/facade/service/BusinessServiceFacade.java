@@ -81,4 +81,6 @@ public interface BusinessServiceFacade {
 
 	public EmailInfoDTO isExistingEmail(String email) throws BusinessException;
 
+	public CityDTO getCityByName(String cityName, String nationCode) throws BusinessException;
+
 }

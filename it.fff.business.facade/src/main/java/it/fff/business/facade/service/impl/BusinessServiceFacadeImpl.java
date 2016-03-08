@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
@@ -26,6 +27,7 @@ import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.AttendanceStateMapper;
+import it.fff.business.common.mapper.CityMapper;
 import it.fff.business.common.mapper.CustomMapper;
 import it.fff.business.common.mapper.EmailInfoMapper;
 import it.fff.business.common.mapper.EventCategoryMapper;
@@ -766,6 +768,23 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		resultDTO = EmailInfoMapper.getInstance().mapBO2DTO(resultBO);
+		return resultDTO;
+	}
+
+	@Override
+	public CityDTO getCityByName(String cityName, String nationKey) throws BusinessException {
+		PlacesBusinessService placesBusinessService = (PlacesBusinessService)BusinessServiceProvider.getBusinessService("placesBusinessService");
+		
+		CityDTO resultDTO = null;
+		CityBO resultBO = null;
+		try {
+			resultBO = placesBusinessService.getCityByName(cityName, nationKey);
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETCITY_BY_NAME);
+		}
+		
+		resultDTO = CityMapper.getInstance().mapBO2DTO(resultBO);
 		return resultDTO;
 	}
 

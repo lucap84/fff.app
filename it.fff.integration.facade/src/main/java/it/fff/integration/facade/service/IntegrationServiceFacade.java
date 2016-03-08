@@ -5,6 +5,7 @@ import java.util.Map;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
@@ -96,6 +97,8 @@ public interface IntegrationServiceFacade {
 	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException;
 
 	public EmailInfoBO isExistingEmail(String email) throws IntegrationException;
+
+	public CityBO getCityByName(String cityName, String nationKey) throws IntegrationException;
 	
 
 }

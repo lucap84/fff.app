@@ -3,6 +3,7 @@ package it.fff.business.service.impl;
 import java.util.Collections;
 import java.util.List;
 
+import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.comparator.PlaceComparator;
@@ -36,6 +37,12 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 	@Override
 	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.setCurrentPosition(userId, eventId, placeBO);
+		return bo;
+	}
+
+	@Override
+	public CityBO getCityByName(String cityName, String nationKey) throws IntegrationException {
+		CityBO bo = integrationFacade.getCityByName(cityName, nationKey);
 		return bo;
 	}	
 	

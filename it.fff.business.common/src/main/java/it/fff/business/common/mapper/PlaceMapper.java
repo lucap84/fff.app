@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
+import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.clientserver.common.dto.PlaceDTO;
 
 public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
@@ -101,6 +102,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			eo.setGpsLatIfNotEmpty(bo.getGpsLat());
 			eo.setGpsLongIfNotEmpty(bo.getGpsLong());
 			eo.setCapIfNotEmpty(bo.getCap());
+			eo.setPlaceKey(bo.getPlaceKey());
+			
+			eo.setPlaceType(PlaceTypeMapper.getInstance().mergeBO2EO(bo.getPlaceType(), null, session));
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			eo.setCity(cityMapper.mergeBO2EO(bo.getCity(), eo.getCity(), session));

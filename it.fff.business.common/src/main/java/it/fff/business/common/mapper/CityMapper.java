@@ -11,6 +11,7 @@ import it.fff.business.common.eo.AchievementTypeEO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.CityDTO;
 
@@ -64,6 +65,14 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 				//Quindi non ho setter sul EO
 				eo = (CityEO)session.load(CityEO.class, bo.getId());
 			}
+			else{
+				eo = new CityEO();
+				eo.setNome(bo.getNome());
+				
+				NationEO nationEO = NationMapper.getInstance().mergeBO2EO(bo.getNazione(), null, session);
+				eo.setNazione(nationEO);
+			}
+			
 
 		}
 		return eo;

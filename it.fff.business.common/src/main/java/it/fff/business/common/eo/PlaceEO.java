@@ -1,5 +1,6 @@
 package it.fff.business.common.eo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 
 @Entity
 @Table(name = "luogo")
@@ -49,6 +54,7 @@ public class PlaceEO extends EntityObject {
 	private String dataAggiornamento;
 	
 	@ManyToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "Citta_ID", nullable = false)
 	private CityEO city;
 
@@ -154,6 +160,9 @@ public class PlaceEO extends EntityObject {
 		if(!isEmpty(cap))this.cap = cap;
 	}
 	public Set<KeywordEO> getKeywords() {
+		if(keywords==null){
+			keywords = new HashSet<KeywordEO>();
+		}
 		return keywords;
 	}
 	public void setKeywords(Set<KeywordEO> keywords) {

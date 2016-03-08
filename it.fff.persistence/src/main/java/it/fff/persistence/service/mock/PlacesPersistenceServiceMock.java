@@ -89,4 +89,30 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		return resultBO;
 	}
 
+	@Override
+	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+		CityBO c = new CityBO();
+		c.setId(1);
+		c.setNome(cityName);
+		
+		NationBO n = new NationBO();
+		n.setId(1);
+		n.setNome("NomeNazione");
+		n.setInternationalCode(nationCode);
+		n.setInternationalKey("1");
+		
+		c.setNazione(n);
+		return c;
+	}
+
+	@Override
+	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
+		NationBO n = new NationBO();
+		n.setId(1);
+		n.setNome("NomeNazione");
+		n.setInternationalCode(nationCode);
+		n.setInternationalKey("1");		
+		return n;
+	}
+
 }

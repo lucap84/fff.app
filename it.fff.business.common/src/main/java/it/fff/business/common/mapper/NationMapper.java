@@ -5,16 +5,17 @@ import static org.hibernate.Hibernate.isInitialized;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.NationBO;
-import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.NationEO;
 import it.fff.clientserver.common.dto.NationDTO;
 
 public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	
+	private static final Logger logger = LogManager.getLogger(NationMapper.class);
 	private static NationMapper mapper;
 	
 	private NationMapper(){
@@ -50,13 +51,13 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 				//Quindi non ho setter sul EO
 				eo = (NationEO)session.load(NationEO.class, bo.getId());
 			}
-//			if(eo==null){
-//				eo= new NationEO();
-//				eo.setIdIfNotEmpty(bo.getId());
-//				eo.setNomeIfNotEmpty(bo.getNome());
-//				eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
-//				eo.setInternationalCodeIfNotEmpty(bo.getInternationalCode());
-//			}
+			if(eo==null){
+				logger.debug("ho ripristinato la creazione della entity NationEO in caso non esista su DB");
+				eo= new NationEO();
+				eo.setNomeIfNotEmpty(bo.getNome());
+				eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
+				eo.setInternationalCodeIfNotEmpty(bo.getInternationalCode());
+			}
 		}
 		return eo;
 	}
@@ -69,6 +70,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
 			bo.setInternationalKey(eo.getInternationalKey());
+			bo.setInternationalCode(eo.getInternationalCode());
 		}
 		return bo;
 	}

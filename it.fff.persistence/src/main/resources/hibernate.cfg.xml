@@ -15,6 +15,7 @@
         -->
 
         <!-- openshift (127.6.253.2) 
+        NOTA: non e' possibile connettersi da remoto semplicemente con la URL dato che serve autenticazione con scambio di chiavi
         <property name="hibernate.connection.url">jdbc:mysql://127.6.253.2:3306/jbossews2tomcat7</property>
         <property name="hibernate.connection.username">businapp</property>
         <property name="hibernate.connection.password">businpsw</property>
@@ -25,7 +26,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">admin</property>
         -->
-        <property name="hibernate.connection.url">jdbc:mysql://127.6.253.2:3306/jbossews2tomcat7</property>
+        <property name="hibernate.connection.url">jdbc:mysql://85.10.205.173:3306/flokker</property>
         <property name="hibernate.connection.username">businapp</property>
         <property name="hibernate.connection.password">businpsw</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
@@ -47,6 +48,7 @@
         <mapping class="it.fff.business.common.eo.EventCategoryEO" />
         <mapping class="it.fff.business.common.eo.EventEO" />
 		<mapping class="it.fff.business.common.eo.EventStateEO" />
+		<mapping class="it.fff.business.common.eo.KeywordEO" />
         <mapping class="it.fff.business.common.eo.LanguageEO" />
         <mapping class="it.fff.business.common.eo.MessageEO" />
         <mapping class="it.fff.business.common.eo.MessageStandardEO" />

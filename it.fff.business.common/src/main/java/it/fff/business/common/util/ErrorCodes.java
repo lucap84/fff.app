@@ -59,5 +59,6 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_CANCELEVENT = "2025";
 	public static final String ERR_BUSIN_RESET_PASSWORD = "2026";
 	public static final String ERR_BUSIN_EXISTING_MAIL = "2027";
+	public static final String ERR_BUSIN_GETCITY_BY_NAME = "2028";
 
 }

@@ -10,10 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.*;
-import it.fff.business.common.eo.AttendanceStateEO;
-import it.fff.business.common.eo.EventStateEO;
-import it.fff.business.common.mapper.AttendanceStateMapper;
-import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.ErrorCodes;
@@ -696,6 +692,25 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		return resultBO;
 	}
 	
+
+	@Override
+	public CityBO getCityByName(String cityName, String nationCode) throws IntegrationException {
+		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
+		
+		CityBO resultBO = null;
+		try{
+			resultBO = placesPersistenceService.getCityByName(cityName, nationCode);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+
+		return resultBO;
+	}	
+
 	private boolean isPlaceStillValid(String date, int expirationDays) {
 		Date cachedDate = null;
 		try {
@@ -709,10 +724,9 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		return diffDays<=expirationDays;
 	}
-	
-	private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-	    long diffInMillies = date2.getTime() - date1.getTime();
-	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-	}	
 
+	private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		long diffInMillies = date2.getTime() - date1.getTime();
+		return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
 }

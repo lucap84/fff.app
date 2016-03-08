@@ -12,13 +12,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import it.fff.business.common.bo.CityBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.eo.AttendanceEO;
-import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.KeywordEO;
+import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.PlaceEO;
+import it.fff.business.common.mapper.CityMapper;
 import it.fff.business.common.mapper.KeywordMapper;
+import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
@@ -48,11 +52,14 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	query.setParameter("token",token);
 	    	
 	    	KeywordEO keyword = (KeywordEO)query.uniqueResult();
-	    	Set<PlaceEO> relatedPlaces = keyword.getRelatedPlaces();
+	    	
+	    	if(keyword!=null){
+	    		Set<PlaceEO> relatedPlaces = keyword.getRelatedPlaces();
+	    		bos = PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces));
+	    	}
 	    	
 	    	tx.commit();
 
-	    	bos = PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces));
 	    	
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
@@ -99,9 +106,34 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	PlaceEO placeEO = (PlaceEO)querySelectPlace.uniqueResult();
 	    	
 	    	if(placeEO==null){
-	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, null, session);
-	    		placeEO.getKeywords().add(keywordEO);
 	    		
+	    		//verifico se almeno la citta relativa esiste
+	    		String cityName = placeBO.getCity().getNome();
+	    		String nationInternationalCode = placeBO.getCity().getNazione().getInternationalCode();
+	    		
+	    		CityBO existingCityBO = null;
+	    		NationBO existingNationBO = null;
+	    		
+	    		existingCityBO = this.getCityByName(cityName, nationInternationalCode);
+	    		
+	    		if(existingCityBO==null){
+	    			existingNationBO = this.getNationByInternationalCode(nationInternationalCode);
+	    			
+	    			if(existingNationBO==null){
+	    				//non esiste ne' citta ne' nazione verranno creati entrambi
+	    			}
+	    			else{
+	    				//Se la citta quindi non esiste ma in caso esista almeno la Nazione la imposta sulla nuova citta'
+	    				placeBO.getCity().setNazione(existingNationBO);
+	    			}
+	    			
+	    		}else{
+	    			placeBO.setCity(existingCityBO);
+	    		}
+
+	    		//creo l'oggetto Entity: se la citta esisteva sara' ora managed e mappata dentro al place (insieme alla Nation)
+	    		//se la citta' non esisteva, avra' tutti i dati e verra' salvata in cascade
+	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, null, session);
 	    		placeId = (Integer)session.save(placeEO);
 	    	}
 	    	else{
@@ -134,5 +166,66 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 		
 	    return result;
 	}
+
+	@Override
+	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+		CityBO bo = null;
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	      try{
+	    	tx = session.beginTransaction();
+			
+	    	String hqlSelect = "FROM CityEO c WHERE c.nome = :cityName AND c.nazione.internationalCode = :nationCode";
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("cityName",cityName);
+	    	query.setParameter("nationCode",nationCode);
+	    	
+	    	CityEO cityEO = (CityEO)query.uniqueResult();
+	    	
+	    	tx.commit();
+
+	    	bo = CityMapper.getInstance().mapEO2BO(cityEO);
+	    	
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getCityByName() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bo;
+	}
+	
+	@Override
+	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
+		NationBO bo = null;
+
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	      try{
+	    	tx = session.beginTransaction();
+			
+	    	String hqlSelect = "FROM NationEO n WHERE n.internationalCode = :nationCode";
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("nationCode",nationCode);
+	    	
+	    	NationEO nationEO = (NationEO)query.uniqueResult();
+	    	
+	    	tx.commit();
+
+	    	bo = NationMapper.getInstance().mapEO2BO(nationEO);
+	    	
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getNationByInternationalKey() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bo;
+	}	
 
 }

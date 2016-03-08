@@ -59,9 +59,9 @@ public class PlaceService extends ApplicationService{
 	@Produces(MediaType.APPLICATION_JSON)
 	public CityDTO getCityByNameJSON(@Context HttpServletRequest request,
 													 @PathParam("cityName") String cityName,
-											  		 @QueryParam("nationKey") String nationKey)
+											  		 @QueryParam("nationCode") String nationCode)
 											  		 throws BusinessException {
-		return this.getCityByName(request, cityName, nationKey);
+		return this.getCityByName(request, cityName, nationCode);
 	}
 	@GET
 	@Path("cities/{cityName}/xml")
@@ -98,7 +98,14 @@ public class PlaceService extends ApplicationService{
 		return places;
 	}
 	
-	private CityDTO getCityByName(HttpServletRequest request, String cityName, String nationKey) {
-		return new CityDTO();
+	private CityDTO getCityByName(HttpServletRequest request, String cityName, String nationCode) {
+		CityDTO city = null;
+		try {
+			city = businessServiceFacade.getCityByName(cityName, nationCode);
+		} catch (BusinessException e) {
+			city = new CityDTO();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return city;
 	}	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
 
@@ -86,8 +87,16 @@ public class PlaceTypeMapper implements Mapper<PlaceTypeEnum,PlaceTypeEnum,Place
 
 	@Override
 	public PlaceTypeEO mergeBO2EO(PlaceTypeEnum bo, PlaceTypeEO eo, Session session) {
-		// TODO Auto-generated method stub
-		return null;
+		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (PlaceTypeEO)session.load(PlaceTypeEO.class, bo.getId());
+			}
+			if(eo==null){
+				eo = new PlaceTypeEO();
+			}
+			eo.setNome(bo.name());
+		}
+		return eo;
 	}
 
 	@Override

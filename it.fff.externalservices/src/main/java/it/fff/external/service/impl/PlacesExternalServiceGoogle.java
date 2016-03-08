@@ -11,7 +11,6 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.GeocodingApiRequest;
 import com.google.maps.model.AddressComponent;
-import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
 
@@ -139,7 +138,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				
 				NationBO nazioneBO = new NationBO();
 				nazioneBO.setNome(gNazioneLongName);
-				nazioneBO.setInternationalKey(gNazioneShortName);
+				nazioneBO.setInternationalCode(gNazioneShortName);
 				
 				cittaBO.setNazione(nazioneBO);
 				bo.setCity(cittaBO);
