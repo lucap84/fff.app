@@ -1,12 +1,12 @@
 package it.fff.business.common.bo;
 
-
 public class NationBO implements BusinessObject {
 
 	private int	id;
 	private String nome;
 	private String internationalKey;
-	private String internationalCode;
+	private String internationalCodeAplha2;
+	private String internationalCodeAplha3;
 	
 	public int getId() {
 		return id;
@@ -26,12 +26,17 @@ public class NationBO implements BusinessObject {
 	public void setInternationalKey(String internationalKey) {
 		this.internationalKey = internationalKey;
 	}
-	public String getInternationalCode() {
-		return internationalCode;
+	public String getInternationalCodeAplha2() {
+		return internationalCodeAplha2;
 	}
-	public void setInternationalCode(String internationalCode) {
-		this.internationalCode = internationalCode;
+	public void setInternationalCodeAplha2(String internationalCodeAplha2) {
+		this.internationalCodeAplha2 = internationalCodeAplha2;
 	}
-	
+	public String getInternationalCodeAplha3() {
+		return internationalCodeAplha3;
+	}
+	public void setInternationalCodeAplha3(String internationalCodeAplha3) {
+		this.internationalCodeAplha3 = internationalCodeAplha3;
+	}
 	
 }

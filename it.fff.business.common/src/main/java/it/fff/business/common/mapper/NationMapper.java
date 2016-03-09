@@ -56,7 +56,8 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 				eo= new NationEO();
 				eo.setNomeIfNotEmpty(bo.getNome());
 				eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
-				eo.setInternationalCodeIfNotEmpty(bo.getInternationalCode());
+				eo.setInternationalCodeAlpha2IfNotEmpty(bo.getInternationalCodeAplha2());
+				eo.setInternationalCodeAlpha3IfNotEmpty(bo.getInternationalCodeAplha3());
 			}
 		}
 		return eo;
@@ -70,7 +71,8 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 			bo.setId(eo.getId());
 			bo.setNome(eo.getNome());
 			bo.setInternationalKey(eo.getInternationalKey());
-			bo.setInternationalCode(eo.getInternationalCode());
+			bo.setInternationalCodeAplha2(eo.getInternationalCodeAplha2());
+			bo.setInternationalCodeAplha3(eo.getInternationalCodeAplha3());
 		}
 		return bo;
 	}

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class Constants {
 	
-	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 			
 	/*
 	 * Security constants

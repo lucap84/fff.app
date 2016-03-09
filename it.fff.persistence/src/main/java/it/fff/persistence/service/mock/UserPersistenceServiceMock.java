@@ -102,7 +102,9 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		nationBO.setId(1);
 		nationBO.setNome("Italia");
 		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCode("ITA");
+		nationBO.setInternationalCodeAplha2("IT");
+		nationBO.setInternationalCodeAplha3("ITA");
+
 		
 		bo.setNazionalita(nationBO);
 		

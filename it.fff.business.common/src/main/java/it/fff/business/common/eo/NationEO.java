@@ -21,8 +21,11 @@ public class NationEO extends EntityObject {
 	@Column(name = "International_Key")
 	private String internationalKey;
 	
-	@Column(name = "International_Code")
-	private String internationalCode;
+	@Column(name = "ISO_31661_aplha2")
+	private String internationalCodeAplha2;
+	
+	@Column(name = "ISO_31661_aplha3")
+	private String internationalCodeAplha3;
 
 	public Integer getId() {
 		return id;
@@ -48,13 +51,21 @@ public class NationEO extends EntityObject {
 		this.internationalKey = internationalKey;
 	}
 	
-	
-	public String getInternationalCode() {
-		return internationalCode;
+
+	public String getInternationalCodeAplha2() {
+		return internationalCodeAplha2;
 	}
 
-	public void setInternationalCode(String internationalCode) {
-		this.internationalCode = internationalCode;
+	public void setInternationalCodeAplha2(String internationalCodeAplha2) {
+		this.internationalCodeAplha2 = internationalCodeAplha2;
+	}
+
+	public String getInternationalCodeAplha3() {
+		return internationalCodeAplha3;
+	}
+
+	public void setInternationalCodeAplha3(String internationalCodeAplha3) {
+		this.internationalCodeAplha3 = internationalCodeAplha3;
 	}
 
 	/*
@@ -70,9 +81,13 @@ public class NationEO extends EntityObject {
 	public void setInternationalKeyIfNotEmpty(String internationalKey) {
 		if(!isEmpty(internationalKey)) this.internationalKey = internationalKey;
 	}
-	public void setInternationalCodeIfNotEmpty(String internationalCode) {
-		if(!isEmpty(internationalCode)) this.internationalCode = internationalCode;
+	public void setInternationalCodeAlpha2IfNotEmpty(String internationalCodeAplha2) {
+		if(!isEmpty(internationalCodeAplha2)) this.internationalCodeAplha2 = internationalCodeAplha2;
 	}
+	public void setInternationalCodeAlpha3IfNotEmpty(String internationalCodeAplha3) {
+		if(!isEmpty(internationalCodeAplha3)) this.internationalCodeAplha3 = internationalCodeAplha3;
+	}	
+	
 	
 	
 }

@@ -138,8 +138,14 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				
 				NationBO nazioneBO = new NationBO();
 				nazioneBO.setNome(gNazioneLongName);
-				nazioneBO.setInternationalCode(gNazioneShortName);
+				if(gNazioneShortName!=null && gNazioneShortName.length()==2){
+					nazioneBO.setInternationalCodeAplha2(gNazioneShortName);
+				}
+				if(gNazioneShortName!=null && gNazioneShortName.length()==3){
+					nazioneBO.setInternationalCodeAplha3(gNazioneShortName);
+				}
 				
+
 				cittaBO.setNazione(nazioneBO);
 				bo.setCity(cittaBO);
 				

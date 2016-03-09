@@ -45,7 +45,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		nazioneBO1.setId(1);
 		nazioneBO1.setNome("Italia");
 		nazioneBO1.setInternationalKey("380");
-		nazioneBO1.setInternationalCode("ITA");
+		nazioneBO1.setInternationalCodeAplha2("IT");
+		nazioneBO1.setInternationalCodeAplha3("ITA");
 		
 		CityBO cityBo1 = new CityBO();
 		cityBo1.setId(1);
@@ -182,7 +183,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		nazioneBO1.setId(1);
 		nazioneBO1.setNome("Italia");
 		nazioneBO1.setInternationalKey("380");
-		nazioneBO1.setInternationalCode("ITA");
+		nazioneBO1.setInternationalCodeAplha2("IT");
+		nazioneBO1.setInternationalCodeAplha3("ITA");
 		
 		CityBO cityBo1 = new CityBO();
 		cityBo1.setId(1);
@@ -228,7 +230,8 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		nationBO2.setId(3);
 		nationBO2.setNome("Francia");
 		nationBO2.setInternationalKey("250");
-		nationBO2.setInternationalCode("FRA");
+		nazioneBO1.setInternationalCodeAplha2("FR");
+		nazioneBO1.setInternationalCodeAplha3("FRA");
 		
 		CityBO citybo2 = new CityBO();
 		citybo2.setId(2);

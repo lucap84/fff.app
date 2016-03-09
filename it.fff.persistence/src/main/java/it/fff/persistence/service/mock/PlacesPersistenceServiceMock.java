@@ -36,7 +36,8 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		nationBO.setId(1);
 		nationBO.setNome("Italia");
 		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCode("ITA");
+		nationBO.setInternationalCodeAplha2("IT");
+		nationBO.setInternationalCodeAplha3("ITA");
 		
 		CityBO citta = new CityBO();
 		citta.setId(1);
@@ -98,7 +99,12 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		NationBO n = new NationBO();
 		n.setId(1);
 		n.setNome("NomeNazione");
-		n.setInternationalCode(nationCode);
+		if(nationCode!=null && nationCode.length()==2){
+			n.setInternationalCodeAplha2("IT");
+		}
+		if(nationCode!=null && nationCode.length()==3){
+			n.setInternationalCodeAplha3("ITA");
+		}
 		n.setInternationalKey("1");
 		
 		c.setNazione(n);
@@ -110,7 +116,12 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		NationBO n = new NationBO();
 		n.setId(1);
 		n.setNome("NomeNazione");
-		n.setInternationalCode(nationCode);
+		if(nationCode!=null && nationCode.length()==2){
+			n.setInternationalCodeAplha2("IT");
+		}
+		if(nationCode!=null && nationCode.length()==3){
+			n.setInternationalCodeAplha3("ITA");
+		}
 		n.setInternationalKey("1");		
 		return n;
 	}

@@ -250,19 +250,24 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo1.setId(1);
 		bo1.setNome("Italia");
 		bo1.setInternationalKey("380");
-		bo1.setInternationalCode("ITA");
+		bo1.setInternationalCodeAplha2("IT");
+		bo1.setInternationalCodeAplha3("ITA");
 		
 		NationBO bo2 = new NationBO();
 		bo2.setId(2);
 		bo2.setNome("Regno Unito");
 		bo2.setInternationalKey("826");
-		bo2.setInternationalCode("GBR");
+		bo1.setInternationalCodeAplha2("BR");
+		bo1.setInternationalCodeAplha3("GBR");
+
 		
 		NationBO bo3 = new NationBO();
 		bo3.setId(3);
 		bo3.setNome("Francia");
 		bo3.setInternationalKey("250");
-		bo3.setInternationalCode("FRA");
+		bo1.setInternationalCodeAplha2("FR");
+		bo1.setInternationalCodeAplha3("FRA");
+
 		
 		bos.add(bo1);
 		bos.add(bo2);

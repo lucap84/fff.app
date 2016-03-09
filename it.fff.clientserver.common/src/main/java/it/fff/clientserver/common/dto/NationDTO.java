@@ -11,7 +11,8 @@ public class NationDTO extends DataTransferObject{
 	private int	id;
 	private String nome;
 	private String internationalKey;
-	private String internationalCode;
+	private String internationalCodeAplha2;
+	private String internationalCodeAplha3;
 
 	@XmlElement public int getId() {
 		return id;
@@ -31,11 +32,18 @@ public class NationDTO extends DataTransferObject{
 	public void setInternationalKey(String internationalKey) {
 		this.internationalKey = internationalKey;
 	}
-	@XmlElement public String getInternationalCode() {
-		return internationalCode;
+	@XmlElement public String getInternationalCodeAplha2() {
+		return internationalCodeAplha2;
 	}
-	public void setInternationalCode(String internationalCode) {
-		this.internationalCode = internationalCode;
+	public void setInternationalCodeAplha2(String internationalCodeAplha2) {
+		this.internationalCodeAplha2 = internationalCodeAplha2;
 	}
+	@XmlElement public String getInternationalCodeAplha3() {
+		return internationalCodeAplha3;
+	}
+	public void setInternationalCodeAplha3(String internationalCodeAplha3) {
+		this.internationalCodeAplha3 = internationalCodeAplha3;
+	}
+
 	
 }

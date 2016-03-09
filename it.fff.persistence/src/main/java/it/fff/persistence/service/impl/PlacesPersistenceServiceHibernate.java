@@ -109,18 +109,21 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    		
 	    		//verifico se almeno la citta relativa esiste
 	    		String cityName = placeBO.getCity().getNome();
-	    		String nationInternationalCode = placeBO.getCity().getNazione().getInternationalCode();
+	    		String nationCode = placeBO.getCity().getNazione().getInternationalCodeAplha3();
+	    		if(nationCode==null || "".equals(nationCode)){
+	    			nationCode = placeBO.getCity().getNazione().getInternationalCodeAplha2();
+	    		}
 	    		
 	    		CityBO existingCityBO = null;
 	    		NationBO existingNationBO = null;
 	    		
-	    		existingCityBO = this.getCityByName(cityName, nationInternationalCode);
+	    		existingCityBO = this.getCityByName(cityName, nationCode);
 	    		
 	    		if(existingCityBO==null){
-	    			existingNationBO = this.getNationByInternationalCode(nationInternationalCode);
+	    			existingNationBO = this.getNationByInternationalCode(nationCode);
 	    			
 	    			if(existingNationBO==null){
-	    				//non esiste ne' citta ne' nazione verranno creati entrambi
+	    				logger.debug("non esiste ne' citta ne' nazione: verranno creati entrambi");
 	    			}
 	    			else{
 	    				//Se la citta quindi non esiste ma in caso esista almeno la Nazione la imposta sulla nuova citta'
@@ -151,6 +154,10 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	
 			tx.commit();
 			
+			result.setAffectedRecords(1);
+			result.setSuccess(true);
+			result.setWrittenKey(placeId);
+			
 	    }catch (HibernateException e) {
 	    	if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
@@ -160,9 +167,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }			
 	    logger.info("...Place e/o token associato salvati");
 
-		result.setAffectedRecords(1);
-		result.setSuccess(true);
-		result.setWrittenKey(placeId);
+
 		
 	    return result;
 	}
@@ -177,7 +182,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	      try{
 	    	tx = session.beginTransaction();
 			
-	    	String hqlSelect = "FROM CityEO c WHERE c.nome = :cityName AND c.nazione.internationalCode = :nationCode";
+	    	String hqlSelect = "FROM CityEO c WHERE c.nome = :cityName AND (c.nazione.internationalCodeAplha2 = :nationCode OR c.nazione.internationalCodeAplha3 = :nationCode)";
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("cityName",cityName);
 	    	query.setParameter("nationCode",nationCode);
@@ -208,7 +213,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	      try{
 	    	tx = session.beginTransaction();
 			
-	    	String hqlSelect = "FROM NationEO n WHERE n.internationalCode = :nationCode";
+	    	String hqlSelect = "FROM NationEO n WHERE (n.internationalCodeAplha2 = :nationCode OR n.internationalCodeAplha3 = :nationCode)";
 	    	Query query = session.createQuery(hqlSelect);
 	    	query.setParameter("nationCode",nationCode);
 	    	

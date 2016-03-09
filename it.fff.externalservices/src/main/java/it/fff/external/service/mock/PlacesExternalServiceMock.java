@@ -23,7 +23,8 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		nationBO.setId(1);
 		nationBO.setNome("Italia");
 		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCode("ITA");
+		nationBO.setInternationalCodeAplha2("IT");
+		nationBO.setInternationalCodeAplha3("ITA");
 		
 		CityBO citta = new CityBO();
 		citta.setId(1);
