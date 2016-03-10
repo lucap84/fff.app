@@ -8,15 +8,16 @@
   	<fff.config.folder>C:\Users\lpelosi\git\fff.app\it.fff.build</fff.config.folder>
   </properties>
   <build>
-	<resources>
+	  <resources>
 	       <resource>
-	           <directory>src/main/resources</directory>
+	           <directory>${project.basedir}/src/main/resources</directory>
 	           <excludes>
 	               <exclude>*.xml</exclude>
-	                <exclude>*.properties</exclude>
+	               <exclude>*.properties</exclude>
+	               <exclude>spring/*.xml</exclude>
 	           </excludes>
-	       </resource>
-	   </resources>  
+	       </resource>       
+	  </resources>  
 	  <plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -25,7 +26,7 @@
 			<executions>
 				<!-- COPIA I FILE DI CONFIGURAZIONE contenuti src\main\resources -->
 				<execution>
-					<id>copy-resources</id>
+					<id>copy-resources-1</id>
 					<phase>package</phase>
 					<goals>
 						<goal>copy-resources</goal>
@@ -43,6 +44,25 @@
 						</resources>
 					</configuration>
 				</execution>
+				<!-- COPIA I FILE DI CONTEXT SPRING contenuti src\main\resources\spring -->
+				<execution>
+					<id>copy-resources-2</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${fff.config.folder}\fff_configuration_files\spring</outputDirectory>
+						<resources>								
+							<resource>
+								<directory>${project.basedir}/src/main/resources/spring</directory>
+								<includes>
+									<include>*.xml</include>
+								</includes>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>				
 			</executions>				
 		</plugin>	  
 	  </plugins>

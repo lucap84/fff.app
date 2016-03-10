@@ -13,6 +13,7 @@ import com.google.maps.GeocodingApiRequest;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
@@ -27,16 +28,34 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 	private static final Logger logger = LogManager.getLogger(PlacesExternalServiceGoogle.class);
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description) throws Exception {
+	public List<PlaceBO> getPlacesByDescription(String description, double userGpsLat, double userGpsLong) throws Exception {
 		List<PlaceBO> placesBO = null;
 		
 		ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
 		String apiKEY = confProvider.getPlacesConfigProperty(Constants.PROP_GOOGLE_APIKEY);
 		int maxResultsToLoad = Integer.valueOf(confProvider.getPlacesConfigProperty(Constants.PROP_GOOGLE_MAX_RESULTS_LOADED));
+		double viewportSizeKm = Double.valueOf(confProvider.getPlacesConfigProperty(Constants.PROP_GOOGLE_VIEWPORT_DIAMETER_KM));
 		
 		GeoApiContext context = new GeoApiContext().setApiKey(apiKEY);
 		
 		GeocodingApiRequest geocodingRequest = GeocodingApi.newRequest(context);
+		/*
+		 * Restringo il campo di ricerca nell'intorno delle coordinate gps dell'utente
+		 */
+		double sideOfSquareKm= viewportSizeKm/2; //Lato del quadrato della viewport di ricerca in km
+		double sideOfSquareDegrees = Constants.ONE_KM_TO_DEGREES*sideOfSquareKm; //trasformo km in gradi 
+		
+		double southWestBound_Lat = userGpsLat-sideOfSquareDegrees;
+		double southWestBound_Long = userGpsLong-sideOfSquareDegrees;
+		double northEastBound_Lat = userGpsLat+sideOfSquareDegrees;
+		double northEastBound_Long = userGpsLong+sideOfSquareDegrees;	
+
+		LatLng southWestBound = new LatLng(southWestBound_Lat, southWestBound_Long);
+		LatLng northEastBound = new LatLng(northEastBound_Lat, northEastBound_Long);
+		
+		geocodingRequest.bounds(southWestBound, northEastBound); //imposto la finestra di ricerca nella request
+		
+		//Lancio la ricerca
 		GeocodingResult[] results = geocodingRequest.address(description).await();
 		
 		if(results!=null){
@@ -58,10 +77,13 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				String gRoute = null;
 				String gStreetAddress = null;
 				String gCivico = null;
-				String gCitta = null;
+				String gLocality = null;
 				String gRegione = null;
 				String gComuneLongName = null;
 				String gComuneShortName = null;
+				String gAdminArea3 = null;
+				String gAdminArea4 = null;
+				String gAdminArea5 = null;
 				String gNazioneLongName = null;
 				String gNazioneShortName = null;
 				String gCAP = null;
@@ -75,13 +97,16 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 						case ROUTE: gRoute = addressComponent.longName; break;	
 						case STREET_ADDRESS: gStreetAddress = addressComponent.longName; break;
 						case STREET_NUMBER: gCivico = addressComponent.longName; break;
-						case LOCALITY: gCitta = addressComponent.longName; break;
+						case LOCALITY: gLocality = addressComponent.longName; break;
 						case ADMINISTRATIVE_AREA_LEVEL_1: gRegione = addressComponent.longName; break;
 						case ADMINISTRATIVE_AREA_LEVEL_2: {
 							gComuneLongName = addressComponent.longName;
 							gComuneShortName = addressComponent.shortName;
 							break;
 						}
+						case ADMINISTRATIVE_AREA_LEVEL_3: gAdminArea3 = addressComponent.longName; break;
+						case ADMINISTRATIVE_AREA_LEVEL_4: gAdminArea4 = addressComponent.longName; break;
+						case ADMINISTRATIVE_AREA_LEVEL_5: gAdminArea5 = addressComponent.longName; break;
 						case COUNTRY: {
 							gNazioneLongName  =	addressComponent.longName;
 							gNazioneShortName = addressComponent.shortName;
@@ -105,7 +130,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				System.out.println("longitudine: "+gLong);
 				System.out.println("postal code: "+gCAP);
 				System.out.println("gAddressType: "+gAddressType);
-				System.out.println("gCitta: "+gCitta);
+				System.out.println("gLocality: "+gLocality);
 				System.out.println("gRegione: "+gRegione);
 				System.out.println("gComuneLongName: "+gComuneLongName);
 				System.out.println("gComuneShortName: "+gComuneShortName);
@@ -119,9 +144,14 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				
 				if(gStreetAddress!=null && gStreetAddress.length()>0){
 					bo.setAddressRoute(gStreetAddress);
-				}
-				else{
-					bo.setAddressRoute(gRoute);
+				} else{
+					if(gRoute!=null && gRoute.length()>0){
+						bo.setAddressRoute(gRoute);
+					} else{
+						if(gLocality!=null && gLocality.length()>0){
+							bo.setAddressRoute(gLocality);
+						}
+					}
 				}
 				bo.setCivico(gCivico);
 				bo.setGpsLat(gLat);
@@ -134,7 +164,26 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				bo.setDataAggiornamento(currentDateStr);
 				
 				CityBO cittaBO = new CityBO();
-				cittaBO.setNome(gCitta);
+				//Se la citta (LOCALITY) non e' presente nella risposta uso le administrative area, dalla piu' specifica alla meno specifica (il comune)
+				if(gLocality!=null && !"".equals(gLocality)){
+					cittaBO.setNome(gLocality);
+				} else{
+					if(gAdminArea5!=null && !"".equals(gAdminArea5)){
+						cittaBO.setNome(gAdminArea5);	
+					} else{
+						if(gAdminArea4!=null && !"".equals(gAdminArea4)){
+							cittaBO.setNome(gAdminArea4);	
+						} else{
+							if(gAdminArea3!=null && !"".equals(gAdminArea3)){
+								cittaBO.setNome(gAdminArea3);	
+							} else{
+								if(gComuneLongName!=null && !"".equals(gComuneLongName)){
+									cittaBO.setNome(gComuneLongName);	
+								}
+							}
+						}
+					}
+				}
 				
 				NationBO nazioneBO = new NationBO();
 				nazioneBO.setNome(gNazioneLongName);

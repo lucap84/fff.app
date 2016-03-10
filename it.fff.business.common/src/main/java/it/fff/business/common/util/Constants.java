@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 
 public class Constants {
 	
+	/*
+	 * Date formatter constants
+	 */
 	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 			
 	/*
@@ -48,6 +51,11 @@ public class Constants {
 	public static final String PROP_GOOGLE_PREMIUM				= "google.geocoding.accountpremium";
 	public static final String PROP_GOOGLE_TTL					= "google.geocoding.caching.ttl.days";
 	public static final String PROP_GOOGLE_MAX_RESULTS_LOADED	= "google.geocoding.maxresultsloaded";
+	public static final String PROP_GOOGLE_VIEWPORT_DIAMETER_KM	= "google.geocoding.viewport.sizekm";
+	
+	public final static double ONE_KM_TO_DEGREES = 0.0089982311916;
+	public final static double FIVE_KM_TO_DEGREES = 0.044991155958;
+	public final static double TEN_KM_TO_DEGREES = 0.089982311916;	
 	
 	
 	/*

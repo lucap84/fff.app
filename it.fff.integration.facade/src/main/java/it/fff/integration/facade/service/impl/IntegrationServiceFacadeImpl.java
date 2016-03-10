@@ -283,7 +283,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws IntegrationException {
+	public List<PlaceBO> getPlacesByDescription(String token, double userGpsLat, double userGpsLong) throws IntegrationException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		
@@ -291,7 +291,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		try{
 			//Search on FLOKKER Database
-			bos = placesPersistenceService.getPlacesByDescription(token, gpsLat, gpsLong);	
+			bos = placesPersistenceService.getPlacesByDescription(token, userGpsLat, userGpsLong);	
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -323,7 +323,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		else {//Se i risultati del DB interno FLOKKER non sono soddisfacenti cerco su servizio esterno
 			try{
 				//Search on GOOGLE service
-				bos = placesExternalService.getPlacesByDescription(token);
+				bos = placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong);	
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());

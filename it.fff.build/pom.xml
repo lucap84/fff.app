@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
   <name>FFF Build Project</name>
   <modules>
+  	<module>../it.fff.parent.pom</module>
     <module>../it.fff.clientserver.common</module>
     <module>../it.fff.business.common</module>
     <module>../it.fff.persistence</module>

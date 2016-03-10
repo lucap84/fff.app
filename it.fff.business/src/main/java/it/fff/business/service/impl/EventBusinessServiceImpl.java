@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.util.Constants;
 import it.fff.business.comparator.PlaceDistanceComparator;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
@@ -103,11 +104,10 @@ public class EventBusinessServiceImpl implements EventBusinessService{
 		 * Calcolo un quadrato come spazio di ricerca invece di un cerchio, per semplicita
 		 * Le assunzioni sono prese da: http://gis.stackexchange.com/questions/19760/how-do-i-calculate-the-bounding-box-for-given-a-distance-and-latitude-longitude
 		 */
-		double oneKm2Degrees = 0.0089982311916;
 		double diameterKm = radiusKm*2;
 		double sideOfSquareKm= diameterKm; //assumo di lavorare con un lato del quadrato
 		
-		double sideOfSquareDegrees = oneKm2Degrees*sideOfSquareKm; //trasformo km in gradi 
+		double sideOfSquareDegrees = Constants.ONE_KM_TO_DEGREES*sideOfSquareKm; //trasformo km in gradi 
 		
 		double gpsLatFrom = userGpsLat-sideOfSquareDegrees;
 		double gpsLatTo = userGpsLat+sideOfSquareDegrees;

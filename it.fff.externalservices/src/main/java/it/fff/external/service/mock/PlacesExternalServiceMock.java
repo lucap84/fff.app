@@ -12,7 +12,7 @@ import it.fff.external.service.PlacesExternalService;
 public class PlacesExternalServiceMock implements PlacesExternalService {
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description) throws Exception {
+	public List<PlaceBO> getPlacesByDescription(String description, double userGpsLat, double userGpsLong) throws Exception {
 		PlaceBO bo1 = new PlaceBO();
 		bo1.setId(1);
 		bo1.setNome("El Chiringuito Libre");
