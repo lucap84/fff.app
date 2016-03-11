@@ -68,4 +68,38 @@ public class PlacesExternalServiceMock implements PlacesExternalService {
 		return places;
 	}
 
+	@Override
+	public PlaceBO getPlaceByGPS(double userGpsLat, double userGpsLong) throws Exception {
+		PlaceBO bo1 = new PlaceBO();
+		bo1.setId(1);
+		bo1.setNome("El Chiringuito Libre");
+		
+		PlaceTypeEnum placeType = PlaceTypeEnum.UNKNOW;
+		
+		NationBO nationBO = new NationBO();
+		nationBO.setId(1);
+		nationBO.setNome("Italia");
+		nationBO.setInternationalKey("380");
+		nationBO.setInternationalCodeAplha2("IT");
+		nationBO.setInternationalCodeAplha3("ITA");
+		
+		CityBO citta = new CityBO();
+		citta.setId(1);
+		citta.setNome("Roma");
+		citta.setNazione(nationBO);
+		
+		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
+		bo1.setGpsLat(userGpsLat);
+		bo1.setGpsLong(userGpsLong);
+		bo1.setAddressRoute("Largo Riccardi Beato Placido");
+		bo1.setCivico("1");
+		bo1.setCap("00154");
+		bo1.setPlaceType(placeType);
+		bo1.setCity(citta);
+		bo1.setDataCreazione("2016-01-01_00-00-00");
+		bo1.setDataAggiornamento("2016-01-01_00-00-00");
+		
+		return bo1;
+	}
+
 }

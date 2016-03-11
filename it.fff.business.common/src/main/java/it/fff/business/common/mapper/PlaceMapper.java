@@ -13,11 +13,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
+import com.google.maps.model.AddressComponent;
+import com.google.maps.model.AddressType;
+import com.google.maps.model.GeocodingResult;
+
+import it.fff.business.common.bo.CityBO;
+import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.eo.PlaceTypeEO;
+import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.dto.PlaceDTO;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 
 public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	
@@ -186,6 +194,175 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	public List<PlaceEO> mergeBOs2EOs(List<PlaceBO> bos, List<PlaceEO> eos, Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<PlaceBO> mapGeocodingResults2BOs(GeocodingResult[] geoResults) {
+		List<PlaceBO> placesBO = null;
+		if(geoResults!=null){
+			placesBO = new ArrayList<PlaceBO>();
+			
+			int maxResultsToLoad = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_MAX_RESULTS_LOADED));
+			
+			int resultsLength = geoResults.length;
+			if(resultsLength>maxResultsToLoad){
+				resultsLength = maxResultsToLoad;
+			}
+			
+			for (int i = 0; i < resultsLength; i++) {
+				logger.debug("***************************************************************");
+				GeocodingResult geoResult = geoResults[i];
+				
+				PlaceBO bo = this.mapGeocodingResult2BO(geoResult);
+				
+				//Add to list
+				placesBO.add(bo);
+				logger.debug("***************************************************************");
+			}
+		}
+		return placesBO;
+	}
+
+	public PlaceBO mapGeocodingResult2BO(GeocodingResult geoResult) {
+		PlaceBO bo = null;
+		
+		if(geoResult!=null){
+			bo = new PlaceBO();
+			String gPlaceId = geoResult.placeId;
+			boolean gPartialMatch = geoResult.partialMatch;
+			String gNome = geoResult.formattedAddress;
+			AddressType gAddressType = geoResult.types[0];
+			String gRoute = null;
+			String gStreetAddress = null;
+			String gCivico = null;
+			String gLocality = null;
+			String gRegione = null;
+			String gComuneLongName = null;
+			String gComuneShortName = null;
+			String gAdminArea3 = null;
+			String gAdminArea4 = null;
+			String gAdminArea5 = null;
+			String gNazioneLongName = null;
+			String gNazioneShortName = null;
+			String gCAP = null;
+			double gLat = geoResult.geometry.location.lat;
+			double gLong = geoResult.geometry.location.lng;
+			
+			for (int j = 0; j < geoResult.addressComponents.length; j++) {
+				AddressComponent addressComponent = geoResult.addressComponents[j];
+				
+				switch(addressComponent.types[0]){
+					case ROUTE: gRoute = addressComponent.longName; break;	
+					case STREET_ADDRESS: gStreetAddress = addressComponent.longName; break;
+					case STREET_NUMBER: gCivico = addressComponent.longName; break;
+					case LOCALITY: gLocality = addressComponent.longName; break;
+					case ADMINISTRATIVE_AREA_LEVEL_1: gRegione = addressComponent.longName; break;
+					case ADMINISTRATIVE_AREA_LEVEL_2: {
+						gComuneLongName = addressComponent.longName;
+						gComuneShortName = addressComponent.shortName;
+						break;
+					}
+					case ADMINISTRATIVE_AREA_LEVEL_3: gAdminArea3 = addressComponent.longName; break;
+					case ADMINISTRATIVE_AREA_LEVEL_4: gAdminArea4 = addressComponent.longName; break;
+					case ADMINISTRATIVE_AREA_LEVEL_5: gAdminArea5 = addressComponent.longName; break;
+					case COUNTRY: {
+						gNazioneLongName  =	addressComponent.longName;
+						gNazioneShortName = addressComponent.shortName;
+						break;
+					}
+					case POSTAL_CODE: gCAP = addressComponent.longName; break;
+				default:
+					break;
+				}
+			}
+	
+			logger.debug("placeId: "+gPlaceId);
+			logger.debug("partialMatch: "+gPartialMatch);
+			logger.debug("formattedAddress: "+gNome);
+			logger.debug("gRoute: "+gRoute);
+			logger.debug("gStreetAddress: "+gStreetAddress);
+			logger.debug("gCivico: "+gCivico);
+			logger.debug("latitudine: "+gLat);
+			logger.debug("longitudine: "+gLong);
+			logger.debug("postal code: "+gCAP);
+			logger.debug("gAddressType: "+gAddressType);
+			logger.debug("gLocality: "+gLocality);
+			logger.debug("gRegione: "+gRegione);
+			logger.debug("gComuneLongName: "+gComuneLongName);
+			logger.debug("gComuneShortName: "+gComuneShortName);
+			logger.debug("gNazioneLongName: "+gNazioneLongName);
+			logger.debug("gNazioneShortName: "+gNazioneShortName);
+			
+			bo.setPlaceKey(gPlaceId);
+			bo.setNome(gNome);
+			
+			if(gStreetAddress!=null && gStreetAddress.length()>0){
+				bo.setAddressRoute(gStreetAddress);
+			} else{
+				if(gRoute!=null && gRoute.length()>0){
+					bo.setAddressRoute(gRoute);
+				} else{
+					if(gLocality!=null && gLocality.length()>0){
+						bo.setAddressRoute(gLocality);
+					}
+				}
+			}
+			bo.setCivico(gCivico);
+			bo.setGpsLat(gLat);
+			bo.setGpsLong(gLong);
+			bo.setCap(gCAP);
+			
+			Date currentDate = new Date();
+			String currentDateStr = Constants.DATE_FORMATTER.format(currentDate);
+			bo.setDataCreazione(currentDateStr);
+			bo.setDataAggiornamento(currentDateStr);
+			
+			CityBO cittaBO = new CityBO();
+			//Se la citta (LOCALITY) non e' presente nella risposta uso le administrative area, dalla piu' specifica alla meno specifica (il comune)
+			if(gLocality!=null && !"".equals(gLocality)){
+				cittaBO.setNome(gLocality);
+			} else{
+				if(gAdminArea5!=null && !"".equals(gAdminArea5)){
+					cittaBO.setNome(gAdminArea5);	
+				} else{
+					if(gAdminArea4!=null && !"".equals(gAdminArea4)){
+						cittaBO.setNome(gAdminArea4);	
+					} else{
+						if(gAdminArea3!=null && !"".equals(gAdminArea3)){
+							cittaBO.setNome(gAdminArea3);	
+						} else{
+							if(gComuneLongName!=null && !"".equals(gComuneLongName)){
+								cittaBO.setNome(gComuneLongName);	
+							}
+						}
+					}
+				}
+			}
+			
+			NationBO nazioneBO = new NationBO();
+			nazioneBO.setNome(gNazioneLongName);
+			if(gNazioneShortName!=null && gNazioneShortName.length()==2){
+				nazioneBO.setInternationalCodeAplha2(gNazioneShortName);
+			}
+			if(gNazioneShortName!=null && gNazioneShortName.length()==3){
+				nazioneBO.setInternationalCodeAplha3(gNazioneShortName);
+			}
+			
+	
+			cittaBO.setNazione(nazioneBO);
+			bo.setCity(cittaBO);
+			
+			PlaceTypeEnum placeTypeBO = null;
+			try{
+				placeTypeBO = PlaceTypeEnum.valueOf(gAddressType.name());
+			}
+			catch(IllegalArgumentException e){
+				logger.error("State not Recognized! :"+gAddressType.name());
+			}
+			bo.setPlaceType(placeTypeBO);
+		}
+		
+		return bo;
+
 	}
 
 }

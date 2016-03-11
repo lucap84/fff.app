@@ -1,6 +1,7 @@
 package it.fff.integration.facade.service.impl;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -284,14 +285,23 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String token, double userGpsLat, double userGpsLong) throws IntegrationException {
-		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
+		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		List<PlaceBO> bos = null;
 		
+		boolean isPlacesCachingEnabled = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_SERVICE_CACHING));
+		
+		if(isPlacesCachingEnabled){
+			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong);
+		}
+		else{
+			bos = new ArrayList<PlaceBO>();
+		}
+		
 		try{
-			//Search on FLOKKER Database
-			bos = placesPersistenceService.getPlacesByDescription(token, userGpsLat, userGpsLong);	
+			//Search on GOOGLE service and add all results
+			bos.addAll(placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong));	
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -300,41 +310,8 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			throw persistenceException;			
 		}
 		
-		
-		boolean flokkerPlacesAreValid = false;
-		
-		if(bos!=null && bos.size()>0){
-			int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_GOOGLE_TTL));
-			flokkerPlacesAreValid = true;
-			for (PlaceBO placeBO : bos) {
-				String dataAggiornamento = placeBO.getDataAggiornamento();
-				
-				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
-					flokkerPlacesAreValid = false;
-					break;
-				}
-			}
-		}
-		
-		
-		if(flokkerPlacesAreValid){
-			return bos;
-		}
-		else {//Se i risultati del DB interno FLOKKER non sono soddisfacenti cerco su servizio esterno
-			try{
-				//Search on GOOGLE service
-				bos = placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong);	
-			}
-			catch(Exception e){
-				logger.error(e.getMessage());
-				IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-				throw persistenceException;			
-			}
-		}
-		
 		//Se ho ottenuto risultati dalla ricerca su servizio esterno
-		if(bos!=null && bos.size()>0){
+		if(isPlacesCachingEnabled && bos!=null && bos.size()>0){
 			
 			for (PlaceBO placeBO : bos) {
 				try {
@@ -346,6 +323,49 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 
 		return bos;		
+	}
+
+	private List<PlaceBO> getPlacesByDescriptionInCache(String token, double userGpsLat, double userGpsLong) throws IntegrationException  {
+		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
+		List<PlaceBO> bosCached = null;
+		
+		try{
+			//Search on FLOKKER Database
+			bosCached = placesPersistenceService.getPlacesByDescription(token, userGpsLat, userGpsLong);	
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		
+		
+		boolean flokkerPlacesAreValid = false;
+		List<PlaceBO> invalidPlaces = new ArrayList<PlaceBO>();
+		
+		if(bosCached!=null && bosCached.size()>0){
+			int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_CACHING_TTL));
+			flokkerPlacesAreValid = true;
+			for (PlaceBO placeBO : bosCached) {
+				String dataAggiornamento = placeBO.getDataAggiornamento();
+				
+				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
+					flokkerPlacesAreValid = false;
+					invalidPlaces.add(placeBO);
+				}
+			}
+		}
+		
+		if(flokkerPlacesAreValid){
+			return bosCached;
+		}
+		else {			
+			//rimuovo tutti i risultati non validi
+			bosCached.removeAll(invalidPlaces);
+		}
+
+		return bosCached;
 	}
 
 	@Override

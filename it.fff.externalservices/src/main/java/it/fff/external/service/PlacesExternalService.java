@@ -7,5 +7,7 @@ import it.fff.business.common.bo.PlaceBO;
 public interface PlacesExternalService extends ExternalService {
 	
 	public List<PlaceBO> getPlacesByDescription(String description, double userGpsLat, double userGpsLong) throws Exception;
+	
+	public PlaceBO getPlaceByGPS(double userGpsLat, double userGpsLong) throws Exception;
 
 }

@@ -137,11 +137,14 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    		//creo l'oggetto Entity: se la citta esisteva sara' ora managed e mappata dentro al place (insieme alla Nation)
 	    		//se la citta' non esisteva, avra' tutti i dati e verra' salvata in cascade
 	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, null, session);
-	    		placeId = (Integer)session.save(placeEO);
+	    		session.save(placeEO);
 	    	}
 	    	else{
-	    		placeId = placeEO.getId();
+	    		//aggiorno il place esistente
+	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, placeEO, session);
 	    	}	    	
+	    	
+	    	placeId = placeEO.getId();
 	    	
 	    	//Ora sia la keyword che il place esistono su DB anche se non erano presenti precedentemente
 	    	//devo adesso legarli da un mapping

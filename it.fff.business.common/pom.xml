@@ -67,16 +67,21 @@
 		    <artifactId>log4j-core</artifactId>
 		    <version>2.4.1</version>
 		  </dependency>	
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-core</artifactId>
-		<version>4.3.5.Final</version>
-	</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>it.fff.clientserver.common</groupId>
 			<artifactId>it.fff.clientserver.common</artifactId>
 			<version>1.1</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.google.maps</groupId>
+		    <artifactId>google-maps-services</artifactId>
+		    <version>0.1.11</version>
+		</dependency>		
 	</dependencies>
 	  
 </project>

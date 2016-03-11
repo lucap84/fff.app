@@ -37,6 +37,7 @@ public class Constants {
 	 * Persistence constants
 	 */
 	public static final String IMAGE_CONF_FILENAME 			= "images.properties";
+	
 	public static final String PROP_IMAGE_UPLOAD_LOCATION	= "server.filesystem.location.upload";
 	public static final String PROP_IMAGE_EXTENSION			= "server.image.extension";
 	public static final String PROP_IMAGE_MAXSIZE			= "server.image.maxsize";
@@ -46,17 +47,20 @@ public class Constants {
 	 * Places constants 
 	 */
 	public static final String PLACES_CONF_FILENAME 			= "places.properties";
+	
+	public static final String PROP_PLACE_EXT_SERVICE_CACHING	= "places.extservice.caching";
+	public static final String PROP_PLACE_EXT_CACHING_TTL		= "places.extservice.caching.ttl.days";
 	public static final String PROP_GOOGLE_APIKEY				= "google.geocoding.apikey";
 	public static final String PROP_GOOGLE_MAX_CALLS			= "google.geocoding.maxcallsperday";
 	public static final String PROP_GOOGLE_PREMIUM				= "google.geocoding.accountpremium";
-	public static final String PROP_GOOGLE_TTL					= "google.geocoding.caching.ttl.days";
 	public static final String PROP_GOOGLE_MAX_RESULTS_LOADED	= "google.geocoding.maxresultsloaded";
 	public static final String PROP_GOOGLE_VIEWPORT_DIAMETER_KM	= "google.geocoding.viewport.sizekm";
 	
 	public final static double ONE_KM_TO_DEGREES = 0.0089982311916;
 	public final static double FIVE_KM_TO_DEGREES = 0.044991155958;
-	public final static double TEN_KM_TO_DEGREES = 0.089982311916;	
-	
+	public final static double TEN_KM_TO_DEGREES = 0.089982311916;
+	public final static int LATITUDE_RANGE_ABS = 90;
+	public final static int LONGITUDE_RANGE_ABS = 180;
 	
 	/*
 	 * Named Queries
