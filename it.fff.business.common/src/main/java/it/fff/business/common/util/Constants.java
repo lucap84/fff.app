@@ -48,7 +48,8 @@ public class Constants {
 	 */
 	public static final String PLACES_CONF_FILENAME 			= "places.properties";
 	
-	public static final String PROP_PLACE_EXT_SERVICE_CACHING	= "places.extservice.caching";
+	public static final String PROP_PLACE_READ_FROM_CACHE		= "places.extservice.caching.read";
+	public static final String PROP_PLACE_UPDATE_CACHE			= "places.extservice.caching.update";
 	public static final String PROP_PLACE_EXT_CACHING_TTL		= "places.extservice.caching.ttl.days";
 	public static final String PROP_GOOGLE_APIKEY				= "google.geocoding.apikey";
 	public static final String PROP_GOOGLE_MAX_CALLS			= "google.geocoding.maxcallsperday";

@@ -2,7 +2,9 @@ package it.fff.persistence.service.mock;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
@@ -25,7 +27,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws SQLException {
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws SQLException {
 		PlaceBO bo1 = new PlaceBO();
 		bo1.setId(1);
 		bo1.setNome("El Chiringuito Libre");
@@ -74,11 +76,11 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		bo2.setDataCreazione("2016-01-02");
 		bo2.setDataAggiornamento("2016-01-02");		
 		
-		List<PlaceBO> places = new ArrayList<PlaceBO>();
+		Set<PlaceBO> places = new HashSet<PlaceBO>();
 		places.add(bo1);
 		places.add(bo2);
 		
-		return places;
+		return new HashSet<PlaceBO>();
 	}
 
 	@Override

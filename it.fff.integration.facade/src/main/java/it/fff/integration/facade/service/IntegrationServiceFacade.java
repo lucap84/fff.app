@@ -2,6 +2,7 @@ package it.fff.integration.facade.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
@@ -23,7 +24,6 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
-import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.UserBO;
 
 public interface IntegrationServiceFacade {
@@ -58,7 +58,7 @@ public interface IntegrationServiceFacade {
 
 	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException;
 
-	public List<PlaceBO> getPlacesByDescription(String description, double gplLat, double gpsLong) throws IntegrationException;
+	public Set<PlaceBO> getPlacesByDescription(String description, double gplLat, double gpsLong) throws IntegrationException;
 
 	public WriteResultBO login(SessionBO session) throws IntegrationException;
 

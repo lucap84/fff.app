@@ -47,18 +47,16 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 	public NationEO mergeBO2EO(NationBO bo, NationEO eo, Session session) {
 		if(bo!=null){
 			if(bo.getId()>0){
-				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
-				//Quindi non ho setter sul EO
+				//L'entita' gia esiste, quindi la carico per eventualmente modificarla
 				eo = (NationEO)session.load(NationEO.class, bo.getId());
 			}
-			if(eo==null){
-				logger.debug("ho ripristinato la creazione della entity NationEO in caso non esista su DB");
+			if(eo==null){//se l'entita' non e' stata caricata da DB e non era presente nel parametro, sono in creazione
 				eo= new NationEO();
-				eo.setNomeIfNotEmpty(bo.getNome());
-				eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
-				eo.setInternationalCodeAlpha2IfNotEmpty(bo.getInternationalCodeAplha2());
-				eo.setInternationalCodeAlpha3IfNotEmpty(bo.getInternationalCodeAplha3());
 			}
+			eo.setNomeIfNotEmpty(bo.getNome());
+			eo.setInternationalKeyIfNotEmpty(bo.getInternationalKey());
+			eo.setInternationalCodeAlpha2IfNotEmpty(bo.getInternationalCodeAplha2());
+			eo.setInternationalCodeAlpha3IfNotEmpty(bo.getInternationalCodeAplha3());
 		}
 		return eo;
 	}

@@ -1,6 +1,7 @@
 package it.fff.persistence.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,8 +39,8 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
-		List<PlaceBO> bos = null;
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
+		Set<PlaceBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -55,7 +56,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	
 	    	if(keyword!=null){
 	    		Set<PlaceEO> relatedPlaces = keyword.getRelatedPlaces();
-	    		bos = PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces));
+	    		bos = new HashSet<PlaceBO>(PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces)));
 	    	}
 	    	
 	    	tx.commit();

@@ -1,7 +1,9 @@
 package it.fff.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.PlaceBO;
@@ -25,13 +27,14 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String description, double gplLat, double gpsLong) throws IntegrationException {
-		List<PlaceBO> bos = integrationFacade.getPlacesByDescription(description, gplLat, gpsLong);
+		Set<PlaceBO> bos = integrationFacade.getPlacesByDescription(description, gplLat, gpsLong);
+		List<PlaceBO> bosList = new ArrayList<PlaceBO>(bos);
 		
 		//Ordinamento basato su coordinate uente
 		PlaceComparator comparator = new PlaceComparator(gplLat, gpsLong);
-		Collections.sort(bos, comparator);
+		Collections.sort(bosList, comparator);
 		
-		return bos;
+		return bosList;
 	}
 
 	@Override

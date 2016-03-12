@@ -89,5 +89,16 @@ public class PlaceBO implements BusinessObject {
 	public void setPlaceType(PlaceTypeEnum placeType) {
 		this.placeType = placeType;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		PlaceBO p = (PlaceBO) obj;
+		return p.placeKey.equals(this.placeKey);
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.placeKey.hashCode();
+	}
 
 }

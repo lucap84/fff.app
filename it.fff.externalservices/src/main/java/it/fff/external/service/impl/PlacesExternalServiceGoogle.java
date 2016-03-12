@@ -68,7 +68,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		String region = null;
 		PlaceBO placeByGPS = this.getPlaceByGPS(userGpsLat, userGpsLong);
 		if(placeByGPS!=null && placeByGPS.getCity()!=null && placeByGPS.getCity().getNazione()!=null){
-			region = placeByGPS.getCity().getNazione().getNome();
+			region = placeByGPS.getCity().getNazione().getInternationalCodeAplha2();
 		}
 		geocodingRequest.region(region);
 		

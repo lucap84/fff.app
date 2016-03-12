@@ -61,18 +61,17 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 	public CityEO mergeBO2EO(CityBO bo, CityEO eo, Session session) {
 		if(bo!=null){
 			if(bo.getId()>0){
-				//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO
-				//Quindi non ho setter sul EO
+				//L'entita' gia esiste, quindi la carico per eventualmente modificarla
 				eo = (CityEO)session.load(CityEO.class, bo.getId());
 			}
-			else{
+			if(eo==null){//se l'entita' non e' stata caricata da DB e non era presente nel parametro, sono in creazione
 				eo = new CityEO();
-				eo.setNome(bo.getNome());
-				
-				NationEO nationEO = NationMapper.getInstance().mergeBO2EO(bo.getNazione(), null, session);
-				eo.setNazione(nationEO);
 			}
+			//Da qui in poi o sto creando nuovi valori o sto facendo l'update
+			eo.setNomeIfNotEmpty(bo.getNome()); //Se non ci sono valori nel BO allora mantengo i vecchi
 			
+			NationEO nationEO = NationMapper.getInstance().mergeBO2EO(bo.getNazione(), eo.getNazione(), session);
+			eo.setNazione(nationEO);
 
 		}
 		return eo;

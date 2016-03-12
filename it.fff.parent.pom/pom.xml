@@ -14,7 +14,7 @@
 	           <excludes>
 	               <exclude>*.xml</exclude>
 	               <exclude>*.properties</exclude>
-	               <exclude>spring/*.xml</exclude>
+	               <!-- exclude>spring/*.xml</exclude -->
 	           </excludes>
 	       </resource>       
 	  </resources>  

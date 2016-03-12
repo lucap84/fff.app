@@ -3,8 +3,10 @@ package it.fff.integration.facade.service.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -284,50 +286,68 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String token, double userGpsLat, double userGpsLong) throws IntegrationException {
+	public Set<PlaceBO> getPlacesByDescription(String token, double userGpsLat, double userGpsLong) throws IntegrationException {
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
-		List<PlaceBO> bos = null;
+		Set<PlaceBO> bos = null;
 		
-		boolean isPlacesCachingEnabled = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_SERVICE_CACHING));
+		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
+		boolean writeToCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_UPDATE_CACHE));
 		
-		if(isPlacesCachingEnabled){
+		if(readFromCache){ //Prendo i place dalla cache solo se la cache è abilitata
 			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong);
 		}
 		else{
-			bos = new ArrayList<PlaceBO>();
+			bos = new HashSet<PlaceBO>();
 		}
 		
-		try{
-			//Search on GOOGLE service and add all results
-			bos.addAll(placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong));	
-		}
-		catch(Exception e){
-			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
-		}
+		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos);
 		
-		//Se ho ottenuto risultati dalla ricerca su servizio esterno
-		if(isPlacesCachingEnabled && bos!=null && bos.size()>0){
+		//cerco su servizio esterno solo se la cache è disabilitata
+		//OPPURE
+		//i risultati della cache sono vuoti (provo quindi su servizio ext)
+		//OPPURE
+		//ci sono dei risultati non piu validi (devo aggiornare i risultati cached)
+		if(!readFromCache || 
+			bos.size()==0		   ||
+			invalidPlaces.size()>0
+			){
+
+			//rimuovo tutti i risultati non piu validi e quindi da sostituire
+			bos.removeAll(invalidPlaces);
 			
-			for (PlaceBO placeBO : bos) {
-				try {
-					placesPersistenceService.saveOrUpdatePlace(placeBO, token);
-				} catch (Exception e) {
-					e.printStackTrace();
+			try{
+				//Search on External service and add all results
+				bos.addAll(placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong));	
+			}
+			catch(Exception e){
+				logger.error(e.getMessage());
+				IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+				throw persistenceException;			
+			}
+
+			if(writeToCache && bos!=null && bos.size()>0){
+				//Aggiorno su cache (DB interno) i risultati nuovi/aggiornati da servizio esterno
+				for (PlaceBO placeBO : bos) {
+					try {
+						placesPersistenceService.saveOrUpdatePlace(placeBO, token);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
+		
+		//Se ho ottenuto risultati dalla ricerca su servizio esterno
 
 		return bos;		
 	}
 
-	private List<PlaceBO> getPlacesByDescriptionInCache(String token, double userGpsLat, double userGpsLong) throws IntegrationException  {
+	private Set<PlaceBO> getPlacesByDescriptionInCache(String token, double userGpsLat, double userGpsLong) throws IntegrationException  {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
-		List<PlaceBO> bosCached = null;
+		Set<PlaceBO> bosCached = null;
 		
 		try{
 			//Search on FLOKKER Database
@@ -340,32 +360,23 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			throw persistenceException;			
 		}
 		
-		
-		boolean flokkerPlacesAreValid = false;
+		return bosCached;
+	}
+
+	private List<PlaceBO> getInvalidPlaces(Set<PlaceBO> bosCached) {
 		List<PlaceBO> invalidPlaces = new ArrayList<PlaceBO>();
 		
 		if(bosCached!=null && bosCached.size()>0){
 			int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_CACHING_TTL));
-			flokkerPlacesAreValid = true;
 			for (PlaceBO placeBO : bosCached) {
 				String dataAggiornamento = placeBO.getDataAggiornamento();
 				
 				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
-					flokkerPlacesAreValid = false;
 					invalidPlaces.add(placeBO);
 				}
 			}
 		}
-		
-		if(flokkerPlacesAreValid){
-			return bosCached;
-		}
-		else {			
-			//rimuovo tutti i risultati non validi
-			bosCached.removeAll(invalidPlaces);
-		}
-
-		return bosCached;
+		return invalidPlaces;
 	}
 
 	@Override
