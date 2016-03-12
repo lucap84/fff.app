@@ -5,7 +5,7 @@
   <version>1.0</version>
   <packaging>pom</packaging>
   <properties>
-  	<fff.config.folder>C:\Users\lpelosi\git\fff.app\it.fff.build</fff.config.folder>
+  	<fff.config.folder>C:\Users\Luca\git\fff.app\it.fff.build</fff.config.folder>
   </properties>
   <build>
 	  <resources>
@@ -14,7 +14,7 @@
 	           <excludes>
 	               <exclude>*.xml</exclude>
 	               <exclude>*.properties</exclude>
-	               <!-- exclude>spring/*.xml</exclude -->
+	               <exclude>spring/*.xml</exclude>
 	           </excludes>
 	       </resource>       
 	  </resources>  
