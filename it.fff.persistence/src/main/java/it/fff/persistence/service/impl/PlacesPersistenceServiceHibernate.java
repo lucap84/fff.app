@@ -25,6 +25,9 @@ import it.fff.business.common.mapper.CityMapper;
 import it.fff.business.common.mapper.KeywordMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
+import it.fff.business.common.util.DistanceCalculator;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -83,22 +86,27 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 		Transaction tx = null;
 		Integer keywordId = null;
 		Integer placeId = null;
+		
+		KeywordEO keywordEO = null;
 	    try{
 	    	tx = session.beginTransaction();
 
-	    	String hqlSelectKeyword = "FROM KeywordEO WHERE token = :token";
-	    	Query querySelectKeyword = session.createQuery(hqlSelectKeyword);
-	    	querySelectKeyword.setParameter("token",token);
-	    	
-	    	KeywordEO keywordEO = (KeywordEO)querySelectKeyword.uniqueResult();
-	    	
-	    	if(keywordEO==null){
-	    		keywordEO = KeywordMapper.getInstance().mergeBO2EO(token, null, session);
-	    		keywordId = (Integer)session.save(keywordEO);
+	    	if(token!=null && !"".equals(token)){
+		    	String hqlSelectKeyword = "FROM KeywordEO WHERE token = :token";
+		    	Query querySelectKeyword = session.createQuery(hqlSelectKeyword);
+		    	querySelectKeyword.setParameter("token",token);
+		    	
+		    	keywordEO = (KeywordEO)querySelectKeyword.uniqueResult();
+		    	
+		    	if(keywordEO==null){
+		    		keywordEO = KeywordMapper.getInstance().mergeBO2EO(token, null, session);
+		    		keywordId = (Integer)session.save(keywordEO);
+		    	}
+		    	else{
+		    		keywordId = keywordEO.getId();
+		    	}
 	    	}
-	    	else{
-	    		keywordId = keywordEO.getId();
-	    	}
+	    	
 	    	
 	    	String hqlSelectPlace = "FROM PlaceEO WHERE placeKey = :placeKey";
 	    	Query querySelectPlace = session.createQuery(hqlSelectPlace);
@@ -149,12 +157,12 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	
 	    	//Ora sia la keyword che il place esistono su DB anche se non erano presenti precedentemente
 	    	//devo adesso legarli da un mapping
-			
-	    	keywordEO.getRelatedPlaces().add(placeEO);
-	    	placeEO.getKeywords().add(keywordEO);
-	    	
-	    	session.update(keywordEO);
-	    	session.update(placeEO);
+			if(keywordEO!=null){
+		    	keywordEO.getRelatedPlaces().add(placeEO);
+		    	placeEO.getKeywords().add(keywordEO);
+		    	session.update(keywordEO);
+		    	session.update(placeEO);
+			}
 	    	
 			tx.commit();
 			
@@ -231,6 +239,42 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
 	        throw new Exception("HibernateException during getNationByInternationalKey() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+		return bo;
+	}
+
+	@Override
+	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
+		PlaceBO bo = null;
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	      try{
+	    	tx = session.beginTransaction();
+			
+	    	String hqlSelect = "SELECT FROM PlaceEO p WHERE p.gpsLat = :gpsLat AND p.gpsLong = :gpsLong";
+	    	Query query = session.createQuery(hqlSelect);
+	    	
+	    	//in fase di salvataggio delle coordinate ho operato lo stesso arrotondamento
+	    	int decimalPrecision = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_GPS_DECIMALPREC_CACHE));
+			double roundedLat = DistanceCalculator.round(gpsLat, decimalPrecision);
+			double roundedLong = DistanceCalculator.round(gpsLong, decimalPrecision);
+	    	
+	    	query.setParameter("gpsLat",roundedLat);
+	    	query.setParameter("gpsLong",roundedLong);
+	    	
+	    	PlaceEO placeBO = (PlaceEO)query.uniqueResult();
+	    	
+	    	tx.commit();
+
+	    	
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getPlaceByGPS() ",e);
 	     }finally {
 	        session.close(); 
 	     }

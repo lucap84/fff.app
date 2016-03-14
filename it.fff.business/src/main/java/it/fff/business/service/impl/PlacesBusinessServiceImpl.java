@@ -26,13 +26,15 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 	}
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description, double gplLat, double gpsLong) throws IntegrationException {
-		Set<PlaceBO> bos = integrationFacade.getPlacesByDescription(description, gplLat, gpsLong);
+	public List<PlaceBO> getPlacesByDescription(String description, double gpsUserLat, double gpsUserLong) throws IntegrationException {
+		Set<PlaceBO> bos = integrationFacade.getPlacesByDescription(description, gpsUserLat, gpsUserLong);
 		List<PlaceBO> bosList = new ArrayList<PlaceBO>(bos);
 		
 		//Ordinamento basato su coordinate uente
-		PlaceComparator comparator = new PlaceComparator(gplLat, gpsLong);
-		Collections.sort(bosList, comparator);
+		if(gpsUserLat!=0 && gpsUserLong!=0){
+			PlaceComparator comparator = new PlaceComparator(gpsUserLat, gpsUserLong);
+			Collections.sort(bosList, comparator);
+		}
 		
 		return bosList;
 	}

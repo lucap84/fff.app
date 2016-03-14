@@ -22,7 +22,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 	private static final Logger logger = LogManager.getLogger(PlacesExternalServiceGoogle.class);
 
 	@Override
-	public List<PlaceBO> getPlacesByDescription(String description, double userGpsLat, double userGpsLong) throws Exception {
+	public List<PlaceBO> getPlacesByDescription(String description, double userGpsLat, double userGpsLong, String region) throws Exception {
 		logger.debug("Call External service getPlacesByDescription...");
 		List<PlaceBO> placesBO = null;
 		
@@ -36,41 +36,41 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		/*
 		 * Restringo il campo di ricerca nell'intorno delle coordinate gps dell'utente
 		 */
-		double sideOfSquareKm= viewportSizeKm/2; //Lato del quadrato della viewport di ricerca in km
-		double sideOfSquareDegrees = Constants.ONE_KM_TO_DEGREES*sideOfSquareKm; //trasformo km in gradi 
 		
-		//Per il calcolo della finestra geografica devo considerare il range delle coordinate GPS (lat:-90;+90 long:-180,+180) e il segno
-		double southWestBound_Lat	= userGpsLat - sideOfSquareDegrees;
-		if(Math.abs(southWestBound_Lat)>Constants.LATITUDE_RANGE_ABS){
-			southWestBound_Lat = (southWestBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1;
+		if(userGpsLat!=0 && userGpsLong!=0){
+			double sideOfSquareKm= viewportSizeKm/2; //Lato del quadrato della viewport di ricerca in km
+			double sideOfSquareDegrees = Constants.ONE_KM_TO_DEGREES*sideOfSquareKm; //trasformo km in gradi 
+			
+			//Per il calcolo della finestra geografica devo considerare il range delle coordinate GPS (lat:-90;+90 long:-180,+180) e il segno
+			double southWestBound_Lat	= userGpsLat - sideOfSquareDegrees;
+			if(Math.abs(southWestBound_Lat)>Constants.LATITUDE_RANGE_ABS){
+				southWestBound_Lat = (southWestBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1;
+			}
+			double southWestBound_Long	= userGpsLong	- sideOfSquareDegrees;
+			if(Math.abs(southWestBound_Long)>Constants.LONGITUDE_RANGE_ABS){
+				southWestBound_Long = (southWestBound_Long % Constants.LONGITUDE_RANGE_ABS)*-1;
+			}		
+			double northEastBound_Lat	= userGpsLat	+ sideOfSquareDegrees;
+			if(Math.abs(northEastBound_Lat)>Constants.LATITUDE_RANGE_ABS){
+				northEastBound_Lat = (northEastBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1;
+			}		
+			double northEastBound_Long	= userGpsLong	+ sideOfSquareDegrees;
+			if(Math.abs(northEastBound_Long)>Constants.LONGITUDE_RANGE_ABS){
+				northEastBound_Long = (northEastBound_Long % Constants.LONGITUDE_RANGE_ABS)*-1;
+			}		
+	
+			LatLng southWestBound = new LatLng(southWestBound_Lat, southWestBound_Long);
+			LatLng northEastBound = new LatLng(northEastBound_Lat, northEastBound_Long);
+			
+			geocodingRequest.bounds(southWestBound, northEastBound); //imposto la finestra di ricerca nella request
 		}
-		double southWestBound_Long	= userGpsLong	- sideOfSquareDegrees;
-		if(Math.abs(southWestBound_Long)>Constants.LONGITUDE_RANGE_ABS){
-			southWestBound_Long = (southWestBound_Long % Constants.LONGITUDE_RANGE_ABS)*-1;
-		}		
-		double northEastBound_Lat	= userGpsLat	+ sideOfSquareDegrees;
-		if(Math.abs(northEastBound_Lat)>Constants.LATITUDE_RANGE_ABS){
-			northEastBound_Lat = (northEastBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1;
-		}		
-		double northEastBound_Long	= userGpsLong	+ sideOfSquareDegrees;
-		if(Math.abs(northEastBound_Long)>Constants.LONGITUDE_RANGE_ABS){
-			northEastBound_Long = (northEastBound_Long % Constants.LONGITUDE_RANGE_ABS)*-1;
-		}		
-
-		LatLng southWestBound = new LatLng(southWestBound_Lat, southWestBound_Long);
-		LatLng northEastBound = new LatLng(northEastBound_Lat, northEastBound_Long);
-		
-		geocodingRequest.bounds(southWestBound, northEastBound); //imposto la finestra di ricerca nella request
 		
 		/*
 		 * Imposto anche la region dell'utente chiamante per un risultato piu' attinente
 		 */
-		String region = null;
-		PlaceBO placeByGPS = this.getPlaceByGPS(userGpsLat, userGpsLong);
-		if(placeByGPS!=null && placeByGPS.getCity()!=null && placeByGPS.getCity().getNazione()!=null){
-			region = placeByGPS.getCity().getNazione().getInternationalCodeAplha2();
+		if(region!=null && !"".equals(region)){
+			geocodingRequest.region(region);
 		}
-		geocodingRequest.region(region);
 		
 		//Lancio la ricerca
 		GeocodingResult[] results = geocodingRequest.address(description).await();

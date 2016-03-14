@@ -386,8 +386,10 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		double gpsLongDouble = 0;
 		List<PlaceBO> placesBO = null;
 		try {
-			gpsLatDouble = Double.valueOf(gpsLat);
-			gpsLongDouble = Double.valueOf(gpsLong);
+			if(gpsLat!=null && !"".equals(gpsLat) && gpsLong!=null && !"".equals(gpsLong)){
+				gpsLatDouble = Double.valueOf(gpsLat);
+				gpsLongDouble = Double.valueOf(gpsLong);
+			}
 			placesBO = placesBusinessService.getPlacesByDescription(description, gpsLatDouble, gpsLongDouble);
 		}
 		catch(NumberFormatException e){

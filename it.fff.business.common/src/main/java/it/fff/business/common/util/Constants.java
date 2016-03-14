@@ -51,6 +51,7 @@ public class Constants {
 	public static final String PROP_PLACE_READ_FROM_CACHE		= "places.extservice.caching.read";
 	public static final String PROP_PLACE_UPDATE_CACHE			= "places.extservice.caching.update";
 	public static final String PROP_PLACE_EXT_CACHING_TTL		= "places.extservice.caching.ttl.days";
+	public static final String PROP_PLACE_GPS_DECIMALPREC_CACHE	= "places.extservice.caching.gps.decimalprecision";
 	public static final String PROP_GOOGLE_APIKEY				= "google.geocoding.apikey";
 	public static final String PROP_GOOGLE_MAX_CALLS			= "google.geocoding.maxcallsperday";
 	public static final String PROP_GOOGLE_PREMIUM				= "google.geocoding.accountpremium";

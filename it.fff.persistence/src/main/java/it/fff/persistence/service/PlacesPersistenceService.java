@@ -13,6 +13,8 @@ public interface PlacesPersistenceService extends PersistenceService{
 
 	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception;
 	
+	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception;
+	
 	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws Exception;
 
 	public CityBO getCityByName(String cityName, String nationKey) throws Exception;

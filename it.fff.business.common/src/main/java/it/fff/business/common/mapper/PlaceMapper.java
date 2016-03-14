@@ -24,6 +24,7 @@ import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
+import it.fff.business.common.util.DistanceCalculator;
 import it.fff.clientserver.common.dto.PlaceDTO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
 
@@ -307,9 +308,15 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 				}
 			}
 			bo.setCivico(gCivico);
-			bo.setGpsLat(gLat);
-			bo.setGpsLong(gLong);
 			bo.setCap(gCAP);
+			
+			int decimalPrecision = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_GPS_DECIMALPREC_CACHE));
+			
+			double roundedLat = DistanceCalculator.round(gLat, decimalPrecision);
+			double roundedLong = DistanceCalculator.round(gLong, decimalPrecision);
+			bo.setGpsLat(roundedLat);
+			bo.setGpsLong(roundedLong);
+			
 			
 			Date currentDate = new Date();
 			String currentDateStr = Constants.DATE_FORMATTER.format(currentDate);
@@ -364,5 +371,5 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		return bo;
 
 	}
-
+	
 }
