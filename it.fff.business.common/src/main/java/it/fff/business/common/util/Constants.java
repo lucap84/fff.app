@@ -64,6 +64,15 @@ public class Constants {
 	public final static int LATITUDE_RANGE_ABS = 90;
 	public final static int LONGITUDE_RANGE_ABS = 180;
 	
+	
+	/*
+	 * Facebook constants 
+	 */
+	public static final String FACEBOOK_CONF_FILENAME 	= "facebook.properties";	
+	
+	public static final String PROP_FACEBOOK_APP_ID		= "facebook.app.id";
+	public static final String PROP_FACEBOOK_APP_SECRET	= "facebook.app.secret";
+	
 	/*
 	 * Named Queries
 	 */

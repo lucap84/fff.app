@@ -1,9 +1,13 @@
 package it.fff.business.service.wsrest;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +20,22 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -156,7 +165,28 @@ public class UserService extends ApplicationService{
 	@Produces(MediaType.APPLICATION_XML)
 	public EmailInfoDTO isExistingEmailXML(@Context HttpServletRequest request, @PathParam("email") String email) throws BusinessException {
 		return isExistingEmail(request, email);
-	}		
+	}
+	
+	@GET
+	@Path("fb/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserDTO getFacebookUserDataJSON(@Context HttpServletRequest request,
+									@Context HttpHeaders headers,
+									@QueryParam("token") String token) 
+												 throws BusinessException {
+		return getFacebookUserData(request, headers, token);
+	}
+	@GET
+	@Path("fb/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public UserDTO getFacebookUserDataXML(@Context HttpServletRequest request,
+												@Context HttpHeaders headers,
+												@QueryParam("token") String token)   
+												throws BusinessException {
+		return getFacebookUserData(request, headers, token);
+	}	
 	
 	
 	/*
@@ -267,6 +297,79 @@ public class UserService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return result;
+	}
+	
+	private UserDTO getFacebookUserData(HttpServletRequest request, HttpHeaders headers, String token){
+		UserDTO user = null;
+		
+        String graph = null;
+        try {
+            String uri = "https://graph.facebook.com/me?access_token=" + token;
+            String fields = "&fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,birthday";
+            URL u = new URL(uri+fields);
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null)
+                b.append(inputLine + "\n");            
+            in.close();
+            graph = b.toString();
+        } catch (Exception e) {
+            logger.error("error during facebook graph call");
+            return user;
+        } 
+        
+        String facebookId = null;
+        String firstName = null;
+        String middleNames = null;
+        String lastName = null;
+        String email = null;
+        String userBirthday = null;
+        UserSexEnum gender = UserSexEnum.UNKNOWN;
+        try {
+            JSONObject json = new JSONObject(graph);
+            String[] names = JSONObject.getNames(json);json.getString("updated_time");
+            
+            for (int i = 0; i < names.length; i++) {
+				switch(names[i]){
+					case "id": facebookId = json.getString("id"); break;
+					case "first_name": firstName = json.getString("first_name"); break;
+					case "middle_name": middleNames = json.getString("middle_name"); break;
+					case "last_name": lastName = json.getString("last_name"); break;
+					case "email": email = json.getString("email"); break;
+					case "gender": {
+						String g = json.getString("gender");
+		                if (g.equalsIgnoreCase("female"))
+		                    gender = UserSexEnum.F;
+		                else if (g.equalsIgnoreCase("male"))
+		                    gender = UserSexEnum.M;
+		                else
+		                    gender = UserSexEnum.UNKNOWN;
+		                break;
+					}
+					case "birthday": userBirthday = json.getString("birthday"); break;
+				}
+			}
+        } catch (JSONException e) {
+            logger.error("invalid JSON structure");
+            return user;
+        }        
+        
+        user = new UserDTO();
+        user.setFacebookId(Long.valueOf(facebookId));
+        user.setNome(firstName);
+        user.setCognome(lastName);
+        user.setSesso(gender);
+        user.setDataNascita(userBirthday);
+        
+        AccountDTO account = new AccountDTO();
+        account.setEmail(email);
+        account.setFlgValidita(true);
+        
+        user.setAccount(account);
+        
+		return user;
 	}	
 	
 }

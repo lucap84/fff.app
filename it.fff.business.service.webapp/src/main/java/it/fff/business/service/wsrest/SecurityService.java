@@ -1,9 +1,15 @@
 package it.fff.business.service.wsrest;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -15,11 +21,16 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -161,6 +172,24 @@ public class SecurityService extends ApplicationService {
 		return sendVerificationCode(request, email);
 	}	
 	
+	@GET
+	@Path("fb/login/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String loginFacebookJSON(@Context HttpServletRequest request,
+												 @Context HttpHeaders headers) 
+												 throws BusinessException {
+		return loginFacebook(request, headers);
+	}
+	@GET
+	@Path("fb/login/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public String loginFacebookXML(@Context HttpServletRequest request,
+												@Context HttpHeaders headers) 
+												throws BusinessException {
+		return loginFacebook(request, headers);
+	}	
 
 	
 	/*
@@ -176,6 +205,7 @@ public class SecurityService extends ApplicationService {
 	 *
 	 */
 	
+
 	private AuthDataResponseDTO registerUser(HttpServletRequest request, HttpHeaders headers, RegistrationInputDTO registrationInputDTO) {
 		AuthDataResponseDTO resultDTO = null;
 		resultDTO = new AuthDataResponseDTO();
@@ -308,6 +338,41 @@ public class SecurityService extends ApplicationService {
 		return result;
 	}
 	
+	
+	private String loginFacebook(HttpServletRequest request, HttpHeaders headers) {
+		String loginToken = null;
+		
+		String code = request.getParameter("code");
+        if (code == null || code.equals("")) {
+            logger.error("'code' not present in the request");
+            return loginToken;
+        }
+        
+        try {
+        	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+        	String myAppId = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_ID);
+        	String myAppSecret = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_SECRET);
+            String g = "https://graph.facebook.com/oauth/access_token?client_id="+myAppId+"&redirect_uri=" + URLEncoder.encode("http://localhost:8080/it.fff.business.service.webapp/restapi/security/fb/login/json", "UTF-8") + "&client_secret="+myAppSecret+"&code=" + code;
+            URL u = new URL(g);
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null)
+                b.append(inputLine + "\n");            
+            in.close();
+            loginToken = b.toString();
+            if (loginToken.startsWith("{"))
+                throw new Exception("error on requesting token: " + loginToken + " with code: " + code);
+        } catch (Exception e) {
+            logger.error("invalid 'token'");
+            return loginToken;
+        } 
+        
+        return loginToken;
+	}
+	
+
 	
 	
 }

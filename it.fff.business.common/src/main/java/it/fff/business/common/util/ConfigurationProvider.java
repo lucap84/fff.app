@@ -21,11 +21,13 @@ public class ConfigurationProvider {
 	private Properties mailConfigProperties;
 	private Properties imagesConfigProperties;
 	private Properties placesConfigProperties;
+	private Properties facebookConfigProperties;
 	
 	String mailConfigPropertiesFileName;
 	String authConfigPropertiesFileName;
 	String imagesPropertiesFileName;
 	String placesPropertiesFileName;
+	String facebookPropertiesFileName;
 	
 	private ConfigurationProvider(){
 		 authConfigProperties = new Properties();
@@ -35,7 +37,9 @@ public class ConfigurationProvider {
 		 imagesConfigProperties = new Properties();
 		 imagesPropertiesFileName = Constants.IMAGE_CONF_FILENAME;
 		 placesConfigProperties = new Properties();
-		 placesPropertiesFileName = Constants.PLACES_CONF_FILENAME;		 
+		 placesPropertiesFileName = Constants.PLACES_CONF_FILENAME;
+		 facebookConfigProperties = new Properties();
+		 facebookPropertiesFileName = Constants.FACEBOOK_CONF_FILENAME;		 		 
 		 try {
 			this.loadConfigurationFromFile();
 		} catch (FileNotFoundException e) {
@@ -57,6 +61,7 @@ public class ConfigurationProvider {
 		InputStream mailInputStream = getClass().getClassLoader().getResourceAsStream(this.mailConfigPropertiesFileName);
 		InputStream imagesInputStream = getClass().getClassLoader().getResourceAsStream(this.imagesPropertiesFileName);
 		InputStream placesInputStream = getClass().getClassLoader().getResourceAsStream(this.placesPropertiesFileName);
+		InputStream facebookInputStream = getClass().getClassLoader().getResourceAsStream(this.facebookPropertiesFileName);
 		
 		if (authInputStream != null) {
 			authConfigProperties.load(authInputStream);
@@ -90,6 +95,13 @@ public class ConfigurationProvider {
 			throw new FileNotFoundException("property file '" + placesPropertiesFileName + "' not found in the classpath");
 		}		
 		
+		if (facebookInputStream != null) {
+			facebookConfigProperties.load(facebookInputStream);
+			logger.debug(this.facebookPropertiesFileName+" loaded from file");
+		} else {
+			logger.error("error during loading file: "+this.facebookPropertiesFileName);
+			throw new FileNotFoundException("property file '" + facebookPropertiesFileName + "' not found in the classpath");
+		}		
 	}
 	
 	public String loadStringFromFile(String fileName){
@@ -176,5 +188,13 @@ public class ConfigurationProvider {
 	
 	public Properties getPlacesConfigProperties(){
 		return this.placesConfigProperties;
+	}
+	
+	public String getFacebookConfigProperty(String propertyName){
+		return facebookConfigProperties.getProperty(propertyName);	
+	}
+	
+	public Properties getFacebookConfigProperties(){
+		return this.facebookConfigProperties;
 	}	
 }

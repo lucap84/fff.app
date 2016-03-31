@@ -4,7 +4,8 @@ public enum UserSexEnum {
 	
 	M("Male"),
 	F("Female"),
-	T("Transgender");
+	T("Transgender"),
+	UNKNOWN("Unknown");
 	
 	private final String name;
 	
