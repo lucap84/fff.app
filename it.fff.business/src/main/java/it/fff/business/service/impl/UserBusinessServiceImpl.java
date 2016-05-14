@@ -70,9 +70,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			isSent  = MailManager.getInstance().sendRegistrationConfirmMail(mailUtente, nomeUtente);
 
 			if(!isSent){
+				logger.error("ERRORE: Invio mail verification code non riuscito per utente "+mailUtente);
 				throw new IntegrationException("Invio mail verification code non riuscito", null);
 			}		
-			logger.info("...createUser mail sent");
+			logger.info("...createUser: mail sending process finished");
 		}
 		
 		return resultBO;
