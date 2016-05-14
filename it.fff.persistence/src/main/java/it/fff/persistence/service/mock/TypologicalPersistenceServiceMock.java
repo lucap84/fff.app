@@ -30,24 +30,24 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo1.setDescrizione("Qualsiasi");
 		
 		EventCategoryBO bo2 = new EventCategoryBO();
-		bo1.setId(2);
-		bo1.setNome("Viaggi");
-		bo1.setDescrizione("Viaggi");
+		bo2.setId(2);
+		bo2.setNome("Viaggi");
+		bo2.setDescrizione("Viaggi");
 
 		EventCategoryBO bo3 = new EventCategoryBO();
-		bo1.setId(3);
-		bo1.setNome("Arte e cultura");
-		bo1.setDescrizione("Arte e cultura");
+		bo3.setId(3);
+		bo3.setNome("Arte e cultura");
+		bo3.setDescrizione("Arte e cultura");
 
 		EventCategoryBO bo4 = new EventCategoryBO();
-		bo1.setId(4);
-		bo1.setNome("Musica");
-		bo1.setDescrizione("Musica");
+		bo4.setId(4);
+		bo4.setNome("Musica");
+		bo4.setDescrizione("Musica");
 
 		EventCategoryBO bo5 = new EventCategoryBO();
-		bo1.setId(5);
-		bo1.setNome("Sport");
-		bo1.setDescrizione("Sport");
+		bo5.setId(5);
+		bo5.setNome("Sport");
+		bo5.setDescrizione("Sport");
 
 		
 		bos.add(bo1);
