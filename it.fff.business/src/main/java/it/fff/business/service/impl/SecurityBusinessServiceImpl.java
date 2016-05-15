@@ -41,6 +41,15 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 
 	@Override
 	public WriteResultBO login(SessionBO session) throws IntegrationException {
+		
+		String email = session.getAccount().getEmail();
+		String password = session.getAccount().getPassword();
+		
+		if(email==null || "".equals(email) || password==null || "".equals(password)){
+			logger.error("username o password non valorizzati");
+			throw new IntegrationException("username o password non valorizzati", null);
+		}
+		
 		//Inizializzo le validita dell'account
 		session.setLogged(true);
 		//imposto la data login della prima sessione

@@ -28,6 +28,9 @@ public class UserDTO extends DataTransferObject {
 	private List<LanguageDTO> lingue;
 	private List<AchievementDTO> achievements;
 	private AccountDTO account;
+	private int numPositiveFeedbacks;
+	private int numNegativeFeedbacks;
+	
 	@XmlElement public int getId() {
 		return id;
 	}
@@ -124,7 +127,17 @@ public class UserDTO extends DataTransferObject {
 	public void setAccount(AccountDTO account) {
 		this.account = account;
 	}
+	public int getNumPositiveFeedbacks() {
+		return numPositiveFeedbacks;
+	}
+	public void setNumPositiveFeedbacks(int numPositiveFeedbacks) {
+		this.numPositiveFeedbacks = numPositiveFeedbacks;
+	}
+	public int getNumNegativeFeedbacks() {
+		return numNegativeFeedbacks;
+	}
+	public void setNumNegativeFeedbacks(int numNegativeFeedbacks) {
+		this.numNegativeFeedbacks = numNegativeFeedbacks;
+	}
 
-	
-	
 }

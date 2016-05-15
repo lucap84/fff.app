@@ -791,6 +791,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 
 	@Override
 	public CityBO getCityByName(String cityName, String nationCode) throws IntegrationException {
+		logger.debug("recupero citta...");
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		CityBO resultBO = null;
@@ -803,10 +804,56 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-
+		logger.debug("...recuperate citta");
+		return resultBO;
+	}	
+	
+	@Override
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws IntegrationException {
+		logger.debug("recupero feedbacks utente...");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		List<FeedbackEnum> resultBO = null;
+		try{
+			resultBO = userPersistenceService.getUserFeedbacks(userId);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		logger.debug("...recuperati feedbacks utente");
 		return resultBO;
 	}	
 
+
+	@Override
+	public ProfileImageBO readProfileImage(int userId) throws IntegrationException {
+		logger.debug("recupero immagine utente...");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		ProfileImageBO resultBO = null;
+		try{
+			resultBO = userPersistenceService.readProfileImage(userId);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		logger.debug("...recuperata immagine utente");
+		return resultBO;
+	}
+	
+	/*
+	 * 
+	 * 
+	 * Utility methods
+	 * 
+	 * 
+	 */
 	
 	private boolean isPlaceStillValid(String date, int expirationDays) {
 		Date cachedDate = null;

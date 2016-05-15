@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
@@ -91,6 +92,16 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			if(bo.getLastPositionLong()!=0){
 				dto.setLastPositionLong(String.valueOf(bo.getLastPositionLong()));
 			}
+			
+			List<FeedbackEnum> feedbacks = bo.getFeedbacks();
+			int numPositiveFeedbacks = 0;
+			int numNegativeFeedbacks = 0;
+			for (FeedbackEnum feedbackEnum : feedbacks) {
+				if(feedbackEnum== FeedbackEnum.POSITIVE){numPositiveFeedbacks++;}
+				if(feedbackEnum== FeedbackEnum.NEGATIVE){numNegativeFeedbacks++;}
+			}
+			dto.setNumPositiveFeedbacks(numPositiveFeedbacks);
+			dto.setNumNegativeFeedbacks(numNegativeFeedbacks);
 		}
 		return dto;
 	}
@@ -158,6 +169,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		if(bo!=null){
 			dto = new ProfileImageDTO();
 			dto.setImageInputStream(bo.getImageInputStream());
+			dto.setImageAsB64(bo.getImageAsB64());
 			dto.setFileName(bo.getFileName());
 			dto.setUserId(bo.getUserId());
 			dto.setImgHashCode(bo.getImgHashCode());

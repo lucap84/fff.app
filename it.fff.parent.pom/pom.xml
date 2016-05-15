@@ -8,6 +8,8 @@
   	<fff.config.folder>C:\Users\Luca\git\fff.app\it.fff.build</fff.config.folder>
   </properties>
   <build>
+<!-- 
+				RIMUOVE I FILE DI CONFIGURAZIONE DAL WAR PRODOTTO
 	  <resources>
 	       <resource>
 	           <directory>${project.basedir}/src/main/resources</directory>
@@ -17,14 +19,17 @@
 	               <exclude>spring/*.xml</exclude>
 	           </excludes>
 	       </resource>       
-	  </resources>  
+	  </resources>
+ -->  
 	  <plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-resources-plugin</artifactId>
 			<version>2.6</version>
 			<executions>
-				<!-- COPIA I FILE DI CONFIGURAZIONE contenuti src\main\resources -->
+<!--
+				COPIA I FILE DI CONFIGURAZIONE contenuti src\main\resources
+--> 
 				<execution>
 					<id>copy-resources-1</id>
 					<phase>package</phase>
@@ -44,7 +49,9 @@
 						</resources>
 					</configuration>
 				</execution>
-				<!-- COPIA I FILE DI CONTEXT SPRING contenuti src\main\resources\spring -->
+<!--
+				COPIA I FILE DI CONTEXT SPRING contenuti src\main\resources\spring 
+-->
 				<execution>
 					<id>copy-resources-2</id>
 					<phase>package</phase>

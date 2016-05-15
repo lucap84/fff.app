@@ -1,15 +1,15 @@
 package it.fff.persistence.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,9 +33,13 @@ import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
+
+import org.apache.catalina.util.Base64;
+import org.apache.commons.io.FileUtils;
+//import org.apache.commons.net.util.Base64;
 
 public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	
@@ -188,51 +192,44 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		else{
 			throw new SQLException("Errore creando su File system");
 		}
+		
+		//TODO Salva anche su DB il path del file
 		return outputBO;
 	}
 
-	private boolean createDirIfNotExists(String dirPath) {
-		boolean exists = false;
-		File dir = new File(dirPath);
-		exists = dir.exists();
-		if(!exists){
-			try{
-				exists = dir.mkdir();
-			}
-			catch(SecurityException se){
-				exists = false;
-			}
-		}
-		return exists;
-	}	
-	// save uploaded file to a defined location on the server
-    private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {
-    	boolean saved = true;
-    	OutputStream outpuStream = null;
-        try {
-            int read = 0;
-            byte[] bytes = new byte[1024];
- 
-            outpuStream = new FileOutputStream(new File(serverLocation));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                outpuStream.write(bytes, 0, read);
-            }
+	@Override
+	public ProfileImageBO readProfileImage(int userId) throws Exception {
+		logger.info("recupero img user...");
+		ProfileImageBO outputBO = null;
+		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
+		String uploadFolder = configurationProvider.getImageConfigProperty(Constants.PROP_IMAGE_UPLOAD_LOCATION);
 
-        } catch (IOException e) {
-        	saved = false;
-            e.printStackTrace();
-        }
-        finally {
-        	try {
-                outpuStream.flush();
-                outpuStream.close();
-        		outpuStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		//TODO recupera path rdlativo da DB
+		//Per ora assumo che il filename sia la userId dell'utente
+		String filename = userId+".jpg";
+		String filePath = uploadFolder+"\\"+userId+"\\"+filename;
+		
+//		FileInputStream fis = this.readFile(filePath);
+		String imageAsB64 = this.readFileAsBase64(filePath);
+		
+		if(imageAsB64!=null){
+			outputBO = new ProfileImageBO();
+			outputBO.setFileName(filename);
+//			outputBO.setImageInputStream(fis);
+			outputBO.setImageAsB64(imageAsB64);;
+			outputBO.setUserId(userId);
+//			outputBO.setSize(fis.available());
+			outputBO.setImgHashCode(imageAsB64.hashCode());
 		}
-        return saved;
-    }	
+		else{
+			throw new SQLException("Errore leggendo immagine da Filesystem");
+		}
+		
+		logger.info("...recuperata img user");
+		
+		return outputBO;
+	} 
+	
     
 	@Override
 	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception {
@@ -324,5 +321,94 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }		
 		logger.info("...check mail completato");
 		return result;
-	}    
+	}
+
+	@Override
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception {
+		//TODO
+		List<FeedbackEnum> feedbacks = new ArrayList<FeedbackEnum>();
+		return feedbacks;
+	}
+	
+
+	/*
+	 * 
+	 * Utility methods
+	 * 
+	 * 
+	 */
+	
+
+	private boolean createDirIfNotExists(String dirPath) {
+		boolean exists = false;
+		File dir = new File(dirPath);
+		exists = dir.exists();
+		if(!exists){
+			try{
+				exists = dir.mkdir();
+			}
+			catch(SecurityException se){
+				exists = false;
+			}
+		}
+		return exists;
+	}	
+	// save uploaded file to a defined location on the server
+    private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {
+    	boolean saved = true;
+    	OutputStream outpuStream = null;
+        try {
+            int read = 0;
+            byte[] bytes = new byte[1024];
+ 
+            outpuStream = new FileOutputStream(new File(serverLocation));
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
+                outpuStream.write(bytes, 0, read);
+            }
+
+        } catch (IOException e) {
+        	saved = false;
+            e.printStackTrace();
+        }
+        finally {
+        	try {
+                outpuStream.flush();
+                outpuStream.close();
+        		outpuStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        return saved;
+    }
+    
+    private FileInputStream readFile(String serverLocation){
+    	File file = new File(serverLocation);
+		FileInputStream fis = null;
+
+		try {
+			fis = new FileInputStream(file);
+			logger.debug("Total file size to read (in bytes) : "+ fis.available());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}    	
+    	
+		return fis;
+    }
+
+    private String readFileAsBase64(String serverLocation){
+    	String b64 = null;
+    	File file = new File(serverLocation);
+    	byte[] readFileToByteArray;
+		try {
+			readFileToByteArray = FileUtils.readFileToByteArray(file);
+			b64 = Base64.encode(readFileToByteArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return b64;
+    }
+    
+
 }
+

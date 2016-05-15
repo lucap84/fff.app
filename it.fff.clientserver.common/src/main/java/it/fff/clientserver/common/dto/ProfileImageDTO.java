@@ -12,6 +12,7 @@ public class ProfileImageDTO extends DataTransferObject {
 	private static final long serialVersionUID = 3192121877817654035L;
 	private int userId;
 	private InputStream imageInputStream;
+	private String imageAsB64;
 	private String fileName;
 	private String name;
 	private Map<String,String> parameters;
@@ -68,5 +69,12 @@ public class ProfileImageDTO extends DataTransferObject {
 	public void setImgHashCode(int imgHashCode) {
 		this.imgHashCode = imgHashCode;
 	}
+	@XmlElement public String getImageAsB64() {
+		return imageAsB64;
+	}
+	public void setImageAsB64(String imageAsB64) {
+		this.imageAsB64 = imageAsB64;
+	}
+	
 	
 }

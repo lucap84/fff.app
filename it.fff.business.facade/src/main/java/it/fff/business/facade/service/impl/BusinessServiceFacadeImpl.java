@@ -39,7 +39,6 @@ import it.fff.business.common.mapper.MessageStandardMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.mapper.ResultMapper;
-import it.fff.business.common.mapper.SessionMapper;
 import it.fff.business.common.mapper.SubscriptionMapper;
 import it.fff.business.common.mapper.SubscriptionTypeMapper;
 import it.fff.business.common.mapper.UserMapper;
@@ -787,6 +786,48 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		resultDTO = CityMapper.getInstance().mapBO2DTO(resultBO);
+		return resultDTO;
+	}
+
+	@Override
+	public List<FeedbackEnum> getUserFeedbacks(String userId) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		List<FeedbackEnum> feedbacks = null;
+		int userIdInt =-1;
+		try{
+			userIdInt = Integer.valueOf(userId);
+			feedbacks = userBusinessService.getUserFeedbacks(userIdInt);
+		}
+		catch(NumberFormatException e){
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
+		} catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETFEEDBACKS_BY_USERID);
+		}
+		
+		return feedbacks;
+	}
+
+	@Override
+	public ProfileImageDTO readProfileImage(String userId) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		ProfileImageDTO resultDTO = new ProfileImageDTO();
+		ProfileImageBO imgBO = null;
+		int userIdInt =-1;
+		try{
+			userIdInt = Integer.valueOf(userId);
+			imgBO = userBusinessService.readProfileImage(userIdInt);
+		} 
+		catch(NumberFormatException e){
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_READIMAGE_BY_USERID);
+		}
+		if(imgBO!=null){
+			logger.debug("Operation successful by business layer");
+			resultDTO = UserMapper.getInstance().mapBO2DTO(imgBO);
+		}
+		
 		return resultDTO;
 	}
 

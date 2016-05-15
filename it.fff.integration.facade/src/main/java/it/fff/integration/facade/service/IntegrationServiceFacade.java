@@ -101,6 +101,10 @@ public interface IntegrationServiceFacade {
 	public EmailInfoBO isExistingEmail(String email) throws IntegrationException;
 
 	public CityBO getCityByName(String cityName, String nationKey) throws IntegrationException;
+
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws IntegrationException;
+
+	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;
 	
 
 }

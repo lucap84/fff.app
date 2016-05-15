@@ -1,9 +1,12 @@
 package it.fff.business.service;
 
+import java.util.List;
+
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.integration.facade.exception.IntegrationException;
 
 public interface UserBusinessService extends BusinessService{
@@ -19,6 +22,10 @@ public interface UserBusinessService extends BusinessService{
 	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  IntegrationException;
 
 	public EmailInfoBO isExistingEmail(String email)  throws  IntegrationException;
+
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws IntegrationException;
+
+	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;;
 
 
 }

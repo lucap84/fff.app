@@ -1,12 +1,12 @@
 package it.fff.business.common.bo;
 
-import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.Map;
 
 public class ProfileImageBO implements BusinessObject{
 	private int userId;
 	private InputStream imageInputStream;
+	private String imageAsB64;
 	private String fileName;
 	private String name;
 	private Map<String,String> parameters;
@@ -68,6 +68,12 @@ public class ProfileImageBO implements BusinessObject{
 	}
 	public void setExtension(String extension) {
 		this.extension = extension;
+	}
+	public String getImageAsB64() {
+		return imageAsB64;
+	}
+	public void setImageAsB64(String imageAsB64) {
+		this.imageAsB64 = imageAsB64;
 	}
 	
 }

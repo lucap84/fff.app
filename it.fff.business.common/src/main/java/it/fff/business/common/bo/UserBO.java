@@ -2,6 +2,7 @@ package it.fff.business.common.bo;
 
 import java.util.List;
 
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class UserBO implements BusinessObject {
@@ -21,6 +22,7 @@ public class UserBO implements BusinessObject {
 	private List<LanguageBO> lingue;
 	private List<AchievementBO> achievements;
 	private AccountBO account;
+	private List<FeedbackEnum> feedbacks;
 	
 	public int getId() {
 		return id;
@@ -111,6 +113,12 @@ public class UserBO implements BusinessObject {
 	}
 	public void setAccount(AccountBO account) {
 		this.account = account;
+	}
+	public List<FeedbackEnum> getFeedbacks() {
+		return feedbacks;
+	}
+	public void setFeedbacks(List<FeedbackEnum> feedbacks) {
+		this.feedbacks = feedbacks;
 	}
 	
 }

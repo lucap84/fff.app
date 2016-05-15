@@ -1,9 +1,7 @@
 package it.fff.business.service.impl;
 
-
 import java.util.Date;
-
-import javax.activation.MailcapCommandMap;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +16,7 @@ import it.fff.business.common.util.Constants;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
@@ -108,6 +106,13 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public UserBO getUser(int userId) throws IntegrationException {
 		UserBO bo = integrationFacade.getUser(userId);
+		
+		//Recupero anche i Feedback dell'utente
+		if(bo!=null){
+			List<FeedbackEnum> userFeedbacks = integrationFacade.getUserFeedbacks(userId);
+			bo.setFeedbacks(userFeedbacks);
+		}
+		
 		return bo;
 	}
 
@@ -120,6 +125,18 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public EmailInfoBO isExistingEmail(String email) throws IntegrationException {
 		EmailInfoBO result = integrationFacade.isExistingEmail(email);
+		return result;
+	}
+
+	@Override
+	public List<FeedbackEnum> getUserFeedbacks(int userIdInt) throws IntegrationException {
+		List<FeedbackEnum> result = integrationFacade.getUserFeedbacks(userIdInt);
+		return result;
+	}
+
+	@Override
+	public ProfileImageBO readProfileImage(int userId) throws IntegrationException {
+		ProfileImageBO result = integrationFacade.readProfileImage(userId);
 		return result;
 	}
 

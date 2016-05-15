@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
@@ -136,6 +137,29 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		bo.setExisting(false);
 		bo.setValidAccount(false);
 		bo.setVerifiedAccount(false);
+		return bo;
+	}
+
+	@Override
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception {
+		
+		List<FeedbackEnum> feedbacks = new ArrayList<FeedbackEnum>();
+		feedbacks.add(FeedbackEnum.POSITIVE);
+		feedbacks.add(FeedbackEnum.POSITIVE);
+		feedbacks.add(FeedbackEnum.POSITIVE);
+		feedbacks.add(FeedbackEnum.POSITIVE);
+		feedbacks.add(FeedbackEnum.NEGATIVE);
+		feedbacks.add(FeedbackEnum.NEGATIVE);
+		
+		return feedbacks;
+	}
+
+	@Override
+	public ProfileImageBO readProfileImage(int userId) throws Exception {
+		ProfileImageBO bo = new ProfileImageBO();
+		bo.setFileName("fileMock.jpg");
+		bo.setImageAsB64("wertyuiopa");
+		bo.setUserId(userId);
 		return bo;
 	}	
 }

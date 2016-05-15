@@ -1,9 +1,6 @@
 package it.fff.business.service.wsrest;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -35,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
@@ -137,6 +135,23 @@ public class UserService extends ApplicationService{
 							 						@FormDataParam("file") FormDataContentDisposition fileDetail,
 							 						@PathParam("userId") String userId) throws BusinessException {
 		return this.updateProfileImage(request,uploadedInputStream,fileDetail,userId);
+	}
+	
+	@GET
+	@Path("{userId}/images/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ProfileImageDTO getProfileImageJSON(	@Context HttpServletRequest request,
+							 					@PathParam("userId") String userId) throws BusinessException {
+		return this.getProfileImage(request,userId);
+	}
+	@GET
+	@Path("{userId}/images/xml")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public ProfileImageDTO getProfileImageXML(	@Context HttpServletRequest request,
+							 					@PathParam("userId") String userId) throws BusinessException {
+		return this.getProfileImage(request,userId);
 	}	
 	
 	@DELETE
@@ -188,6 +203,20 @@ public class UserService extends ApplicationService{
 		return getFacebookUserData(request, headers, token);
 	}	
 	
+	@GET
+	@Path("{userId}/feedbacks/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<FeedbackEnum> getUserFeedbacksJSON(@Context HttpServletRequest request, 
+											  @PathParam("userId") String userId) throws BusinessException {
+		return this.getUserFeedbacks(request, userId);
+	}
+	@GET
+	@Path("{userId}/feedbacks/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<FeedbackEnum> getUserFeedbacksXML(@Context HttpServletRequest request, 
+											  @PathParam("userId") String userId) throws BusinessException {
+		return this.getUserFeedbacks(request, userId);
+	}	
 	
 	/*
 	 *	
@@ -268,6 +297,19 @@ public class UserService extends ApplicationService{
 			resultDTO = businessServiceFacade.updateProfileImage(imgDTOinput);
 		} catch (BusinessException e) {
 			resultDTO = new WriteResultDTO();
+			super.manageErrors(e, resultDTO, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		
+		return resultDTO;
+	}
+	
+	private ProfileImageDTO getProfileImage(HttpServletRequest request, String userId) {
+		ProfileImageDTO resultDTO = null;
+		try {
+			resultDTO = businessServiceFacade.readProfileImage(userId);
+		} catch (BusinessException e) {
+			resultDTO = new ProfileImageDTO();
 			super.manageErrors(e, resultDTO, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
@@ -370,6 +412,17 @@ public class UserService extends ApplicationService{
         user.setAccount(account);
         
 		return user;
+	}
+	
+	private List<FeedbackEnum> getUserFeedbacks(HttpServletRequest request, String userId) {
+		List<FeedbackEnum> result = null;
+		try {
+			result = businessServiceFacade.getUserFeedbacks(userId);
+		} catch (BusinessException e) {
+			result = new ArrayList<FeedbackEnum>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
 	}	
 	
 }

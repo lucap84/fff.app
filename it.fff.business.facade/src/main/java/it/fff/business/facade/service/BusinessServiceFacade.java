@@ -83,4 +83,8 @@ public interface BusinessServiceFacade {
 
 	public CityDTO getCityByName(String cityName, String nationCode) throws BusinessException;
 
+	public List<FeedbackEnum> getUserFeedbacks(String userId) throws BusinessException;
+
+	public ProfileImageDTO readProfileImage(String userId) throws BusinessException;
+
 }
