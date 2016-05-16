@@ -8,6 +8,7 @@ import it.fff.clientserver.common.enums.UserSexEnum;
 public class UserBO implements BusinessObject {
 
 	private int	id;
+	private long facebookId;
 	private String nome;
 	private String cognome;
 	private String dataNascita;
@@ -29,6 +30,12 @@ public class UserBO implements BusinessObject {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public long getFacebookId() {
+		return facebookId;
+	}
+	public void setFacebookId(long facebookId) {
+		this.facebookId = facebookId;
 	}
 	public String getNome() {
 		return nome;

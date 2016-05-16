@@ -84,6 +84,10 @@ public class MailManager {
 		if(!this.mailSenderEnabled){
 			return success;
 		}
+		if(mailUtente==null || "".equals(mailUtente)){
+			logger.warn("email utente non presente! Impossibile inviar email");
+			return false;
+		}
 		Session session = getMailSessionInstance();		
 		
 		try {

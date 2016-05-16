@@ -39,6 +39,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			bo.setAccount(accountMapper.mapDTO2BO(dto.getAccount()));
 			
+			bo.setFacebookId(dto.getFacebookId());
 			bo.setNome(dto.getNome());
 			bo.setCognome(dto.getCognome());
 			bo.setSesso(dto.getSesso());
@@ -74,6 +75,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			dto.setAccount(accountMapper.mapBO2DTO(bo.getAccount()));
 			
 			dto.setNome(bo.getNome());
+			dto.setFacebookId(bo.getFacebookId());
 			dto.setCognome(bo.getCognome());
 			dto.setSesso(bo.getSesso());
 			dto.setDataNascita(bo.getDataNascita());
@@ -212,6 +214,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 				eo = new UserEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
+			//TODO aggiungi facebookID sul DB
 			eo.setNomeIfNotEmpty(bo.getNome());
 			eo.setCognomeIfNotEmpty(bo.getCognome());
 			eo.setSessoIfNotEmpty(bo.getSesso().toString());

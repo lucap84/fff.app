@@ -12,6 +12,7 @@ public class AccountBO implements BusinessObject {
 	private boolean flgVerificato;
 	private UserBO user;
 	private List<SessionBO> sessions;
+	
 	public int getId() {
 		return id;
 	}

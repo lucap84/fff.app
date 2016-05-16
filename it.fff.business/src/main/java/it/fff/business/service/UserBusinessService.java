@@ -21,11 +21,13 @@ public interface UserBusinessService extends BusinessService{
 
 	public WriteResultBO cancelAttendance(int eventId, int userId)  throws  IntegrationException;
 
-	public EmailInfoBO isExistingEmail(String email)  throws  IntegrationException;
+	public EmailInfoBO getEmailInfo(String email)  throws  IntegrationException;
 
 	public List<FeedbackEnum> getUserFeedbacks(int userId) throws IntegrationException;
 
-	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;;
+	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;
+
+	public UserBO getFacebookUserData(String token) throws IntegrationException;
 
 
 }

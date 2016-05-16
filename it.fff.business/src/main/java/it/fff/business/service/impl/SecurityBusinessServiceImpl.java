@@ -12,7 +12,6 @@ import it.fff.business.common.util.Constants;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.strategy.VerificationCodeStrategy;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 
@@ -110,6 +109,12 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException {
 		WriteResultBO bo = integrationFacade.resetPassword(email, newPassword, verificationCode);
 		return bo;
+	}
+
+	@Override
+	public String getFacebookToken(String code) throws IntegrationException {
+		String token = integrationFacade.getFacebookToken(code);
+		return token;
 	}	
 	
 }

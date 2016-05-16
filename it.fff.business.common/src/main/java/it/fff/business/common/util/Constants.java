@@ -70,8 +70,13 @@ public class Constants {
 	 */
 	public static final String FACEBOOK_CONF_FILENAME 	= "facebook.properties";	
 	
-	public static final String PROP_FACEBOOK_APP_ID		= "facebook.app.id";
-	public static final String PROP_FACEBOOK_APP_SECRET	= "facebook.app.secret";
+	public static final String PROP_FACEBOOK_APP_ID				= "facebook.app.id";
+	public static final String PROP_FACEBOOK_APP_SECRET			= "facebook.app.secret";
+	public static final String PROP_FACEBOOK_ACCESSTOKEN_URL	= "facebook.accesstoken.url";
+	public static final String PROP_FACEBOOK_REDIRECT_URL		= "facebook.redirect.url";
+	public static final String PROP_FACEBOOK_ME_URL				= "facebook.me.url";
+	public static final String PROP_FACEBOOK_ME_FIELDS			= "facebook.me.fields";
+	
 	
 	/*
 	 * Named Queries

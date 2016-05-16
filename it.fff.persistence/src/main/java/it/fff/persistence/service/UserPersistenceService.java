@@ -23,7 +23,7 @@ public interface UserPersistenceService  extends PersistenceService{
 
 	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception;
 
-	public EmailInfoBO isExistingEmail(String email) throws Exception;
+	public EmailInfoBO getEmailInfo(String email) throws Exception;
 
 	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception;
 

@@ -1,5 +1,10 @@
 package it.fff.integration.facade.service.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import it.fff.business.common.bo.*;
 import it.fff.business.common.util.ConfigurationProvider;
@@ -19,6 +26,7 @@ import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.external.service.PlacesExternalService;
 import it.fff.external.util.ExternalServiceProvider;
 import it.fff.integration.facade.exception.IntegrationException;
@@ -771,12 +779,12 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws IntegrationException {
+	public EmailInfoBO getEmailInfo(String email) throws IntegrationException {
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 		
 		EmailInfoBO resultBO = null;
 		try{
-			resultBO = userPersistenceService.isExistingEmail(email);
+			resultBO = userPersistenceService.getEmailInfo(email);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -847,6 +855,146 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		return resultBO;
 	}
 	
+	@Override
+	public String getFacebookToken(String code) throws IntegrationException {
+		
+		String accessTokenResp = null;
+		
+        try {
+        	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+        	String myAppId = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_ID);
+        	String myAppSecret = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_SECRET);
+        	String urlAccessToken = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_ACCESSTOKEN_URL);
+        	String urlRedirect = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_REDIRECT_URL);
+        	
+        	StringBuffer urlRedirectEnriched = new StringBuffer(urlAccessToken);
+        	urlRedirectEnriched.append("?client_id=").append(myAppId);
+        	urlRedirectEnriched.append("&redirect_uri=").append(URLEncoder.encode(urlRedirect, "UTF-8"));
+        	urlRedirectEnriched.append("&client_secret=").append(myAppSecret);
+        	urlRedirectEnriched.append("&code=").append(code);
+        	
+            URL u = new URL(urlRedirectEnriched.toString());
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null)
+                b.append(inputLine + "\n");            
+            in.close();
+            accessTokenResp = b.toString();
+            if (accessTokenResp.startsWith("{"))
+                throw new Exception("error on requesting token: " + accessTokenResp + " with code: " + code);
+        } catch (Exception e) {
+            logger.error("invalid 'token'");
+            return null;
+        } 
+        
+        return accessTokenResp;
+	}
+
+	@Override
+	public UserBO getFacebookUserData(String token) throws IntegrationException {
+		UserBO user = null;
+		
+		token = token.replace("access_token=", "");
+		int indexOf = token.indexOf("&expires=");
+		
+		String tokenExpires = token.substring(indexOf+9);
+		int tokenExpiresInt = -1;
+		if(tokenExpires!=null && !"".equals(tokenExpires)){
+			tokenExpires = tokenExpires.substring(0, tokenExpires.indexOf('\n'));
+			tokenExpiresInt = Integer.valueOf(tokenExpires);
+		}
+		
+		token = token.substring(0, indexOf);
+		
+        String graph = null;
+        ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+        try {
+        	String urlFbMe = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_ME_URL);
+        	String fbMeFields = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_ME_FIELDS);
+        	
+        	StringBuffer urlFbMeEnriched = new StringBuffer(urlFbMe);
+        	urlFbMeEnriched.append("?access_token=").append(token);
+        	urlFbMeEnriched.append("&fields=").append(fbMeFields);
+            
+            URL u = new URL(urlFbMeEnriched.toString());
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer buff = new StringBuffer();
+            while ((inputLine = in.readLine()) != null)
+            	buff.append(inputLine + "\n");            
+            in.close();
+            graph = buff.toString();
+        } catch (Exception e) {
+            logger.error("error during facebook graph call");
+            throw new IntegrationException("error during facebook graph call", e);
+        }
+        
+        String facebookId = null;
+        String firstName = null;
+        String middleName = null;
+        String lastName = null;
+        String email = null;
+        String userBirthday = null;
+        UserSexEnum gender = UserSexEnum.UNKNOWN;
+        try {
+            JSONObject json = new JSONObject(graph);
+            String[] names = JSONObject.getNames(json);json.getString("updated_time");
+            
+            for (int i = 0; i < names.length; i++) {
+				switch(names[i]){
+					case "id": facebookId = json.getString("id"); break;
+					case "first_name": firstName = json.getString("first_name"); break;
+					case "middle_name": middleName = json.getString("middle_name"); break;
+					case "last_name": lastName = json.getString("last_name"); break;
+					case "email": email = json.getString("email"); break;
+					case "gender": {
+						String g = json.getString("gender");
+		                if (g.equalsIgnoreCase("female"))
+		                    gender = UserSexEnum.F;
+		                else if (g.equalsIgnoreCase("male"))
+		                    gender = UserSexEnum.M;
+		                else
+		                    gender = UserSexEnum.UNKNOWN;
+		                break;
+					}
+					case "birthday": userBirthday = json.getString("birthday"); break;
+				}
+			}
+        } catch (JSONException e) {
+            logger.error("invalid JSON structure");
+            return user;
+        }        
+        
+        user = new UserBO();
+        user.setFacebookId(Long.valueOf(facebookId));
+        
+        if(middleName!=null && !"".equals(middleName)){
+        	firstName += " "+middleName;
+        }
+        user.setNome(firstName);
+        user.setCognome(lastName);
+        user.setSesso(gender);
+        user.setDataNascita(userBirthday);
+        
+        AccountBO account = new AccountBO();
+        account.setEmail(email);
+        account.setFlgValidita(true);
+        account.setSessions(new ArrayList<SessionBO>());
+        
+        SessionBO session = new SessionBO();
+        session.setSocialToken(token);
+        session.setSocialTokenExpires(tokenExpiresInt);
+        
+        account.getSessions().add(session);
+        user.setAccount(account);
+        
+		return user;
+	}
+	
+	
 	/*
 	 * 
 	 * 
@@ -873,5 +1021,6 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		long diffInMillies = date2.getTime() - date1.getTime();
 		return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
+
 
 }

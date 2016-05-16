@@ -68,8 +68,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			isSent  = MailManager.getInstance().sendRegistrationConfirmMail(mailUtente, nomeUtente);
 
 			if(!isSent){
-				logger.error("ERRORE: Invio mail verification code non riuscito per utente "+mailUtente);
-				throw new IntegrationException("Invio mail verification code non riuscito", null);
+				logger.warn("ERRORE: Invio mail verification code non riuscito per utente "+nomeUtente+" (email="+mailUtente+")");
+//				throw new IntegrationException("Invio mail verification code non riuscito", null);
 			}		
 			logger.info("...createUser: mail sending process finished");
 		}
@@ -123,8 +123,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws IntegrationException {
-		EmailInfoBO result = integrationFacade.isExistingEmail(email);
+	public EmailInfoBO getEmailInfo(String email) throws IntegrationException {
+		EmailInfoBO result = integrationFacade.getEmailInfo(email);
 		return result;
 	}
 
@@ -137,6 +137,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public ProfileImageBO readProfileImage(int userId) throws IntegrationException {
 		ProfileImageBO result = integrationFacade.readProfileImage(userId);
+		return result;
+	}
+
+	@Override
+	public UserBO getFacebookUserData(String token) throws IntegrationException {
+		UserBO result = integrationFacade.getFacebookUserData(token);
 		return result;
 	}
 

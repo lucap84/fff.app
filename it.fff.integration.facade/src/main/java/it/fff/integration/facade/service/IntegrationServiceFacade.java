@@ -98,13 +98,17 @@ public interface IntegrationServiceFacade {
 
 	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException;
 
-	public EmailInfoBO isExistingEmail(String email) throws IntegrationException;
+	public EmailInfoBO getEmailInfo(String email) throws IntegrationException;
 
 	public CityBO getCityByName(String cityName, String nationKey) throws IntegrationException;
 
 	public List<FeedbackEnum> getUserFeedbacks(int userId) throws IntegrationException;
 
 	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;
+
+	public String getFacebookToken(String code) throws IntegrationException;
+
+	public UserBO getFacebookUserData(String token) throws IntegrationException;
 	
 
 }

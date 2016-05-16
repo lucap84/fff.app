@@ -37,7 +37,8 @@ import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
-import org.apache.catalina.util.Base64;
+//import org.apache.catalina.util.Base64;
+import org.apache.commons.net.util.Base64;
 import org.apache.commons.io.FileUtils;
 //import org.apache.commons.net.util.Base64;
 
@@ -275,7 +276,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws Exception {
+	public EmailInfoBO getEmailInfo(String email) throws Exception {
 		logger.info("check mail esistente...");
 		
 		EmailInfoBO result = new EmailInfoBO();
@@ -402,7 +403,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
     	byte[] readFileToByteArray;
 		try {
 			readFileToByteArray = FileUtils.readFileToByteArray(file);
-			b64 = Base64.encode(readFileToByteArray);
+			b64 = Base64.encodeBase64String(readFileToByteArray);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -131,7 +131,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public EmailInfoBO isExistingEmail(String email) throws Exception {
+	public EmailInfoBO getEmailInfo(String email) throws Exception {
 		EmailInfoBO bo = new EmailInfoBO();
 		bo.setEmail(email);
 		bo.setExisting(false);

@@ -10,6 +10,8 @@ public class SessionBO implements BusinessObject {
 	private boolean isLogged;
 	private String dataLogin;
 	private String dataLogout;
+	private String socialToken;
+	private int socialTokenExpires;
 	
 	public boolean isLogged() {
 		return isLogged;
@@ -53,6 +55,17 @@ public class SessionBO implements BusinessObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
-	
+	public String getSocialToken() {
+		return socialToken;
+	}
+	public void setSocialToken(String socialToken) {
+		this.socialToken = socialToken;
+	}
+	public int getSocialTokenExpires() {
+		return socialTokenExpires;
+	}
+	public void setSocialTokenExpires(int socialTokenExpires) {
+		this.socialTokenExpires = socialTokenExpires;
+	}
 	
 }

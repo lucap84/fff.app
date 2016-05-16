@@ -1,10 +1,5 @@
 package it.fff.business.service.wsrest;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.fff.clientserver.common.dto.*;
-import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
-import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.LogUtils;
 import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
@@ -176,7 +168,7 @@ public class SecurityService extends ApplicationService {
 	@Path("fb/login/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserDTO loginFacebookJSON(@Context HttpServletRequest request,
+	public AuthDataResponseDTO loginFacebookJSON(@Context HttpServletRequest request,
 												 @Context HttpHeaders headers) 
 												 throws BusinessException {
 		return loginFacebook(request, headers);
@@ -185,30 +177,30 @@ public class SecurityService extends ApplicationService {
 	@Path("fb/login/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public UserDTO loginFacebookXML(@Context HttpServletRequest request,
+	public AuthDataResponseDTO loginFacebookXML(@Context HttpServletRequest request,
 												@Context HttpHeaders headers) 
 												throws BusinessException {
 		return loginFacebook(request, headers);
 	}
 	
-	@GET
-	@Path("fb/token/json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getFacebookLoginTokenJSON(@Context HttpServletRequest request,
-												 @Context HttpHeaders headers) 
-												 throws BusinessException {
-		return getFacebookLoginToken(request, headers);
-	}
-	@GET
-	@Path("fb/token/xml")
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	public String getFacebookLoginTokenXML(@Context HttpServletRequest request,
-												@Context HttpHeaders headers) 
-												throws BusinessException {
-		return getFacebookLoginToken(request, headers);
-	}	
+//	@GET
+//	@Path("fb/token/json")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public String getFacebookLoginTokenJSON(@Context HttpServletRequest request,
+//												 @Context HttpHeaders headers) 
+//												 throws BusinessException {
+//		return getFacebookLoginToken(request, headers);
+//	}
+//	@GET
+//	@Path("fb/token/xml")
+//	@Consumes(MediaType.APPLICATION_XML)
+//	@Produces(MediaType.APPLICATION_XML)
+//	public String getFacebookLoginTokenXML(@Context HttpServletRequest request,
+//												@Context HttpHeaders headers) 
+//												throws BusinessException {
+//		return getFacebookLoginToken(request, headers);
+//	}	
 
 	
 	/*
@@ -358,152 +350,60 @@ public class SecurityService extends ApplicationService {
 	}
 	
 	private String getFacebookLoginToken(HttpServletRequest request, HttpHeaders headers) {
-		String loginToken = null;
+		String loginToken = "service deactivated";
 		
-		String code = request.getParameter("code");
-        if (code == null || code.equals("")) {
-            logger.error("'code' not present in the request");
-            return null;
-        }
-        
-        try {
-        	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
-        	String myAppId = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_ID);
-        	String myAppSecret = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_SECRET);
-            String g = "https://graph.facebook.com/oauth/access_token?client_id="+myAppId+"&redirect_uri=" + URLEncoder.encode("http://localhost:8080/it.fff.business.service.webapp/restapi/security/fb/login/json", "UTF-8") + "&client_secret="+myAppSecret+"&code=" + code;
-            URL u = new URL(g);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            String inputLine;
-            StringBuffer b = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                b.append(inputLine + "\n");            
-            in.close();
-            loginToken = b.toString();
-            if (loginToken.startsWith("{"))
-                throw new Exception("error on requesting token: " + loginToken + " with code: " + code);
-        } catch (Exception e) {
-            logger.error("invalid 'token'");
-            return loginToken;
-        } 
-        
+//		String code = request.getParameter("code");
+//        if (code == null || code.equals("")) {
+//            logger.error("'code' not present in the request");
+//            return null;
+//        }
+//        
+//        try {
+//        	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+//        	String myAppId = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_ID);
+//        	String myAppSecret = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_SECRET);
+//            String g = "https://graph.facebook.com/oauth/access_token?client_id="+myAppId+"&redirect_uri=" + URLEncoder.encode("http://localhost:8080/it.fff.business.service.webapp/restapi/security/fb/login/json", "UTF-8") + "&client_secret="+myAppSecret+"&code=" + code;
+//            URL u = new URL(g);
+//            URLConnection c = u.openConnection();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+//            String inputLine;
+//            StringBuffer b = new StringBuffer();
+//            while ((inputLine = in.readLine()) != null)
+//                b.append(inputLine + "\n");            
+//            in.close();
+//            loginToken = b.toString();
+//            if (loginToken.startsWith("{"))
+//                throw new Exception("error on requesting token: " + loginToken + " with code: " + code);
+//        } catch (Exception e) {
+//            logger.error("invalid 'token'");
+//            return loginToken;
+//        } 
+//        
         return loginToken;
 	}	
 	
 	
-	private UserDTO loginFacebook(HttpServletRequest request, HttpHeaders headers) {
-		UserDTO userDTO = null;
-		String loginToken = null;
+	private AuthDataResponseDTO loginFacebook(HttpServletRequest request, HttpHeaders headers) {
+		AuthDataResponseDTO result = null;
 		
 		String code = request.getParameter("code");
         if (code == null || code.equals("")) {
             logger.error("'code' not present in the request");
-            return null;
+            return result;
         }
         
-        try {
-        	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
-        	String myAppId = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_ID);
-        	String myAppSecret = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_APP_SECRET);
-            String g = "https://graph.facebook.com/oauth/access_token?client_id="+myAppId+"&redirect_uri=" + URLEncoder.encode("http://localhost:8080/it.fff.business.service.webapp/restapi/security/fb/login/json", "UTF-8") + "&client_secret="+myAppSecret+"&code=" + code;
-            URL u = new URL(g);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            String inputLine;
-            StringBuffer b = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                b.append(inputLine + "\n");            
-            in.close();
-            loginToken = b.toString();
-            if (loginToken.startsWith("{"))
-                throw new Exception("error on requesting token: " + loginToken + " with code: " + code);
-        } catch (Exception e) {
-            logger.error("invalid 'token'");
-            return null;
-        } 
-        
-        userDTO = this.getFacebookUserData(loginToken);
-        
-        return userDTO;
+		try {
+			result = businessServiceFacade.loginFacebook(code);
+		} catch (BusinessException e) {
+			result = new AuthDataResponseDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;		
+
 	}
 	
 	
-	private UserDTO getFacebookUserData(String token){
-		UserDTO user = null;
-		
-		token = token.replace("access_token=", "");
-		int indexOf = token.indexOf("&expires=");
-		token = token.substring(0, indexOf);
-		
-        String graph = null;
-        try {
-            String uri = "https://graph.facebook.com/me?access_token=" + token;
-            String fields = "&fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,birthday";
-            URL u = new URL(uri+fields);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            String inputLine;
-            StringBuffer b = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                b.append(inputLine + "\n");            
-            in.close();
-            graph = b.toString();
-        } catch (Exception e) {
-            logger.error("error during facebook graph call");
-            return user;
-        } 
-        
-        String facebookId = null;
-        String firstName = null;
-        String middleNames = null;
-        String lastName = null;
-        String email = null;
-        String userBirthday = null;
-        UserSexEnum gender = UserSexEnum.UNKNOWN;
-        try {
-            JSONObject json = new JSONObject(graph);
-            String[] names = JSONObject.getNames(json);json.getString("updated_time");
-            
-            for (int i = 0; i < names.length; i++) {
-				switch(names[i]){
-					case "id": facebookId = json.getString("id"); break;
-					case "first_name": firstName = json.getString("first_name"); break;
-					case "middle_name": middleNames = json.getString("middle_name"); break;
-					case "last_name": lastName = json.getString("last_name"); break;
-					case "email": email = json.getString("email"); break;
-					case "gender": {
-						String g = json.getString("gender");
-		                if (g.equalsIgnoreCase("female"))
-		                    gender = UserSexEnum.F;
-		                else if (g.equalsIgnoreCase("male"))
-		                    gender = UserSexEnum.M;
-		                else
-		                    gender = UserSexEnum.UNKNOWN;
-		                break;
-					}
-					case "birthday": userBirthday = json.getString("birthday"); break;
-				}
-			}
-        } catch (JSONException e) {
-            logger.error("invalid JSON structure");
-            return user;
-        }        
-        
-        user = new UserDTO();
-        user.setFacebookId(Long.valueOf(facebookId));
-        user.setNome(firstName);
-        user.setCognome(lastName);
-        user.setSesso(gender);
-        user.setDataNascita(userBirthday);
-        
-        AccountDTO account = new AccountDTO();
-        account.setEmail(email);
-        account.setFlgValidita(true);
-        
-        user.setAccount(account);
-        
-		return user;
-	}		
 
 	
 	

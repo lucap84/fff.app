@@ -89,14 +89,14 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	public AuthDataResponseDTO createUser(RegistrationInputDTO registrationInputDTO) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserBO userBO = null;
-		WriteResultBO WriteResultBO = null;
+		WriteResultBO writeResultBO = null;
 		try {
 			userBO = UserMapper.getInstance().mapDTO2BO(registrationInputDTO);
-			WriteResultBO = userBusinessService.createUser(userBO);
+			writeResultBO = userBusinessService.createUser(userBO);
 		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 		}
-		AuthDataResponseDTO result = CustomMapper.getInstance().mapWriteResult2AuthData(WriteResultBO);
+		AuthDataResponseDTO result = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);
 		return result;
 	}
 	
@@ -762,7 +762,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		EmailInfoDTO resultDTO = null;
 		EmailInfoBO resultBO = null;
 		try {
-			resultBO = userBusinessService.isExistingEmail(email);
+			resultBO = userBusinessService.getEmailInfo(email);
 		}
 		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_EXISTING_MAIL);
@@ -829,6 +829,55 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		return resultDTO;
+	}
+
+	@Override
+	public AuthDataResponseDTO loginFacebook(String code) throws BusinessException {
+		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		
+		AuthDataResponseDTO authDataRespDTO = null;
+		String accessTokenString = null;
+		UserBO userBO = null;
+		try {
+			accessTokenString = securityBusinessService.getFacebookToken(code);
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
+		}
+		
+		if(accessTokenString!=null && !"".equals(accessTokenString)){
+			try {
+				userBO = userBusinessService.getFacebookUserData(accessTokenString);
+			}
+			catch (IntegrationException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
+			}
+		}
+		
+		if(userBO!=null){ //Ora che ho i dati utente, lo registro du DB
+			
+			WriteResultBO writeResultBO = null;
+			try {
+				//Controllo se l'utente già risulta registrato
+				String userEmail = userBO.getAccount().getEmail();
+				EmailInfoBO mailInfo = userBusinessService.getEmailInfo(userEmail);
+				
+				if(!mailInfo.isExisting()){
+					writeResultBO = userBusinessService.createUser(userBO);
+				}
+				else{//Se l'utente già esiste, faccio un update dei suoi dati
+					userBusinessService.updateUserData(userBO);
+				}
+				
+			} catch (IntegrationException e) {
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
+			}
+			authDataRespDTO = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);			
+			authDataRespDTO.setSocialToken(accessTokenString);
+		}
+		
+		return authDataRespDTO;
 	}
 
 
