@@ -290,7 +290,16 @@ public class UserService extends ApplicationService{
 		imgDTOinput.setName(fileDetail.getName());
 		imgDTOinput.setParameters(fileDetail.getParameters());
 		imgDTOinput.setSize(fileDetail.getSize());
-		imgDTOinput.setType(fileDetail.getType());
+		
+		String ext = "";
+		if(fileDetail.getFileName()!=null && !"".equals(fileDetail.getFileName())){
+			String[] split = fileDetail.getFileName().split("\\.");
+			if(split.length>1){
+				ext = split[1];
+			}
+		}
+		imgDTOinput.setExtension(ext);
+//		imgDTOinput.setType(fileDetail.getType());
 
 		WriteResultDTO resultDTO = null;
 		try {
@@ -342,76 +351,14 @@ public class UserService extends ApplicationService{
 	}
 	
 	private UserDTO getFacebookUserData(HttpServletRequest request, HttpHeaders headers, String token){
-		UserDTO user = null;
-		
-        String graph = null;
-        try {
-            String uri = "https://graph.facebook.com/me?access_token=" + token;
-            String fields = "&fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,birthday";
-            URL u = new URL(uri+fields);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            String inputLine;
-            StringBuffer b = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                b.append(inputLine + "\n");            
-            in.close();
-            graph = b.toString();
-        } catch (Exception e) {
-            logger.error("error during facebook graph call");
-            return user;
-        } 
-        
-        String facebookId = null;
-        String firstName = null;
-        String middleNames = null;
-        String lastName = null;
-        String email = null;
-        String userBirthday = null;
-        UserSexEnum gender = UserSexEnum.UNKNOWN;
-        try {
-            JSONObject json = new JSONObject(graph);
-            String[] names = JSONObject.getNames(json);json.getString("updated_time");
-            
-            for (int i = 0; i < names.length; i++) {
-				switch(names[i]){
-					case "id": facebookId = json.getString("id"); break;
-					case "first_name": firstName = json.getString("first_name"); break;
-					case "middle_name": middleNames = json.getString("middle_name"); break;
-					case "last_name": lastName = json.getString("last_name"); break;
-					case "email": email = json.getString("email"); break;
-					case "gender": {
-						String g = json.getString("gender");
-		                if (g.equalsIgnoreCase("female"))
-		                    gender = UserSexEnum.F;
-		                else if (g.equalsIgnoreCase("male"))
-		                    gender = UserSexEnum.M;
-		                else
-		                    gender = UserSexEnum.UNKNOWN;
-		                break;
-					}
-					case "birthday": userBirthday = json.getString("birthday"); break;
-				}
-			}
-        } catch (JSONException e) {
-            logger.error("invalid JSON structure");
-            return user;
-        }        
-        
-        user = new UserDTO();
-        user.setFacebookId(Long.valueOf(facebookId));
-        user.setNome(firstName);
-        user.setCognome(lastName);
-        user.setSesso(gender);
-        user.setDataNascita(userBirthday);
-        
-        AccountDTO account = new AccountDTO();
-        account.setEmail(email);
-        account.setFlgValidita(true);
-        
-        user.setAccount(account);
-        
-		return user;
+		UserDTO result = null;
+		try {
+			result = businessServiceFacade.getFacebookUserData(token);
+		} catch (BusinessException e) {
+			result = new UserDTO();
+			logger.error(LogUtils.stackTrace2String(e));
+		}		
+		return result;
 	}
 	
 	private List<FeedbackEnum> getUserFeedbacks(HttpServletRequest request, String userId) {

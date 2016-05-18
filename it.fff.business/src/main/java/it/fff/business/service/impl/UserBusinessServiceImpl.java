@@ -79,7 +79,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
+	public WriteResultBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
 		logger.info("updateProfileImage start...");
 		
 		logger.debug("image validation...");
@@ -89,7 +89,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 		}
 		logger.debug("...image validation successfully finished");
 		
-		ProfileImageBO bo = integrationFacade.updateProfileImage(imgBO);
+		imgBO.setProfileImage(true);
+		
+		WriteResultBO bo = integrationFacade.updateProfileImage(imgBO);
 		
 		logger.info("...updateProfileImage end");
 		return bo;

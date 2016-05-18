@@ -13,7 +13,7 @@ public interface UserBusinessService extends BusinessService{
 
 	public WriteResultBO createUser(UserBO userBO) throws  IntegrationException;
 
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws  IntegrationException;
+	public WriteResultBO updateProfileImage(ProfileImageBO imgBO) throws  IntegrationException;
 
 	public WriteResultBO updateUserData(UserBO userBO) throws  IntegrationException;
 

@@ -140,44 +140,6 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		return bo;
 	}
 
-	public ProfileImageBO mapDTO2BO(ProfileImageDTO dto) {
-		ProfileImageBO bo = null;
-		if(dto!=null){
-			bo = new ProfileImageBO();
-			bo.setImageInputStream(dto.getImageInputStream());
-			bo.setFileName(dto.getFileName());
-			bo.setName(dto.getName());
-			bo.setUserId(dto.getUserId());
-			bo.setImgHashCode(dto.getImgHashCode());
-			bo.setSize(dto.getSize());
-			bo.setType(dto.getType());
-			bo.setParameters(dto.getParameters());
-			
-			if(dto.getFileName()!=null && !"".equals(dto.getFileName())){
-				String ext = "";
-				String[] split = dto.getFileName().split("\\.");
-				if(split.length>1){
-					ext = split[1];
-				}
-				bo.setExtension(ext);
-			}
-			
-		}
-		return bo;
-	}
-
-	public ProfileImageDTO mapBO2DTO(ProfileImageBO bo) {
-		ProfileImageDTO dto = null;
-		if(bo!=null){
-			dto = new ProfileImageDTO();
-			dto.setImageInputStream(bo.getImageInputStream());
-			dto.setImageAsB64(bo.getImageAsB64());
-			dto.setFileName(bo.getFileName());
-			dto.setUserId(bo.getUserId());
-			dto.setImgHashCode(bo.getImgHashCode());
-		}
-		return dto;
-	}
 
 	public UserBO mapDTO2BO(RegistrationInputDTO dto) {
 		UserBO bo1 = null;

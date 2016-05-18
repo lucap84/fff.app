@@ -38,6 +38,7 @@ import it.fff.business.common.mapper.MessageMapper;
 import it.fff.business.common.mapper.MessageStandardMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
+import it.fff.business.common.mapper.ProfileImageMapper;
 import it.fff.business.common.mapper.ResultMapper;
 import it.fff.business.common.mapper.SubscriptionMapper;
 import it.fff.business.common.mapper.SubscriptionTypeMapper;
@@ -123,25 +124,19 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	@Override
 	public WriteResultDTO updateProfileImage(ProfileImageDTO dto) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
-		WriteResultDTO resultDTO = new WriteResultDTO();
+		WriteResultBO resultBO = null;
 		ProfileImageBO imgBO = null;
 		try {
-			imgBO = UserMapper.getInstance().mapDTO2BO(dto);
-			imgBO = userBusinessService.updateProfileImage(imgBO);
+			imgBO = ProfileImageMapper.getInstance().mapDTO2BO(dto);
+			resultBO = userBusinessService.updateProfileImage(imgBO);
 		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);
 		}
 		if(imgBO!=null){
 			logger.debug("Operation successful by business layer");
 		}
-		ProfileImageDTO dtoResult = UserMapper.getInstance().mapBO2DTO(imgBO);
+		WriteResultDTO resultDTO = ResultMapper.getInstance().mapBO2DTO(resultBO);
 		
-		if(dtoResult!=null){
-//			resultDTO.setOk(true);
-			resultDTO.setAffectedRecords(1);
-			resultDTO.setIdentifier(dtoResult.getImgHashCode());
-			logger.debug("Mapping bo2dto completed");
-		}
 		return resultDTO;
 	}
 
@@ -825,7 +820,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		if(imgBO!=null){
 			logger.debug("Operation successful by business layer");
-			resultDTO = UserMapper.getInstance().mapBO2DTO(imgBO);
+			resultDTO = ProfileImageMapper.getInstance().mapBO2DTO(imgBO);
 		}
 		
 		return resultDTO;
@@ -878,6 +873,23 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		}
 		
 		return authDataRespDTO;
+	}
+
+	@Override
+	public UserDTO getFacebookUserData(String token) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		UserDTO dto = null;
+		UserBO bo = null;
+
+		try{
+			 bo = userBusinessService.getFacebookUserData(token);
+		} catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_FB_USERDATA);
+		}
+		
+		dto  = UserMapper.getInstance().mapBO2DTO(bo);
+		
+		return dto;
 	}
 
 

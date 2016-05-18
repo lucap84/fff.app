@@ -29,9 +29,12 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO eoInput) throws SQLException {
-		eoInput.setImgHashCode(1010101);
-		return eoInput;
+	public WriteResultBO updateProfileImage(ProfileImageBO eoInput) throws SQLException {
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setWrittenKey(1);
+		resultBO.setSuccess(true);
+		resultBO.setAffectedRecords(1);
+		return resultBO;
 	}
 
 	@Override
@@ -161,5 +164,6 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		bo.setImageAsB64("wertyuiopa");
 		bo.setUserId(userId);
 		return bo;
-	}	
+	}
+
 }

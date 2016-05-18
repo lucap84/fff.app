@@ -89,4 +89,6 @@ public interface BusinessServiceFacade {
 
 	public AuthDataResponseDTO loginFacebook(String code) throws BusinessException;
 
+	public UserDTO getFacebookUserData(String token) throws BusinessException;
+
 }

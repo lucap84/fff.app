@@ -12,11 +12,7 @@ import it.fff.clientserver.common.enums.FeedbackEnum;
 public interface UserPersistenceService  extends PersistenceService{
 
 	public WriteResultBO registerUser(UserBO userBO) throws Exception;
-
-	public ProfileImageBO updateProfileImage(ProfileImageBO eoInput) throws Exception;
 	
-	public ProfileImageBO readProfileImage(int userId) throws Exception;
-
 	public UserBO getUser(int userId) throws Exception;
 
 	public WriteResultBO updateUserData(UserBO eo) throws Exception;
@@ -26,5 +22,9 @@ public interface UserPersistenceService  extends PersistenceService{
 	public EmailInfoBO getEmailInfo(String email) throws Exception;
 
 	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception;
+
+	public WriteResultBO updateProfileImage(ProfileImageBO imageBO) throws Exception;
+
+	public ProfileImageBO readProfileImage(int userId) throws Exception;
 
 }

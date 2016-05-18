@@ -56,6 +56,7 @@
         <mapping class="it.fff.business.common.eo.PlaceEO" />
         <mapping class="it.fff.business.common.eo.PlaceTypeEO" />
         <mapping class="it.fff.business.common.eo.PriceEO" />
+		<mapping class="it.fff.business.common.eo.ProfileImageEO" />
         <mapping class="it.fff.business.common.eo.SessionEO" />
 		<mapping class="it.fff.business.common.eo.SubscriptionEO" />
 		<mapping class="it.fff.business.common.eo.SubscriptionTypeEO" />        

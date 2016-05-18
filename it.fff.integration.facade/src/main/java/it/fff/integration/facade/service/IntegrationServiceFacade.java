@@ -32,7 +32,7 @@ public interface IntegrationServiceFacade {
 
 	public WriteResultBO registerUser(UserBO userBO) throws IntegrationException;
 
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException;
+	public WriteResultBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException;
 
 	public WriteResultBO createEvent(EventBO bo) throws IntegrationException;
 

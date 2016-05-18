@@ -57,13 +57,13 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
+	public WriteResultBO updateProfileImage(ProfileImageBO imgBO) throws IntegrationException {
 		logger.debug("aggiornando img utente ...");
 		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
 
-		ProfileImageBO boOutput = null;
+		WriteResultBO result = null;
 		try{
-			boOutput = userPersistenceService.updateProfileImage(imgBO);
+			result = userPersistenceService.updateProfileImage(imgBO);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -71,10 +71,10 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
 			throw persistenceException;			
 		}
-		if(boOutput!=null){
+		if(result!=null){
 			logger.debug("user img created");
 		}
-		return boOutput;
+		return result;
 	}
 
 	@Override
@@ -844,6 +844,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		ProfileImageBO resultBO = null;
 		try{
 			resultBO = userPersistenceService.readProfileImage(userId);
+			resultBO = userPersistenceService.readProfileImage(userId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -895,18 +896,19 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	@Override
 	public UserBO getFacebookUserData(String token) throws IntegrationException {
 		UserBO user = null;
-		
-		token = token.replace("access_token=", "");
-		int indexOf = token.indexOf("&expires=");
-		
-		String tokenExpires = token.substring(indexOf+9);
 		int tokenExpiresInt = -1;
-		if(tokenExpires!=null && !"".equals(tokenExpires)){
-			tokenExpires = tokenExpires.substring(0, tokenExpires.indexOf('\n'));
-			tokenExpiresInt = Integer.valueOf(tokenExpires);
-		}
 		
-		token = token.substring(0, indexOf);
+		if(token.contains("access_token=")){
+			token = token.replace("access_token=", "");
+			int indexOf = token.indexOf("&expires=");
+			
+			String tokenExpires = token.substring(indexOf+9);
+			if(tokenExpires!=null && !"".equals(tokenExpires)){
+				tokenExpires = tokenExpires.substring(0, tokenExpires.indexOf('\n'));
+				tokenExpiresInt = Integer.valueOf(tokenExpires);
+			}
+			token = token.substring(0, indexOf);
+		}
 		
         String graph = null;
         ConfigurationProvider confProvider = ConfigurationProvider.getInstance();

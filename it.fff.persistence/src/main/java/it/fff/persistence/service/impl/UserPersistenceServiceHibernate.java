@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +28,11 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.AchievementObtainedEO;
+import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
+import it.fff.business.common.mapper.ProfileImageMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
@@ -174,62 +177,108 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}	
 
 	@Override
-	public ProfileImageBO updateProfileImage(ProfileImageBO boInput) throws Exception {
+	public WriteResultBO updateProfileImage(ProfileImageBO boInput) throws Exception {
 		logger.info("creando img user");
-		ProfileImageBO outputBO = null;
+		
+		
 		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 		String uploadFolder = configurationProvider.getImageConfigProperty(Constants.PROP_IMAGE_UPLOAD_LOCATION);
+
 		String dirPath = uploadFolder+"\\"+boInput.getUserId()+"\\";
-		this.createDirIfNotExists(dirPath);
 		String filePath = dirPath+boInput.getFileName();
+		
+		this.createDirIfNotExists(dirPath);
+		boInput.setPath(dirPath);
+		
 		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
-			outputBO = boInput;
-			outputBO.setImgHashCode(boInput.getImageInputStream().hashCode());
-		}
-		if(outputBO!=null){
+			boInput.setHash(String.valueOf(boInput.getImageInputStream().hashCode()));
 			logger.info("Img user created");
 		}
 		else{
-			throw new SQLException("Errore creando su File system");
+			throw new Exception("Errore creando su File system");
 		}
 		
-		//TODO Salva anche su DB il path del file
-		return outputBO;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		ProfileImageEO imageEO = null;
+		Integer imageID = -1;
+		
+		imageEO = ProfileImageMapper.getInstance().mergeBO2EO(boInput, imageEO, session);
+		
+	    try{
+	    	tx = session.beginTransaction();
+	    	imageID = (Integer) session.save(imageEO);
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during updateProfileImage() ",e);
+	    }finally {
+	    	session.close(); 
+	    }		
+		
+        WriteResultBO result = new WriteResultBO();
+        result.setSuccess(true);
+        result.setWrittenKey(imageID);
+        result.setAffectedRecords(1);
+        
+        return result;
 	}
-
+	
 	@Override
 	public ProfileImageBO readProfileImage(int userId) throws Exception {
-		logger.info("recupero img user...");
-		ProfileImageBO outputBO = null;
-		ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
-		String uploadFolder = configurationProvider.getImageConfigProperty(Constants.PROP_IMAGE_UPLOAD_LOCATION);
+		logger.info("get metadati immagine da DB...");
+		
+		ProfileImageBO result = new ProfileImageBO();
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		ProfileImageEO imageEO = null;
+		UserEO userEO = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	userEO = (UserEO) session.get(UserEO.class, userId);
+	    	List<ProfileImageEO> profileImages = userEO.getProfileImages();
+	    	for (ProfileImageEO eo : profileImages) {
+				if(eo.isProfileImage()){
+					imageEO = eo;
+					break;
+				}
+			}
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during readProfileImageMetadata() ",e);
+	    }finally {
+	    	session.close(); 
+	    }
+	    
+	    result = ProfileImageMapper.getInstance().mapEO2BO(imageEO);
+	    
+	    logger.info("....get metadati immagine da DB completato");
+		logger.info("recupero img user da filesystem...");
 
-		//TODO recupera path rdlativo da DB
-		//Per ora assumo che il filename sia la userId dell'utente
-		String filename = userId+".jpg";
-		String filePath = uploadFolder+"\\"+userId+"\\"+filename;
+		String filePath = result.getPath();
 		
 //		FileInputStream fis = this.readFile(filePath);
 		String imageAsB64 = this.readFileAsBase64(filePath);
 		
 		if(imageAsB64!=null){
-			outputBO = new ProfileImageBO();
-			outputBO.setFileName(filename);
-//			outputBO.setImageInputStream(fis);
-			outputBO.setImageAsB64(imageAsB64);;
-			outputBO.setUserId(userId);
-//			outputBO.setSize(fis.available());
-			outputBO.setImgHashCode(imageAsB64.hashCode());
+			result.setImageAsB64(imageAsB64);
 		}
 		else{
-			throw new SQLException("Errore leggendo immagine da Filesystem");
+			throw new Exception("Errore leggendo immagine da Filesystem");
 		}
 		
 		logger.info("...recuperata img user");
 		
-		return outputBO;
-	} 
+		return result;
+	}	
 	
     
 	@Override
@@ -331,6 +380,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		return feedbacks;
 	}
 	
+	
 
 	/*
 	 * 
@@ -409,7 +459,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		}
     	return b64;
     }
-    
+
 
 }
 

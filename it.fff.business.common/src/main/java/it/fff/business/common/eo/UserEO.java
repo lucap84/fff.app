@@ -102,6 +102,8 @@ public class UserEO extends EntityObject {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abbonato", cascade = CascadeType.ALL)
 	private List<SubscriptionEO> abbonamenti;	
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<ProfileImageEO> profileImages;	
 	
 	public Integer getId() {
 		return id;
@@ -251,6 +253,13 @@ public class UserEO extends EntityObject {
 
 	public void setDataAggiornamento(String dataAggiornamento) {
 		this.dataAggiornamento = dataAggiornamento;
+	}
+	
+	public List<ProfileImageEO> getProfileImages() {
+		return profileImages;
+	}
+	public void setProfileImages(List<ProfileImageEO> profileImages) {
+		this.profileImages = profileImages;
 	}
 
 	/*
