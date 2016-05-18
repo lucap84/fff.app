@@ -51,6 +51,10 @@ public class AuthenticationUtil {
 		return AuthenticationUtil.digestHMACbase64(ALGORITHM_HMAC_SHA256, key, ENCODING_UTF8, data);
 	}
 	
+	/*
+	 * Spiegazione utilita' HMAC
+	 * http://restcookbook.com/Basics/loggingin/
+	 */
 	public static String generateHMACAuthorizationHeader(	String key,
 														Integer userId, 
 														String httpMethod, 

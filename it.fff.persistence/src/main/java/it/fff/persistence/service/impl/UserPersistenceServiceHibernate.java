@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -193,7 +191,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
 			boInput.setHash(String.valueOf(boInput.getImageInputStream().hashCode()));
-			logger.info("Img user created");
+			logger.info("Img user created on FileSystem");
 		}
 		else{
 			throw new Exception("Errore creando su File system");
@@ -205,12 +203,14 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		ProfileImageEO imageEO = null;
 		Integer imageID = -1;
 		
-		imageEO = ProfileImageMapper.getInstance().mergeBO2EO(boInput, imageEO, session);
 		
 	    try{
 	    	tx = session.beginTransaction();
-	    	imageID = (Integer) session.save(imageEO);
-			
+	    	
+	    	imageEO = ProfileImageMapper.getInstance().mergeBO2EO(boInput, imageEO, session);
+			imageID = (Integer) session.save(imageEO);
+	    	
+	    	tx.commit();
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
@@ -249,7 +249,9 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 					break;
 				}
 			}
-			
+	    	
+	    	tx.commit();
+	    	
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
@@ -261,9 +263,8 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    result = ProfileImageMapper.getInstance().mapEO2BO(imageEO);
 	    
 	    logger.info("....get metadati immagine da DB completato");
-		logger.info("recupero img user da filesystem...");
 
-		String filePath = result.getPath();
+		String filePath = result.getPath()+result.getFileName();
 		
 //		FileInputStream fis = this.readFile(filePath);
 		String imageAsB64 = this.readFileAsBase64(filePath);

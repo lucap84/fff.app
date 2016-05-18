@@ -56,19 +56,19 @@ public class UserEO extends EntityObject {
 	private String descrizione;
 
 	@Column(name = "Gps_Latitudine")
-	private double lastPositionLat;
+	private Double lastPositionLat;
 	
 	@Column(name = "Gps_Longitudine")
-	private double lastPositionLong;
+	private Double lastPositionLong;
 
 	@Column(name = "Data_Posizione")
 	private String lastPositionDate;		
 	
 	@Column(name = "Count_Aggiornamento")
-	private int numUpdate;	
+	private Integer numUpdate;	
 	
 	@Column(name = "Flg_Attivo")
-	private boolean flagAttivo;
+	private Boolean flagAttivo;
 	
 	@Column(name = "Data_Creazione")
 	private String dataCreazione;
@@ -105,9 +105,11 @@ public class UserEO extends EntityObject {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<ProfileImageEO> profileImages;	
 	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -128,7 +130,6 @@ public class UserEO extends EntityObject {
 		this.cognome = cognome;
 	}
 
-	
 	public String getDataNascita() {
 		return dataNascita;
 	}
@@ -153,32 +154,22 @@ public class UserEO extends EntityObject {
 		this.descrizione = descrizione;
 	}
 
-	public double getLastPositionLat() {
+	public Double getLastPositionLat() {
 		return lastPositionLat;
 	}
 
-	public void setLastPositionLat(double lastPositionLat) {
+	public void setLastPositionLat(Double lastPositionLat) {
 		this.lastPositionLat = lastPositionLat;
 	}
 
-	public double getLastPositionLong() {
+	public Double getLastPositionLong() {
 		return lastPositionLong;
 	}
 
-	public void setLastPositionLong(double lastPositionLong) {
+	public void setLastPositionLong(Double lastPositionLong) {
 		this.lastPositionLong = lastPositionLong;
 	}
-	
-	
-	public int getNumUpdate() {
-		return numUpdate;
-	}
 
-	public void setNumUpdate(int numUpdate) {
-		this.numUpdate = numUpdate;
-	}
-	
-	
 	public String getLastPositionDate() {
 		return lastPositionDate;
 	}
@@ -187,13 +178,36 @@ public class UserEO extends EntityObject {
 		this.lastPositionDate = lastPositionDate;
 	}
 
+	public Integer getNumUpdate() {
+		return numUpdate;
+	}
 
-	public boolean isFlagAttivo() {
+	public void setNumUpdate(Integer numUpdate) {
+		this.numUpdate = numUpdate;
+	}
+
+	public Boolean getFlagAttivo() {
 		return flagAttivo;
 	}
 
-	public void setFlagAttivo(boolean flagAttivo) {
+	public void setFlagAttivo(Boolean flagAttivo) {
 		this.flagAttivo = flagAttivo;
+	}
+
+	public String getDataCreazione() {
+		return dataCreazione;
+	}
+
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+
+	public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
+
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
 	}
 
 	public NationEO getNazionalita() {
@@ -211,7 +225,6 @@ public class UserEO extends EntityObject {
 	public void setLingue(List<LanguageEO> lingue) {
 		this.lingue = lingue;
 	}
-	
 
 	public List<AchievementObtainedEO> getAchievements() {
 		return achievements;
@@ -228,7 +241,7 @@ public class UserEO extends EntityObject {
 	public void setAccount(AccountEO account) {
 		this.account = account;
 	}
-	
+
 	public List<SubscriptionEO> getAbbonamenti() {
 		return abbonamenti;
 	}
@@ -236,28 +249,11 @@ public class UserEO extends EntityObject {
 	public void setAbbonamenti(List<SubscriptionEO> abbonamenti) {
 		this.abbonamenti = abbonamenti;
 	}
-	
-	
 
-	public String getDataCreazione() {
-		return dataCreazione;
-	}
-
-	public void setDataCreazione(String dataCreazione) {
-		this.dataCreazione = dataCreazione;
-	}
-
-	public String getDataAggiornamento() {
-		return dataAggiornamento;
-	}
-
-	public void setDataAggiornamento(String dataAggiornamento) {
-		this.dataAggiornamento = dataAggiornamento;
-	}
-	
 	public List<ProfileImageEO> getProfileImages() {
 		return profileImages;
 	}
+
 	public void setProfileImages(List<ProfileImageEO> profileImages) {
 		this.profileImages = profileImages;
 	}
@@ -283,7 +279,7 @@ public class UserEO extends EntityObject {
 	public void setDescrizioneIfNotEmpty(String descrizione) {
 		if(!isEmpty(descrizione)) this.descrizione = descrizione;
 	}
-	public void setLastPositionLatIfNotEmpty(double lastPositionLat) {
+	public void setLastPositionLatIfNotEmpty(Double lastPositionLat) {
 		if(!isEmpty(lastPositionLat)) this.lastPositionLat = lastPositionLat;
 	}
 	public void setLastPositionLongIfNotEmpty(Double lastPositionLong) {

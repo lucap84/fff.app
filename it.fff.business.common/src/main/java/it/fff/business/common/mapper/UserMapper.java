@@ -118,7 +118,7 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			bo.setCognome(eo.getCognome());
 			bo.setDataNascita(eo.getDataNascita());
 			bo.setDescrizione(eo.getDescrizione());
-			bo.setFlagAttivo(eo.isFlagAttivo());
+			bo.setFlagAttivo(eo.getFlagAttivo());
 			bo.setLastPositionDate(eo.getLastPositionDate());
 			bo.setLastPositionLat(eo.getLastPositionLat());
 			bo.setLastPositionLong(eo.getLastPositionLong());

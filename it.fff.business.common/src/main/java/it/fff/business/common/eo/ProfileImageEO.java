@@ -102,5 +102,9 @@ public class ProfileImageEO extends EntityObject {
 	public void setUser(UserEO user) {
 		this.user = user;
 	}
+
+	public void setIdIfNotEmpty(int id) {
+		if(!isEmpty(id)) this.id = id;
+	}
 	
 }

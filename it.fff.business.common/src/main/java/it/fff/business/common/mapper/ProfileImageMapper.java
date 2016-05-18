@@ -1,12 +1,20 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.List;
 
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.bo.UserBO;
+import it.fff.business.common.eo.AccountEO;
+import it.fff.business.common.eo.LanguageEO;
+import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.ProfileImageDTO;
+import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO,ProfileImageEO>{
 
@@ -64,8 +72,27 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 
 	@Override
 	public ProfileImageEO mergeBO2EO(ProfileImageBO bo, ProfileImageEO eo, Session session) {
-		// TODO Auto-generated method stub
-		return null;
+		if(bo!=null){
+			if(bo.getId()>0){
+				eo = (ProfileImageEO)session.load(ProfileImageEO.class, bo.getId());
+			}
+			if(eo==null){
+				eo = new ProfileImageEO();
+			}
+			eo.setIdIfNotEmpty(bo.getId());
+			eo.setExtension(bo.getExtension());
+			eo.setFilename(bo.getFileName());
+			eo.setHash(bo.getHash());
+			eo.setPath(bo.getPath());
+			eo.setProfileImage(bo.isProfileImage());
+			eo.setSize(bo.getSize());
+
+			if(bo.getUserId()>0){
+				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getUserId());
+				eo.setUser(userEO);
+			}
+		}
+		return eo;
 	}
 
 	@Override
@@ -76,8 +103,23 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 
 	@Override
 	public ProfileImageBO mapEO2BO(ProfileImageEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+		ProfileImageBO bo = null;
+		if(eo!=null && isInitialized(eo)){
+			bo = new ProfileImageBO();
+			bo.setId(eo.getId());
+			bo.setExtension(eo.getExtension());
+			bo.setFileName(eo.getFilename());
+			bo.setHash(eo.getHash());
+			bo.setImageAsB64(null);
+			bo.setImageInputStream(null);
+			bo.setName(null);
+			bo.setParameters(null);
+			bo.setPath(eo.getPath());
+			bo.setProfileImage(eo.isProfileImage());
+			bo.setSize(eo.getSize());
+			bo.setUserId(eo.getUser().getId());			
+		}
+		return bo;
 	}
 
 	@Override

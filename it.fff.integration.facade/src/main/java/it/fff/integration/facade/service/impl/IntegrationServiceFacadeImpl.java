@@ -844,7 +844,6 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		ProfileImageBO resultBO = null;
 		try{
 			resultBO = userPersistenceService.readProfileImage(userId);
-			resultBO = userPersistenceService.readProfileImage(userId);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
