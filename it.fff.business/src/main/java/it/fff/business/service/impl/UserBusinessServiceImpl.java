@@ -143,8 +143,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}
 
 	@Override
-	public UserBO getFacebookUserData(String token) throws IntegrationException {
-		UserBO result = integrationFacade.getFacebookUserData(token);
+	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException {
+		UserBO result = integrationFacade.getFacebookUserData(token, deviceId);
 		return result;
 	}
 

@@ -16,17 +16,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import it.fff.business.common.bo.*;
+import it.fff.business.common.mapper.CustomMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
-import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.external.service.PlacesExternalService;
 import it.fff.external.util.ExternalServiceProvider;
 import it.fff.integration.facade.exception.IntegrationException;
@@ -893,8 +891,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 
 	@Override
-	public UserBO getFacebookUserData(String token) throws IntegrationException {
-		UserBO user = null;
+	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException {
 		int tokenExpiresInt = -1;
 		
 		if(token.contains("access_token=")){
@@ -933,66 +930,16 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
             throw new IntegrationException("error during facebook graph call", e);
         }
         
-        String facebookId = null;
-        String firstName = null;
-        String middleName = null;
-        String lastName = null;
-        String email = null;
-        String userBirthday = null;
-        UserSexEnum gender = UserSexEnum.UNKNOWN;
-        try {
-            JSONObject json = new JSONObject(graph);
-            String[] names = JSONObject.getNames(json);json.getString("updated_time");
-            
-            for (int i = 0; i < names.length; i++) {
-				switch(names[i]){
-					case "id": facebookId = json.getString("id"); break;
-					case "first_name": firstName = json.getString("first_name"); break;
-					case "middle_name": middleName = json.getString("middle_name"); break;
-					case "last_name": lastName = json.getString("last_name"); break;
-					case "email": email = json.getString("email"); break;
-					case "gender": {
-						String g = json.getString("gender");
-		                if (g.equalsIgnoreCase("female"))
-		                    gender = UserSexEnum.F;
-		                else if (g.equalsIgnoreCase("male"))
-		                    gender = UserSexEnum.M;
-		                else
-		                    gender = UserSexEnum.UNKNOWN;
-		                break;
-					}
-					case "birthday": userBirthday = json.getString("birthday"); break;
-				}
-			}
-        } catch (JSONException e) {
-            logger.error("invalid JSON structure");
-            return user;
-        }        
-        
-        user = new UserBO();
-        user.setFacebookId(Long.valueOf(facebookId));
-        
-        if(middleName!=null && !"".equals(middleName)){
-        	firstName += " "+middleName;
-        }
-        user.setNome(firstName);
-        user.setCognome(lastName);
-        user.setSesso(gender);
-        user.setDataNascita(userBirthday);
-        
-        AccountBO account = new AccountBO();
-        account.setEmail(email);
-        account.setFlgValidita(true);
-        account.setSessions(new ArrayList<SessionBO>());
+        UserBO userBO = CustomMapper.getInstance().mapFacebookData2BO(graph);
         
         SessionBO session = new SessionBO();
         session.setSocialToken(token);
         session.setSocialTokenExpires(tokenExpiresInt);
+        session.setDeviceId(deviceId);
         
-        account.getSessions().add(session);
-        user.setAccount(account);
+        userBO.getAccount().getSessions().add(session);
         
-		return user;
+		return userBO;
 	}
 	
 	

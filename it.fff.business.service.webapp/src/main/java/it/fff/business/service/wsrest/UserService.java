@@ -345,8 +345,15 @@ public class UserService extends ApplicationService{
 	
 	private UserDTO getFacebookUserData(HttpServletRequest request, HttpHeaders headers, String token){
 		UserDTO result = null;
+		
+		String deviceId = null;
+		List<String> devicesHeader = headers.getRequestHeader("Device");
+		if(devicesHeader!=null && devicesHeader.size()>0){
+			deviceId = devicesHeader.get(0);
+		}
+		
 		try {
-			result = businessServiceFacade.getFacebookUserData(token);
+			result = businessServiceFacade.getFacebookUserData(token, deviceId);
 		} catch (BusinessException e) {
 			result = new UserDTO();
 			logger.error(LogUtils.stackTrace2String(e));

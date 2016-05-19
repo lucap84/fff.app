@@ -7,14 +7,9 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.ProfileImageBO;
-import it.fff.business.common.bo.UserBO;
-import it.fff.business.common.eo.AccountEO;
-import it.fff.business.common.eo.LanguageEO;
-import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.ProfileImageDTO;
-import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO,ProfileImageEO>{
 
@@ -80,12 +75,12 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 				eo = new ProfileImageEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
-			eo.setExtension(bo.getExtension());
-			eo.setFilename(bo.getFileName());
-			eo.setHash(bo.getHash());
-			eo.setPath(bo.getPath());
+			eo.setExtensionIfNotEmpty(bo.getExtension());
+			eo.setFilenameIfNotEmpty(bo.getFileName());
+			eo.setHashIfNotEmpty(bo.getHash());
+			eo.setPathIfNotEmpty(bo.getPath());
 			eo.setProfileImage(bo.isProfileImage());
-			eo.setSize(bo.getSize());
+			eo.setSizeIfNotEmpty(bo.getSize());
 
 			if(bo.getUserId()>0){
 				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getUserId());

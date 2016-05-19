@@ -1,10 +1,12 @@
 package it.fff.business.common.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountBO implements BusinessObject {
 	
 	private int	id;
+	private long socialId;
 	private String email;
 	private String password;
 	private String verificationCode;
@@ -56,10 +58,19 @@ public class AccountBO implements BusinessObject {
 		this.user = user;
 	}
 	public List<SessionBO> getSessions() {
+		if(sessions==null){
+			sessions = new ArrayList<SessionBO>(); 
+		}
 		return sessions;
 	}
 	public void setSessions(List<SessionBO> sessions) {
 		this.sessions = sessions;
+	}
+	public long getSocialId() {
+		return socialId;
+	}
+	public void setSocialId(long socialId) {
+		this.socialId = socialId;
 	}
 	
 }

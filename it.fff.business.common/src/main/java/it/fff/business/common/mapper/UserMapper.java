@@ -5,7 +5,11 @@ import static org.hibernate.Hibernate.isInitialized;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
@@ -15,6 +19,7 @@ import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 	
+	private static final Logger logger = LogManager.getLogger(UserMapper.class);
 	private static UserMapper mapper;
 	
 	private UserMapper(){
@@ -39,7 +44,6 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			bo.setAccount(accountMapper.mapDTO2BO(dto.getAccount()));
 			
-			bo.setFacebookId(dto.getFacebookId());
 			bo.setNome(dto.getNome());
 			bo.setCognome(dto.getCognome());
 			bo.setSesso(dto.getSesso());
@@ -75,7 +79,6 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			dto.setAccount(accountMapper.mapBO2DTO(bo.getAccount()));
 			
 			dto.setNome(bo.getNome());
-			dto.setFacebookId(bo.getFacebookId());
 			dto.setCognome(bo.getCognome());
 			dto.setSesso(bo.getSesso());
 			dto.setDataNascita(bo.getDataNascita());
@@ -225,5 +228,6 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 }

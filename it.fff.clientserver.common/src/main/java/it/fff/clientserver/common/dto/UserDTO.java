@@ -13,7 +13,6 @@ public class UserDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -1979200792665108748L;
 	private int	id;
-	private long facebookId;
 	private String nome;
 	private String cognome;
 	private String dataNascita;
@@ -36,12 +35,6 @@ public class UserDTO extends DataTransferObject {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	@XmlElement public long getFacebookId() {
-		return facebookId;
-	}
-	public void setFacebookId(long facebookId) {
-		this.facebookId = facebookId;
 	}
 	@XmlElement public String getNome() {
 		return nome;

@@ -27,7 +27,7 @@ public interface UserBusinessService extends BusinessService{
 
 	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;
 
-	public UserBO getFacebookUserData(String token) throws IntegrationException;
+	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException;
 
 
 }

@@ -387,13 +387,14 @@ public class SecurityService extends ApplicationService {
 		AuthDataResponseDTO result = null;
 		
 		String code = request.getParameter("code");
+		String deviceId = request.getParameter("state");
         if (code == null || code.equals("")) {
             logger.error("'code' not present in the request");
             return result;
         }
         
 		try {
-			result = businessServiceFacade.loginFacebook(code);
+			result = businessServiceFacade.loginFacebook(code, deviceId);
 		} catch (BusinessException e) {
 			result = new AuthDataResponseDTO();
 			super.manageErrors(e, result, request.getLocale());

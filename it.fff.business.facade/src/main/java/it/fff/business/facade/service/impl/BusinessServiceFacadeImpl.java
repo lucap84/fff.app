@@ -827,7 +827,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public AuthDataResponseDTO loginFacebook(String code) throws BusinessException {
+	public AuthDataResponseDTO loginFacebook(String code, String deviceId) throws BusinessException {
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		
@@ -843,7 +843,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		
 		if(accessTokenString!=null && !"".equals(accessTokenString)){
 			try {
-				userBO = userBusinessService.getFacebookUserData(accessTokenString);
+				userBO = userBusinessService.getFacebookUserData(accessTokenString, deviceId);
 			}
 			catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
@@ -868,21 +868,23 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			} catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
 			}
+			
 			authDataRespDTO = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);			
 			authDataRespDTO.setSocialToken(accessTokenString);
+			authDataRespDTO.setSocialId(String.valueOf(userBO.getAccount().getSocialId()));
 		}
 		
 		return authDataRespDTO;
 	}
 
 	@Override
-	public UserDTO getFacebookUserData(String token) throws BusinessException {
+	public UserDTO getFacebookUserData(String token, String deviceId) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserDTO dto = null;
 		UserBO bo = null;
 
 		try{
-			 bo = userBusinessService.getFacebookUserData(token);
+			 bo = userBusinessService.getFacebookUserData(token, deviceId);
 		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_FB_USERDATA);
 		}

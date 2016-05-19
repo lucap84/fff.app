@@ -14,10 +14,10 @@
 	<bean name="eventPersistenceService" class="it.fff.persistence.service.mock.EventPersistenceServiceMock" scope="prototype" />
 	<bean name="premiumPersistenceService" class="it.fff.persistence.service.mock.PremiumPersistenceServiceMock" scope="prototype" />
 	<bean name="placesPersistenceService" class="it.fff.persistence.service.impl.PlacesPersistenceServiceHibernate" scope="prototype" />
-	<bean name="userPersistenceService" class="it.fff.persistence.service.impl.UserPersistenceServiceHibernate" scope="prototype" />
-	<!-- 
 	<bean name="userPersistenceService" class="it.fff.persistence.service.mock.UserPersistenceServiceMock" scope="prototype" />
+	<!-- 
 
+	<bean name="userPersistenceService" class="it.fff.persistence.service.impl.UserPersistenceServiceHibernate" scope="prototype" />
 	<bean name="placesPersistenceService" class="it.fff.persistence.service.mock.PlacesPersistenceServiceMock" scope="prototype" />
 
 	<bean name="securityPersistenceService" class="it.fff.persistence.service.impl.SecurityPersistenceServiceHibernate" scope="prototype" />

@@ -8,8 +8,9 @@ public class AuthDataResponseDTO extends DataTransferObject {
 	
 	private static final long serialVersionUID = -7260208612326225230L;
 	private int userId;
-	private String serverPublicKey;
+	private String socialId;
 	private String socialToken;
+	private String serverPublicKey;
 	
 	@XmlElement public int getUserId() {
 		return userId;
@@ -29,5 +30,12 @@ public class AuthDataResponseDTO extends DataTransferObject {
 	public void setSocialToken(String socialToken) {
 		this.socialToken = socialToken;
 	}
+	@XmlElement public String getSocialId() {
+		return socialId;
+	}
+	public void setSocialId(String socialId) {
+		this.socialId = socialId;
+	}
+
 	
 }

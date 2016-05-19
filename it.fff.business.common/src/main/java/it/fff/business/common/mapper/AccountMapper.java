@@ -63,7 +63,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			eo.setFlgVerificato(bo.isFlgVerificato());
 			eo.setPasswordIfNotEmpty(bo.getPassword());
 			eo.setVerificationCodeIfNotEmpty(bo.getVerificationCode());
-			
+			//TODO social id
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionEO> sessionsEO  = null;
 			
@@ -112,7 +112,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			bo.setFlgVerificato(eo.isFlgVerificato());
 			bo.setPassword(eo.getPassword());
 			bo.setVerificationCode(eo.getVerificationCode());
-			
+			//TODO social id
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionBO> sessionsBO = null;
 			
@@ -152,6 +152,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 				dto.setId(bo.getId());
 			}
 			dto.setId(bo.getId());
+			dto.setSocialId(bo.getSocialId());
 			dto.setEmail(bo.getEmail());
 			dto.setFlgValidita(bo.isFlgValidita());
 			dto.setFlgVerificato(bo.isFlgVerificato());

@@ -108,7 +108,7 @@ public interface IntegrationServiceFacade {
 
 	public String getFacebookToken(String code) throws IntegrationException;
 
-	public UserBO getFacebookUserData(String token) throws IntegrationException;
+	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException;
 	
 
 }

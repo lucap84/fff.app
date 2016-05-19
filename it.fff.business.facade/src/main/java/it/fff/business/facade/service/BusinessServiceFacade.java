@@ -87,8 +87,8 @@ public interface BusinessServiceFacade {
 
 	public ProfileImageDTO readProfileImage(String userId) throws BusinessException;
 
-	public AuthDataResponseDTO loginFacebook(String code) throws BusinessException;
+	public AuthDataResponseDTO loginFacebook(String code, String deviceId) throws BusinessException;
 
-	public UserDTO getFacebookUserData(String token) throws BusinessException;
+	public UserDTO getFacebookUserData(String token, String deviceId) throws BusinessException;
 
 }
