@@ -8,13 +8,10 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.AccountBO;
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.clientserver.common.dto.AccountDTO;
-import it.fff.clientserver.common.dto.EventDTO;
-import it.fff.clientserver.common.dto.SessionDTO;
 
 public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 	
@@ -58,12 +55,13 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 				eo = new AccountEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
+			eo.setFacebookIdIfNotEmpty(bo.getFacebookId());
 			eo.setEmailIfNotEmpty(bo.getEmail());
 			eo.setFlgValidita(bo.isFlgValidita());
 			eo.setFlgVerificato(bo.isFlgVerificato());
 			eo.setPasswordIfNotEmpty(bo.getPassword());
 			eo.setVerificationCodeIfNotEmpty(bo.getVerificationCode());
-			//TODO social id
+			
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionEO> sessionsEO  = null;
 			
@@ -107,12 +105,16 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 		if(eo!=null && isInitialized(eo)){
 			bo = new AccountBO();
 			bo.setId(eo.getId());
+			bo.setFacebookId(eo.getFacebookId());
 			bo.setEmail(eo.getEmail());
 			bo.setFlgValidita(eo.isFlgValidita());
 			bo.setFlgVerificato(eo.isFlgVerificato());
 			bo.setPassword(eo.getPassword());
 			bo.setVerificationCode(eo.getVerificationCode());
-			//TODO social id
+			
+			//Imposto lo user
+			bo.setUserId(eo.getUser().getId());
+			
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionBO> sessionsBO = null;
 			
@@ -152,7 +154,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 				dto.setId(bo.getId());
 			}
 			dto.setId(bo.getId());
-			dto.setSocialId(bo.getSocialId());
+			dto.setFacebookId(bo.getFacebookId());
 			dto.setEmail(bo.getEmail());
 			dto.setFlgValidita(bo.isFlgValidita());
 			dto.setFlgVerificato(bo.isFlgVerificato());

@@ -179,7 +179,6 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 				eo = new UserEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
-			//TODO aggiungi facebookID sul DB
 			eo.setNomeIfNotEmpty(bo.getNome());
 			eo.setCognomeIfNotEmpty(bo.getCognome());
 			eo.setSessoIfNotEmpty(bo.getSesso().toString());

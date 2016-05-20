@@ -9,6 +9,7 @@ import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.NationBO;
@@ -70,7 +71,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		accountBO.setFlgValidita(true);
 		accountBO.setFlgVerificato(true);
 		accountBO.setPassword("jhgdjqhgd3877geid2b");
-		accountBO.setUser(bo);
+		accountBO.setUserId(bo.getId());
 		accountBO.setSessions(sessionsBO);
 		
 		bo.setAccount(accountBO);
@@ -163,6 +164,29 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		bo.setFileName("fileMock.jpg");
 		bo.setImageAsB64("wertyuiopa");
 		bo.setUserId(userId);
+		return bo;
+	}
+
+	@Override
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception {
+		EventPersistenceServiceMock mock = new EventPersistenceServiceMock();
+		List<AttendanceBO> attendances = mock.getAttendancesByEvent(userId);
+		return attendances;
+	}
+
+	@Override
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
+		AccountBO bo = new AccountBO();
+		bo.setEmail("mailmock@mock.it");
+		bo.setFacebookId(facebookId);
+		bo.setFlgValidita(true);
+		bo.setFlgVerificato(true);
+		bo.setId(1);
+		bo.setPassword(null);
+		bo.setSessions(null);
+		bo.setUserId(1);
+		bo.setVerificationCode(null);
+		
 		return bo;
 	}
 

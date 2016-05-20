@@ -84,4 +84,5 @@ public class Constants {
 	public static final String QY_GET_ATTENDANCE_BY_EVENT_ORGANIZER	= "getAttendanceByEventAndOrganizer";
 	public static final String QY_UPDATE_ACCOUNT_PSW				= "updateAccountPassword";
 	public static final String QY_GET_INFO_BY_MAIL					= "geInfoByEmail";
+	public static final String QY_GET_ACCOUNT_BY_FB					= "geAccountByFacebookId";
 }

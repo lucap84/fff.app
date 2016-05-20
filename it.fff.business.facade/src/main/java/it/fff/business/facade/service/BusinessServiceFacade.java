@@ -91,4 +91,6 @@ public interface BusinessServiceFacade {
 
 	public UserDTO getFacebookUserData(String token, String deviceId) throws BusinessException;
 
+	public List<AttendanceDTO> getAttendancesByUser(String userId) throws BusinessException;
+
 }

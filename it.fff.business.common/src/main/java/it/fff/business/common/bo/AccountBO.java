@@ -6,13 +6,13 @@ import java.util.List;
 public class AccountBO implements BusinessObject {
 	
 	private int	id;
-	private long socialId;
+	private long facebookId;
 	private String email;
 	private String password;
 	private String verificationCode;
 	private boolean flgValidita;
 	private boolean flgVerificato;
-	private UserBO user;
+	private int userId;
 	private List<SessionBO> sessions;
 	
 	public int getId() {
@@ -51,11 +51,11 @@ public class AccountBO implements BusinessObject {
 	public void setFlgVerificato(boolean flgVerificato) {
 		this.flgVerificato = flgVerificato;
 	}
-	public UserBO getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(UserBO user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public List<SessionBO> getSessions() {
 		if(sessions==null){
@@ -66,11 +66,11 @@ public class AccountBO implements BusinessObject {
 	public void setSessions(List<SessionBO> sessions) {
 		this.sessions = sessions;
 	}
-	public long getSocialId() {
-		return socialId;
+	public long getFacebookId() {
+		return facebookId;
 	}
-	public void setSocialId(long socialId) {
-		this.socialId = socialId;
+	public void setFacebookId(long facebookId) {
+		this.facebookId = facebookId;
 	}
 	
 }

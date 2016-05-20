@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CityBO;
@@ -109,6 +110,10 @@ public interface IntegrationServiceFacade {
 	public String getFacebookToken(String code) throws IntegrationException;
 
 	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException;
+
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws IntegrationException;
+
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException;
 	
 
 }

@@ -103,7 +103,7 @@ public class CustomMapper {
         user.setDataNascita(userBirthday);
         
         AccountBO account = new AccountBO();
-        account.setSocialId(Long.valueOf(facebookId));
+        account.setFacebookId(Long.valueOf(facebookId));
         account.setEmail(email);
         account.setFlgValidita(true);
         account.setSessions(new ArrayList<SessionBO>());

@@ -209,7 +209,22 @@ public class UserService extends ApplicationService{
 	public List<FeedbackEnum> getUserFeedbacksXML(@Context HttpServletRequest request, 
 											  @PathParam("userId") String userId) throws BusinessException {
 		return this.getUserFeedbacks(request, userId);
-	}	
+	}
+	
+	@GET
+	@Path("{userId}/attendances/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<AttendanceDTO> getAttendancesByUserJSON(@Context HttpServletRequest request, 
+											  @PathParam("userId") String userId) throws BusinessException {
+		return this.getAttendancesByUser(request, userId);
+	}
+	@GET
+	@Path("{userId}/attendances/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public List<AttendanceDTO> getAttendancesByUserXML(@Context HttpServletRequest request, 
+											  @PathParam("userId") String userId) throws BusinessException {
+		return this.getAttendancesByUser(request, userId);
+	}		
 	
 	/*
 	 *	
@@ -370,6 +385,17 @@ public class UserService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return result;
+	}
+	
+	private List<AttendanceDTO> getAttendancesByUser(HttpServletRequest request, String userId) {
+		List<AttendanceDTO> attendances;
+		try {
+			attendances = businessServiceFacade.getAttendancesByUser(userId);
+		} catch (BusinessException e) {
+			attendances = new ArrayList<AttendanceDTO>();
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return attendances;
 	}	
 	
 }

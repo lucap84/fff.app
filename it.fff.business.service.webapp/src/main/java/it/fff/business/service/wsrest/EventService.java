@@ -324,7 +324,8 @@ public class EventService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return attendances;
-	}	
+	}
+	
 	private List<EventDTO> searchEvents(HttpServletRequest request, 
 										String userGpsLat, 
 										String userGpsLong, 

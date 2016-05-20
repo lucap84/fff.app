@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
@@ -145,6 +146,18 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException {
 		UserBO result = integrationFacade.getFacebookUserData(token, deviceId);
+		return result;
+	}
+
+	@Override
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws IntegrationException {
+		List<AttendanceBO> result =integrationFacade.getAttendancesByUser(userId);
+		return result;
+	}
+
+	@Override
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException {
+		AccountBO result =integrationFacade.getUserAccountByFacebookId(facebookId);
 		return result;
 	}
 

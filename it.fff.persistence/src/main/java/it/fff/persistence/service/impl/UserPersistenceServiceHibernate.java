@@ -21,15 +21,20 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.AchievementObtainedEO;
+import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
+import it.fff.business.common.mapper.AccountMapper;
+import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.ProfileImageMapper;
 import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
@@ -376,10 +381,83 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 
 	@Override
 	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception {
-		//TODO
 		List<FeedbackEnum> feedbacks = new ArrayList<FeedbackEnum>();
+		
+		List<AttendanceBO> attendances = this.getAttendancesByUser(userId);
+		
+		for (AttendanceBO a : attendances) {
+			if(a.isOrganizer()){
+				feedbacks.add(a.getFeedback());
+			}
+		}
+		
 		return feedbacks;
 	}
+	
+	@Override
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception {
+		List<AttendanceBO> bos = null;
+		List<AttendanceEO> eos = null;
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	      try{
+	    	 tx = session.beginTransaction();
+			String hqlSelect = "FROM AttendanceEO a WHERE a.utente.id = :userId AND a.isValid = 1 ";	    	  
+	    	Query query = session.createQuery(hqlSelect);
+	    	query.setParameter("userId", userId);
+	    	
+	    	eos = query.list();
+	    	
+	    	tx.commit();
+	    	
+	    }catch (HibernateException e) {
+	    	if(tx!=null)tx.rollback();
+	        e.printStackTrace();
+	        throw new Exception("HibernateException during getAttendancesByUser() ",e);
+	     }finally {
+	        session.close(); 
+	     }
+
+		bos = AttendanceMapper.getInstance().mapEOs2BOs(eos);
+		return bos;
+	}
+	
+	@Override
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
+		logger.info("get account by facebook...");
+		
+		AccountBO result = null;
+		AccountEO eo = null;
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	Query query = session.getNamedQuery(Constants.QY_GET_ACCOUNT_BY_FB);	    	  
+	    	query.setParameter("facebookId", facebookId);
+
+	    	eo = (AccountEO)query.uniqueResult();
+	    	  
+			tx.commit();
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	    }finally {
+	    	session.close(); 
+	    }
+	    
+	    result = AccountMapper.getInstance().mapEO2BO(eo);
+	    
+		logger.info("...get account by facebook completato");
+		return result;
+
+	}	
 	
 	
 
@@ -460,7 +538,6 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		}
     	return b64;
     }
-
 
 }
 

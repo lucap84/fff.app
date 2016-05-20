@@ -13,4 +13,8 @@ public class EntityObject {
 	public boolean isEmpty(Double d) {
 		return (d==null || d==0);
 	}
+	
+	public boolean isEmpty(Long l) {
+		return (l==null || l==0);
+	}	
 }

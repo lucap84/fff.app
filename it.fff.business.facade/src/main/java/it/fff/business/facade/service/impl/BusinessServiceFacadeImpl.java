@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.CityBO;
@@ -152,7 +153,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
 		} catch (IntegrationException e) {
-			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES_BYEVENT);
 		}
 		
 		List<AttendanceDTO> attendancesDTO = null;
@@ -170,7 +171,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			WriteResultBO = eventBusinessService.createEvent(bo);
 		} catch (IntegrationException e) {
-			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES);
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES_BYEVENT);
 		}
 		
 		WriteResultDTO result = ResultMapper.getInstance().mapBO2DTO(WriteResultBO);
@@ -833,6 +834,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		
 		AuthDataResponseDTO authDataRespDTO = null;
 		String accessTokenString = null;
+		Long facebookId = null;
 		UserBO userBO = null;
 		try {
 			accessTokenString = securityBusinessService.getFacebookToken(code);
@@ -855,13 +857,27 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			WriteResultBO writeResultBO = null;
 			try {
 				//Controllo se l'utente già risulta registrato
-				String userEmail = userBO.getAccount().getEmail();
-				EmailInfoBO mailInfo = userBusinessService.getEmailInfo(userEmail);
+				boolean isRegistered = false;
 				
-				if(!mailInfo.isExisting()){
+				String userEmail = userBO.getAccount().getEmail();
+				facebookId = userBO.getAccount().getFacebookId();
+
+				if(userEmail!=null && !"".equals(userEmail)){
+					EmailInfoBO mailInfo = userBusinessService.getEmailInfo(userEmail);
+					isRegistered = mailInfo.isExisting();
+				}
+				else{
+					AccountBO accountByFacebook = userBusinessService.getUserAccountByFacebookId(facebookId);
+					if(accountByFacebook!=null && accountByFacebook.isFlgValidita()){
+						isRegistered = true;
+						userBO.setId(accountByFacebook.getId());
+					}
+				}
+				
+				if(!isRegistered){
 					writeResultBO = userBusinessService.createUser(userBO);
 				}
-				else{//Se l'utente già esiste, faccio un update dei suoi dati
+				else{//Se l'utente già esiste, faccio un update dei suoi dati (ho recuperato il suo ID grazie al facebookId)
 					userBusinessService.updateUserData(userBO);
 				}
 				
@@ -871,7 +887,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			
 			authDataRespDTO = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);			
 			authDataRespDTO.setSocialToken(accessTokenString);
-			authDataRespDTO.setSocialId(String.valueOf(userBO.getAccount().getSocialId()));
+			authDataRespDTO.setSocialId(String.valueOf(facebookId));
 		}
 		
 		return authDataRespDTO;
@@ -892,6 +908,27 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		dto  = UserMapper.getInstance().mapBO2DTO(bo);
 		
 		return dto;
+	}
+
+	@Override
+	public List<AttendanceDTO> getAttendancesByUser(String userId) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		List<AttendanceBO> attendancesBO = null;
+		int userIdInt =-1;
+		try{
+			userIdInt = Integer.valueOf(userId);
+			attendancesBO = userBusinessService.getAttendancesByUser(userIdInt);
+		}
+		catch(NumberFormatException e){
+			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);
+		} catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETATTENDANCES_BYUSER);
+		}
+		
+		List<AttendanceDTO> attendancesDTO = null;
+		attendancesDTO = AttendanceMapper.getInstance().mapBOs2DTOs(attendancesBO);
+
+		return attendancesDTO;
 	}
 
 

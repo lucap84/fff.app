@@ -3,6 +3,8 @@ package it.fff.persistence.service;
 
 import java.util.List;
 
+import it.fff.business.common.bo.AccountBO;
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EmailInfoBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
@@ -26,5 +28,9 @@ public interface UserPersistenceService  extends PersistenceService{
 	public WriteResultBO updateProfileImage(ProfileImageBO imageBO) throws Exception;
 
 	public ProfileImageBO readProfileImage(int userId) throws Exception;
+
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception;
+
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception;
 
 }

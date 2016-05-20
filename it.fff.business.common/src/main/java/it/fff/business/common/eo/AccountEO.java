@@ -19,7 +19,8 @@ import it.fff.business.common.util.Constants;
 
 @NamedQueries({
 	@NamedQuery(name=Constants.QY_UPDATE_ACCOUNT_PSW, query="UPDATE AccountEO set password = :newPassword  WHERE id =:userId AND email =:email AND password = :oldPassword AND flgValidita = 1"),
-	@NamedQuery(name=Constants.QY_GET_INFO_BY_MAIL, query="SELECT a.id, a.flgValidita, a.flgVerificato FROM AccountEO a WHERE a.email = :email")
+	@NamedQuery(name=Constants.QY_GET_INFO_BY_MAIL, query="SELECT a.id, a.flgValidita, a.flgVerificato FROM AccountEO a WHERE a.email = :email"),
+	@NamedQuery(name=Constants.QY_GET_ACCOUNT_BY_FB, query="FROM AccountEO a WHERE a.facebookId = :facebookId")
 })
 @Entity
 @Table(name = "account")
@@ -28,6 +29,9 @@ public class AccountEO extends EntityObject {
 	@Id
 	@Column(name = "ID")
 	private Integer	id;
+	
+	@Column(name = "FacebookId")
+	private Long facebookId;	
 	
 	@Column(name = "Email")
 	private String email;
@@ -131,6 +135,16 @@ public class AccountEO extends EntityObject {
 	public void setSessions(List<SessionEO> sessions) {
 		this.sessions = sessions;
 	}
+	
+	public Long getFacebookId() {
+		return facebookId;
+	}
+
+
+	public void setFacebookId(Long facebookId) {
+		this.facebookId = facebookId;
+	}
+
 
 	/*
 	 * setter if not empty
@@ -138,14 +152,17 @@ public class AccountEO extends EntityObject {
 	public void setIdIfNotEmpty(Integer id) {
 		if(!isEmpty(id)) this.id = id;
 	}
+	public void setFacebookIdIfNotEmpty(Long facebookId) {
+		if(!isEmpty(facebookId)) this.setFacebookId(facebookId);
+	}	
 	public void setEmailIfNotEmpty(String email) {
-		if(!isEmpty(email)) this.email = email;
+		if(!isEmpty(email)) this.setEmail(email);
 	}
 	public void setPasswordIfNotEmpty(String password) {
-		if(!isEmpty(password)) this.password = password;
+		if(!isEmpty(password)) this.setPassword(password);
 	}
 	public void setVerificationCodeIfNotEmpty(String verificationCode) {
-		if(!isEmpty(verificationCode)) this.verificationCode = verificationCode;
+		if(!isEmpty(verificationCode)) this.setVerificationCode(verificationCode);
 	}	
 	
 	

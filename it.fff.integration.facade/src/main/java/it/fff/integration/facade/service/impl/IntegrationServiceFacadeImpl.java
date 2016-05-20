@@ -942,6 +942,46 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		return userBO;
 	}
 	
+	@Override
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws IntegrationException {
+		logger.debug("recupero partecipazioni per utente...");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		List<AttendanceBO> bos = null;
+		try{
+			bos = userPersistenceService.getAttendancesByUser(userId);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		
+		logger.debug("...partecipazioni per utente recuperate");
+		return bos;
+	}
+	
+	@Override
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException {
+		logger.debug("recupero account flokker tramite facebookId...");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		AccountBO bo = null;
+		try{
+			bo = userPersistenceService.getUserAccountByFacebookId(facebookId);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		
+		logger.debug("...recuperato account flokker tramite facebookId");
+		return bo;
+	}	
+	
 	
 	/*
 	 * 
@@ -969,6 +1009,5 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		long diffInMillies = date2.getTime() - date1.getTime();
 		return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
-
 
 }

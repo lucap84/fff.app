@@ -37,7 +37,7 @@ public class ErrorCodes {
 	
 	public static final String ERR_BUSIN_GETEVENT = "2004";
 	public static final String ERR_BUSIN_CREATEUSER = "2005";
-	public static final String ERR_BUSIN_GETATTENDANCES ="2006";
+	public static final String ERR_BUSIN_GETATTENDANCES_BYEVENT ="2006";
 	public static final String ERR_BUSIN_CREATEEVENT = "2007";
 	public static final String ERR_BUSIN_CANCELATTENDANCES = "2008";
 	public static final String ERR_BUSIN_POSTMSG = "2009";
@@ -62,6 +62,7 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_GETCITY_BY_NAME = "2028";
 	public static final String ERR_BUSIN_GETFEEDBACKS_BY_USERID = "2029";
 	public static final String ERR_BUSIN_READIMAGE_BY_USERID = "2030";
-	public static final String ERR_BUSIN_GET_FB_USERDATA = "2030";
+	public static final String ERR_BUSIN_GET_FB_USERDATA = "2031";
+	public static final String ERR_BUSIN_GETATTENDANCES_BYUSER ="2032";
 
 }

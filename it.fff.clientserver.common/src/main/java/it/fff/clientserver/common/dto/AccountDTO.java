@@ -10,7 +10,7 @@ public class AccountDTO extends DataTransferObject {
 
 	private static final long serialVersionUID = -71986174187350978L;
 	private int id;
-	private long socialId;
+	private long facebookId;
 	private String email;
 	private String password;
 	private String verificationCode;
@@ -67,11 +67,12 @@ public class AccountDTO extends DataTransferObject {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	@XmlElement public long getSocialId() {
-		return socialId;
+	@XmlElement public long getFacebookId() {
+		return facebookId;
 	}
-	public void setSocialId(long socialId) {
-		this.socialId = socialId;
+	public void setFacebookId(long facebookId) {
+		this.facebookId = facebookId;
 	}
+
 	
 }
