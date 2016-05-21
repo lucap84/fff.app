@@ -176,17 +176,17 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
-		AccountBO bo = new AccountBO();
-		bo.setEmail("mailmock@mock.it");
+		UserBO user = this.getUser(1);
+		AccountBO bo = user.getAccount();
 		bo.setFacebookId(facebookId);
-		bo.setFlgValidita(true);
-		bo.setFlgVerificato(true);
-		bo.setId(1);
-		bo.setPassword(null);
-		bo.setSessions(null);
-		bo.setUserId(1);
-		bo.setVerificationCode(null);
-		
+		return bo;
+	}
+
+	@Override
+	public AccountBO getUserAccountByEmail(String email) throws Exception {
+		UserBO user = this.getUser(1);
+		AccountBO bo = user.getAccount();
+		bo.setEmail(email);
 		return bo;
 	}
 

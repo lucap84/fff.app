@@ -7,11 +7,10 @@ public class SessionBO implements BusinessObject {
 	private AccountBO account;
 	private String deviceId;
 	private String sharedKey;
+	private long expiresKey;
 	private boolean isLogged;
 	private String dataLogin;
 	private String dataLogout;
-	private String socialToken;
-	private int socialTokenExpires;
 	
 	public boolean isLogged() {
 		return isLogged;
@@ -55,17 +54,11 @@ public class SessionBO implements BusinessObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
-	public String getSocialToken() {
-		return socialToken;
+	public long getExpiresKey() {
+		return expiresKey;
 	}
-	public void setSocialToken(String socialToken) {
-		this.socialToken = socialToken;
-	}
-	public int getSocialTokenExpires() {
-		return socialTokenExpires;
-	}
-	public void setSocialTokenExpires(int socialTokenExpires) {
-		this.socialTokenExpires = socialTokenExpires;
+	public void setExpiresKey(long expiresKey) {
+		this.expiresKey = expiresKey;
 	}
 	
 }

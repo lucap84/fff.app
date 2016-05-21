@@ -47,15 +47,15 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public WriteResultBO createUser(UserBO userBO) throws IntegrationException {
 		logger.info("createUser start...");
-		//Inizializzo le validita dell'account
-		AccountBO creatingAccount = userBO.getAccount();
+		
+		AccountBO creatingAccount = userBO.getAccount();//Inizializzo le validita dell'account
 		creatingAccount.setFlgValidita(true);
-		//imposto l'utente come loggato appena creato l'account
-		SessionBO firstSession = creatingAccount.getSessions().get(0);
+		
+		SessionBO firstSession = creatingAccount.getSessions().get(0);//imposto l'utente come loggato appena creato l'account
 		firstSession.setLogged(true);
-		//imposto la data login della prima sessione
+		
 		String loginDate = Constants.DATE_FORMATTER.format(new Date());
-		firstSession.setDataLogin(loginDate);
+		firstSession.setDataLogin(loginDate);//imposto la data login della prima sessione
 		
 		WriteResultBO resultBO = integrationFacade.registerUser(userBO);
 		logger.info("...createUser persistence done");
@@ -158,6 +158,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	@Override
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException {
 		AccountBO result =integrationFacade.getUserAccountByFacebookId(facebookId);
+		return result;
+	}
+
+	@Override
+	public AccountBO getUserAccountByEmail(String email) throws IntegrationException {
+		AccountBO result =integrationFacade.getUserAccountByEmail(email);
 		return result;
 	}
 

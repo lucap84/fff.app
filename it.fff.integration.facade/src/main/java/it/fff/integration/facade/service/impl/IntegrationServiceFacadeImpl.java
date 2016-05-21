@@ -933,9 +933,10 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
         UserBO userBO = CustomMapper.getInstance().mapFacebookData2BO(graph);
         
         SessionBO session = new SessionBO();
-        session.setSocialToken(token);
-        session.setSocialTokenExpires(tokenExpiresInt);
+        session.setSharedKey(token);
+        session.setExpiresKey(tokenExpiresInt);
         session.setDeviceId(deviceId);
+        session.setLogged(true); //Imposto questa sessione come quella corrente
         
         userBO.getAccount().getSessions().add(session);
         
@@ -981,6 +982,27 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		logger.debug("...recuperato account flokker tramite facebookId");
 		return bo;
 	}	
+	
+	@Override
+	public AccountBO getUserAccountByEmail(String email) throws IntegrationException {
+		logger.debug("recupero account flokker tramite email...");
+		UserPersistenceService userPersistenceService = (UserPersistenceService)PersistenceServiceProvider.getPersistenceService("userPersistenceService");
+		
+		AccountBO bo = null;
+		try{
+			bo = userPersistenceService.getUserAccountByEmail(email);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
+			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
+			throw persistenceException;			
+		}
+		
+		logger.debug("...recuperato account flokker tramite email");
+		return bo;
+	}	
+	
 	
 	
 	/*

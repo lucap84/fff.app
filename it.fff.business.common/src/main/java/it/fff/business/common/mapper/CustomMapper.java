@@ -1,6 +1,8 @@
 package it.fff.business.common.mapper;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +13,7 @@ import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.LoginInputDTO;
 import it.fff.clientserver.common.enums.UserSexEnum;
@@ -84,7 +87,18 @@ public class CustomMapper {
 		                    gender = UserSexEnum.UNKNOWN;
 		                break;
 					}
-					case "birthday": userBirthday = json.getString("birthday"); break;
+					case "birthday": {
+						userBirthday = json.getString("birthday");
+						if(userBirthday!=null && !"".equals(userBirthday)){
+							try {
+								Date birth = Constants.DATE_FORMATTER_FACEBOOK.parse(userBirthday);
+								userBirthday = Constants.DATE_FORMATTER.format(birth);
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+						}
+						break;
+					}
 				}
 			}
         } catch (JSONException e) {

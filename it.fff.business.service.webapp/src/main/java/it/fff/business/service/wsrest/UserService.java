@@ -224,7 +224,33 @@ public class UserService extends ApplicationService{
 	public List<AttendanceDTO> getAttendancesByUserXML(@Context HttpServletRequest request, 
 											  @PathParam("userId") String userId) throws BusinessException {
 		return this.getAttendancesByUser(request, userId);
-	}		
+	}
+	
+	@GET
+	@Path("fb/{facebookId}/account/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public AccountDTO getUserAccountByFacebookIdJSON(@Context HttpServletRequest request, @PathParam("facebookId") String facebookId) throws BusinessException {
+		return getUserAccountByFacebookId(request, facebookId);
+	}
+	@GET
+	@Path("fb/{facebookId}/account/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public AccountDTO getUserAccountByFacebookIdXML(@Context HttpServletRequest request, @PathParam("facebookId") String facebookId) throws BusinessException {
+		return getUserAccountByFacebookId(request, facebookId);
+	}
+	
+	@GET
+	@Path("emails/{email}/account/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public AccountDTO getUserAccountByEmailJSON(@Context HttpServletRequest request, @PathParam("email") String email) throws BusinessException {
+		return getUserAccountByEmail(request, email);
+	}
+	@GET
+	@Path("emails/{email}/account/xml")
+	@Produces(MediaType.APPLICATION_XML)
+	public AccountDTO getUserAccountByEmailXML(@Context HttpServletRequest request, @PathParam("email") String email) throws BusinessException {
+		return getUserAccountByEmail(request, email);
+	}	
 	
 	/*
 	 *	
@@ -396,6 +422,30 @@ public class UserService extends ApplicationService{
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return attendances;
+	}
+	
+	private AccountDTO getUserAccountByEmail(HttpServletRequest request, String email) {
+		AccountDTO result = null;
+		try {
+			result = businessServiceFacade.getUserAccountByEmail(email);
+		} catch (BusinessException e) {
+			result = new AccountDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
+	}
+	
+	private AccountDTO getUserAccountByFacebookId(HttpServletRequest request, String facebookId) {
+		AccountDTO result = null;
+		try {
+			result = businessServiceFacade.getUserAccountByFacebookId(facebookId);
+		} catch (BusinessException e) {
+			result = new AccountDTO();
+			super.manageErrors(e, result, request.getLocale());
+			logger.error(LogUtils.stackTrace2String(e));
+		}
+		return result;
 	}	
 	
 }

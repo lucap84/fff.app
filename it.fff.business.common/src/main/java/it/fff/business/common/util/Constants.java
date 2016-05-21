@@ -9,6 +9,7 @@ public class Constants {
 	 * Date formatter constants
 	 */
 	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+	public final static DateFormat DATE_FORMATTER_FACEBOOK = new SimpleDateFormat("MM/dd/yyyy");
 			
 	/*
 	 * Security constants
@@ -85,4 +86,5 @@ public class Constants {
 	public static final String QY_UPDATE_ACCOUNT_PSW				= "updateAccountPassword";
 	public static final String QY_GET_INFO_BY_MAIL					= "geInfoByEmail";
 	public static final String QY_GET_ACCOUNT_BY_FB					= "geAccountByFacebookId";
+	public static final String QY_GET_ACCOUNT_BY_EMAIL				= "geAccountByEmail";
 }

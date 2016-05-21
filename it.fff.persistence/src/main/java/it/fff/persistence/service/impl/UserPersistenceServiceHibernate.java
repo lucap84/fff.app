@@ -151,16 +151,13 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		Transaction tx = null;
 	      try{
 			tx = session.beginTransaction();
+
+			eo = UserMapper.getInstance().mergeBO2EO(bo, null, session);
 			
-			eo = (UserEO) session.get(UserEO.class, bo.getId());
-			if(eo!=null){
-				eo = UserMapper.getInstance().mergeBO2EO(bo, eo, session);
-				
-		    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
-		    	eo.setDataAggiornamento(dataAggiornamento);
-		    	
-				session.update(eo);
-			}
+	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+	    	eo.setDataAggiornamento(dataAggiornamento);
+	    	
+			session.update(eo);
 			
 			tx.commit();
 	      }catch (HibernateException e) {
@@ -459,7 +456,39 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 
 	}	
 	
-	
+	@Override
+	public AccountBO getUserAccountByEmail(String email) throws Exception {
+		logger.info("get account by facebook...");
+		
+		AccountBO result = null;
+		AccountEO eo = null;
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+	    	
+	    	Query query = session.getNamedQuery(Constants.QY_GET_ACCOUNT_BY_EMAIL);	    	  
+	    	query.setParameter("email", email);
+
+	    	eo = (AccountEO)query.uniqueResult();
+	    	  
+			tx.commit();
+			
+	    }catch (HibernateException e) {
+	    	 if (tx!=null) tx.rollback();
+	    	e.printStackTrace();
+	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	    }finally {
+	    	session.close(); 
+	    }
+	    
+	    result = AccountMapper.getInstance().mapEO2BO(eo);
+	    
+		logger.info("...get account by facebook completato");
+		return result;
+	}	
 
 	/*
 	 * 
@@ -538,6 +567,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		}
     	return b64;
     }
+
 
 }
 

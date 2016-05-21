@@ -53,6 +53,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			eo.setIdIfNotEmpty(bo.getId());
 			eo.setDeviceIdIfNotEmpty(bo.getDeviceId());
 			eo.setSharedKeyIfNotEmpty(bo.getSharedKey());
+			eo.setExpiresKeyIfNotEmpty(bo.getExpiresKey());
 			eo.setLogged(bo.isLogged());
 			eo.setDataLoginIfNotEmpty(bo.getDataLogin());
 			
@@ -76,6 +77,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			bo.setDeviceId(dto.getDeviceId());
 			bo.setLogged(dto.isLogged());
 			bo.setSharedKey(dto.getSharedKey());
+			bo.setExpiresKey(dto.getExpiresKey());
 			
 			if(dto.getAccountId()>0){
 				AccountBO bo2 = new AccountBO();
@@ -129,6 +131,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			dto.setId(bo.getId());
 			dto.setDeviceId(bo.getDeviceId());
 			dto.setSharedKey(bo.getSharedKey());
+			dto.setExpiresKey(bo.getExpiresKey());
 			dto.setLogged(bo.isLogged());
 			dto.setDataLogin(bo.getDataLogin());
 			dto.setDataLogout(bo.getDataLogout());

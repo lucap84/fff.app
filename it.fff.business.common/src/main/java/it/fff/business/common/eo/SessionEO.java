@@ -23,6 +23,9 @@ public class SessionEO extends EntityObject {
 	@Column(name = "SharedKey")
 	private String sharedKey;
 	
+	@Column(name = "ExpiresKey")
+	private Long expiresKey;
+	
 	@Column(name = "Flg_Logged")
 	private boolean isLogged;
 	
@@ -78,25 +81,32 @@ public class SessionEO extends EntityObject {
 	public void setDataLogout(String dataLogout) {
 		this.dataLogout = dataLogout;
 	}
-	
+	public Long getExpiresKey() {
+		return expiresKey;
+	}
+	public void setExpiresKey(Long expiresKey) {
+		this.expiresKey = expiresKey;
+	}
 	/*
 	 * setter if not empty
 	 */
 	public void setIdIfNotEmpty(Integer id) {
-		if(!isEmpty(id)) this.id = id;
+		if(!isEmpty(id)) this. setId(id);
 	}
 	public void setDeviceIdIfNotEmpty(String deviceId) {
-		if(!isEmpty(deviceId)) this.deviceId = deviceId;
+		if(!isEmpty(deviceId)) this.setDeviceId(deviceId);
 	}
 	public void setSharedKeyIfNotEmpty(String sharedKey) {
-		if(!isEmpty(sharedKey)) this.sharedKey = sharedKey;
+		if(!isEmpty(sharedKey)) this.setSharedKey(sharedKey);
 	}
 	public void setDataLoginIfNotEmpty(String dataLogin) {
-		if(!isEmpty(dataLogin)) this.dataLogin = dataLogin;
+		if(!isEmpty(dataLogin)) this.setDataLogin(dataLogin);
 	}
-
 	public void setDataLogoutIfNotEmpty(String dataLogout) {
-		if(!isEmpty(dataLogout)) this.dataLogout = dataLogout;
+		if(!isEmpty(dataLogout)) this.setDataLogout(dataLogout);
+	}
+	public void setExpiresKeyIfNotEmpty(long expiresKey) {
+		if(!isEmpty(expiresKey)) this.setExpiresKey(expiresKey);
 	}	
 	
 }

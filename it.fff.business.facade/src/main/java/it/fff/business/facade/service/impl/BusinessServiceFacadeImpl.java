@@ -25,6 +25,7 @@ import it.fff.business.common.bo.SubscriptionBO;
 import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.exception.ApplicationException;
+import it.fff.business.common.mapper.AccountMapper;
 import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.AttendanceStateMapper;
@@ -829,15 +830,18 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 
 	@Override
 	public AuthDataResponseDTO loginFacebook(String code, String deviceId) throws BusinessException {
+		logger.debug("loginFacebook...");
 		SecurityBusinessService securityBusinessService = (SecurityBusinessService)BusinessServiceProvider.getBusinessService("securityBusinessService");
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		
 		AuthDataResponseDTO authDataRespDTO = null;
 		String accessTokenString = null;
 		Long facebookId = null;
+		String userEmail = null;
 		UserBO userBO = null;
 		try {
 			accessTokenString = securityBusinessService.getFacebookToken(code);
+			logger.debug("Access token recuperato da facebook: "+accessTokenString);
 		}
 		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
@@ -846,48 +850,70 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		if(accessTokenString!=null && !"".equals(accessTokenString)){
 			try {
 				userBO = userBusinessService.getFacebookUserData(accessTokenString, deviceId);
+				logger.debug("Dati utente recuperati da facebook");
 			}
 			catch (IntegrationException e) {
 				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 			}
 		}
 		
-		if(userBO!=null){ //Ora che ho i dati utente, lo registro du DB
+		if(userBO!=null){ //Ora che ho i dati utente presi da facebook, lo registro/aggiorno su DB
 			
 			WriteResultBO writeResultBO = null;
 			try {
 				//Controllo se l'utente già risulta registrato
 				boolean isRegistered = false;
 				
-				String userEmail = userBO.getAccount().getEmail();
+				userEmail = userBO.getAccount().getEmail();
 				facebookId = userBO.getAccount().getFacebookId();
 
+				AccountBO userCurrentAccount = null;
 				if(userEmail!=null && !"".equals(userEmail)){
-					EmailInfoBO mailInfo = userBusinessService.getEmailInfo(userEmail);
-					isRegistered = mailInfo.isExisting();
+					userCurrentAccount = userBusinessService.getUserAccountByEmail(userEmail);
+					if(userCurrentAccount!=null && userCurrentAccount.getUserId()>-1){
+						logger.debug("Utente gia' registrato con questa email su DB: "+userEmail);
+						isRegistered = true;
+						userBO.setId(userCurrentAccount.getId());
+					}
 				}
 				else{
-					AccountBO accountByFacebook = userBusinessService.getUserAccountByFacebookId(facebookId);
-					if(accountByFacebook!=null && accountByFacebook.isFlgValidita()){
+					userCurrentAccount = userBusinessService.getUserAccountByFacebookId(facebookId);
+					if(userCurrentAccount!=null && userCurrentAccount.getUserId()>-1){
+						logger.debug("FacebookId gia' presente su DB");
 						isRegistered = true;
-						userBO.setId(accountByFacebook.getId());
+						userBO.setId(userCurrentAccount.getId());
 					}
 				}
 				
+				
+
+				userBO.setFlagAttivo(true);//la garanzia e' data da facebook
+				userBO.getAccount().setFlgVerificato(true);  //la garanzia e' data da facebook
+				
 				if(!isRegistered){
 					writeResultBO = userBusinessService.createUser(userBO);
+					isRegistered=true;
+					logger.debug("Nuovo utente creato su DB a partire dai dati facebook");
 				}
 				else{//Se l'utente già esiste, faccio un update dei suoi dati (ho recuperato il suo ID grazie al facebookId)
-					userBusinessService.updateUserData(userBO);
+					
+					WriteResultBO logoutResult = securityBusinessService.logout(userBO.getId(), deviceId); //Faccio logout da tutte le sessioni precedenti
+					if(logoutResult.isSuccess()){
+						logger.debug("Utente sloggato da tutte le sessioni prima di nuovo login facebook");
+					}
+					
+					writeResultBO = userBusinessService.updateUserData(userBO); //poi aggiorno i dati utente (compreso il suo account e nuova sessione)
+					logger.debug("Utente esistente aggiornato su DB a partire dai dati facebook");
 				}
 				
 			} catch (IntegrationException e) {
-				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_CREATEUSER);			
+				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN_FACEBOOK);			
 			}
 			
 			authDataRespDTO = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);			
 			authDataRespDTO.setSocialToken(accessTokenString);
 			authDataRespDTO.setSocialId(String.valueOf(facebookId));
+			logger.debug("...loginFacebook");
 		}
 		
 		return authDataRespDTO;
@@ -929,6 +955,42 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		attendancesDTO = AttendanceMapper.getInstance().mapBOs2DTOs(attendancesBO);
 
 		return attendancesDTO;
+	}
+
+	@Override
+	public AccountDTO getUserAccountByEmail(String email) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		
+		AccountDTO resultDTO = null;
+		AccountBO resultBO = null;
+		try {
+			resultBO = userBusinessService.getUserAccountByEmail(email);
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_EXISTING_MAIL);
+		}
+		
+		resultDTO = AccountMapper.getInstance().mapBO2DTO(resultBO);
+		return resultDTO;
+	}
+
+	@Override
+	public AccountDTO getUserAccountByFacebookId(String facebookId) throws BusinessException {
+		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
+		
+		AccountDTO resultDTO = null;
+		AccountBO resultBO = null;
+		long facebookIdLong = -1;
+		try {
+			facebookIdLong = Long.valueOf(facebookId);
+			resultBO = userBusinessService.getUserAccountByFacebookId(facebookIdLong);
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_EXISTING_MAIL);
+		}
+		
+		resultDTO = AccountMapper.getInstance().mapBO2DTO(resultBO);
+		return resultDTO;
 	}
 
 

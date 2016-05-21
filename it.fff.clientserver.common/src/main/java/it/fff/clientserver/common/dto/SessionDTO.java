@@ -12,6 +12,7 @@ public class SessionDTO extends DataTransferObject {
 	private int accountId;
 	private String deviceId;
 	private String sharedKey;
+	private long expiresKey;
 	private boolean isLogged;
 	private String dataLogin;
 	private String dataLogout;
@@ -57,6 +58,12 @@ public class SessionDTO extends DataTransferObject {
 	}
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
+	}
+	@XmlElement public long getExpiresKey() {
+		return expiresKey;
+	}
+	public void setExpiresKey(long expiresKey) {
+		this.expiresKey = expiresKey;
 	}
 	
 }

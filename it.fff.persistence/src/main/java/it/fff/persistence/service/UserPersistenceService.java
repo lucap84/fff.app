@@ -33,4 +33,6 @@ public interface UserPersistenceService  extends PersistenceService{
 
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception;
 
+	public AccountBO getUserAccountByEmail(String email) throws Exception;
+
 }

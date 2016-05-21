@@ -93,4 +93,8 @@ public interface BusinessServiceFacade {
 
 	public List<AttendanceDTO> getAttendancesByUser(String userId) throws BusinessException;
 
+	public AccountDTO getUserAccountByEmail(String email) throws BusinessException;
+
+	public AccountDTO getUserAccountByFacebookId(String facebookId) throws BusinessException;
+
 }

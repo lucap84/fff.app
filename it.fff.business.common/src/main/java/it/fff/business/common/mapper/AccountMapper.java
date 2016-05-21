@@ -80,6 +80,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 					ssEO.setIdIfNotEmpty(ssBO.getId());
 					ssEO.setDeviceIdIfNotEmpty(ssBO.getDeviceId());
 					ssEO.setSharedKeyIfNotEmpty(ssBO.getSharedKey());
+					ssEO.setExpiresKeyIfNotEmpty(ssBO.getExpiresKey());
 					ssEO.setLogged(ssBO.isLogged());
 					ssEO.setDataLoginIfNotEmpty(ssBO.getDataLogin());
 					ssEO.setDataLogoutIfNotEmpty(ssBO.getDataLogout());

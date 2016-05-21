@@ -114,6 +114,8 @@ public interface IntegrationServiceFacade {
 	public List<AttendanceBO> getAttendancesByUser(int userId) throws IntegrationException;
 
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException;
+
+	public AccountBO getUserAccountByEmail(String email) throws IntegrationException;
 	
 
 }

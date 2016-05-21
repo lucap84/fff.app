@@ -35,5 +35,7 @@ public interface UserBusinessService extends BusinessService{
 
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws IntegrationException;
 
+	public AccountBO getUserAccountByEmail(String email) throws IntegrationException;
+
 
 }
