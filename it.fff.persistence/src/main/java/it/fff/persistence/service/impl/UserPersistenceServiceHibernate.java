@@ -1,11 +1,5 @@
 package it.fff.persistence.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,13 +35,9 @@ import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.FlokkerUtils;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
-
-//import org.apache.catalina.util.Base64;
-import org.apache.commons.net.util.Base64;
-import org.apache.commons.io.FileUtils;
-//import org.apache.commons.net.util.Base64;
 
 public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	
@@ -194,10 +184,10 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		String dirPath = uploadFolder+"\\"+boInput.getUserId()+"\\";
 		String filePath = dirPath+boInput.getFileName();
 		
-		this.createDirIfNotExists(dirPath);
+		FlokkerUtils.createDirIfNotExists(dirPath);
 		boInput.setPath(dirPath);
 		
-		boolean isSavedFile = saveFile(boInput.getImageInputStream(), filePath);
+		boolean isSavedFile = FlokkerUtils.saveFile(boInput.getImageInputStream(), filePath);
 		if(isSavedFile){
 			boInput.setHash(String.valueOf(boInput.getImageInputStream().hashCode()));
 			logger.info("Img user created on FileSystem");
@@ -276,7 +266,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		String filePath = result.getPath()+result.getFileName();
 		
 //		FileInputStream fis = this.readFile(filePath);
-		String imageAsB64 = this.readFileAsBase64(filePath);
+		String imageAsB64 = FlokkerUtils.readFileAsBase64(filePath);
 		
 		if(imageAsB64!=null){
 			result.setImageAsB64(imageAsB64);
@@ -496,84 +486,6 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 		logger.info("...get account by facebook completato");
 		return result;
 	}	
-
-	/*
-	 * 
-	 * Utility methods
-	 * 
-	 * 
-	 */
-	
-
-	private boolean createDirIfNotExists(String dirPath) {
-		boolean exists = false;
-		File dir = new File(dirPath);
-		exists = dir.exists();
-		if(!exists){
-			try{
-				exists = dir.mkdir();
-			}
-			catch(SecurityException se){
-				exists = false;
-			}
-		}
-		return exists;
-	}	
-	// save uploaded file to a defined location on the server
-    private boolean saveFile(InputStream uploadedInputStream,  String serverLocation) {
-    	boolean saved = true;
-    	OutputStream outpuStream = null;
-        try {
-            int read = 0;
-            byte[] bytes = new byte[1024];
- 
-            outpuStream = new FileOutputStream(new File(serverLocation));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                outpuStream.write(bytes, 0, read);
-            }
-
-        } catch (IOException e) {
-        	saved = false;
-            e.printStackTrace();
-        }
-        finally {
-        	try {
-                outpuStream.flush();
-                outpuStream.close();
-        		outpuStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-        return saved;
-    }
-    
-    private FileInputStream readFile(String serverLocation){
-    	File file = new File(serverLocation);
-		FileInputStream fis = null;
-
-		try {
-			fis = new FileInputStream(file);
-			logger.debug("Total file size to read (in bytes) : "+ fis.available());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}    	
-    	
-		return fis;
-    }
-
-    private String readFileAsBase64(String serverLocation){
-    	String b64 = null;
-    	File file = new File(serverLocation);
-    	byte[] readFileToByteArray;
-		try {
-			readFileToByteArray = FileUtils.readFileToByteArray(file);
-			b64 = Base64.encodeBase64String(readFileToByteArray);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	return b64;
-    }
 
 
 }
