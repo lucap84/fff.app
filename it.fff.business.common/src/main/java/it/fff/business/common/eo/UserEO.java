@@ -262,31 +262,37 @@ public class UserEO extends EntityObject {
 	 * setter if not empty
 	 */
 	public void setIdIfNotEmpty(Integer id) {
-		if(!isEmpty(id)) this.id = id;
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setCognomeIfNotEmpty(String cognome) {
-		if(!isEmpty(cognome)) this.cognome = cognome;
+		if(!isEmpty(cognome)) this.setCognome(cognome);
 	}
 	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(nome)) this.nome = nome;
+		if(!isEmpty(nome)) this.setNome(nome);
 	}
 	public void setSessoIfNotEmpty(String sesso) {
-		if(!isEmpty(sesso)) this.sesso = sesso;
+		if(!isEmpty(sesso)) this.setSesso(sesso);
 	}
 	public void setDataNascitaIfNotEmpty(String dataNascita) {
-		if(!isEmpty(dataNascita)) this.dataNascita = dataNascita;
+		if(!isEmpty(dataNascita)) this.setDataNascita(dataNascita);
 	}
+	public void setDataAggiornamentoIfNotEmpty(String dataAggiornamento) {
+		if(!isEmpty(dataAggiornamento)) this.setDataAggiornamento(dataAggiornamento);
+	}
+	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
+		if(!isEmpty(dataCreazione)) this.setDataCreazione(dataCreazione);
+	}	
 	public void setDescrizioneIfNotEmpty(String descrizione) {
-		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+		if(!isEmpty(descrizione)) this.setDescrizione(descrizione);
 	}
 	public void setLastPositionLatIfNotEmpty(Double lastPositionLat) {
-		if(!isEmpty(lastPositionLat)) this.lastPositionLat = lastPositionLat;
+		if(!isEmpty(lastPositionLat)) this.setLastPositionLat(lastPositionLat);
 	}
 	public void setLastPositionLongIfNotEmpty(Double lastPositionLong) {
-		if(!isEmpty(lastPositionLong)) this.lastPositionLong = lastPositionLong;
+		if(!isEmpty(lastPositionLong)) this.setLastPositionLong(lastPositionLong);
 	}
 	public void setLastPositionDateIfNotEmpty(String lastPositionDate) {
-		if(!isEmpty(lastPositionDate)) this.lastPositionDate = lastPositionDate;
+		if(!isEmpty(lastPositionDate)) this.setLastPositionDate(lastPositionDate);
 	}
 
 }

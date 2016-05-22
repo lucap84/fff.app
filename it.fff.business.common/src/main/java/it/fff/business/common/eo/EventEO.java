@@ -28,7 +28,7 @@ public class EventEO extends EntityObject{
 	private String descrizione;
 	
 	@Column(name="Durata")
-	private int durata;
+	private Integer durata;
 
 	@Column(name="Data_Inizio")
 	private String dataInizio;
@@ -72,11 +72,11 @@ public class EventEO extends EntityObject{
 		this.id = id;
 	}
 
-	public int getDurata() {
+	public Integer getDurata() {
 		return durata;
 	}
 
-	public void setDurata(int durata) {
+	public void setDurata(Integer durata) {
 		this.durata = durata;
 	}
 
@@ -143,37 +143,34 @@ public class EventEO extends EntityObject{
 		this.messages = messages;
 	}
 	
+	public String getDataAggiornamento() {
+		return dataAggiornamento;
+	}
 	
+	public void setDataAggiornamento(String dataAggiornamento) {
+		this.dataAggiornamento = dataAggiornamento;
+	}
 	
 	/*
 	 * IfNotEmpty
 	 */
-	
 
-
-	public String getDataAggiornamento() {
-		return dataAggiornamento;
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
 	}
-
-	public void setDataAggiornamento(String dataAggiornamento) {
-		this.dataAggiornamento = dataAggiornamento;
-	}
-
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id)) this.id = id;
-	}
-
 	public void setTitoloIfNotEmpty(String titolo) {
-		if(!isEmpty(titolo)) this.titolo = titolo;
+		if(!isEmpty(titolo)) this.setTitolo(titolo);
 	}
-
 	public void setDescrizioneIfNotEmpty(String descrizione) {
-		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+		if(!isEmpty(descrizione)) this.setDescrizione(descrizione);
 	}
 	public void setDurataIfNotEmpty(int durata) {
-		if(!isEmpty(durata)) this.durata = durata;
+		if(!isEmpty(durata)) this.setDurata(durata);
 	}
 	public void setDataInizioIfNotEmpty(String dataInizio) {
-		if(!isEmpty(dataInizio)) this.dataInizio = dataInizio;
+		if(!isEmpty(dataInizio)) this.setDataInizio(dataInizio);
 	}
+	public void setDataAggiornamentoIfNotEmpty(String dataAggiornamento) {
+		if(!isEmpty(dataAggiornamento)) this.setDataAggiornamento(dataAggiornamento);
+	}	
 }

@@ -73,10 +73,10 @@ public class SubscriptionTypeMapper implements Mapper<SubscriptionTypeDTO,Subscr
 		SubscriptionTypeBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new SubscriptionTypeBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
-			bo.setDurataGiorni(Integer.valueOf(eo.getDurataGiorni()));
-			bo.setDurataMesi(Integer.valueOf(eo.getDurataMesi()));
+			bo.setDurataGiorni(eo.getDurataGiorni()==null?0:eo.getDurataGiorni()); //per evitare nullpointer in fase di cast
+			bo.setDurataMesi(eo.getDurataMesi()==null?0:eo.getDurataMesi()); //per evitare nullpointer in fase di cast
 			bo.setDescrizione(eo.getDescrizione());
 		}
 		return bo;

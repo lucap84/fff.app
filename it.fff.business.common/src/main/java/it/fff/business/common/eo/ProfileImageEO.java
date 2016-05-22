@@ -111,19 +111,19 @@ public class ProfileImageEO extends EntityObject {
 		if(!isEmpty(id)) setId(id);
 	}
 	public void setExtensionIfNotEmpty(String extension) {
-		if(!isEmpty(id)) this.setExtension(extension);
+		if(!isEmpty(extension)) this.setExtension(extension);
 	}
 	public void setFilenameIfNotEmpty(String fileName) {
-		if(!isEmpty(id)) this.setFilename(fileName);
+		if(!isEmpty(fileName)) this.setFilename(fileName);
 	}
 	public void setHashIfNotEmpty(String hash) {
-		if(!isEmpty(id)) this.setHash(hash);
+		if(!isEmpty(hash)) this.setHash(hash);
 	}
 	public void setPathIfNotEmpty(String path) {
-		if(!isEmpty(id)) this.setPath(path);
+		if(!isEmpty(path)) this.setPath(path);
 	}
 	public void setSizeIfNotEmpty(long size) {
-		if(!isEmpty(id)) this.setSize(size);
+		if(!isEmpty(size)) this.setSize(size);
 	}
 	
 }

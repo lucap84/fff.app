@@ -105,8 +105,8 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 		AccountBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new AccountBO();
-			bo.setId(eo.getId());
-			bo.setFacebookId(eo.getFacebookId());
+			bo.setId(eo.getId()==null?0:eo.getId());
+			bo.setFacebookId(eo.getFacebookId()==null?0:eo.getFacebookId());
 			bo.setEmail(eo.getEmail());
 			bo.setFlgValidita(eo.isFlgValidita());
 			bo.setFlgVerificato(eo.isFlgVerificato());
@@ -114,7 +114,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			bo.setVerificationCode(eo.getVerificationCode());
 			
 			//Imposto lo user
-			bo.setUserId(eo.getUser().getId());
+			bo.setUserId(eo.getUser().getId()==null?0:eo.getUser().getId());
 			
 			//NON riutilizzo metodi di mapping per NON CREARE LOOP RICORSIVI!
 			List<SessionBO> sessionsBO = null;
@@ -123,16 +123,18 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			if(sessionsEO!=null && isInitialized(sessionsEO)){
 				sessionsBO = new ArrayList<SessionBO>();
 				for (SessionEO ssEO : sessionsEO) {
-					SessionBO ssBO = new SessionBO();
-					ssBO.setAccount(bo); //set del parent
-					ssBO.setId(ssEO.getId());
-					ssBO.setDeviceId(ssEO.getDeviceId());
-					ssBO.setSharedKey(ssEO.getSharedKey());
-					ssBO.setLogged(ssEO.isLogged());
-					ssBO.setDataLogin(ssEO.getDataLogin());
-					ssBO.setDataLogout(ssEO.getDataLogout());
-					
-					sessionsBO.add(ssBO);
+					if(ssEO.isLogged()){ //RIporto nei BO solo le sessioni loggate attualmente
+						SessionBO ssBO = new SessionBO();
+						ssBO.setAccount(bo); //set del parent
+						ssBO.setId(ssEO.getId());
+						ssBO.setDeviceId(ssEO.getDeviceId());
+						ssBO.setSharedKey(ssEO.getSharedKey());
+						ssBO.setLogged(ssEO.isLogged());
+						ssBO.setDataLogin(ssEO.getDataLogin());
+						ssBO.setDataLogout(ssEO.getDataLogout());
+						
+						sessionsBO.add(ssBO);
+					}
 				}
 			}
 			bo.setSessions(sessionsBO);			
@@ -161,6 +163,7 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 			dto.setFlgVerificato(bo.isFlgVerificato());
 			dto.setPassword(bo.getPassword());
 			dto.setVerificationCode(bo.getVerificationCode());
+			dto.setUserId(bo.getUserId());
 			
 			//Posso usare i mapper senza creare cicli perche i dto hanno solo l'id degli oggetti padre all'interno
 			dto.setSessions(SessionMapper.getInstance().mapBOs2DTOs(bo.getSessions()));

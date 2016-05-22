@@ -66,4 +66,14 @@ public class KeywordEO extends EntityObject {
 	public int hashCode() {
 		return this.token.hashCode();
 	}
+	
+	/*
+	 * If not empty methods
+	 */
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
+	}
+	public void setTokenIfNotEmpty(String token) {
+		if(!isEmpty(token)) this.setToken(token);
+	}	
 }

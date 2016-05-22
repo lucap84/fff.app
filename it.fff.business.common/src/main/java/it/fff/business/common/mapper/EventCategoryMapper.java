@@ -8,7 +8,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.EventCategoryBO;
-import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.clientserver.common.dto.EventCategoryDTO;
 
@@ -105,7 +104,7 @@ public class EventCategoryMapper implements Mapper<EventCategoryDTO,EventCategor
 		EventCategoryBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new EventCategoryBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
 			bo.setDescrizione(eo.getDescrizione());
 		}

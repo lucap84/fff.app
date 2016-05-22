@@ -8,8 +8,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import it.fff.business.common.bo.*;
 import it.fff.business.common.eo.*;
@@ -116,15 +114,16 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 		UserBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new UserBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
 			bo.setCognome(eo.getCognome());
 			bo.setDataNascita(eo.getDataNascita());
 			bo.setDescrizione(eo.getDescrizione());
 			bo.setFlagAttivo(eo.getFlagAttivo());
 			bo.setLastPositionDate(eo.getLastPositionDate());
-			bo.setLastPositionLat(eo.getLastPositionLat());
-			bo.setLastPositionLong(eo.getLastPositionLong());
+			bo.setLastPositionLat(eo.getLastPositionLat()==null?0:eo.getLastPositionLat()); //per evitare nullpointer in fase di cast
+			bo.setLastPositionLong(eo.getLastPositionLong()==null?0:eo.getLastPositionLong()); //per evitare nullpointer in fase di cast
+			bo.setNumUpdate(eo.getNumUpdate()==null?0:eo.getNumUpdate()); //per evitare nullpointer in fase di cast
 			
 			bo.setSesso(UserSexEnum.valueOf(eo.getSesso().toUpperCase()));
 			

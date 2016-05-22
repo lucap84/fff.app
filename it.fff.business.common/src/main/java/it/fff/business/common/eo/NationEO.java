@@ -72,22 +72,19 @@ public class NationEO extends EntityObject {
 	 * setter if not empty
 	 */
 	public void setIdIfNotEmpty(Integer id) {
-		if(!isEmpty(id)) this.id = id;
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(nome)) this.nome = nome;
+		if(!isEmpty(nome)) this.setNome(nome);
 	}
-
 	public void setInternationalKeyIfNotEmpty(String internationalKey) {
-		if(!isEmpty(internationalKey)) this.internationalKey = internationalKey;
+		if(!isEmpty(internationalKey)) this.setInternationalKey(internationalKey);
 	}
 	public void setInternationalCodeAlpha2IfNotEmpty(String internationalCodeAplha2) {
-		if(!isEmpty(internationalCodeAplha2)) this.internationalCodeAplha2 = internationalCodeAplha2;
+		if(!isEmpty(internationalCodeAplha2)) this.setInternationalCodeAlpha2IfNotEmpty(internationalCodeAplha2);
 	}
 	public void setInternationalCodeAlpha3IfNotEmpty(String internationalCodeAplha3) {
-		if(!isEmpty(internationalCodeAplha3)) this.internationalCodeAplha3 = internationalCodeAplha3;
+		if(!isEmpty(internationalCodeAplha3)) this.setInternationalCodeAplha3(internationalCodeAplha3);
 	}	
-	
-	
 	
 }

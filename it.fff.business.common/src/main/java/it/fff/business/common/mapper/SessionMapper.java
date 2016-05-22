@@ -1,5 +1,7 @@
 package it.fff.business.common.mapper;
 
+import static org.hibernate.Hibernate.isInitialized;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +9,11 @@ import org.hibernate.Session;
 
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
+import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.clientserver.common.dto.SessionDTO;
+import it.fff.clientserver.common.enums.UserSexEnum;
 
 public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 
@@ -104,8 +108,21 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 
 	@Override
 	public SessionBO mapEO2BO(SessionEO eo) {
-		// TODO Auto-generated method stub
-		return null;
+		SessionBO bo = null;
+		if(eo!=null && isInitialized(eo)){
+			bo = new SessionBO();
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
+			bo.setDataLogin(eo.getDataLogin());
+			bo.setDataLogout(eo.getDataLogout());
+			bo.setDeviceId(eo.getDeviceId());
+			bo.setExpiresKey(eo.getExpiresKey()==null?0:eo.getExpiresKey()); //per evitare nullpointer in fase di cast
+			bo.setLogged(eo.isLogged());
+			bo.setSharedKey(eo.getSharedKey());
+
+//			bo.setAccount(account);
+//			TODO account non mappato per evitare cicli
+		}
+		return bo;
 	}
 
 	@Override
@@ -127,7 +144,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 		SessionDTO dto = null;
 		if(bo!=null){
 			dto = new SessionDTO();
-			dto.setAccountId(bo.getId());
+			dto.setAccountId(bo.getAccount().getId());
 			dto.setId(bo.getId());
 			dto.setDeviceId(bo.getDeviceId());
 			dto.setSharedKey(bo.getSharedKey());

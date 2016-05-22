@@ -60,4 +60,15 @@ public class AchievementObtainedEO extends EntityObject {
 		this.type = type;
 	}
 	
+	/*
+	 * setter if not empty
+	 */
+	
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
+	}
+	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
+		if(!isEmpty(dataCreazione)) this.setDataCreazione(dataCreazione);
+	}
+
 }

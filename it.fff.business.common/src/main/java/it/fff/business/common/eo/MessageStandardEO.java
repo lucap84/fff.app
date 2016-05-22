@@ -34,4 +34,15 @@ public class MessageStandardEO extends EntityObject {
 		this.standardText = standardText;
 	}
 	
+	/*
+	 * if not empty methods
+	 */
+
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id))this.setId(id);
+	}
+	public void setStandardTextIfNotEmpty(String standardText) {
+		if(!isEmpty(standardText))this.setStandardText(standardText);
+	}	
+	
 }

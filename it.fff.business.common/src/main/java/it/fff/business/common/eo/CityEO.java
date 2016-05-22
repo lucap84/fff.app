@@ -53,14 +53,13 @@ public class CityEO extends EntityObject {
 	}
 
 	/*
-	 * if not null setter
+	 * if not empty setter
 	 */
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id)) this.id = id;
-		
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(nome)) this.nome = nome;
+		if(!isEmpty(nome)) this.setNome(nome);
 	}
 	
 

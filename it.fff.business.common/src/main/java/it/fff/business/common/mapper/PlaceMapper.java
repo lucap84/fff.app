@@ -2,9 +2,7 @@ package it.fff.business.common.mapper;
 
 import static org.hibernate.Hibernate.isInitialized;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +19,6 @@ import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
-import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.DistanceCalculator;
@@ -151,15 +148,13 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 		PlaceBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new PlaceBO();
-			if(eo.getId()!=null && eo.getId()>0){
-				bo.setId(eo.getId());
-			}
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setPlaceKey(eo.getPlaceKey());
 			bo.setNome(eo.getNome());
 			bo.setAddressRoute(eo.getAddressRoute());
 			bo.setCivico(eo.getCivico());
-			bo.setGpsLat(eo.getGpsLat());
-			bo.setGpsLong(eo.getGpsLong());
+			bo.setGpsLat(eo.getGpsLat()==null?0:eo.getGpsLat()); //per evitare nullpointer in fase di cast
+			bo.setGpsLong(eo.getGpsLong()==null?0:eo.getGpsLong()); //per evitare nullpointer in fase di cast
 			bo.setCap(eo.getCap());
 			
 			Date dataCreazione = null;

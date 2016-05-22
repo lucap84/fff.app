@@ -104,7 +104,7 @@ public class CityMapper implements Mapper<CityDTO,CityBO,CityEO>{
 		CityBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new CityBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
 			
 			NationMapper nationMapper = NationMapper.getInstance();

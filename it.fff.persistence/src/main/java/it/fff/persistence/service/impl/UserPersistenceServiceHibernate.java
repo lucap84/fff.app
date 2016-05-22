@@ -30,6 +30,7 @@ import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.ProfileImageEO;
+import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.SubscriptionEO;
 import it.fff.business.common.eo.UserEO;
@@ -113,7 +114,13 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    	 
 	    	 if(eo!=null){
 		    	 //inizializzo i campi lazy richiesti in output prima che si chiuda la sessione hibernate
-		    	 for (LanguageEO l :  eo.getLingue()) {
+	    		 for (SessionEO s :  eo.getAccount().getSessions()) {
+			    	 if(s!=null && s.isLogged()){
+			    		 Hibernate.initialize(s);
+			    	 }
+				 }
+	    		 
+	    		 for (LanguageEO l :  eo.getLingue()) {
 			    	 if(l!=null){
 			    		 Hibernate.initialize(l);
 			    	 }

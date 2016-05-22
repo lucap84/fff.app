@@ -83,4 +83,24 @@ public class SubscriptionTypeEO extends EntityObject {
 		this.prezzi = prezzi;
 	}
 	
+	/*
+	 * ifNotEmpty methods
+	 */
+
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
+	}	
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.setNome(nome);
+	}
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione)) this.setDescrizione(descrizione);
+	}
+	public void setDurataGiorniIfNotEmpty(Integer durataGiorni) {
+		if(!isEmpty(durataGiorni)) this.setDurataGiorni(durataGiorni);
+	}
+	public void setDurataMesiIfNotEmpty(Integer durataMesi) {
+		if(!isEmpty(durataMesi)) this.setDurataMesi(durataMesi);
+	}
+	
 }

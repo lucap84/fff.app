@@ -5,11 +5,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.SubscriptionBO;
-import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.SubscriptionEO;
-import it.fff.business.common.eo.SubscriptionTypeEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.SubscriptionDTO;
 

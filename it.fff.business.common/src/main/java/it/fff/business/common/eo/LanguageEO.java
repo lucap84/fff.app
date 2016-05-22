@@ -71,19 +71,19 @@ public class LanguageEO extends EntityObject {
 	 * setter if not empty
 	 */
 	public void setIdIfNotEmpty(Integer id) {
-		if(!isEmpty(id)) this.id = id;
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(id)) this.nome = nome;
+		if(!isEmpty(nome)) this.setNome(nome);
 	}
 	public void setIso639_1IfNotEmpty(String iso639_1) {
-		if(!isEmpty(iso639_1)) this.iso639_1 = iso639_1;
+		if(!isEmpty(iso639_1)) this.setIso639_1(iso639_1);
 	}
 	public void setIso639_2IfNotEmpty(String iso639_2) {
-		if(!isEmpty(iso639_2)) this.iso639_2 = iso639_2;
+		if(!isEmpty(iso639_2)) this.setIso639_2(iso639_2);
 	}
 	public void setIso639_3IfNotEmpty(String iso639_3) {
-		if(!isEmpty(iso639_3)) this.iso639_3 = iso639_3;
+		if(!isEmpty(iso639_3)) this.setIso639_3(iso639_3);
 	}
 	
 }

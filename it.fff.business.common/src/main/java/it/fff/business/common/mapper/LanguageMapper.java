@@ -8,7 +8,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.LanguageBO;
-import it.fff.business.common.eo.EventCategoryEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.clientserver.common.dto.LanguageDTO;
 
@@ -115,7 +114,7 @@ public class LanguageMapper implements Mapper<LanguageDTO,LanguageBO,LanguageEO>
 		LanguageBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new LanguageBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
 			bo.setIso639_1(eo.getIso639_1());
 		}

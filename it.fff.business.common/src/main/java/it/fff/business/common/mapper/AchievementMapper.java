@@ -80,7 +80,7 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 		AchievementBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new AchievementBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setDataOttenimento(eo.getDataCreazione());
 			
 			AchievementTypeMapper achievementTypeMapper = AchievementTypeMapper.getInstance();

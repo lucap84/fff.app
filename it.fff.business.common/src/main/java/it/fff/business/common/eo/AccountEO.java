@@ -151,7 +151,7 @@ public class AccountEO extends EntityObject {
 	 * setter if not empty
 	 */
 	public void setIdIfNotEmpty(Integer id) {
-		if(!isEmpty(id)) this.id = id;
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setFacebookIdIfNotEmpty(Long facebookId) {
 		if(!isEmpty(facebookId)) this.setFacebookId(facebookId);

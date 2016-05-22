@@ -86,16 +86,14 @@ public class MessageEO extends EntityObject {
 	 * if not empty methods
 	 */
 
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id))this.id=id;
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id))this.setId(id);
 	}
-
 	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
-		if(!isEmpty(dataCreazione))this.dataCreazione=dataCreazione;
+		if(!isEmpty(dataCreazione))this.setDataCreazione(dataCreazione);
 	}
-
 	public void setTextIfNotEmpty(String text) {
-		if(!isEmpty(text))this.text=text;
+		if(!isEmpty(text))this.setText(text);
 	}
 	
 }

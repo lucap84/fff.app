@@ -43,16 +43,20 @@ public class AttendanceStateEO extends EntityObject{
 		this.descrizione = descrizione;
 	}
 
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id)) this.id = id;
+	/*
+	 * setter if not empty
+	 */
+	
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
 	}
 
 	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(nome)) this.nome = nome;
+		if(!isEmpty(nome)) this.setNome(nome);
 	}
 
 	public void setDescrizioneIfNotEmpty(String descrizione) {
-		if(!isEmpty(descrizione)) this.descrizione = descrizione;
+		if(!isEmpty(descrizione)) this.setDescrizione(descrizione);
 	}
 	
 

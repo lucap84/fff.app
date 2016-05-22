@@ -60,4 +60,14 @@ public class PriceEO extends EntityObject {
 		this.prezzo = prezzo;
 	}
 	
+	/*
+	 * setter if not empty
+	 */
+	
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id))this.setId(id);
+	}
+	public void setPrezzoIfNotEmpty(Double prezzo) {
+		if(!isEmpty(prezzo))this.setPrezzo(prezzo);
+	}	
 }

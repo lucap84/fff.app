@@ -101,7 +101,7 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 		ProfileImageBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new ProfileImageBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setExtension(eo.getExtension());
 			bo.setFileName(eo.getFilename());
 			bo.setHash(eo.getHash());
@@ -111,8 +111,8 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 			bo.setParameters(null);
 			bo.setPath(eo.getPath());
 			bo.setProfileImage(eo.isProfileImage());
-			bo.setSize(eo.getSize());
-			bo.setUserId(eo.getUser().getId());			
+			bo.setSize(eo.getSize()==null?0:eo.getSize()); //per evitare nullpointer in fase di cast
+			bo.setUserId(eo.getUser().getId()==null?0:eo.getUser().getId()); //per evitare nullpointer in fase di cast
 		}
 		return bo;
 	}

@@ -7,13 +7,10 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import it.fff.business.common.bo.AttendanceBO;
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.eo.AttendanceEO;
 import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.MessageEO;
 import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.clientserver.common.dto.MessageDTO;
@@ -99,11 +96,11 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 			MessageStandardEO msgStdEO = MessageStandardMapper.getInstance().mergeBO2EO(bo.getMsgStd(),eo.getMsgStd(),session);
 			eo.setMsgStd(msgStdEO);
 			
-			if(bo.getAttendanceId()!=null && bo.getAttendanceId()>0){
+			if(bo.getAttendanceId()>0){
 				AttendanceEO attEO = (AttendanceEO)session.load(AttendanceEO.class, bo.getAttendanceId());
 				eo.setAttendance(attEO);
 			}
-			if(bo.getEventId()!=null && bo.getEventId()>0){
+			if(bo.getEventId()>0){
 				EventEO evEO = (EventEO)session.load(EventEO.class, bo.getEventId());
 				eo.setEvent(evEO);
 			}
@@ -129,16 +126,16 @@ public class MessageMapper implements Mapper<MessageDTO,MessageBO,MessageEO>{
 		MessageBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new MessageBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			
 			MessageStandardMapper messageStandardMapper = MessageStandardMapper.getInstance();
 			bo.setMsgStd(messageStandardMapper.mapEO2BO(eo.getMsgStd()));
 			bo.setText(eo.getText());
 			bo.setDataCreazione(eo.getDataCreazione());
 			
-			bo.setEventId(eo.getEvent().getId());
+			bo.setEventId(eo.getEvent().getId()==null?0:eo.getEvent().getId()); //per evitare nullpointer in fase di cast
 			
-			bo.setAttendanceId(eo.getAttendance().getId());
+			bo.setAttendanceId(eo.getAttendance().getId()==null?0:eo.getAttendance().getId()); //per evitare nullpointer in fase di cast
 		}
 		return bo;
 	}

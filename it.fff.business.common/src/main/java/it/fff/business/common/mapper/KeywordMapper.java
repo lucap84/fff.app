@@ -1,14 +1,11 @@
 package it.fff.business.common.mapper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Session;
 
-import it.fff.business.common.bo.KeywordBO;
 import it.fff.business.common.eo.KeywordEO;
-import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.PlaceEO;
 
 public class KeywordMapper implements Mapper<String,String,KeywordEO>{

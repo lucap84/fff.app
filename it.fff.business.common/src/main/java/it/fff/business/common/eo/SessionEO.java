@@ -27,7 +27,7 @@ public class SessionEO extends EntityObject {
 	private Long expiresKey;
 	
 	@Column(name = "Flg_Logged")
-	private boolean isLogged;
+	private Boolean isLogged;
 	
 	@Column(name = "Data_Login")
 	private String dataLogin;
@@ -63,10 +63,10 @@ public class SessionEO extends EntityObject {
 	public void setAccount(AccountEO account) {
 		this.account = account;
 	}
-	public boolean isLogged() {
+	public Boolean isLogged() {
 		return isLogged;
 	}
-	public void setLogged(boolean isLogged) {
+	public void setLogged(Boolean isLogged) {
 		this.isLogged = isLogged;
 	}
 	public String getDataLogin() {

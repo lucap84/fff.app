@@ -7,13 +7,9 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
-import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.AchievementTypeEO;
-import it.fff.clientserver.common.dto.AchievementDTO;
 import it.fff.clientserver.common.dto.AchievementTypeDTO;
-import it.fff.clientserver.common.dto.LanguageDTO;
 
 public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,AchievementTypeBO,AchievementTypeEO>{
 
@@ -79,7 +75,7 @@ public class AchievementTypeMapper  implements Mapper<AchievementTypeDTO,Achieve
 		AchievementTypeBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new AchievementTypeBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setNome(eo.getNome());
 			bo.setDescrizione(eo.getDescrizione());
 		}

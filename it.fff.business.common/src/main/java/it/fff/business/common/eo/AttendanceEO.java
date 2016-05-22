@@ -27,10 +27,10 @@ public class AttendanceEO extends EntityObject {
 	private Integer id;
 	
 	@Column(name="Flg_Organizzatore")
-	private boolean isOrganizer;
+	private Boolean isOrganizer;
 	
 	@Column(name="Ospiti")
-	private int numPartecipanti;
+	private Integer numPartecipanti;
 	
 	@Column(name="Flg_Feedback")
 	private Boolean isPositiveFeedback;
@@ -42,10 +42,10 @@ public class AttendanceEO extends EntityObject {
 	private String dataAggiornamento;
 	
 	@Column(name="Flg_Validita")
-	private boolean isValid;
+	private Boolean isValid;
 	
 	@Column(name="Count_Aggiornamento")
-	private int countAggiornamento;
+	private Integer countAggiornamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "Evento_ID", nullable = false)
@@ -67,20 +67,12 @@ public class AttendanceEO extends EntityObject {
 		this.id = id;
 	}
 
-	public boolean isOrganizer() {
+	public Boolean isOrganizer() {
 		return isOrganizer;
 	}
 
-	public void setOrganizer(boolean isOrganizer) {
+	public void setOrganizer(Boolean isOrganizer) {
 		this.isOrganizer = isOrganizer;
-	}
-
-	public int getNumPartecipanti() {
-		return numPartecipanti;
-	}
-
-	public void setNumPartecipanti(int numPartecipanti) {
-		this.numPartecipanti = numPartecipanti;
 	}
 
 	public Boolean isPositiveFeedback() {
@@ -107,20 +99,12 @@ public class AttendanceEO extends EntityObject {
 		this.dataAggiornamento = dataAggiornamento;
 	}
 
-	public boolean isValid() {
+	public Boolean isValid() {
 		return isValid;
 	}
 
-	public void setValid(boolean isValid) {
+	public void setValid(Boolean isValid) {
 		this.isValid = isValid;
-	}
-
-	public int getCountAggiornamento() {
-		return countAggiornamento;
-	}
-
-	public void setCountAggiornamento(int countAggiornamento) {
-		this.countAggiornamento = countAggiornamento;
 	}
 
 	public EventEO getEvent() {
@@ -146,13 +130,42 @@ public class AttendanceEO extends EntityObject {
 	public void setStato(AttendanceStateEO stato) {
 		this.stato = stato;
 	}
-
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id)) this.id = id;
+	
+	public Integer getNumPartecipanti() {
+		return numPartecipanti;
+	}
+	
+	public void setNumPartecipanti(Integer numPartecipanti) {
+		this.numPartecipanti = numPartecipanti;
+	}
+	
+	public Integer getCountAggiornamento() {
+		return countAggiornamento;
+	}
+	
+	public void setCountAggiornamento(Integer countAggiornamento) {
+		this.countAggiornamento = countAggiornamento;
 	}
 
+	/*
+	 * setter if not empty
+	 */
+
+
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
+	}
+	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
+		if(!isEmpty(dataCreazione)) this.setDataCreazione(dataCreazione);
+	}
+	public void setDataAggiornamentoIfNotEmpty(String dataAggiornamento) {
+		if(!isEmpty(dataAggiornamento)) this.setDataAggiornamento(dataAggiornamento);
+	}
+	public void setCountAggiornamentoIfNotEmpty(int countAggiornamento) {
+		if(!isEmpty(countAggiornamento)) this.setCountAggiornamento(countAggiornamento);
+	}
 	public void setNumPartecipantiIfNotEmpty(int numPartecipanti) {
-		if(!isEmpty(numPartecipanti)) this.numPartecipanti = numPartecipanti;
-	}
+		if(!isEmpty(numPartecipanti)) this.setNumPartecipanti(numPartecipanti);
+	}	
 	
 }

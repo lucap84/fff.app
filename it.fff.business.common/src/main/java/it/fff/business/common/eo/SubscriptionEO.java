@@ -87,19 +87,17 @@ public class SubscriptionEO extends EntityObject {
 	 * ifNotEmpty methods
 	 */
 
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id)) this.id = id;
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
 	}
 	public void setDataInizioIfNotEmpty(String dataInizio) {
-		if(!isEmpty(dataInizio)) this.dataInizio = dataInizio;
+		if(!isEmpty(dataInizio)) this.setDataInizio(dataInizio);
 	}
-
 	public void setDataFineIfNotEmpty(String dataFine) {
-		if(!isEmpty(dataFine)) this.dataFine = dataFine;
+		if(!isEmpty(dataFine)) this.setDataFine(dataFine);
 	}
-
 	public void setScontoIfNotEmpty(double sconto) {
-		if(!isEmpty(sconto)) this.sconto = sconto;
+		if(!isEmpty(sconto)) this.setSconto(sconto);
 	}
 	
 	

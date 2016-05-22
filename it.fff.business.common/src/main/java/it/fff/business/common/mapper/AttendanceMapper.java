@@ -172,8 +172,8 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 		AttendanceBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new AttendanceBO();
-			bo.setId(eo.getId());
-			bo.setNumPartecipanti(eo.getNumPartecipanti());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
+			bo.setNumPartecipanti(eo.getNumPartecipanti()==null?0:eo.getNumPartecipanti()); //per evitare nullpointer in fase di cast
 			bo.setOrganizer(eo.isOrganizer());
 			bo.setValid(eo.isValid());
 			bo.setDataCreazione(eo.getDataCreazione());

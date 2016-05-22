@@ -124,10 +124,10 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 		EventBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new EventBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
 			bo.setTitolo(eo.getTitolo());
 			bo.setDescrizione(eo.getDescrizione());
-			bo.setDurata(eo.getDurata());
+			bo.setDurata(eo.getDurata()==null?0:eo.getDurata()); //per evitare nullpointer in fase di cast
 			bo.setDataInizio(eo.getDataInizio());
 			
 			bo.setStato(EventStateEnum.valueOf(eo.getStato().getNome()));

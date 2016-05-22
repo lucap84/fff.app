@@ -8,7 +8,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.MessageStandardBO;
-import it.fff.business.common.eo.MessageEO;
 import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.clientserver.common.dto.MessageStandardDTO;
 
@@ -71,7 +70,7 @@ public class MessageStandardMapper implements Mapper<MessageStandardDTO,MessageS
 		MessageStandardBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new MessageStandardBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId());
 			bo.setText(eo.getStandardText());
 		}
 		return bo;

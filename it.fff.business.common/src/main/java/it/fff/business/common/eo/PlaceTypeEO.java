@@ -34,4 +34,15 @@ public class PlaceTypeEO extends EntityObject {
 		this.nome = nome;
 	}
 	
+	/*
+	 * setter if not empty
+	 */
+	
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id))this.setId(id);
+	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome))this.setNome(nome);
+	}	
+	
 }

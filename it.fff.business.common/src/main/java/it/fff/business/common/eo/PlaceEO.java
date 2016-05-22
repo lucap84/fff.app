@@ -39,10 +39,10 @@ public class PlaceEO extends EntityObject {
 	private String civico;
 
 	@Column(name="Gps_Latitudine")
-	private double gpsLat;
+	private Double gpsLat;
 	
 	@Column(name="Gps_Longitudine")
-	private double gpsLong;
+	private Double gpsLong;
 	
 	@Column(name="Cap")
 	private String cap;
@@ -96,16 +96,16 @@ public class PlaceEO extends EntityObject {
 	public void setCivico(String civico) {
 		this.civico = civico;
 	}
-	public double getGpsLat() {
+	public Double getGpsLat() {
 		return gpsLat;
 	}
-	public void setGpsLat(double gpsLat) {
+	public void setGpsLat(Double gpsLat) {
 		this.gpsLat = gpsLat;
 	}
-	public double getGpsLong() {
+	public Double getGpsLong() {
 		return gpsLong;
 	}
-	public void setGpsLong(double gpsLong) {
+	public void setGpsLong(Double gpsLong) {
 		this.gpsLong = gpsLong;
 	}
 	public String getCap() {
@@ -138,27 +138,7 @@ public class PlaceEO extends EntityObject {
 	public void setPlaceType(PlaceTypeEO placeType) {
 		this.placeType = placeType;
 	}
-	public void setIdIfNotEmpty(int id) {
-		if(!isEmpty(id))this.id = id;
-	}
-	public void setNomeIfNotEmpty(String nome) {
-		if(!isEmpty(nome))this.nome = nome;
-	}
-	public void setAddressRouteIfNotEmpty(String addressRoute) {
-		if(!isEmpty(addressRoute))this.addressRoute = addressRoute;
-	}
-	public void setCivicoIfNotEmpty(String civico) {
-		if(!isEmpty(civico))this.civico = civico;
-	}
-	public void setGpsLatIfNotEmpty(double gpsLat) {
-		if(!isEmpty(gpsLat))this.gpsLat = gpsLat;
-	}
-	public void setGpsLongIfNotEmpty(double gpsLong) {
-		if(!isEmpty(gpsLong))this.gpsLong = gpsLong;
-	}
-	public void setCapIfNotEmpty(String cap) {
-		if(!isEmpty(cap))this.cap = cap;
-	}
+	
 	public Set<KeywordEO> getKeywords() {
 		if(keywords==null){
 			keywords = new HashSet<KeywordEO>();
@@ -167,7 +147,34 @@ public class PlaceEO extends EntityObject {
 	}
 	public void setKeywords(Set<KeywordEO> keywords) {
 		this.keywords = keywords;
+	}	
+	
+	/*
+	 * setter if not empty
+	 */
+	
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id))this.setId(id);
 	}
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome))this.setNome(nome);
+	}
+	public void setAddressRouteIfNotEmpty(String addressRoute) {
+		if(!isEmpty(addressRoute))this.setAddressRoute(addressRoute);
+	}
+	public void setCivicoIfNotEmpty(String civico) {
+		if(!isEmpty(civico))this.setCivico(civico);
+	}
+	public void setGpsLatIfNotEmpty(Double gpsLat) {
+		if(!isEmpty(gpsLat))this.setGpsLat(gpsLat);
+	}
+	public void setGpsLongIfNotEmpty(Double gpsLong) {
+		if(!isEmpty(gpsLong))this.setGpsLong(gpsLong);
+	}
+	public void setCapIfNotEmpty(String cap) {
+		if(!isEmpty(cap))this.setCap(cap);
+	}
+
 	
 	@Override
 	public boolean equals(Object obj) {

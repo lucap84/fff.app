@@ -45,4 +45,18 @@ public class EventStateEO extends EntityObject {
 		this.descrizione = descrizione;
 	}
 	
+	/*
+	 * IfNotEmpty
+	 */
+
+	public void setIdIfNotEmpty(Integer id) {
+		if(!isEmpty(id)) this.setId(id);
+	}	
+	public void setNomeIfNotEmpty(String nome) {
+		if(!isEmpty(nome)) this.setNome(nome);
+	}		
+	public void setDescrizioneIfNotEmpty(String descrizione) {
+		if(!isEmpty(descrizione)) this.setDescrizione(descrizione);
+	}	
+	
 }

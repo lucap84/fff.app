@@ -66,7 +66,7 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 		NationBO bo = null;
 		if(eo!=null && isInitialized(eo)){
 			bo = new NationBO();
-			bo.setId(eo.getId());
+			bo.setId(eo.getId()==null?0:eo.getId());
 			bo.setNome(eo.getNome());
 			bo.setInternationalKey(eo.getInternationalKey());
 			bo.setInternationalCodeAplha2(eo.getInternationalCodeAplha2());
