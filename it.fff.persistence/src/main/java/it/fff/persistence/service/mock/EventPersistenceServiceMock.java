@@ -1,6 +1,5 @@
 package it.fff.persistence.service.mock;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -26,7 +26,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceMock.class);
 	
 	@Override
-	public EventBO retrieveEvent(int eventId){
+	public EventBO retrieveEvent(int eventId) throws Exception{
 		EventBO bo1 = new EventBO();
 		bo1.setId(eventId);
 		bo1.setTitolo("Evento mock");
@@ -53,17 +53,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		cityBo1.setNome("Roma");
 		cityBo1.setNazione(nazioneBO1);
 		
-		PlaceBO placeBo1 = new PlaceBO();
-		placeBo1.setId(1);
-		placeBo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
-		placeBo1.setNome("Luogo mock");
-		placeBo1.setGpsLat(1.234);
-		placeBo1.setGpsLong(2.345);
-		placeBo1.setAddressRoute("via 1");
-		placeBo1.setCivico("civico 1");
-		placeBo1.setCap("Cap 00100");
-		placeBo1.setCity(cityBo1);
-		
+		PlaceBO placeBo1 = new PlacesPersistenceServiceMock().getPlaceByGPS(1.234,2.345);
 		bo1.setLocation(placeBo1);
 		
 //		EventStateBO statoEventoBo1 = new EventStateBO();
@@ -80,7 +70,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId, int organizerId) throws SQLException {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(eventId);
 		resultBO.setSuccess(true);
@@ -89,7 +79,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createEvent(EventBO bo) throws SQLException {
+	public WriteResultBO createEvent(EventBO bo) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -98,7 +88,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createEventMessage(int attendanceId, String message) throws SQLException {
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
@@ -107,7 +97,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws SQLException {
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(stdMsgId);
 		resultBO.setSuccess(true);
@@ -116,7 +106,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws SQLException {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
@@ -125,7 +115,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createAttandance(AttendanceBO bo) throws SQLException {
+	public WriteResultBO createAttandance(AttendanceBO bo) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -134,7 +124,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws SQLException {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception {
 		List<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
 
 		AttendanceBO attendanceBO1 = new AttendanceBO();
@@ -164,7 +154,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userId) throws SQLException {
+	public List<EventBO> getEventsByUser(int userId) throws Exception {
 		List<EventBO> bos = new ArrayList<EventBO>();
 		EventBO bo1 = new EventBO();
 		bo1.setId(1);
@@ -276,7 +266,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventId) throws SQLException {
+	public List<MessageBO> getEventMessages(int eventId) throws Exception {
 		EventBO event = new EventBO();
 		event.setId(1);
 		

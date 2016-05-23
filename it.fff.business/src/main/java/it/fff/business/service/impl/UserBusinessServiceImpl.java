@@ -1,5 +1,6 @@
 package it.fff.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +116,13 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			List<FeedbackEnum> userFeedbacks = integrationFacade.getUserFeedbacks(userId);
 			bo.setFeedbacks(userFeedbacks);
 		}
+		
+		//Recupero anche l'immagini utente
+		if(bo!=null && (bo.getProfileImages()==null || bo.getProfileImages().size()==0) ){
+			ProfileImageBO imageBO = integrationFacade.readProfileImage(userId);
+			bo.setProfileImages(new ArrayList<ProfileImageBO>());
+			bo.getProfileImages().add(imageBO);
+		}		
 		
 		return bo;
 	}

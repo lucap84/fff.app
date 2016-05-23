@@ -1,24 +1,19 @@
 package it.fff.persistence.service.mock;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
-import it.fff.clientserver.common.dto.CityDTO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws SQLException {
+	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -27,19 +22,16 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws SQLException {
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		
 		PlaceBO bo1 = new PlaceBO();
 		bo1.setId(1);
 		bo1.setNome("El Chiringuito Libre");
 		
 		PlaceTypeEnum placeType = PlaceTypeEnum.UNKNOW;
 		
-		NationBO nationBO = new NationBO();
-		nationBO.setId(1);
-		nationBO.setNome("Italia");
-		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCodeAplha2("IT");
-		nationBO.setInternationalCodeAplha3("ITA");
+		NationBO nationBO = typologicalMock.getAllNations().get(0);
 		
 		CityBO citta = new CityBO();
 		citta.setId(1);
@@ -80,7 +72,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 		places.add(bo1);
 		places.add(bo2);
 		
-		return new HashSet<PlaceBO>();
+		return places;
 	}
 
 	@Override
@@ -94,71 +86,27 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
 	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		CityBO c = new CityBO();
 		c.setId(1);
 		c.setNome(cityName);
 		
-		NationBO n = new NationBO();
-		n.setId(1);
-		n.setNome("NomeNazione");
-		if(nationCode!=null && nationCode.length()==2){
-			n.setInternationalCodeAplha2("IT");
-		}
-		if(nationCode!=null && nationCode.length()==3){
-			n.setInternationalCodeAplha3("ITA");
-		}
-		n.setInternationalKey("1");
-		
+		NationBO n = typologicalMock.getAllNations().get(0);
 		c.setNazione(n);
 		return c;
 	}
 
 	@Override
 	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
-		NationBO n = new NationBO();
-		n.setId(1);
-		n.setNome("NomeNazione");
-		if(nationCode!=null && nationCode.length()==2){
-			n.setInternationalCodeAplha2("IT");
-		}
-		if(nationCode!=null && nationCode.length()==3){
-			n.setInternationalCodeAplha3("ITA");
-		}
-		n.setInternationalKey("1");		
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		NationBO n = typologicalMock.getAllNations().get(0);
 		return n;
 	}
 
 	@Override
 	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
-		PlaceBO bo1 = new PlaceBO();
-		bo1.setId(1);
-		bo1.setNome("El Chiringuito Libre");
-		
-		PlaceTypeEnum placeType = PlaceTypeEnum.UNKNOW;
-		
-		NationBO nationBO = new NationBO();
-		nationBO.setId(1);
-		nationBO.setNome("Italia");
-		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCodeAplha2("IT");
-		nationBO.setInternationalCodeAplha3("ITA");
-		
-		CityBO citta = new CityBO();
-		citta.setId(1);
-		citta.setNome("Roma");
-		citta.setNazione(nationBO);
-		
-		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
-		bo1.setGpsLat(gpsLat);
-		bo1.setGpsLong(gpsLong);
-		bo1.setAddressRoute("Largo Riccardi Beato Placido");
-		bo1.setCivico("1");
-		bo1.setCap("00154");
-		bo1.setPlaceType(placeType);
-		bo1.setCity(citta);
-		bo1.setDataCreazione("2016-01-01_00-00-00");
-		bo1.setDataAggiornamento("2016-01-01_00-00-00");
-		
+		Set<PlaceBO> placesByDescription = this.getPlacesByDescription("descrizione",gpsLat, gpsLong);
+		PlaceBO bo1 = placesByDescription.iterator().next();
 		return bo1;
 	}
 

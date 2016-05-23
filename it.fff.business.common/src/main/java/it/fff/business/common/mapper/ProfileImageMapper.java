@@ -2,11 +2,14 @@ package it.fff.business.common.mapper;
 
 import static org.hibernate.Hibernate.isInitialized;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 
+import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.ProfileImageBO;
+import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.ProfileImageEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.ProfileImageDTO;
@@ -92,8 +95,15 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 
 	@Override
 	public List<ProfileImageBO> mapEOs2BOs(List<ProfileImageEO> eos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProfileImageBO> bos = null;
+		if(eos!=null && isInitialized(eos)){
+			bos = new ArrayList<ProfileImageBO>();
+			ProfileImageMapper mapper = ProfileImageMapper.getInstance();
+			for (ProfileImageEO eo : eos) {
+				bos.add(mapper.mapEO2BO(eo));
+			}
+		}
+		return bos;
 	}
 
 	@Override
@@ -119,8 +129,15 @@ public class ProfileImageMapper implements Mapper<ProfileImageDTO,ProfileImageBO
 
 	@Override
 	public List<ProfileImageDTO> mapBOs2DTOs(List<ProfileImageBO> bos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProfileImageDTO> dtos = null;
+		if(bos!=null){
+			dtos = new ArrayList<ProfileImageDTO>();
+			ProfileImageMapper mapper = ProfileImageMapper.getInstance();
+			for (ProfileImageBO bo : bos) {
+				dtos.add(mapper.mapBO2DTO(bo));
+			}
+		}
+		return dtos;
 	}
 
 	@Override

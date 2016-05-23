@@ -23,6 +23,7 @@ public class UserBO implements BusinessObject {
 	private List<AchievementBO> achievements;
 	private AccountBO account;
 	private List<FeedbackEnum> feedbacks;
+	private List<ProfileImageBO> profileImages;	
 	
 	public int getId() {
 		return id;
@@ -119,6 +120,12 @@ public class UserBO implements BusinessObject {
 	}
 	public void setFeedbacks(List<FeedbackEnum> feedbacks) {
 		this.feedbacks = feedbacks;
+	}
+	public List<ProfileImageBO> getProfileImages() {
+		return profileImages;
+	}
+	public void setProfileImages(List<ProfileImageBO> profileImages) {
+		this.profileImages = profileImages;
 	}
 	
 }

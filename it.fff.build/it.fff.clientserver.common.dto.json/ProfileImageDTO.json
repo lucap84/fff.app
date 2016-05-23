@@ -1,1 +1,1 @@
-{"errorsMap":null,"id":0,"fileName":"fileMock.jpg","extension":null,"size":0,"hash":null,"path":null,"userId":1,"imageInputStream":null,"imageAsB64":"wertyuiopa","name":null,"parameters":null,"profileImage":false,"ok":true}
+{"errorsMap":null,"id":1,"fileName":"filemock.jpg","extension":"jpg","size":12345,"hash":"-1976655111","path":"/path/to/this/mock/image/","userId":1,"imageInputStream":null,"imageAsB64":"qwertyuiopasdfghjk34567890","name":"filemock","parameters":null,"profileImage":true,"ok":true}

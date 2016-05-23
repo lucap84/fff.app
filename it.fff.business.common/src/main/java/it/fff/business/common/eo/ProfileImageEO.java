@@ -39,6 +39,10 @@ public class ProfileImageEO extends EntityObject {
 	@JoinColumn(name = "Utente_ID", nullable = false)
 	private UserEO user;
 
+	/*
+	 * NOTA: Alcuni campi qui mancano rispetto al rispettivo oggetto BO, perche' alcune informazioni non sono salvate su DB ma su filesystem
+	 */
+
 	public Integer getId() {
 		return id;
 	}

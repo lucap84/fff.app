@@ -3,9 +3,7 @@ package it.fff.clientserver.common.dto;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
 import it.fff.clientserver.common.enums.UserSexEnum;
-
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlRootElement
@@ -29,6 +27,7 @@ public class UserDTO extends DataTransferObject {
 	private AccountDTO account;
 	private int numPositiveFeedbacks;
 	private int numNegativeFeedbacks;
+	private List<ProfileImageDTO> profileImages;	
 	
 	@XmlElement public int getId() {
 		return id;
@@ -120,17 +119,24 @@ public class UserDTO extends DataTransferObject {
 	public void setAccount(AccountDTO account) {
 		this.account = account;
 	}
-	public int getNumPositiveFeedbacks() {
+	@XmlElement public int getNumPositiveFeedbacks() {
 		return numPositiveFeedbacks;
 	}
 	public void setNumPositiveFeedbacks(int numPositiveFeedbacks) {
 		this.numPositiveFeedbacks = numPositiveFeedbacks;
 	}
-	public int getNumNegativeFeedbacks() {
+	@XmlElement public int getNumNegativeFeedbacks() {
 		return numNegativeFeedbacks;
 	}
 	public void setNumNegativeFeedbacks(int numNegativeFeedbacks) {
 		this.numNegativeFeedbacks = numNegativeFeedbacks;
 	}
+	@XmlElement public List<ProfileImageDTO> getProfileImages() {
+		return profileImages;
+	}
+	public void setProfileImages(List<ProfileImageDTO> profileImages) {
+		this.profileImages = profileImages;
+	}
+	
 
 }

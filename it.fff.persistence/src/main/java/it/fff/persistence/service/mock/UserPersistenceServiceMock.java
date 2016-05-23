@@ -1,11 +1,11 @@
 package it.fff.persistence.service.mock;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.enums.UserSexEnum;
 import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.AchievementBO;
 import it.fff.business.common.bo.AchievementTypeBO;
@@ -21,7 +21,7 @@ import it.fff.persistence.service.UserPersistenceService;
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public WriteResultBO registerUser(UserBO userBO) throws SQLException {
+	public WriteResultBO registerUser(UserBO userBO) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -30,7 +30,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO updateProfileImage(ProfileImageBO eoInput) throws SQLException {
+	public WriteResultBO updateProfileImage(ProfileImageBO eoInput) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -39,47 +39,20 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public UserBO getUser(int userId) throws SQLException {
+	public UserBO getUser(int userId) throws Exception {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		UserBO bo = new UserBO();
-		bo.setId(1);
-		
-		bo.setNome("nome");
-		bo.setCognome("cognome");
-		bo.setDataNascita("1900-01-01");
-		bo.setDescrizione("descrizione");
-		bo.setFlagAttivo(true);
-		
-		bo.setLastPositionDate("1900-01-02");
-		bo.setLastPositionLat(1.23);
-		bo.setLastPositionLong(3.45);
-		
-		AccountBO accountBO = new AccountBO();
 
-		SessionBO sessionBO = new SessionBO();
-		sessionBO.setAccount(accountBO);
-		sessionBO.setDataLogin("1900-01-01");
-		sessionBO.setDataLogout("1900-01-01");
-		sessionBO.setDeviceId("mydev-011");
-		sessionBO.setLogged(true);
-		sessionBO.setSharedKey("981479y4re982yur994hf984yur942872387410847019");
-		
-		List<SessionBO> sessionsBO = new ArrayList<SessionBO>();
-		sessionsBO.add(sessionBO);
-		
-		accountBO.setId(1);
-		accountBO.setEmail("email@mail.it");
-		accountBO.setFlgValidita(true);
-		accountBO.setFlgVerificato(true);
-		accountBO.setPassword("jhgdjqhgd3877geid2b");
-		accountBO.setUserId(bo.getId());
-		accountBO.setSessions(sessionsBO);
-		
+		/*
+		 * Account
+		 */
+		AccountBO accountBO = getUserAccountByEmail("mailmock@mock.it");
 		bo.setAccount(accountBO);
 		
-		AchievementTypeBO achievementTypeBO = new AchievementTypeBO();
-		achievementTypeBO.setId(1);
-		achievementTypeBO.setNome("AchievementType 1");
-		achievementTypeBO.setDescrizione("AchievementType 1");
+		/*
+		 * Achievements
+		 */
+		AchievementTypeBO achievementTypeBO = typologicalMock.getAllAchievementTypes().get(0);
 		
 		AchievementBO achievementBO = new AchievementBO();
 		achievementBO.setId(1);
@@ -88,36 +61,46 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		
 		List<AchievementBO> achievementsBO = new ArrayList<AchievementBO>();
 		achievementsBO.add(achievementBO);
-		
 		bo.setAchievements(achievementsBO);
 		
-		LanguageBO languageBO = new LanguageBO();
-		languageBO.setId(1);
-		languageBO.setNome("Italian");;
-		languageBO.setIso639_1("it");
-		languageBO.setIso639_2("ita");
-		languageBO.setIso639_3("ita");
+		//Info base
+		bo.setCognome("cognome");
+		bo.setDataNascita("1980-01-01");
+		bo.setDescrizione("descrizione utente mock");
 		
-		List<LanguageBO> languagesBO = new ArrayList<LanguageBO>();
-		languagesBO.add(languageBO);
+		//Feedbacks non impostati sulla getUser
 		
+		bo.setFlagAttivo(true);
+		bo.setId(1);
+		bo.setLastPositionDate("1900-01-02");
+		bo.setLastPositionLat(1.23);
+		bo.setLastPositionLong(3.45);
+		
+		/*
+		 * Lingue
+		 */
+		
+		List<LanguageBO> languagesBO = typologicalMock.getAllLanguages();
 		bo.setLingue(languagesBO);
-		
-		NationBO nationBO = new NationBO();
-		nationBO.setId(1);
-		nationBO.setNome("Italia");
-		nationBO.setInternationalKey("380");
-		nationBO.setInternationalCodeAplha2("IT");
-		nationBO.setInternationalCodeAplha3("ITA");
 
-		
+		/*
+		 * Nazionalita'
+		 */
+		NationBO nationBO = typologicalMock.getAllNations().get(0);
 		bo.setNazionalita(nationBO);
+		
+		bo.setNome("nome");
+		bo.setNumUpdate(1);
+		
+		//Profile Images non impostate sulla getUser
+		
+		bo.setSesso(UserSexEnum.M);
 		
 		return bo;
 	}
 
 	@Override
-	public WriteResultBO updateUserData(UserBO bo) throws SQLException {
+	public WriteResultBO updateUserData(UserBO bo) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(bo.getId());
 		resultBO.setSuccess(true);
@@ -126,7 +109,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws SQLException {
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -161,8 +144,17 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	@Override
 	public ProfileImageBO readProfileImage(int userId) throws Exception {
 		ProfileImageBO bo = new ProfileImageBO();
-		bo.setFileName("fileMock.jpg");
-		bo.setImageAsB64("wertyuiopa");
+		bo.setId(1); 
+		bo.setExtension("jpg");
+		bo.setFileName("filemock.jpg");
+		bo.setHash("filemock.jpg".hashCode()+"");
+		bo.setImageAsB64("qwertyuiopasdfghjk34567890");
+		bo.setImageInputStream(null);
+		bo.setName("filemock");
+		bo.setParameters(null);
+		bo.setPath("/path/to/this/mock/image/");
+		bo.setProfileImage(true);
+		bo.setSize(12345);
 		bo.setUserId(userId);
 		return bo;
 	}
@@ -176,17 +168,34 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
 	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
-		UserBO user = this.getUser(1);
-		AccountBO bo = user.getAccount();
+		AccountBO bo = this.getUserAccountByEmail("mailmock@mock.it");
 		bo.setFacebookId(facebookId);
 		return bo;
 	}
 
 	@Override
 	public AccountBO getUserAccountByEmail(String email) throws Exception {
-		UserBO user = this.getUser(1);
-		AccountBO bo = user.getAccount();
+		AccountBO bo = new AccountBO();
+		
+		SessionBO sessionBO = new SessionBO();
+		sessionBO.setAccount(bo);
+		sessionBO.setDataLogin("1900-01-01");
+		sessionBO.setDataLogout("1900-01-01");
+		sessionBO.setDeviceId("mydev-011");
+		sessionBO.setLogged(true);
+		sessionBO.setSharedKey("981479y4re982yur994hf984yur942872387410847019");
+		
+		List<SessionBO> sessionsBO = new ArrayList<SessionBO>();
+		sessionsBO.add(sessionBO);
+		
+		bo.setId(1);
 		bo.setEmail(email);
+		bo.setFlgValidita(true);
+		bo.setFlgVerificato(true);
+		bo.setPassword("jhgdjqhgd3877geid2b");
+		bo.setUserId(bo.getId());
+		bo.setSessions(sessionsBO);
+		
 		return bo;
 	}
 

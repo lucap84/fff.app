@@ -76,6 +76,8 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			dto.setAccount(accountMapper.mapBO2DTO(bo.getAccount()));
 			
+			dto.setFlagAttivo(bo.isFlagAttivo());
+			
 			dto.setNome(bo.getNome());
 			dto.setCognome(bo.getCognome());
 			dto.setSesso(bo.getSesso());
@@ -105,6 +107,12 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 			}
 			dto.setNumPositiveFeedbacks(numPositiveFeedbacks);
 			dto.setNumNegativeFeedbacks(numNegativeFeedbacks);
+			
+			AchievementMapper achievementMapper = AchievementMapper.getInstance();
+			dto.setAchievements(achievementMapper.mapBOs2DTOs(bo.getAchievements()));
+			
+			ProfileImageMapper imageMapper = ProfileImageMapper.getInstance();
+			dto.setProfileImages(imageMapper.mapBOs2DTOs(bo.getProfileImages()));
 		}
 		return dto;
 	}
@@ -138,6 +146,9 @@ public class UserMapper implements Mapper<UserDTO,UserBO,UserEO>{
 
 			AchievementMapper achievementMapper = AchievementMapper.getInstance();
 			bo.setAchievements(achievementMapper.mapEOs2BOs(eo.getAchievements()));
+			
+			ProfileImageMapper imageMapper = ProfileImageMapper.getInstance();
+			bo.setProfileImages(imageMapper.mapEOs2BOs(eo.getProfileImages()));
 		}
 		return bo;
 	}
