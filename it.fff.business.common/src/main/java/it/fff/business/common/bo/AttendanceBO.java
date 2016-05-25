@@ -7,7 +7,7 @@ public class AttendanceBO implements BusinessObject{
 	
 	private int id;
 	private boolean isOrganizer;
-	private int numPartecipanti;
+	private int numeroOspiti;
 	private FeedbackEnum feedback;
 	private boolean isValid;
 	private String dataCreazione;
@@ -27,11 +27,11 @@ public class AttendanceBO implements BusinessObject{
 	public void setOrganizer(boolean isOrganizer) {
 		this.isOrganizer = isOrganizer;
 	}
-	public int getNumPartecipanti() {
-		return numPartecipanti;
+	public int getNumeroOspiti() {
+		return numeroOspiti;
 	}
-	public void setNumPartecipanti(int numPartecipanti) {
-		this.numPartecipanti = numPartecipanti;
+	public void setNumeroOspiti(int numeroOspiti) {
+		this.numeroOspiti = numeroOspiti;
 	}
 	public boolean isValid() {
 		return isValid;

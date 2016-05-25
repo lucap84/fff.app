@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
+import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.clientserver.common.dto.EventDTO;
@@ -183,8 +184,21 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
 			dto.setLocation(placeMapper.mapBO2DTO(bo.getLocation()));
 			
-			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
-			dto.setPartecipazioni(attendanceMapper.mapBOs2DTOs(bo.getPartecipazioni()));	
+			if(bo.getPartecipazioni()!=null){
+				AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
+				dto.setPartecipazioni(attendanceMapper.mapBOs2DTOs(bo.getPartecipazioni()));
+				
+				int numOspiti = 0;
+				int numUtentiPartecipanti = 0;
+				for (AttendanceBO attBO : bo.getPartecipazioni()) {
+					if(attBO.isValid()){
+						numUtentiPartecipanti++;
+						numOspiti += attBO.getNumeroOspiti();
+					}
+				}
+				int totalePartecipanti = numUtentiPartecipanti + numOspiti; 
+				dto.setTotalePartecipanti(totalePartecipanti);
+			}
 			
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			dto.setCategoria(eventCategoryMapper.mapBO2DTO(bo.getCategoria()));

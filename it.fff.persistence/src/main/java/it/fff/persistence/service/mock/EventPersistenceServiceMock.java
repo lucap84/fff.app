@@ -130,7 +130,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		AttendanceBO attendanceBO1 = new AttendanceBO();
 		attendanceBO1.setId(1);
 		attendanceBO1.setValid(true);
-		attendanceBO1.setNumPartecipanti(5);
+		attendanceBO1.setNumeroOspiti(2);
 		attendanceBO1.setOrganizer(true);
 		
 		UserBO organizerUserBO1 = new UserPersistenceServiceMock().getUser(1);
@@ -140,12 +140,12 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		AttendanceBO attendanceBO2 = new AttendanceBO();
 		attendanceBO2.setId(2);
 		attendanceBO2.setValid(true);
-		attendanceBO2.setNumPartecipanti(12);
+		attendanceBO2.setNumeroOspiti(12);
 		attendanceBO2.setOrganizer(false);
 		
 		UserBO organizerUserBO2 = new UserPersistenceServiceMock().getUser(2);
 		attendanceBO2.setUtente(organizerUserBO2);
-		attendanceBO2.setEvent(this.retrieveEvent(2));
+		attendanceBO2.setEvent(this.retrieveEvent(eventId));
 		
 		
 		attendances.add(attendanceBO1);

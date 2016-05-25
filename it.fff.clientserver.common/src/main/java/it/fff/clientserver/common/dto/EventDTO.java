@@ -21,6 +21,7 @@ public class EventDTO  extends DataTransferObject{
 	private EventCategoryDTO categoria;
 	private PlaceDTO location;	
 	private List<AttendanceDTO> partecipazioni;
+	private int totalePartecipanti;
 	private List<MessageDTO> messages;
 	
 	public int getId() {
@@ -83,8 +84,11 @@ public class EventDTO  extends DataTransferObject{
 	public void setMessages(List<MessageDTO> messages) {
 		this.messages = messages;
 	}
-	
-	
-	
+	@XmlElement public int getTotalePartecipanti() {
+		return totalePartecipanti;
+	}
+	public void setTotalePartecipanti(int totalePartecipanti) {
+		this.totalePartecipanti = totalePartecipanti;
+	}
 	
 }

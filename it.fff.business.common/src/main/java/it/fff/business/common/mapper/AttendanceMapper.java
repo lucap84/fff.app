@@ -11,7 +11,6 @@ import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.eo.AttendanceEO;
-import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.UserEO;
 import it.fff.clientserver.common.dto.AttendanceDTO;
@@ -54,7 +53,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			
-			bo.setNumPartecipanti(Integer.valueOf(dto.getNumPartecipanti()));
+			bo.setNumeroOspiti(Integer.valueOf(dto.getNumPartecipanti()));
 			bo.setValid(dto.isValid());
 			bo.setStato(dto.getStato());
 			bo.setOrganizer(dto.isOrganizer());
@@ -97,7 +96,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			dto.setId(bo.getId());
 			dto.setValid(bo.isValid());
 			dto.setFeedback(bo.getFeedback());
-			dto.setNumPartecipanti(bo.getNumPartecipanti());
+			dto.setNumPartecipanti(bo.getNumeroOspiti());
 			dto.setOrganizer(bo.isOrganizer());
 			dto.setStato(bo.getStato());
 			dto.setDataCreazione(bo.getDataCreazione());
@@ -120,7 +119,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 				eo = new AttendanceEO();
 			}
 			eo.setIdIfNotEmpty(bo.getId());
-			eo.setNumPartecipantiIfNotEmpty(bo.getNumPartecipanti());
+			eo.setNumeroOspitiIfNotEmpty(bo.getNumeroOspiti());
 			eo.setOrganizer(bo.isOrganizer());
 			eo.setValid(bo.isValid());
 			
@@ -173,7 +172,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 		if(eo!=null && isInitialized(eo)){
 			bo = new AttendanceBO();
 			bo.setId(eo.getId()==null?0:eo.getId()); //per evitare nullpointer in fase di cast
-			bo.setNumPartecipanti(eo.getNumPartecipanti()==null?0:eo.getNumPartecipanti()); //per evitare nullpointer in fase di cast
+			bo.setNumeroOspiti(eo.getNumeroOspiti()==null?0:eo.getNumeroOspiti()); //per evitare nullpointer in fase di cast
 			bo.setOrganizer(eo.isOrganizer());
 			bo.setValid(eo.isValid());
 			bo.setDataCreazione(eo.getDataCreazione());

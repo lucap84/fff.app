@@ -30,7 +30,7 @@ public class AttendanceEO extends EntityObject {
 	private Boolean isOrganizer;
 	
 	@Column(name="Ospiti")
-	private Integer numPartecipanti;
+	private Integer numeroOspiti;
 	
 	@Column(name="Flg_Feedback")
 	private Boolean isPositiveFeedback;
@@ -131,14 +131,6 @@ public class AttendanceEO extends EntityObject {
 		this.stato = stato;
 	}
 	
-	public Integer getNumPartecipanti() {
-		return numPartecipanti;
-	}
-	
-	public void setNumPartecipanti(Integer numPartecipanti) {
-		this.numPartecipanti = numPartecipanti;
-	}
-	
 	public Integer getCountAggiornamento() {
 		return countAggiornamento;
 	}
@@ -146,10 +138,18 @@ public class AttendanceEO extends EntityObject {
 	public void setCountAggiornamento(Integer countAggiornamento) {
 		this.countAggiornamento = countAggiornamento;
 	}
+	public Integer getNumeroOspiti() {
+		return numeroOspiti;
+	}
+	
+	public void setNumeroOspiti(Integer numeroOspiti) {
+		this.numeroOspiti = numeroOspiti;
+	}
 
 	/*
 	 * setter if not empty
 	 */
+
 
 
 	public void setIdIfNotEmpty(Integer id) {
@@ -164,8 +164,8 @@ public class AttendanceEO extends EntityObject {
 	public void setCountAggiornamentoIfNotEmpty(int countAggiornamento) {
 		if(!isEmpty(countAggiornamento)) this.setCountAggiornamento(countAggiornamento);
 	}
-	public void setNumPartecipantiIfNotEmpty(int numPartecipanti) {
-		if(!isEmpty(numPartecipanti)) this.setNumPartecipanti(numPartecipanti);
+	public void setNumeroOspitiIfNotEmpty(Integer numeroOspiti) {
+		if(!isEmpty(numeroOspiti)) this.setNumeroOspiti(numeroOspiti);
 	}	
 	
 }
