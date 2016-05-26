@@ -28,7 +28,7 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/it.fff.business.service.webapp/build/classes"/>
-        <property name="context-root" value="it.fff.business.service.webapp"/>
         <property name="component.exclusion.patterns"/>
+        <property name="context-root" value="flokker-busin"/>
     </wb-module>
 </project-modules>
