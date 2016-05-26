@@ -10,6 +10,7 @@
   <build>
 <!-- 
 				RIMUOVE I FILE DI CONFIGURAZIONE DAL WAR PRODOTTO
+ -->  
 	  <resources>
 	       <resource>
 	           <directory>${project.basedir}/src/main/resources</directory>
@@ -20,7 +21,6 @@
 	           </excludes>
 	       </resource>       
 	  </resources>
- -->  
 	  <plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>

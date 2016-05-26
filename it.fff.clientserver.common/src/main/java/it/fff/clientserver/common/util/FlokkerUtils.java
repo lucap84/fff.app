@@ -94,5 +94,9 @@ public class FlokkerUtils {
 		}
 		
 	}
+	
+	public static int generateRandomIntBetween(int minimum, int maximum){
+		return minimum + (int)(Math.random() * maximum);
+	}
     
 }

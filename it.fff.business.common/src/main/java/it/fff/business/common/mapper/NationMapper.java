@@ -84,6 +84,8 @@ public class NationMapper implements Mapper<NationDTO,NationBO,NationEO>{
 				dto.setId(bo.getId());
 			}
 			dto.setInternationalKey(bo.getInternationalKey());
+			dto.setInternationalCodeAplha2(bo.getInternationalCodeAplha2());
+			dto.setInternationalCodeAplha3(bo.getInternationalCodeAplha3());
 			dto.setNome(bo.getNome());
 		}
 		return dto;

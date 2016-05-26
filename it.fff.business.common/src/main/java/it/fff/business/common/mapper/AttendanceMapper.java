@@ -53,7 +53,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 				bo.setId(Integer.valueOf(dto.getId()));
 			}
 			
-			bo.setNumeroOspiti(Integer.valueOf(dto.getNumPartecipanti()));
+			bo.setNumeroOspiti(dto.getNumeroOspiti());
 			bo.setValid(dto.isValid());
 			bo.setStato(dto.getStato());
 			bo.setOrganizer(dto.isOrganizer());
@@ -63,7 +63,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			if(dto.getEventId()>0){
 				EventBO event = new EventBO();
 				event.setId(Integer.valueOf(dto.getEventId()));
-				bo.setEvent(event);
+				bo.setEventId(event.getId());
 			}
 
 			if(dto.getUserId()>0){
@@ -96,13 +96,13 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			dto.setId(bo.getId());
 			dto.setValid(bo.isValid());
 			dto.setFeedback(bo.getFeedback());
-			dto.setNumPartecipanti(bo.getNumeroOspiti());
+			dto.setNumeroOspiti(bo.getNumeroOspiti());
 			dto.setOrganizer(bo.isOrganizer());
 			dto.setStato(bo.getStato());
 			dto.setDataCreazione(bo.getDataCreazione());
 			dto.setDataAggiornamento(bo.getDataAggiornamento());
 			
-			dto.setEventId(bo.getEvent().getId());
+			dto.setEventId(bo.getEventId());
 			dto.setUserId(bo.getUtente().getId());
 			
 		}
@@ -137,8 +137,8 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 				break;
 			}
 			
-			if(bo.getEvent()!=null && bo.getEvent().getId()>0 && eo.getEvent()==null){
-				EventEO eventEO = (EventEO)session.load(EventEO.class, bo.getEvent().getId());
+			if(bo.getEventId()>0 && eo.getEvent()==null){
+				EventEO eventEO = (EventEO)session.load(EventEO.class, bo.getEventId());
 				eo.setEvent(eventEO);
 			}
 			
@@ -146,7 +146,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), eo.getStato(), session));
 			
 			if(bo.getUtente()!=null && bo.getUtente().getId()>0 && eo.getUtente()==null){
-				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getEvent().getId());
+				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getEventId());
 				eo.setUtente(userEO);
 			}
 		}
@@ -190,7 +190,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			
 			EventBO eventBO = new EventBO(); //Evito mapping ciclici (EventBO ha una lista di attendances)!
 			eventBO.setId(eo.getEvent().getId());
-			bo.setEvent(eventBO);
+			bo.setEventId(eventBO.getId());
 			
 			AttendanceStateMapper attendanceStateMapper = AttendanceStateMapper.getInstance();
 			bo.setStato(attendanceStateMapper.mapEO2BO(eo.getStato()));

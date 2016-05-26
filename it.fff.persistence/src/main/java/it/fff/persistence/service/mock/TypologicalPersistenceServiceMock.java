@@ -48,13 +48,42 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo5.setId(5);
 		bo5.setNome("Sport");
 		bo5.setDescrizione("Sport");
+		
+		EventCategoryBO bo6 = new EventCategoryBO();
+		bo5.setId(6);
+		bo5.setNome("Nome 6");
+		bo5.setDescrizione("Descrizione 6");
+		
+		EventCategoryBO bo7 = new EventCategoryBO();
+		bo5.setId(7);
+		bo5.setNome("Nome 7");
+		bo5.setDescrizione("Descrizione 7");
+		
+		EventCategoryBO bo8 = new EventCategoryBO();
+		bo5.setId(8);
+		bo5.setNome("Nome 8");
+		bo5.setDescrizione("Descrizione 8");
+		
+		EventCategoryBO bo9 = new EventCategoryBO();
+		bo5.setId(9);
+		bo5.setNome("Nome 9");
+		bo5.setDescrizione("Descrizione 9");
 
+		EventCategoryBO bo10 = new EventCategoryBO();
+		bo5.setId(10);
+		bo5.setNome("Nome 10");
+		bo5.setDescrizione("Descrizione 10");
 		
 		bos.add(bo1);
 		bos.add(bo2);
 		bos.add(bo3);
 		bos.add(bo4);
 		bos.add(bo5);
+		bos.add(bo6);
+		bos.add(bo7);
+		bos.add(bo8);
+		bos.add(bo9);
+		bos.add(bo10);		
 		return bos;
 	}
 
@@ -257,16 +286,16 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo2.setId(2);
 		bo2.setNome("Regno Unito");
 		bo2.setInternationalKey("826");
-		bo1.setInternationalCodeAplha2("BR");
-		bo1.setInternationalCodeAplha3("GBR");
+		bo2.setInternationalCodeAplha2("BR");
+		bo2.setInternationalCodeAplha3("GBR");
 
 		
 		NationBO bo3 = new NationBO();
 		bo3.setId(3);
 		bo3.setNome("Francia");
 		bo3.setInternationalKey("250");
-		bo1.setInternationalCodeAplha2("FR");
-		bo1.setInternationalCodeAplha3("FRA");
+		bo3.setInternationalCodeAplha2("FR");
+		bo3.setInternationalCodeAplha3("FRA");
 
 		
 		bos.add(bo1);

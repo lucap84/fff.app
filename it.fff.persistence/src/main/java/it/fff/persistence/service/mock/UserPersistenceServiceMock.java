@@ -178,12 +178,14 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		AccountBO bo = new AccountBO();
 		
 		SessionBO sessionBO = new SessionBO();
+		sessionBO.setId(1);
 		sessionBO.setAccount(bo);
 		sessionBO.setDataLogin("1900-01-01");
 		sessionBO.setDataLogout("1900-01-01");
 		sessionBO.setDeviceId("mydev-011");
 		sessionBO.setLogged(true);
 		sessionBO.setSharedKey("981479y4re982yur994hf984yur942872387410847019");
+		sessionBO.setExpiresKey(12345678L);
 		
 		List<SessionBO> sessionsBO = new ArrayList<SessionBO>();
 		sessionsBO.add(sessionBO);

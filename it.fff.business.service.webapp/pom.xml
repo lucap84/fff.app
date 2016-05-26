@@ -36,7 +36,8 @@
 						</resource>
 					</webResources>
 					<webXml>WebContent/WEB-INF/web.xml</webXml>
-					<packagingExcludes></packagingExcludes>								
+					<packagingExcludes></packagingExcludes>
+					<warName>flokker-busin</warName>								
 				</configuration>
 			</plugin>
 			<plugin>

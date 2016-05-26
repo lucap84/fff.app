@@ -12,7 +12,7 @@ public class AttendanceBO implements BusinessObject{
 	private boolean isValid;
 	private String dataCreazione;
 	private String dataAggiornamento;
-	private EventBO event;
+	private int eventId;
 	private UserBO utente;
 	private AttendanceStateEnum stato;
 	public int getId() {
@@ -38,12 +38,6 @@ public class AttendanceBO implements BusinessObject{
 	}
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
-	}
-	public EventBO getEvent() {
-		return event;
-	}
-	public void setEvent(EventBO event) {
-		this.event = event;
 	}
 	public UserBO getUtente() {
 		return utente;
@@ -77,6 +71,12 @@ public class AttendanceBO implements BusinessObject{
 	}
 	public void setDataAggiornamento(String dataAggiornamento) {
 		this.dataAggiornamento = dataAggiornamento;
+	}
+	public int getEventId() {
+		return eventId;
+	}
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 	
 }
