@@ -180,10 +180,11 @@ public class UserService extends ApplicationService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserDTO getFacebookUserDataJSON(@Context HttpServletRequest request,
-									@Context HttpHeaders headers,
-									@QueryParam("token") String token) 
-												 throws BusinessException {
-		return getFacebookUserData(request, headers, token);
+										@Context HttpHeaders headers,
+										@QueryParam("token") String socialToken,
+										@QueryParam("expires") int socialTokenExprires)
+										throws BusinessException {
+return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 	}
 	@GET
 	@Path("fb/xml")
@@ -191,9 +192,10 @@ public class UserService extends ApplicationService{
 	@Produces(MediaType.APPLICATION_XML)
 	public UserDTO getFacebookUserDataXML(@Context HttpServletRequest request,
 												@Context HttpHeaders headers,
-												@QueryParam("token") String token)   
+												@QueryParam("token") String socialToken,
+												@QueryParam("expires") int socialTokenExprires)
 												throws BusinessException {
-		return getFacebookUserData(request, headers, token);
+		return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 	}	
 	
 	@GET
@@ -384,7 +386,7 @@ public class UserService extends ApplicationService{
 		return result;
 	}
 	
-	private UserDTO getFacebookUserData(HttpServletRequest request, HttpHeaders headers, String token){
+	private UserDTO getFacebookUserData(HttpServletRequest request, HttpHeaders headers, String socialToken, int socialTokenExpires){
 		UserDTO result = null;
 		
 		String deviceId = null;
@@ -394,7 +396,7 @@ public class UserService extends ApplicationService{
 		}
 		
 		try {
-			result = businessServiceFacade.getFacebookUserData(token, deviceId);
+			result = businessServiceFacade.getFacebookUserData(socialToken, socialTokenExpires, deviceId);
 		} catch (BusinessException e) {
 			result = new UserDTO();
 			logger.error(LogUtils.stackTrace2String(e));

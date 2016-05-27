@@ -112,9 +112,9 @@ public class SecurityBusinessServiceImpl implements SecurityBusinessService{
 	}
 
 	@Override
-	public String getFacebookToken(String code) throws IntegrationException {
-		String token = integrationFacade.getFacebookToken(code);
-		return token;
+	public String[] getFacebookToken(String code) throws IntegrationException {
+		String[] tokenAndExpires = integrationFacade.getFacebookToken(code);
+		return tokenAndExpires;
 	}	
 	
 }

@@ -400,6 +400,11 @@ public class SecurityService extends ApplicationService {
 			super.manageErrors(e, result, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
+		
+		if(result.isOk()){
+			secureConfiguration.storeSharedKey(result.getUserId(), deviceId, result.getSocialToken());
+		}		
+		
 		return result;		
 
 	}

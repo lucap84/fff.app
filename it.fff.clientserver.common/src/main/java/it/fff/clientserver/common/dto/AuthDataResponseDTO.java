@@ -10,6 +10,7 @@ public class AuthDataResponseDTO extends DataTransferObject {
 	private int userId;
 	private String socialId;
 	private String socialToken;
+	private int socialTokenExpires;
 	private String serverPublicKey;
 	
 	@XmlElement public int getUserId() {
@@ -35,6 +36,12 @@ public class AuthDataResponseDTO extends DataTransferObject {
 	}
 	public void setSocialId(String socialId) {
 		this.socialId = socialId;
+	}
+	@XmlElement public int getSocialTokenExpires() {
+		return socialTokenExpires;
+	}
+	public void setSocialTokenExpires(int socialTokenExpires) {
+		this.socialTokenExpires = socialTokenExpires;
 	}
 
 	

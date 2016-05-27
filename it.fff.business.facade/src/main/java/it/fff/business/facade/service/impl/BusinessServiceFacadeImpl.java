@@ -835,26 +835,32 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		
 		AuthDataResponseDTO authDataRespDTO = null;
-		String accessTokenString = null;
+		String socialToken = null;
+		int socialTokenExpires = -1;
 		Long facebookId = null;
 		String userEmail = null;
 		UserBO userBO = null;
 		try {
-			accessTokenString = securityBusinessService.getFacebookToken(code);
-			logger.debug("Access token recuperato da facebook: "+accessTokenString);
+			String[] accessTokenAndExpires = securityBusinessService.getFacebookToken(code);
+			logger.debug("Access token recuperato da facebook: "+accessTokenAndExpires);
+			
+			socialToken = accessTokenAndExpires[0];
+			socialTokenExpires = Integer.valueOf(accessTokenAndExpires[1]);
+			
+			if(socialToken==null || "".equals(socialToken)){
+				throw new IntegrationException("Social Access token NON recuperato!");
+			}
 		}
 		catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
-		if(accessTokenString!=null && !"".equals(accessTokenString)){
-			try {
-				userBO = userBusinessService.getFacebookUserData(accessTokenString, deviceId);
-				logger.debug("Dati utente recuperati da facebook");
-			}
-			catch (IntegrationException e) {
-				BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
-			}
+		try {
+			userBO = userBusinessService.getFacebookUserData(socialToken, socialTokenExpires,  deviceId);
+			logger.debug("Dati utente recuperati da facebook");
+		}
+		catch (IntegrationException e) {
+			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_LOGIN);
 		}
 		
 		if(userBO!=null){ //Ora che ho i dati utente presi da facebook, lo registro/aggiorno su DB
@@ -911,8 +917,9 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			}
 			
 			authDataRespDTO = CustomMapper.getInstance().mapWriteResult2AuthData(writeResultBO);			
-			authDataRespDTO.setSocialToken(accessTokenString);
+			authDataRespDTO.setSocialToken(socialToken);
 			authDataRespDTO.setSocialId(String.valueOf(facebookId));
+			authDataRespDTO.setSocialTokenExpires(socialTokenExpires);
 			logger.debug("...loginFacebook");
 		}
 		
@@ -920,13 +927,13 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public UserDTO getFacebookUserData(String token, String deviceId) throws BusinessException {
+	public UserDTO getFacebookUserData(String socialToken, int socialTokenExpires, String deviceId) throws BusinessException {
 		UserBusinessService userBusinessService = (UserBusinessService)BusinessServiceProvider.getBusinessService("userBusinessService");
 		UserDTO dto = null;
 		UserBO bo = null;
 
 		try{
-			 bo = userBusinessService.getFacebookUserData(token, deviceId);
+			 bo = userBusinessService.getFacebookUserData(socialToken, socialTokenExpires, deviceId);
 		} catch (IntegrationException e) {
 			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GET_FB_USERDATA);
 		}

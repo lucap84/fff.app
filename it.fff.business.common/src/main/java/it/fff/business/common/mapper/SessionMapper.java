@@ -60,6 +60,7 @@ public class SessionMapper implements Mapper<SessionDTO,SessionBO,SessionEO>{
 			eo.setExpiresKeyIfNotEmpty(bo.getExpiresKey());
 			eo.setLogged(bo.isLogged());
 			eo.setDataLoginIfNotEmpty(bo.getDataLogin());
+			eo.setDataLogoutIfNotEmpty(bo.getDataLogout());
 			
 			AccountMapper accountMapper = AccountMapper.getInstance();
 			AccountEO accountEO = accountMapper.mergeBO2EO(bo.getAccount(), eo.getAccount(), session);

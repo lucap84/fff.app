@@ -1,7 +1,9 @@
 package it.fff.persistence.service.mock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.FeedbackEnum;
@@ -22,6 +24,8 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
 	public WriteResultBO registerUser(UserBO userBO) throws Exception {
+		this.updateSecureConfiguration(userBO);
+		
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -101,6 +105,9 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
 	public WriteResultBO updateUserData(UserBO bo) throws Exception {
+		
+		this.updateSecureConfiguration(bo);
+		
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(bo.getId());
 		resultBO.setSuccess(true);
@@ -201,4 +208,25 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		return bo;
 	}
 
+	private void updateSecureConfiguration(UserBO userBO) {
+		int userID = userBO.getId();
+		String deviceId = null;
+		String sharedKey = null;
+		
+		List<SessionBO> sessions = userBO.getAccount().getSessions();
+		for (SessionBO sessionBO : sessions) {
+			if (sessionBO.isLogged()){
+				deviceId= sessionBO.getDeviceId();
+				sharedKey = sessionBO.getSharedKey();
+				break;
+			}
+		}
+		
+		Map<String, String> device2SharedKey = SecurityPersistenceServiceMock.secrets.get(userID);
+		if(device2SharedKey==null){
+			device2SharedKey = new HashMap<String, String>();
+			SecurityPersistenceServiceMock.secrets.put(userID, device2SharedKey);
+		}
+		device2SharedKey.put(deviceId, sharedKey);
+	}
 }

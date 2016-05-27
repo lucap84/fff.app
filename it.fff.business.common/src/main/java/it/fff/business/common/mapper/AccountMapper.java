@@ -84,7 +84,6 @@ public class AccountMapper implements Mapper<AccountDTO,AccountBO,AccountEO>{
 					ssEO.setLogged(ssBO.isLogged());
 					ssEO.setDataLoginIfNotEmpty(ssBO.getDataLogin());
 					ssEO.setDataLogoutIfNotEmpty(ssBO.getDataLogout());
-					//TODO aggiungi SocialToken + Expires su DB: se sono presenti, non serve la sharedKey e il deviceID
 					sessionsEO.add(ssEO);
 				}
 				

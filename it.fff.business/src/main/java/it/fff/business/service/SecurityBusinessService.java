@@ -22,6 +22,6 @@ public interface SecurityBusinessService extends BusinessService{
 
 	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws IntegrationException;
 
-	public String getFacebookToken(String code) throws IntegrationException;
+	public String[] getFacebookToken(String code) throws IntegrationException;
 
 }

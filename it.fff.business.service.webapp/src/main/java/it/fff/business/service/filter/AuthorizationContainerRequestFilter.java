@@ -114,6 +114,9 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		isToAuthorize &= !requestPath.matches("^security/.*/password/reset/.*");
 		isToAuthorize &= !requestPath.matches("^security/.*/verificationcode/.*");
 		
+		//Servizi per social login
+		isToAuthorize &= !requestPath.matches("^security/fb/login/.*");
+		
 		return isToAuthorize;
 	}
 

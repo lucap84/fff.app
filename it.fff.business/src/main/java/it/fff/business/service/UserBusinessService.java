@@ -29,7 +29,7 @@ public interface UserBusinessService extends BusinessService{
 
 	public ProfileImageBO readProfileImage(int userId) throws IntegrationException;
 
-	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException;
+	public UserBO getFacebookUserData(String token, int socialTokenExpires, String deviceId) throws IntegrationException;
 
 	public List<AttendanceBO> getAttendancesByUser(int userId) throws IntegrationException;
 

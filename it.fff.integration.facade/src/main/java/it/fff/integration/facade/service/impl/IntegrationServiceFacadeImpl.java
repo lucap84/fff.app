@@ -854,9 +854,10 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 	
 	@Override
-	public String getFacebookToken(String code) throws IntegrationException {
+	public String[] getFacebookToken(String code) throws IntegrationException {
 		
 		String accessTokenResp = null;
+		String[] socialTokenAndExpires = new String[2];
 		
         try {
         	ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
@@ -887,24 +888,28 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
             return null;
         } 
         
-        return accessTokenResp;
+        String socialTokenExpiresStr = null;
+        String socialToken = null;
+        
+		if(accessTokenResp.contains("access_token=")){
+			accessTokenResp = accessTokenResp.replace("access_token=", "");
+			int indexOf = accessTokenResp.indexOf("&expires=");
+			
+			socialTokenExpiresStr = accessTokenResp.substring(indexOf+9);
+			if(socialTokenExpiresStr!=null && !"".equals(socialTokenExpiresStr)){
+				socialTokenExpiresStr = socialTokenExpiresStr.substring(0, socialTokenExpiresStr.indexOf('\n'));
+			}
+			socialToken = accessTokenResp.substring(0, indexOf);
+		}
+		
+		socialTokenAndExpires[0] = socialToken;
+		socialTokenAndExpires[1] = socialTokenExpiresStr;
+        
+        return socialTokenAndExpires;
 	}
 
 	@Override
-	public UserBO getFacebookUserData(String token, String deviceId) throws IntegrationException {
-		int tokenExpiresInt = -1;
-		
-		if(token.contains("access_token=")){
-			token = token.replace("access_token=", "");
-			int indexOf = token.indexOf("&expires=");
-			
-			String tokenExpires = token.substring(indexOf+9);
-			if(tokenExpires!=null && !"".equals(tokenExpires)){
-				tokenExpires = tokenExpires.substring(0, tokenExpires.indexOf('\n'));
-				tokenExpiresInt = Integer.valueOf(tokenExpires);
-			}
-			token = token.substring(0, indexOf);
-		}
+	public UserBO getFacebookUserData(String socialToken, int socialTokenExpires, String deviceId) throws IntegrationException {
 		
         String graph = null;
         ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
@@ -913,7 +918,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
         	String fbMeFields = confProvider.getFacebookConfigProperty(Constants.PROP_FACEBOOK_ME_FIELDS);
         	
         	StringBuffer urlFbMeEnriched = new StringBuffer(urlFbMe);
-        	urlFbMeEnriched.append("?access_token=").append(token);
+        	urlFbMeEnriched.append("?access_token=").append(socialToken);
         	urlFbMeEnriched.append("&fields=").append(fbMeFields);
             
             URL u = new URL(urlFbMeEnriched.toString());
@@ -933,8 +938,8 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
         UserBO userBO = CustomMapper.getInstance().mapFacebookData2BO(graph);
         
         SessionBO session = new SessionBO();
-        session.setSharedKey(token);
-        session.setExpiresKey(tokenExpiresInt);
+        session.setSharedKey(socialToken);
+        session.setExpiresKey(socialTokenExpires);
         session.setDeviceId(deviceId);
         session.setLogged(true); //Imposto questa sessione come quella corrente
         

@@ -89,7 +89,7 @@ public interface BusinessServiceFacade {
 
 	public AuthDataResponseDTO loginFacebook(String code, String deviceId) throws BusinessException;
 
-	public UserDTO getFacebookUserData(String token, String deviceId) throws BusinessException;
+	public UserDTO getFacebookUserData(String token, int socialTokenExpires, String deviceId) throws BusinessException;
 
 	public List<AttendanceDTO> getAttendancesByUser(String userId) throws BusinessException;
 
