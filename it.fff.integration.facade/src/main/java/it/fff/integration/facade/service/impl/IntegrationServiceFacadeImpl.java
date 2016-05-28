@@ -345,12 +345,12 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 
 				try {
 					if(userPlace!=null){
-						placesPersistenceService.saveOrUpdatePlace(userPlace, null);
+						placesPersistenceService.saveOrUpdatePlace(userPlace, null); //Salvo/Aggiorno i dati del luogo ricavato dalla ricerca tramite coordinate GPS (non con il token!) 
 					}
 					
 					if(bos!=null && bos.size()>0){
 						for (PlaceBO placeBO : bos) {
-								placesPersistenceService.saveOrUpdatePlace(placeBO, token);
+							placesPersistenceService.saveOrUpdatePlace(placeBO, token); //Salvo/Aggiorno i dati di tutti i luoghi ricavato dalla ricerca tramite token (a partire dalla coordinate gps utente)
 						}
 					}
 				} catch (Exception e) {

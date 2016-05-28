@@ -2,7 +2,6 @@ package it.fff.persistence.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -61,6 +60,9 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    		Set<PlaceEO> relatedPlaces = keyword.getRelatedPlaces();
 	    		bos = new HashSet<PlaceBO>(PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces)));
 	    	}
+	    	else{
+	    		bos = new HashSet<PlaceBO>();
+	    	}
 	    	
 	    	tx.commit();
 
@@ -116,7 +118,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	
 	    	if(placeEO==null){
 	    		
-	    		//verifico se almeno la citta relativa esiste
+	    		//verifico se almeno la citta relativa esista
 	    		String cityName = placeBO.getCity().getNome();
 	    		String nationCode = placeBO.getCity().getNazione().getInternationalCodeAplha3();
 	    		if(nationCode==null || "".equals(nationCode)){
@@ -248,6 +250,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	@Override
 	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
 		PlaceBO bo = null;
+		PlaceEO placeEO = null;
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -255,8 +258,9 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	      try{
 	    	tx = session.beginTransaction();
 			
-	    	String hqlSelect = "SELECT FROM PlaceEO p WHERE p.gpsLat = :gpsLat AND p.gpsLong = :gpsLong";
+	    	String hqlSelect = "FROM PlaceEO p WHERE p.gpsLat = :gpsLat AND p.gpsLong = :gpsLong";
 	    	Query query = session.createQuery(hqlSelect);
+	    	query.setMaxResults(1); //Potrebbero in teoria esserci piu' luoghi alla stessa coordinata (soprattuto se arrotondo), ma me ne serve uno solo
 	    	
 	    	//in fase di salvataggio delle coordinate ho operato lo stesso arrotondamento
 	    	int decimalPrecision = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_GPS_DECIMALPREC_CACHE));
@@ -266,7 +270,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	query.setParameter("gpsLat",roundedLat);
 	    	query.setParameter("gpsLong",roundedLong);
 	    	
-	    	PlaceEO placeBO = (PlaceEO)query.uniqueResult();
+	    	placeEO = (PlaceEO)query.uniqueResult();
 	    	
 	    	tx.commit();
 
@@ -278,6 +282,8 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	     }finally {
 	        session.close(); 
 	     }
+	      
+	     bo = PlaceMapper.getInstance().mapEO2BO(placeEO);
 		return bo;
 	}	
 

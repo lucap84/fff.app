@@ -17,29 +17,29 @@ public class ConfigurationProvider {
 	private static final Logger logger = LogManager.getLogger(ConfigurationProvider.class);
 	
 	private static ConfigurationProvider configurationProvider;
-	private Properties authConfigProperties;
+	private Properties serverSecurityConfigProperties;
 	private Properties mailConfigProperties;
 	private Properties imagesConfigProperties;
 	private Properties placesConfigProperties;
 	private Properties facebookConfigProperties;
 	
 	String mailConfigPropertiesFileName;
-	String authConfigPropertiesFileName;
+	String serverSecurityConfigPropertiesFileName;
 	String imagesPropertiesFileName;
 	String placesPropertiesFileName;
 	String facebookPropertiesFileName;
 	
 	private ConfigurationProvider(){
-		 authConfigProperties = new Properties();
-		 authConfigPropertiesFileName = Constants.AUTH_CONF_FILENAME;
+		 serverSecurityConfigProperties = new Properties();
+		 serverSecurityConfigPropertiesFileName = Constants.FILENAME_CONFIG_SERVERSECURITY;
 		 mailConfigProperties = new Properties();
-		 mailConfigPropertiesFileName = Constants.MAIL_CONF_FILENAME;
+		 mailConfigPropertiesFileName = Constants.FILENAME_CONFIG_MAIL;
 		 imagesConfigProperties = new Properties();
-		 imagesPropertiesFileName = Constants.IMAGE_CONF_FILENAME;
+		 imagesPropertiesFileName = Constants.FILENAME_CONFIG_IMAGE;
 		 placesConfigProperties = new Properties();
-		 placesPropertiesFileName = Constants.PLACES_CONF_FILENAME;
+		 placesPropertiesFileName = Constants.FILENAME_CONFIG_PLACES;
 		 facebookConfigProperties = new Properties();
-		 facebookPropertiesFileName = Constants.FACEBOOK_CONF_FILENAME;		 		 
+		 facebookPropertiesFileName = Constants.FILENAME_CONFIG_FACEBOOK;		 		 
 		 try {
 			this.loadConfigurationFromFile();
 		} catch (FileNotFoundException e) {
@@ -57,18 +57,18 @@ public class ConfigurationProvider {
 	}
 	
 	private void loadConfigurationFromFile() throws IOException{
-		InputStream authInputStream = getClass().getClassLoader().getResourceAsStream(this.authConfigPropertiesFileName);
+		InputStream serverSecurityInputStream = getClass().getClassLoader().getResourceAsStream(this.serverSecurityConfigPropertiesFileName);
 		InputStream mailInputStream = getClass().getClassLoader().getResourceAsStream(this.mailConfigPropertiesFileName);
 		InputStream imagesInputStream = getClass().getClassLoader().getResourceAsStream(this.imagesPropertiesFileName);
 		InputStream placesInputStream = getClass().getClassLoader().getResourceAsStream(this.placesPropertiesFileName);
 		InputStream facebookInputStream = getClass().getClassLoader().getResourceAsStream(this.facebookPropertiesFileName);
 		
-		if (authInputStream != null) {
-			authConfigProperties.load(authInputStream);
-			logger.debug(this.authConfigPropertiesFileName+" loaded from file");
+		if (serverSecurityInputStream != null) {
+			serverSecurityConfigProperties.load(serverSecurityInputStream);
+			logger.debug(this.serverSecurityConfigPropertiesFileName+" loaded from file");
 		} else {
-			logger.error("error during loading file: "+this.authConfigPropertiesFileName);
-			throw new FileNotFoundException("property file '" + authConfigPropertiesFileName + "' not found in the classpath");
+			logger.error("error during loading file: "+this.serverSecurityConfigPropertiesFileName);
+			throw new FileNotFoundException("property file '" + serverSecurityConfigPropertiesFileName + "' not found in the classpath");
 		}		
 		
 		if (mailInputStream != null) {
@@ -158,12 +158,12 @@ public class ConfigurationProvider {
 	}
 
 	
-	public String getAuthProperty(String propertyName){
-		return authConfigProperties.getProperty(propertyName);	
+	public String getServerSecurityProperty(String propertyName){
+		return serverSecurityConfigProperties.getProperty(propertyName);	
 	}
 	
-	public Properties getAuthProperties(){
-		return this.authConfigProperties;
+	public Properties getServerSecurityProperties(){
+		return this.serverSecurityConfigProperties;
 	}
 	
 	public String getEmailProperty(String propertyName){

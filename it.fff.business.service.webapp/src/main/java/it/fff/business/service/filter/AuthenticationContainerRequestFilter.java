@@ -19,6 +19,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.fff.business.common.util.ConfigurationProvider;
+import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
 
 //Pre-matching filters are request filters that are executed before the request matching is started
@@ -27,75 +29,88 @@ public class AuthenticationContainerRequestFilter implements ContainerRequestFil
 
 	private static final Logger logger = LogManager.getLogger(AuthenticationContainerRequestFilter.class);
 	
+	private boolean authenticationEnabled;
+	
+	public AuthenticationContainerRequestFilter() {
+		ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
+		String serverSecurityProperty = confProvider.getServerSecurityProperty(Constants.PROP_AUTHENTICATION_ENABLED);
+		this.authenticationEnabled = serverSecurityProperty!=null && "1".equals(serverSecurityProperty) ;
+		logger.debug(Constants.PROP_AUTHENTICATION_ENABLED+": "+this.authenticationEnabled);
+	}
+	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		String requestPath = requestContext.getUriInfo().getPath();
-		String method = requestContext.getMethod();
 		
-		if(isToAuthenticate(requestPath)){
-			logger.debug("AuthenticationContainerRequestFilter > "+method+": "+requestPath);
-			String dhHeader = requestContext.getHeaders().getFirst("dh");
+		if(this.isAuthenticationEnabled()){
+		
+			String requestPath = requestContext.getUriInfo().getPath();
+			String method = requestContext.getMethod();
 			
-			if(dhHeader==null || "".equals(dhHeader)){
-				logger.error("Diffie-Hellman header not present!");
-				requestContext.abortWith(Response
-						.status(Response.Status.UNAUTHORIZED)
-						.entity("User cannot access the resource.")
-						.build());
-			}
-			
-			byte[] decodeBase64 = Base64.decodeBase64(dhHeader);
-			byte[] clientPubKeyEnc = decodeBase64;
-			
-	        /*
-	         * Il server ha ricevuto la chiave pubblica del client criptata.
-	         * Il server ricostruisce la chiave pubblica del client.
-	         */
-			try{
-		        KeyFactory serverKeyFac = KeyFactory.getInstance("DH");
-		        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(clientPubKeyEnc);
-		        PublicKey clientPubKey = serverKeyFac.generatePublic(x509KeySpec);
-		        
-		        /*
-		         * Il server estrae i parametri Diffie-Hellman dalla chiave pubblica del client.
-		         * Il server usera' questi parametri per generare i propri parametri Diffie-Hellman
-		         */
-		        DHParameterSpec dhParamSpec = ((DHPublicKey)clientPubKey).getParams();
-		        
-		        logger.debug("SERVER: Generate DH keypair ...");
-		        KeyPairGenerator serverKpairGen = KeyPairGenerator.getInstance("DH");
-		        serverKpairGen.initialize(dhParamSpec);
-		        KeyPair serverKpair = serverKpairGen.generateKeyPair();
-		        
-		        // Il server crea ed inizializza il proprio oggetto KeyAgreement
-		        logger.debug("SERVER: Initialization ...");
-		        KeyAgreement serverKeyAgree = KeyAgreement.getInstance("DH");
-		        serverKeyAgree.init(serverKpair.getPrivate());
-		        
-		        logger.debug("SERVER: Execute PHASE1 ...");
-		        serverKeyAgree.doPhase(clientPubKey, true);
-	
-		        // Il server codifica la propria chiave pubblica e la converte in base64 per inviarla al server
-		        byte[] serverPubKeyEnc = serverKpair.getPublic().getEncoded();
-		        String serverPubKeyEncStrB64 = Base64.encodeBase64String(serverPubKeyEnc);
-		        
-		        //Il server ricava la chiave segreta condivisa con il client
-		        byte[] serverSharedSecret = new byte[64];
-		        int serverLen = serverKeyAgree.generateSecret(serverSharedSecret, 0);
-		        String sharedSecretHEX = AuthenticationUtil.toHexString(serverSharedSecret);
-
-		        //Metto negli attributes della richiesta la chiave pubblica (che sarà ritornata poi al client) e il segreto condiviso, da associare al client e salvare localmente
-		        requestContext.setProperty("serverPubKeyEncStrB64", serverPubKeyEncStrB64);
-				requestContext.setProperty("sharedSecretHEX", sharedSecretHEX);
+			if(isToAuthenticate(requestPath)){
+				logger.debug("AuthenticationContainerRequestFilter > "+method+": "+requestPath);
+				String dhHeader = requestContext.getHeaders().getFirst("dh");
 				
-			}
-			catch(Exception e){
-				logger.error("Error during javax.crypto operation (Diffie Hellmann algorithm)");
-				e.printStackTrace();
-			}				
-			logger.debug("< AuthenticationContainerRequestFilter");
-		}
+				if(dhHeader==null || "".equals(dhHeader)){
+					logger.error("Diffie-Hellman header not present!");
+					requestContext.abortWith(Response
+							.status(Response.Status.UNAUTHORIZED)
+							.entity("User cannot access the resource.")
+							.build());
+				}
+				
+				byte[] decodeBase64 = Base64.decodeBase64(dhHeader);
+				byte[] clientPubKeyEnc = decodeBase64;
+				
+		        /*
+		         * Il server ha ricevuto la chiave pubblica del client criptata.
+		         * Il server ricostruisce la chiave pubblica del client.
+		         */
+				try{
+			        KeyFactory serverKeyFac = KeyFactory.getInstance("DH");
+			        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(clientPubKeyEnc);
+			        PublicKey clientPubKey = serverKeyFac.generatePublic(x509KeySpec);
+			        
+			        /*
+			         * Il server estrae i parametri Diffie-Hellman dalla chiave pubblica del client.
+			         * Il server usera' questi parametri per generare i propri parametri Diffie-Hellman
+			         */
+			        DHParameterSpec dhParamSpec = ((DHPublicKey)clientPubKey).getParams();
+			        
+			        logger.debug("SERVER: Generate DH keypair ...");
+			        KeyPairGenerator serverKpairGen = KeyPairGenerator.getInstance("DH");
+			        serverKpairGen.initialize(dhParamSpec);
+			        KeyPair serverKpair = serverKpairGen.generateKeyPair();
+			        
+			        // Il server crea ed inizializza il proprio oggetto KeyAgreement
+			        logger.debug("SERVER: Initialization ...");
+			        KeyAgreement serverKeyAgree = KeyAgreement.getInstance("DH");
+			        serverKeyAgree.init(serverKpair.getPrivate());
+			        
+			        logger.debug("SERVER: Execute PHASE1 ...");
+			        serverKeyAgree.doPhase(clientPubKey, true);
 		
+			        // Il server codifica la propria chiave pubblica e la converte in base64 per inviarla al server
+			        byte[] serverPubKeyEnc = serverKpair.getPublic().getEncoded();
+			        String serverPubKeyEncStrB64 = Base64.encodeBase64String(serverPubKeyEnc);
+			        
+			        //Il server ricava la chiave segreta condivisa con il client
+			        byte[] serverSharedSecret = new byte[64];
+			        int serverLen = serverKeyAgree.generateSecret(serverSharedSecret, 0);
+			        String sharedSecretHEX = AuthenticationUtil.toHexString(serverSharedSecret);
+	
+			        //Metto negli attributes della richiesta la chiave pubblica (che sarà ritornata poi al client) e il segreto condiviso, da associare al client e salvare localmente
+			        requestContext.setProperty("serverPubKeyEncStrB64", serverPubKeyEncStrB64);
+					requestContext.setProperty("sharedSecretHEX", sharedSecretHEX);
+					
+				}
+				catch(Exception e){
+					logger.error("Error during javax.crypto operation (Diffie Hellmann algorithm)");
+					e.printStackTrace();
+				}				
+				logger.debug("< AuthenticationContainerRequestFilter");
+			}
+		}
+	
 		
 	}
 
@@ -107,7 +122,13 @@ public class AuthenticationContainerRequestFilter implements ContainerRequestFil
 		
 		return isToAuthenticate;
 	}
-	
-	
+
+	public boolean isAuthenticationEnabled() {
+		return authenticationEnabled;
+	}
+
+	public void setAuthenticationEnabled(boolean authenticationEnabled) {
+		this.authenticationEnabled = authenticationEnabled;
+	}
 
 }

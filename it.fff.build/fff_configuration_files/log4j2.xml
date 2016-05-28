@@ -4,11 +4,11 @@
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </Console>
-	<!-- 
 	<RollingFile name="RollingFile" 
-				fileName="/fff-temp/logs/fff-app.log"  
-				filePattern="/fff-temp/logs/archive/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.zip">
-	-->
+				fileName="C:\\Users\\lpelosi\\git\\fff.app\\it.fff.build\\logs\\fff-app.log"  
+				filePattern="C:\\Users\\lpelosi\\git\\fff.app\\it.fff.build\\logs\\archive\\$${date:yyyy-MM}\\app-%d{MM-dd-yyyy}-%i.log.zip">
+	 </RollingFile>
+	<!-- 
 	<RollingFile name="RollingFile" 
 				fileName="/var/lib/openshift/565efeab0c1e66a8d0000056/app-root/logs/fff-app.log"  
 				filePattern="/var/lib/openshift/565efeab0c1e66a8d0000056/app-root/logs/archive/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.zip">				
@@ -19,6 +19,7 @@
       </Policies>
       <DefaultRolloverStrategy max="10"/>
     </RollingFile>       
+	-->
   </Appenders>
   <Loggers>
     <Logger name="it.fff" level="debug" additivity="true">

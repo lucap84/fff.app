@@ -31,6 +31,8 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 	
 	@Autowired
 	private DHSecureConfiguration secureConfiguration;
+	
+	private boolean authorizationEnabled;
 	private int expirationDuration;
 	private int noncesMaxSetSize;
 	
@@ -38,70 +40,80 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 	
 	public AuthorizationContainerRequestFilter() {
 		ConfigurationProvider confProvider = ConfigurationProvider.getInstance();
-		this.expirationDuration = Integer.valueOf(confProvider.getAuthProperty(Constants.PROP_AUTH_DATE_EXPIRATION));
-		this.noncesMaxSetSize = Integer.valueOf(confProvider.getAuthProperty(Constants.PROP_AUTH_NONCE_SETSIZE));
+		String serverSecurityProperty = confProvider.getServerSecurityProperty(Constants.PROP_AUTHORIZATION_ENABLED);
+		this.authorizationEnabled = serverSecurityProperty!=null && "1".equals(serverSecurityProperty) ;
+		this.expirationDuration = Integer.valueOf(confProvider.getServerSecurityProperty(Constants.PROP_AUTHORIZATION_DATE_EXPIRATION));
+		this.noncesMaxSetSize = Integer.valueOf(confProvider.getServerSecurityProperty(Constants.PROP_AUTHORIZATION_NONCE_SETSIZE));
+		logger.debug(Constants.PROP_AUTHORIZATION_ENABLED+": "+this.authorizationEnabled);
+		logger.debug(Constants.PROP_AUTHORIZATION_DATE_EXPIRATION+": "+this.expirationDuration);
+		logger.debug(Constants.PROP_AUTHORIZATION_NONCE_SETSIZE+": "+this.noncesMaxSetSize);
 	}
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		boolean authorized = true;
-		String requestPath = requestContext.getUriInfo().getPath();
-		String method = requestContext.getMethod();
-		logger.debug(method+": "+requestPath);
 		
-		String specificError = "";
-		if(isToAuthorize(requestPath)){
-			String authHeader = requestContext.getHeaders().getFirst("Authorization");
-			String dateHeader = requestContext.getHeaders().getFirst("Date");
-			String deviceHeader = requestContext.getHeaders().getFirst("Device");
-			if(authHeader!=null && dateHeader!=null && deviceHeader!=null){
-				
-				if(!isRequestTimingAcceptable(dateHeader)){
-					authorized &= false; //se la richiesta e' troppo vecchia non si viene autorizzati
-					specificError += "Too old request; ";
+		if(this.isAuthorizationEnabled()){
+		
+			boolean authorized = true;
+			String requestPath = requestContext.getUriInfo().getPath();
+			String method = requestContext.getMethod();
+			logger.debug(method+": "+requestPath);
+			
+			String specificError = "";
+			if(isToAuthorize(requestPath)){
+				String authHeader = requestContext.getHeaders().getFirst("Authorization");
+				String dateHeader = requestContext.getHeaders().getFirst("Date");
+				String deviceHeader = requestContext.getHeaders().getFirst("Device");
+				if(authHeader!=null && dateHeader!=null && deviceHeader!=null){
+					
+					if(!isRequestTimingAcceptable(dateHeader)){
+						authorized &= false; //se la richiesta e' troppo vecchia non si viene autorizzati
+						specificError += "Too old request; ";
+					}
+					
+					String userId = authHeader.split(":")[1];
+					String nonce = authHeader.split(":")[2];
+					
+					if(!isNewNonce(nonce)){
+						authorized &= false; //se la richiesta e' duplicata non si viene autorizzati
+						specificError += "Nonce duplicated; ";
+					}				
+					
+					Integer userIdInt = null;
+					try{
+						userIdInt = Integer.valueOf(userId);
+					}
+					catch(NumberFormatException e){
+						authorized &= false;
+						specificError += "UserId not valid; ";
+					}
+					String sharedKey = secureConfiguration.retrieveSharedKey(userIdInt, deviceHeader);
+					String rebuiltAuthHeader = "";
+					if(sharedKey!=null && !"".equals(sharedKey)){
+						rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, userIdInt, method, requestPath, dateHeader, nonce);
+					}
+					
+					if(!rebuiltAuthHeader.equals(authHeader)){//se il digest HMAC ricalcolato sul server non corrisponde al client, non si viene autorizzati
+						authorized &= false;
+						specificError += "HMAC digest not valid; ";
+					}
 				}
-				
-				String userId = authHeader.split(":")[1];
-				String nonce = authHeader.split(":")[2];
-				
-				if(!isNewNonce(nonce)){
-					authorized &= false; //se la richiesta e' duplicata non si viene autorizzati
-					specificError += "Nonce duplicated; ";
-				}				
-				
-				Integer userIdInt = null;
-				try{
-					userIdInt = Integer.valueOf(userId);
+				else{
+					authorized &= false; // se non sono presenti gli header HMAC non si viene autorizzati
+					specificError += "HMAC headers not present; ";
 				}
-				catch(NumberFormatException e){
-					authorized &= false;
-					specificError += "UserId not valid; ";
-				}
-				String sharedKey = secureConfiguration.retrieveSharedKey(userIdInt, deviceHeader);
-				String rebuiltAuthHeader = "";
-				if(sharedKey!=null && !"".equals(sharedKey)){
-					rebuiltAuthHeader = AuthenticationUtil.generateHMACAuthorizationHeader(sharedKey, userIdInt, method, requestPath, dateHeader, nonce);
-				}
-				
-				if(!rebuiltAuthHeader.equals(authHeader)){//se il digest HMAC ricalcolato sul server non corrisponde al client, non si viene autorizzati
-					authorized &= false;
-					specificError += "HMAC digest not valid; ";
-				}
+	
+			}
+			
+			if(!authorized){
+				logger.error("NOT authorized: "+specificError);
+				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("User cannot access the resource.").build());
 			}
 			else{
-				authorized &= false; // se non sono presenti gli header HMAC non si viene autorizzati
-				specificError += "HMAC headers not present; ";
+				logger.debug("authorized");
 			}
+		}
 
-		}
-		
-		if(!authorized){
-			logger.error("NOT authorized: "+specificError);
-			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("User cannot access the resource.").build());
-		}
-		else{
-			logger.debug("authorized");
-		}		
 	}
 
 	private boolean isToAuthorize(String requestPath) {
@@ -148,6 +160,15 @@ public class AuthorizationContainerRequestFilter implements ContainerRequestFilt
 		}
 		
 		return isSetChanged;
-	}	
+	}
+
+	public boolean isAuthorizationEnabled() {
+		return authorizationEnabled;
+	}
+
+	public void setAuthorizationEnabled(boolean authorizationEnabled) {
+		this.authorizationEnabled = authorizationEnabled;
+	}
+	
 
 }

@@ -14,15 +14,16 @@ public class Constants {
 	/*
 	 * Security constants
 	 */
-	public static final String AUTH_CONF_FILENAME 			= "authorization.properties";
-	public static final String PROP_AUTH_DATE_EXPIRATION	= "auth.date.expiration";
-	public static final String PROP_AUTH_NONCE_SETSIZE		= "auth.nonce.setsize";
+	public static final String FILENAME_CONFIG_SERVERSECURITY 			= "serversecurity.properties";
+	public static final String PROP_AUTHENTICATION_ENABLED				= "server.security.authentication.enabled";
+	public static final String PROP_AUTHORIZATION_ENABLED				= "server.security.authorization.enabled";
+	public static final String PROP_AUTHORIZATION_DATE_EXPIRATION		= "server.security.authorization.date.expiration";
+	public static final String PROP_AUTHORIZATION_NONCE_SETSIZE			= "server.security.authorization.nonce.setsize";
 	
 	/*
 	 * Mail constants
 	 */
-	public static final String MAIL_CONF_FILENAME			= "mail.properties";
-	
+	public static final String FILENAME_CONFIG_MAIL			= "mail.properties";
 	public static final String PROP_MAIL_SENDER_ENABLED 	= "mail.sender.enabled";
 	public static final String PROP_MAIL_USERNAME			= "mail.account.username";
 	public static final String PROP_MAIL_PASSWORD			= "mail.account.password";
@@ -37,7 +38,7 @@ public class Constants {
 	/*
 	 * Persistence constants
 	 */
-	public static final String IMAGE_CONF_FILENAME 			= "images.properties";
+	public static final String FILENAME_CONFIG_IMAGE		= "images.properties";
 	
 	public static final String PROP_IMAGE_UPLOAD_LOCATION	= "server.filesystem.location.upload";
 	public static final String PROP_IMAGE_EXTENSION			= "server.image.extension";
@@ -47,7 +48,7 @@ public class Constants {
 	/*
 	 * Places constants 
 	 */
-	public static final String PLACES_CONF_FILENAME 			= "places.properties";
+	public static final String FILENAME_CONFIG_PLACES 			= "places.properties";
 	
 	public static final String PROP_PLACE_READ_FROM_CACHE		= "places.extservice.caching.read";
 	public static final String PROP_PLACE_UPDATE_CACHE			= "places.extservice.caching.update";
@@ -69,7 +70,7 @@ public class Constants {
 	/*
 	 * Facebook constants 
 	 */
-	public static final String FACEBOOK_CONF_FILENAME 	= "facebook.properties";	
+	public static final String FILENAME_CONFIG_FACEBOOK 		= "facebook.properties";	
 	
 	public static final String PROP_FACEBOOK_APP_ID				= "facebook.app.id";
 	public static final String PROP_FACEBOOK_APP_SECRET			= "facebook.app.secret";

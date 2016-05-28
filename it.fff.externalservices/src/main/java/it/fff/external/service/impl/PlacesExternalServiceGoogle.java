@@ -98,7 +98,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		GeocodingResult[] results = geocodingRequest.latlng(userPosition).await();
 		
 		if(results!=null){
-			placeBO = PlaceMapper.getInstance().mapGeocodingResult2BO(results[0]);
+			placeBO = PlaceMapper.getInstance().mapGeocodingResult2BO(results[0]); //TODO Quale prendo tra tutti i risultati? Il piu' vicino alle coordinate
 		}
 		
 		logger.debug("... return from External service getPlaceByGPS");
