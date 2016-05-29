@@ -13,10 +13,10 @@ import it.fff.business.common.bo.AccountBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.dto.AuthDataResponseDTO;
 import it.fff.clientserver.common.dto.LoginInputDTO;
 import it.fff.clientserver.common.enums.UserSexEnum;
+import it.fff.clientserver.common.util.Constants;
 
 public class CustomMapper {
 	

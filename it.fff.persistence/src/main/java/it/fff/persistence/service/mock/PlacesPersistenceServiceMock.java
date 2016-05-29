@@ -8,8 +8,8 @@ import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{

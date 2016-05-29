@@ -20,11 +20,12 @@ import org.apache.logging.log4j.Logger;
 import it.fff.business.common.bo.*;
 import it.fff.business.common.mapper.CustomMapper;
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.ErrorCodes;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.Constants;
+import it.fff.clientserver.common.util.FlokkerUtils;
 import it.fff.external.service.PlacesExternalService;
 import it.fff.external.util.ExternalServiceProvider;
 import it.fff.integration.facade.exception.IntegrationException;
@@ -293,10 +294,14 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 
 	@Override
 	public Set<PlaceBO> getPlacesByDescription(String token, double userGpsLat, double userGpsLong) throws IntegrationException {
+		Set<PlaceBO> bos = new HashSet<PlaceBO>();
+		if(token==null || "".equals(token)){
+			return bos;
+		}
+		
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
-		Set<PlaceBO> bos = null;
 		PlaceBO userPlace = null;
 		String userRegion = null;
 		
@@ -306,9 +311,6 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		if(readFromCache){ //Prendo i place dalla cache solo se la cache è abilitata
 			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong);
 		}
-		else{
-			bos = new HashSet<PlaceBO>();
-		}
 		
 		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos);
 		
@@ -316,7 +318,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		//OPPURE
 		//i risultati della cache sono vuoti (provo quindi su servizio ext)
 		//OPPURE
-		//ci sono dei risultati non piu validi (devo aggiornare i risultati cached)
+		//c'e' almeno un risultato non piu valido (devo aggiornare i risultati cached)
 		if(!readFromCache 			|| 
 			bos.size()==0		   	||
 			invalidPlaces.size()>0
@@ -326,12 +328,13 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos.removeAll(invalidPlaces);
 			
 			try{
-				//recupero prima la Region del chiamante
+				//recupero prima la Region del chiamante (partendo dalle sue coordinate) per raffinare la ricerca successiva
 				userPlace = this.getPlaceByGPS(userGpsLat, userGpsLong);
 				userRegion =  this.getRegionByPlace(userPlace);
 			
 				//Search on External service and add all results
-				bos.addAll(placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong, userRegion));	
+				List<PlaceBO> placesByDescription = placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong, userRegion);
+				bos.addAll(placesByDescription);	
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());
@@ -344,13 +347,13 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 				//Aggiorno su cache (DB interno) i risultati nuovi/aggiornati da servizio esterno
 
 				try {
-					if(userPlace!=null){
-						placesPersistenceService.saveOrUpdatePlace(userPlace, null); //Salvo/Aggiorno i dati del luogo ricavato dalla ricerca tramite coordinate GPS (non con il token!) 
+					if(userPlace!=null){//Salvo o aggiorno i dati del luogo da cui e' partita la ricerca
+						placesPersistenceService.saveOrUpdatePlace(userPlace, null);  //non c'e' token perche' il place e' stato trovato tramite coordinate
 					}
 					
-					if(bos!=null && bos.size()>0){
+					if(bos!=null && bos.size()>0){//Salvo o aggiorno tutti i luoghi ricavati dalla ricerca tramite token (a partire dalla coordinate gps utente)
 						for (PlaceBO placeBO : bos) {
-							placesPersistenceService.saveOrUpdatePlace(placeBO, token); //Salvo/Aggiorno i dati di tutti i luoghi ricavato dalla ricerca tramite token (a partire dalla coordinate gps utente)
+							placesPersistenceService.saveOrUpdatePlace(placeBO, token); 
 						}
 					}
 				} catch (Exception e) {
@@ -359,7 +362,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			}
 		}
 		
-		//Se ho ottenuto risultati dalla ricerca su servizio esterno
+
 
 		return bos;		
 	}
@@ -381,7 +384,6 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		if(userGpsLat==0 && userGpsLong==0){
 			return userPlaceByGPS;
 		}
-		
 		
 		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
 		
@@ -442,13 +444,14 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			for (PlaceBO placeBO : bosCached) {
 				String dataAggiornamento = placeBO.getDataAggiornamento();
 				
-				if(!this.isPlaceStillValid(dataAggiornamento, ttlDays)){
+				if(!FlokkerUtils.isDateStillValid(dataAggiornamento, ttlDays)){
 					invalidPlaces.add(placeBO);
 				}
 			}
 		}
 		return invalidPlaces;
 	}
+	
 
 	@Override
 	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws IntegrationException {
@@ -1008,33 +1011,5 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		return bo;
 	}	
 	
-	
-	
-	/*
-	 * 
-	 * 
-	 * Utility methods
-	 * 
-	 * 
-	 */
-	
-	private boolean isPlaceStillValid(String date, int expirationDays) {
-		Date cachedDate = null;
-		try {
-			cachedDate = Constants.DATE_FORMATTER.parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Date currentDate = new Date();
-		long diffDays = getDateDiff(cachedDate, currentDate, TimeUnit.DAYS);
-		logger.debug("Place data "+diffDays+" days old");
-		
-		return diffDays<=expirationDays;
-	}
-
-	private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-		long diffInMillies = date2.getTime() - date1.getTime();
-		return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-	}
 
 }

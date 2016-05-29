@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
+import it.fff.clientserver.common.util.Constants;
 
 public class MailManager {
 	

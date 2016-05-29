@@ -65,5 +65,6 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_GET_FB_USERDATA = "2031";
 	public static final String ERR_BUSIN_GETATTENDANCES_BYUSER ="2032";
 	public static final String ERR_BUSIN_LOGIN_FACEBOOK ="2033";
+	
 
 }

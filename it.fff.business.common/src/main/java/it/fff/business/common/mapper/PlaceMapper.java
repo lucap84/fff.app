@@ -20,10 +20,10 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.DistanceCalculator;
 import it.fff.clientserver.common.dto.PlaceDTO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
+import it.fff.clientserver.common.util.Constants;
 
 public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 	
@@ -116,9 +116,11 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			eo.setGpsLatIfNotEmpty(bo.getGpsLat());
 			eo.setGpsLongIfNotEmpty(bo.getGpsLong());
 			eo.setCapIfNotEmpty(bo.getCap());
-			eo.setPlaceKey(bo.getPlaceKey());
+			eo.setPlaceKeyIfNotEmpty(bo.getPlaceKey());
 			
-			eo.setDataCreazione(bo.getDataCreazione());
+			if(eo.getDataCreazione()==null || "".equals(eo.getDataCreazione())){
+				eo.setDataCreazione(bo.getDataCreazione());
+			}
 			eo.setDataAggiornamento(bo.getDataAggiornamento());
 			
 			eo.setPlaceType(PlaceTypeMapper.getInstance().mergeBO2EO(bo.getPlaceType(), null, session));
@@ -299,6 +301,12 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 				} else{
 					if(gLocality!=null && gLocality.length()>0){
 						bo.setAddressRoute(gLocality);
+					} else{
+						if(gComuneLongName!=null && gComuneLongName.length()>0){
+							bo.setAddressRoute(gComuneLongName);
+						} else{
+							bo.setAddressRoute(Constants.UNKNOWN);
+						}
 					}
 				}
 			}
@@ -313,13 +321,13 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			bo.setGpsLong(roundedLong);
 			
 			
-			Date currentDate = new Date();
-			String currentDateStr = Constants.DATE_FORMATTER.format(currentDate);
-			bo.setDataCreazione(currentDateStr);
-			bo.setDataAggiornamento(currentDateStr);
+//			Date currentDate = new Date();
+//			String currentDateStr = Constants.DATE_FORMATTER.format(currentDate);
+//			bo.setDataCreazione(currentDateStr);
+//			bo.setDataAggiornamento(currentDateStr);
 			
 			CityBO cittaBO = new CityBO();
-			//Se la citta (LOCALITY) non e' presente nella risposta uso le administrative area, dalla piu' specifica alla meno specifica (il comune)
+			//Se la citta (LOCALITY) non e' presente nella risposta uso le administrative area, dalla piu' specifica alla meno specifica (il comune), fino ad usare la nazione stessa
 			if(gLocality!=null && !"".equals(gLocality)){
 				cittaBO.setNome(gLocality);
 			} else{
@@ -334,6 +342,8 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 						} else{
 							if(gComuneLongName!=null && !"".equals(gComuneLongName)){
 								cittaBO.setNome(gComuneLongName);	
+							} else{
+								cittaBO.setNome(Constants.UNKNOWN);
 							}
 						}
 					}

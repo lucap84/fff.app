@@ -15,10 +15,10 @@ import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.clientserver.common.util.FlokkerUtils;
 import it.fff.persistence.service.EventPersistenceService;
 

@@ -2,16 +2,8 @@ package it.fff.persistence.service.impl;
 
 
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.eo.AttendanceEO;
-import it.fff.business.common.eo.EventEO;
-import it.fff.business.common.eo.MessageEO;
 import it.fff.business.common.eo.SubscriptionEO;
-import it.fff.business.common.eo.SubscriptionTypeEO;
-import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.SubscriptionMapper;
-import it.fff.business.common.util.Constants;
-
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

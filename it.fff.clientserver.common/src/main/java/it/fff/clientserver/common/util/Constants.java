@@ -1,4 +1,4 @@
-package it.fff.business.common.util;
+package it.fff.clientserver.common.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -88,4 +88,11 @@ public class Constants {
 	public static final String QY_GET_INFO_BY_MAIL					= "geInfoByEmail";
 	public static final String QY_GET_ACCOUNT_BY_FB					= "geAccountByFacebookId";
 	public static final String QY_GET_ACCOUNT_BY_EMAIL				= "geAccountByEmail";
+	
+	/*
+	 * Varie
+	 */
+	
+	public static final String UNKNOWN = "UNKNOWN";
 }
+

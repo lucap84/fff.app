@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.SecurityBusinessService;
 import it.fff.business.strategy.VerificationCodeStrategy;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 

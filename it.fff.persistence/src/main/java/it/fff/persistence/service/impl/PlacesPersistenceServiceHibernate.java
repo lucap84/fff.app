@@ -1,6 +1,7 @@
 package it.fff.persistence.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +26,9 @@ import it.fff.business.common.mapper.KeywordMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.business.common.util.DistanceCalculator;
+import it.fff.clientserver.common.util.Constants;
+import it.fff.clientserver.common.util.FlokkerUtils;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -47,6 +49,8 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
+		Set<PlaceEO> relatedPlaces = null;
+		
 	      try{
 	    	tx = session.beginTransaction();
 			
@@ -57,7 +61,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	KeywordEO keyword = (KeywordEO)query.uniqueResult();
 	    	
 	    	if(keyword!=null){
-	    		Set<PlaceEO> relatedPlaces = keyword.getRelatedPlaces();
+	    		relatedPlaces = keyword.getRelatedPlaces();
 	    		bos = new HashSet<PlaceBO>(PlaceMapper.getInstance().mapEOs2BOs(new ArrayList<PlaceEO>(relatedPlaces)));
 	    	}
 	    	else{
@@ -74,6 +78,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	     }finally {
 	        session.close(); 
 	     }
+	      
 		return bos;
 	}
 
@@ -113,6 +118,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	String hqlSelectPlace = "FROM PlaceEO WHERE placeKey = :placeKey";
 	    	Query querySelectPlace = session.createQuery(hqlSelectPlace);
 	    	querySelectPlace.setParameter("placeKey",placeBO.getPlaceKey());
+	    	querySelectPlace.setMaxResults(1); //La certezza che sia un solo risultato non c'e' perché placeKey non e' chiave della tabella
 	    	
 	    	PlaceEO placeEO = (PlaceEO)querySelectPlace.uniqueResult();
 	    	
@@ -145,21 +151,28 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    			placeBO.setCity(existingCityBO);
 	    		}
 
+	    		placeBO.setDataCreazione(Constants.DATE_FORMATTER.format(new Date()));
+	    		placeBO.setDataAggiornamento(Constants.DATE_FORMATTER.format(new Date()));
 	    		//creo l'oggetto Entity: se la citta esisteva sara' ora managed e mappata dentro al place (insieme alla Nation)
 	    		//se la citta' non esisteva, avra' tutti i dati e verra' salvata in cascade
 	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, null, session);
 	    		session.save(placeEO);
 	    	}
 	    	else{
-	    		//aggiorno il place esistente
-	    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, placeEO, session);
+	    		//aggiorno il place esistente se e' "scaduto"
+	    		int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_CACHING_TTL));
+	    		String dataAggiornamentoSuDB = placeEO.getDataAggiornamento();
+	    		if(!FlokkerUtils.isDateStillValid(dataAggiornamentoSuDB,ttlDays)){ //il place non e' piu' aggiornato
+		    		placeBO.setDataAggiornamento(Constants.DATE_FORMATTER.format(new Date()));
+		    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, placeEO, session);
+	    		}
 	    	}	    	
 	    	
 	    	placeId = placeEO.getId();
 	    	
 	    	//Ora sia la keyword che il place esistono su DB anche se non erano presenti precedentemente
 	    	//devo adesso legarli da un mapping
-			if(keywordEO!=null){
+			if(keywordEO!=null){ //solo se in input era dato anche un token di ricerca
 		    	keywordEO.getRelatedPlaces().add(placeEO);
 		    	placeEO.getKeywords().add(keywordEO);
 		    	session.update(keywordEO);

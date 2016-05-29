@@ -21,8 +21,8 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.persistence.service.SecurityPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 

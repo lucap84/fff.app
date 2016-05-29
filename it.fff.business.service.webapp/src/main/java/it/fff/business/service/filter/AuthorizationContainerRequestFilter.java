@@ -18,9 +18,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.secure.AuthenticationUtil;
 import it.fff.clientserver.common.secure.DHSecureConfiguration;
+import it.fff.clientserver.common.util.Constants;
 
 
 //Pre-matching filters are request filters that are executed before the request matching is started

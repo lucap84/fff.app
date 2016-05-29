@@ -26,10 +26,10 @@ import it.fff.business.common.eo.PlaceEO;
 import it.fff.business.common.mapper.AttendanceMapper;
 import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.MessageMapper;
-import it.fff.business.common.util.Constants;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 

@@ -1,5 +1,6 @@
 package it.fff.external.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +13,10 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
 import it.fff.business.common.bo.PlaceBO;
+import it.fff.business.common.comparator.PlaceComparator;
 import it.fff.business.common.mapper.PlaceMapper;
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.external.service.PlacesExternalService;
 
 public class PlacesExternalServiceGoogle implements PlacesExternalService {
@@ -31,10 +33,10 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		double viewportSizeKm = Double.valueOf(confProvider.getPlacesConfigProperty(Constants.PROP_GOOGLE_VIEWPORT_DIAMETER_KM));
 		
 		GeoApiContext context = new GeoApiContext().setApiKey(apiKEY);
-		
 		GeocodingApiRequest geocodingRequest = GeocodingApi.newRequest(context);
+		
 		/*
-		 * Restringo il campo di ricerca nell'intorno delle coordinate gps dell'utente
+		 * Restringo il campo di ricerca nell'intorno delle coordinate gps dell'utente (per risultati piu' attinenti)
 		 */
 		
 		if(userGpsLat!=0 && userGpsLong!=0){
@@ -43,8 +45,8 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 			
 			//Per il calcolo della finestra geografica devo considerare il range delle coordinate GPS (lat:-90;+90 long:-180,+180) e il segno
 			double southWestBound_Lat	= userGpsLat - sideOfSquareDegrees;
-			if(Math.abs(southWestBound_Lat)>Constants.LATITUDE_RANGE_ABS){
-				southWestBound_Lat = (southWestBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1;
+			if(Math.abs(southWestBound_Lat)>Constants.LATITUDE_RANGE_ABS){ //se la latitudine calcolata esce dal range fisico di latitudine
+				southWestBound_Lat = (southWestBound_Lat % Constants.LATITUDE_RANGE_ABS)*-1; //ricalcolo la latitudine
 			}
 			double southWestBound_Long	= userGpsLong	- sideOfSquareDegrees;
 			if(Math.abs(southWestBound_Long)>Constants.LONGITUDE_RANGE_ABS){
@@ -59,8 +61,8 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 				northEastBound_Long = (northEastBound_Long % Constants.LONGITUDE_RANGE_ABS)*-1;
 			}		
 	
-			LatLng southWestBound = new LatLng(southWestBound_Lat, southWestBound_Long);
-			LatLng northEastBound = new LatLng(northEastBound_Lat, northEastBound_Long);
+			LatLng southWestBound = new LatLng(southWestBound_Lat, southWestBound_Long); //angolo sud-ovest della finestra di ricerca
+			LatLng northEastBound = new LatLng(northEastBound_Lat, northEastBound_Long); //angolo nord-est della finestra di ricerca
 			
 			geocodingRequest.bounds(southWestBound, northEastBound); //imposto la finestra di ricerca nella request
 		}
@@ -72,7 +74,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 			geocodingRequest.region(region);
 		}
 		
-		//Lancio la ricerca
+		//Lancio la ricerca per la parola chiave cercata
 		GeocodingResult[] results = geocodingRequest.address(description).await();
 		
 		if(results!=null){
@@ -95,10 +97,16 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 		GeocodingApiRequest geocodingRequest = GeocodingApi.newRequest(context);
 		LatLng userPosition = new LatLng(userGpsLat, userGpsLong);
 		//Lancio la ricerca
-		GeocodingResult[] results = geocodingRequest.latlng(userPosition).await();
+		GeocodingResult[] geoResults = geocodingRequest.latlng(userPosition).await();
 		
-		if(results!=null){
-			placeBO = PlaceMapper.getInstance().mapGeocodingResult2BO(results[0]); //TODO Quale prendo tra tutti i risultati? Il piu' vicino alle coordinate
+		if(geoResults!=null){
+			List<PlaceBO> bos = PlaceMapper.getInstance().mapGeocodingResults2BOs(geoResults);
+			
+			//Ordinamento basato su coordinate uente
+			PlaceComparator comparator = new PlaceComparator(userGpsLat, userGpsLong);
+			Collections.sort(bos, comparator);
+			
+			placeBO = bos.get(0); //Restituisco solo il place piu' vicino all'utente (quindi attinente)
 		}
 		
 		logger.debug("... return from External service getPlaceByGPS");

@@ -8,12 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.business.comparator.PlaceDistanceComparator;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
 import it.fff.business.service.EventBusinessService;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 

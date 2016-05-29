@@ -156,6 +156,9 @@ public class PlaceEO extends EntityObject {
 	public void setIdIfNotEmpty(Integer id) {
 		if(!isEmpty(id))this.setId(id);
 	}
+	public void setPlaceKeyIfNotEmpty(String placeKey) {
+		if(!isEmpty(placeKey))this.setPlaceKey(placeKey);
+	}	
 	public void setNomeIfNotEmpty(String nome) {
 		if(!isEmpty(nome))this.setNome(nome);
 	}

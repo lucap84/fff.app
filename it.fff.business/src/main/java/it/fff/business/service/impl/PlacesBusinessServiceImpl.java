@@ -27,6 +27,11 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 
 	@Override
 	public List<PlaceBO> getPlacesByDescription(String description, double gpsUserLat, double gpsUserLong) throws IntegrationException {
+		
+		if(description!=null && !"".equals(description)){
+			description = description.toUpperCase();
+		}
+		
 		Set<PlaceBO> bos = integrationFacade.getPlacesByDescription(description, gpsUserLat, gpsUserLong);
 		List<PlaceBO> bosList = new ArrayList<PlaceBO>(bos);
 		

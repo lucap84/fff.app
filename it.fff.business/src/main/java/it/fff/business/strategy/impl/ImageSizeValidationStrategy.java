@@ -20,8 +20,8 @@ import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.util.ConfigurationProvider;
-import it.fff.business.common.util.Constants;
 import it.fff.business.strategy.ImageValidationStrategy;
+import it.fff.clientserver.common.util.Constants;
 
 public class ImageSizeValidationStrategy implements ImageValidationStrategy {
 	

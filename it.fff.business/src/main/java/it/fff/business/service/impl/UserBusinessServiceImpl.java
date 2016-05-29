@@ -14,11 +14,11 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.util.Constants;
 import it.fff.business.notification.MailManager;
 import it.fff.business.service.UserBusinessService;
 import it.fff.business.strategy.ImageValidationStrategy;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.clientserver.common.util.Constants;
 import it.fff.integration.facade.exception.IntegrationException;
 import it.fff.integration.facade.service.IntegrationServiceFacade;
 

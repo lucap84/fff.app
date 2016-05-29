@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.util.Base64;
@@ -98,5 +101,28 @@ public class FlokkerUtils {
 	public static int generateRandomIntBetween(int minimum, int maximum){
 		return minimum + (int)(Math.random() * maximum);
 	}
+	
+	public static boolean isDateStillValid(String dateToVerify, int expirationDays) {
+		if(dateToVerify==null){
+			return false;
+		}
+		
+		Date date = null;
+		try {
+			date = Constants.DATE_FORMATTER.parse(dateToVerify);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Date currentDate = new Date();
+		long diffDays = getDateDiff(date, currentDate, TimeUnit.DAYS);
+		logger.debug("Place data "+diffDays+" days old");
+		
+		return diffDays<=expirationDays;
+	}
+
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		long diffInMillies = date2.getTime() - date1.getTime();
+		return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}	
     
 }
