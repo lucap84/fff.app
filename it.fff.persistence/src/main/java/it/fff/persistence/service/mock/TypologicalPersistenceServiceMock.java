@@ -70,9 +70,9 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo9.setDescrizione("Descrizione 9");
 
 		EventCategoryBO bo10 = new EventCategoryBO();
-		bo5.setId(10);
-		bo5.setNome("Nome 10");
-		bo5.setDescrizione("Descrizione 10");
+		bo10.setId(10);
+		bo10.setNome("Nome 10");
+		bo10.setDescrizione("Descrizione 10");
 		
 		bos.add(bo1);
 		bos.add(bo2);
