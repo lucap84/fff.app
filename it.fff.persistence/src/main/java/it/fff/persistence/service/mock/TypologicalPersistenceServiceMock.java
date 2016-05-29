@@ -50,24 +50,24 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo5.setDescrizione("Sport");
 		
 		EventCategoryBO bo6 = new EventCategoryBO();
-		bo5.setId(6);
-		bo5.setNome("Nome 6");
-		bo5.setDescrizione("Descrizione 6");
+		bo6.setId(6);
+		bo6.setNome("Nome 6");
+		bo6.setDescrizione("Descrizione 6");
 		
 		EventCategoryBO bo7 = new EventCategoryBO();
-		bo5.setId(7);
-		bo5.setNome("Nome 7");
-		bo5.setDescrizione("Descrizione 7");
+		bo7.setId(7);
+		bo7.setNome("Nome 7");
+		bo7.setDescrizione("Descrizione 7");
 		
 		EventCategoryBO bo8 = new EventCategoryBO();
-		bo5.setId(8);
-		bo5.setNome("Nome 8");
-		bo5.setDescrizione("Descrizione 8");
+		bo8.setId(8);
+		bo8.setNome("Nome 8");
+		bo8.setDescrizione("Descrizione 8");
 		
 		EventCategoryBO bo9 = new EventCategoryBO();
-		bo5.setId(9);
-		bo5.setNome("Nome 9");
-		bo5.setDescrizione("Descrizione 9");
+		bo9.setId(9);
+		bo9.setNome("Nome 9");
+		bo9.setDescrizione("Descrizione 9");
 
 		EventCategoryBO bo10 = new EventCategoryBO();
 		bo5.setId(10);
@@ -207,28 +207,28 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		bo1.setDurataMesi(0);
 
 		SubscriptionTypeBO bo2 = new SubscriptionTypeBO();
-		bo2.setId(1);
+		bo2.setId(2);
 		bo2.setNome("Mensile");
 		bo2.setDescrizione("Mensile");
 		bo2.setDurataGiorni(0);
 		bo2.setDurataMesi(1);
 		
 		SubscriptionTypeBO bo3 = new SubscriptionTypeBO();
-		bo3.setId(1);
+		bo3.setId(3);
 		bo3.setNome("Trimestrale");
 		bo3.setDescrizione("Trimestrale");
 		bo3.setDurataGiorni(0);
 		bo3.setDurataMesi(3);
 		
 		SubscriptionTypeBO bo4 = new SubscriptionTypeBO();
-		bo4.setId(1);
+		bo4.setId(4);
 		bo4.setNome("Annuale");
 		bo4.setDescrizione("Annuale");
 		bo4.setDurataGiorni(0);
 		bo4.setDurataMesi(12);
 		
 		SubscriptionTypeBO bo5 = new SubscriptionTypeBO();
-		bo5.setId(1);
+		bo5.setId(5);
 		bo5.setNome("Perpetuo");
 		bo5.setDescrizione("Perpetuo");
 		bo5.setDurataGiorni(999);
