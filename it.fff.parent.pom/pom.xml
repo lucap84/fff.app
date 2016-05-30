@@ -5,7 +5,10 @@
   <version>1.0</version>
   <packaging>pom</packaging>
   <properties>
+  	<fff.config.folder>C:\Users\lpelosi\git\fff.app\it.fff.build</fff.config.folder>
+  	<!-- 
   	<fff.config.folder>C:\Users\Luca\git\fff.app\it.fff.build</fff.config.folder>
+  	 -->
   </properties>
   <build>
 <!-- 

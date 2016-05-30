@@ -213,20 +213,23 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 		String deviceId = null;
 		String sharedKey = null;
 		
-		List<SessionBO> sessions = userBO.getAccount().getSessions();
-		for (SessionBO sessionBO : sessions) {
-			if (sessionBO.isLogged()){
-				deviceId= sessionBO.getDeviceId();
-				sharedKey = sessionBO.getSharedKey();
-				break;
+		AccountBO account = userBO.getAccount();
+		if(account!=null){
+			List<SessionBO> sessions = account.getSessions();
+			for (SessionBO sessionBO : sessions) {
+				if (sessionBO.isLogged()){
+					deviceId= sessionBO.getDeviceId();
+					sharedKey = sessionBO.getSharedKey();
+					break;
+				}
 			}
+			
+			Map<String, String> device2SharedKey = SecurityPersistenceServiceMock.secrets.get(userID);
+			if(device2SharedKey==null){
+				device2SharedKey = new HashMap<String, String>();
+				SecurityPersistenceServiceMock.secrets.put(userID, device2SharedKey);
+			}
+			device2SharedKey.put(deviceId, sharedKey);
 		}
-		
-		Map<String, String> device2SharedKey = SecurityPersistenceServiceMock.secrets.get(userID);
-		if(device2SharedKey==null){
-			device2SharedKey = new HashMap<String, String>();
-			SecurityPersistenceServiceMock.secrets.put(userID, device2SharedKey);
-		}
-		device2SharedKey.put(deviceId, sharedKey);
 	}
 }

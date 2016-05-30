@@ -93,6 +93,6 @@ public class Constants {
 	 * Varie
 	 */
 	
-	public static final String UNKNOWN = "UNKNOWN";
+	public static final String UNDEFINED_DATA = "UNDEFINED";
 }
 

@@ -305,7 +305,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 						if(gComuneLongName!=null && gComuneLongName.length()>0){
 							bo.setAddressRoute(gComuneLongName);
 						} else{
-							bo.setAddressRoute(Constants.UNKNOWN);
+							bo.setAddressRoute(Constants.UNDEFINED_DATA);
 						}
 					}
 				}
@@ -343,7 +343,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 							if(gComuneLongName!=null && !"".equals(gComuneLongName)){
 								cittaBO.setNome(gComuneLongName);	
 							} else{
-								cittaBO.setNome(Constants.UNKNOWN);
+								cittaBO.setNome(Constants.UNDEFINED_DATA);
 							}
 						}
 					}
