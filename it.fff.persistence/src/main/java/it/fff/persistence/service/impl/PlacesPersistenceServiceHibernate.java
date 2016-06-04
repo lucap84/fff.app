@@ -12,19 +12,23 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.KeywordEO;
 import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.PlaceEO;
+import it.fff.business.common.eo.UserEO;
 import it.fff.business.common.mapper.CityMapper;
 import it.fff.business.common.mapper.KeywordMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
+import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.DistanceCalculator;
 import it.fff.clientserver.common.util.Constants;
@@ -37,9 +41,45 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	private static final Logger logger = LogManager.getLogger(PlacesPersistenceServiceHibernate.class);
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception {
+		logger.debug("setCurrentPosition user");
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    try{
+	    	tx = session.beginTransaction();
+
+	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+	    	UserEO userEO = (UserEO)session.load(UserEO.class, userId);
+	    	userEO.setLastPositionLat(gpsLat);
+	    	userEO.setLastPositionLong(gpsLong);
+	    	userEO.setLastPositionDate(dataAggiornamento);
+	    	  
+			session.update(userEO); 
+			 
+			 tx.commit();
+	      }
+	      catch(ConstraintViolationException e){
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace();
+		         throw new Exception("ConstraintViolationException during setCurrentPosition() ",e);
+	      }
+	      catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace();
+	         throw new Exception("HibernateException during setCurrentPosition() ",e);
+	      }finally {
+	         session.close(); 
+	      }			
+		
+		logger.debug("...setCurrentPosition user done");
+		WriteResultBO resultBO = new WriteResultBO();
+		resultBO.setSuccess(true);
+		resultBO.setWrittenKey(userId);
+		resultBO.setAffectedRecords(1);
+		
+		return resultBO;
 	}
 
 	@Override

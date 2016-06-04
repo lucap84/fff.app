@@ -57,7 +57,7 @@ public interface IntegrationServiceFacade {
 
 	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws IntegrationException;
 
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException;
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws IntegrationException;
 
 	public Set<PlaceBO> getPlacesByDescription(String description, double gplLat, double gpsLong) throws IntegrationException;
 	

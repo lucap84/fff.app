@@ -45,8 +45,8 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 	}
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException {
-		WriteResultBO bo = integrationFacade.setCurrentPosition(userId, eventId, placeBO);
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws IntegrationException {
+		WriteResultBO bo = integrationFacade.setCurrentPosition(userId, gpsLat, gpsLong);
 		return bo;
 	}
 

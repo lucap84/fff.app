@@ -15,9 +15,9 @@ import it.fff.persistence.service.PlacesPersistenceService;
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws Exception {
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception {
 		WriteResultBO resultBO = new WriteResultBO();
-		resultBO.setWrittenKey(1);
+		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
 		resultBO.setAffectedRecords(1);
 		return resultBO;

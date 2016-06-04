@@ -11,7 +11,7 @@ public interface PlacesBusinessService extends BusinessService{
 
 	public List<PlaceBO> getPlacesByDescription(String description, double gpsLat, double gpsLong) throws IntegrationException;
 
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException;
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws IntegrationException;
 
 	public CityBO getCityByName(String cityName, String nationKey) throws IntegrationException;;
 

@@ -275,12 +275,12 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 	}
 	
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO placeBO) throws IntegrationException {
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws IntegrationException {
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
 		WriteResultBO resultBO = null;
 		try{
-			resultBO = placesPersistenceService.setCurrentPosition(userId,eventId,placeBO);
+			resultBO = placesPersistenceService.setCurrentPosition(userId, gpsLat, gpsLong);
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());

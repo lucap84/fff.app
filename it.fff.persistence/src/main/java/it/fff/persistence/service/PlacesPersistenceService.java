@@ -9,7 +9,7 @@ import it.fff.business.common.bo.WriteResultBO;
 
 public interface PlacesPersistenceService extends PersistenceService{
 
-	public WriteResultBO setCurrentPosition(int userId, int eventId, PlaceBO bo) throws Exception;
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception;
 
 	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception;
 	

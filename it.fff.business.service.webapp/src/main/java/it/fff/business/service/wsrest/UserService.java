@@ -59,26 +59,24 @@ public class UserService extends ApplicationService{
 		return updateUserData(request, user);
 	}	
 	
-	@POST
-	@Path("{userId}/events/{eventId}/position/json")
+	@PUT
+	@Path("{userId}/position/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public WriteResultDTO setCurrentPositionJSON(@Context HttpServletRequest request,
 												 @PathParam("userId") String userId,
-												 @PathParam("eventId") String eventId,
-												 PlaceDTO place) throws BusinessException {
-		return setCurrentPosition(request, userId, eventId, place);
+												 PlaceDTO currentPosition) throws BusinessException {
+		return setCurrentPosition(request, userId, currentPosition);
 	}
-	@POST
-	@Path("{userId}/events/{eventId}/position/xml")
+	@PUT
+	@Path("{userId}/position/xml")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	public WriteResultDTO setCurrentPositionXML(@Context HttpServletRequest request,
-			 							@PathParam("userId") String userId,
-			 							@PathParam("eventId") String eventId,
-			 							PlaceDTO place) throws BusinessException {
-		return setCurrentPosition(request, userId, eventId, place);
-	}	
+												 @PathParam("userId") String userId,
+												 PlaceDTO currentPosition) throws BusinessException {
+		return setCurrentPosition(request, userId, currentPosition);
+	}
 	
 
 	@GET
@@ -279,10 +277,10 @@ return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 		return result;
 	}
 	
-	private WriteResultDTO setCurrentPosition(HttpServletRequest request, String userId, String eventId, PlaceDTO place) {
+	private WriteResultDTO setCurrentPosition(HttpServletRequest request, String userId, PlaceDTO currentPosition) {
 		WriteResultDTO result;
 		try {
-			result = businessServiceFacade.setCurrentPosition(userId, eventId, place);
+			result = businessServiceFacade.setCurrentPosition(userId, currentPosition);
 		} catch (BusinessException e) {
 			result = new WriteResultDTO();
 			super.manageErrors(e, result, request.getLocale());

@@ -522,17 +522,16 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 	}
 
 	@Override
-	public WriteResultDTO setCurrentPosition(String userId, String eventId, PlaceDTO placeDTO) throws BusinessException {
+	public WriteResultDTO setCurrentPosition(String userId, PlaceDTO currentPosition) throws BusinessException {
 		PlacesBusinessService placesBusinessService = (PlacesBusinessService)BusinessServiceProvider.getBusinessService("placesBusinessService");
 		
 		WriteResultBO WriteResultBO = null;
 		int userIdInt = -1;
-		int eventIdInt = -1;
-		PlaceBO placeBO = PlaceMapper.getInstance().mapDTO2BO(placeDTO);
+		double gpsLat = currentPosition.getGpsLat();
+		double gpsLong = currentPosition.getGpsLong();
 		try {
 			userIdInt = Integer.valueOf(userId);
-			eventIdInt = Integer.valueOf(eventId);
-			WriteResultBO = placesBusinessService.setCurrentPosition(userIdInt, eventIdInt, placeBO);
+			WriteResultBO = placesBusinessService.setCurrentPosition(userIdInt, gpsLat, gpsLong);
 		}
 		catch(NumberFormatException e){
 			BusinessException.manageException(new ApplicationException(e),ErrorCodes.ERR_BUSIN_GENERIC_ID_NOT_VALID);

@@ -53,7 +53,7 @@ public interface BusinessServiceFacade {
 
 	public WriteResultDTO updateUserData(UserDTO user) throws BusinessException;
 
-	public WriteResultDTO setCurrentPosition(String userId, String eventId, PlaceDTO place) throws BusinessException;
+	public WriteResultDTO setCurrentPosition(String userId, PlaceDTO currentPosition) throws BusinessException;
 
 	public List<EventDTO> getEventsByUser(String userId) throws BusinessException;
 
