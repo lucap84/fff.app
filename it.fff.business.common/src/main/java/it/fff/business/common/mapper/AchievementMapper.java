@@ -10,6 +10,8 @@ import it.fff.business.common.bo.AchievementTypeBO;
 import it.fff.business.common.eo.AchievementObtainedEO;
 import it.fff.business.common.eo.AchievementTypeEO;
 import it.fff.clientserver.common.dto.AchievementDTO;
+import it.fff.clientserver.common.dto.UserDTO;
+import it.fff.clientserver.common.enums.FeedbackEnum;
 
 import static org.hibernate.Hibernate.isInitialized;
 
@@ -92,15 +94,33 @@ public class AchievementMapper implements Mapper<AchievementDTO,AchievementBO,Ac
 
 	@Override
 	public List<AchievementDTO> mapBOs2DTOs(List<AchievementBO> bos) {
-		// TODO Auto-generated method stub
-		return null;
+		List<AchievementDTO> dtos = null;
+		if(bos!=null){
+			dtos = new ArrayList<AchievementDTO>();
+			AchievementMapper achievementMapper = AchievementMapper.getInstance();
+			for (AchievementBO bo : bos) {
+				dtos.add(achievementMapper.mapBO2DTO(bo));
+			}
+		}
+		return dtos;
 	}
 
 
 	@Override
 	public AchievementDTO mapBO2DTO(AchievementBO bo) {
-		// TODO Auto-generated method stub
-		return null;
+		AchievementDTO dto = null;
+		if(bo!=null){
+			dto = new AchievementDTO();
+			if(bo.getId()>0){
+				dto.setId(bo.getId());
+			}
+			
+			dto.setDataOttenimento(bo.getDataOttenimento());
+			
+			AchievementTypeMapper mapper = AchievementTypeMapper.getInstance();
+			dto.setType(mapper.mapBO2DTO(bo.getType()));
+		}
+		return dto;
 	}
 
 }
