@@ -10,13 +10,15 @@ public class DataTransferObject implements Serializable{
 
 	private static final long serialVersionUID = -455904852359230166L;
 	private Map<String,String> errorsMap;
+	private boolean isOk;
 	
 	public DataTransferObject(){
 		this.errorsMap = null; //if errors are not present we want no elements in output
+		this.isOk=true;
 	}
 	
 	public Boolean isOk() {
-		return (errorsMap==null || errorsMap.size()==0);
+		return this.isOk;
 	}
 
 	@XmlElement(required=false) 
@@ -25,6 +27,9 @@ public class DataTransferObject implements Serializable{
 	}
 	public void setErrorsMap(Map<String, String> errorsMap) {
 		this.errorsMap = errorsMap;
+		if(this.errorsMap!=null && this.errorsMap.size()>0){
+			this.isOk = false;
+		}
 	}
 	
 	public void putErrorInMap(String code, String value){
@@ -32,6 +37,7 @@ public class DataTransferObject implements Serializable{
 			errorsMap = new HashMap<String,String>();
 		}		
 		this.errorsMap.put(code, value);
+		this.isOk=false;
 	}
 	
 }
