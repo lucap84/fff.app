@@ -13,6 +13,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.AttendanceBO;
+import it.fff.business.common.bo.EventCategoryBO;
+import it.fff.business.common.bo.MessageStandardBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.MessageBO;
@@ -272,6 +274,11 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
+	public MessageStandardBO getStandardMessageById(int stdMsgId) throws PersistenceException {
+		return null;
+	}
+
+	@Override
 	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
 		logger.info("addFeedback...");
 		
@@ -502,6 +509,12 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	        session.close(); 
 	     }
 		return bos;
+	}
+
+	@Override
+	public EventCategoryBO getEventCategoryById(int eventCategoryId) throws PersistenceException {
+		//TODO
+		return null;
 	}
 
 	@Override

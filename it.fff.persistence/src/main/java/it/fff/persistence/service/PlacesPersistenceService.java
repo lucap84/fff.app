@@ -19,8 +19,12 @@ public interface PlacesPersistenceService extends PersistenceService{
 	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws PersistenceException;
 
 	public CityBO getCityByName(String cityName, String nationKey) throws PersistenceException;
-	
+
+	public CityBO getCityById(int cityId) throws PersistenceException;
+
 	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException;
 
+	public NationBO getNationById(int nationId) throws PersistenceException;
 
+	public PlaceBO getPlaceById(int placeId) throws PersistenceException;
 }

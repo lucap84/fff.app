@@ -66,10 +66,8 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	
 	@Override
 	public WriteResultBO login(SessionBO sessionBO) throws PersistenceException {
-		logger.info("logout client and device...");
-		
-		
-		
+		logger.info("login...");
+
 		WriteResultBO result = new WriteResultBO();
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -107,7 +105,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }finally {
 	    	session.close(); 
 	    }			
-		logger.info("...logout client performed");
+		logger.info("...login performed");
 		return result;
 	}
 	

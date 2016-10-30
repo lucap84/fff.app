@@ -268,7 +268,13 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	     }
 		return bo;
 	}
-	
+
+	@Override
+	public CityBO getCityById(int cityId) throws PersistenceException {
+		//TODO
+		return null;
+	}
+
 	@Override
 	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException {
 		NationBO bo = null;
@@ -297,6 +303,18 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	        session.close(); 
 	     }
 		return bo;
+	}
+
+	@Override
+	public NationBO getNationById(int nationId) throws PersistenceException {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public PlaceBO getPlaceById(int placeId) throws PersistenceException {
+		//TODO
+		return null;
 	}
 
 	@Override

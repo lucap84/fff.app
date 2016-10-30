@@ -118,10 +118,61 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
+	public CityBO getCityById(int cityId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		CityBO c = new CityBO();
+		c.setId(cityId);
+		c.setNome("city name");
+
+		NationBO n = typologicalMock.getAllNations().get(0);
+		c.setNazione(n);
+		return c;
+	}
+
+	@Override
 	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		NationBO n = typologicalMock.getAllNations().get(0);
 		return n;
+	}
+
+	@Override
+	public NationBO getNationById(int nationId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		NationBO n = typologicalMock.getAllNations().get(0);
+		n.setId(nationId);
+		return n;
+	}
+
+	@Override
+	public PlaceBO getPlaceById(int placeId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+
+		PlaceBO bo1 = new PlaceBO();
+		bo1.setId(1);
+		bo1.setNome("El Chiringuito Libre");
+
+		PlaceTypeEnum placeType = PlaceTypeEnum.POINT_OF_INTEREST;
+
+		NationBO nationBO = typologicalMock.getAllNations().get(0);
+
+		CityBO citta = new CityBO();
+		citta.setId(1);
+		citta.setNome("Roma");
+		citta.setNazione(nationBO);
+
+		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
+		bo1.setGpsLat(41.856616);
+		bo1.setGpsLong(12.476971);
+		bo1.setAddressRoute("Largo Riccardi Beato Placido");
+		bo1.setCivico("1");
+		bo1.setCap("00154");
+		bo1.setPlaceType(placeType);
+		bo1.setCity(citta);
+		bo1.setDataCreazione(Constants.DATE_FORMATTER.format(new Date()));
+		bo1.setDataAggiornamento(Constants.DATE_FORMATTER.format(new Date()));
+
+		return bo1;
 	}
 
 	@Override

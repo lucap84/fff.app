@@ -88,6 +88,15 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
+	public MessageStandardBO getStandardMessageById(int stdMsgId) throws PersistenceException {
+		MessageStandardBO bo = new MessageStandardBO();
+		bo.setId(stdMsgId);
+		bo.setText("Non vi vedo, dove state?");
+
+		return bo;
+	}
+
+	@Override
 	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(attendanceId);
@@ -205,6 +214,13 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 		messagesBO.add(messageBO2);
 		
 		return messagesBO;
+	}
+
+	@Override
+	public EventCategoryBO getEventCategoryById(int eventCategoryId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		EventCategoryBO bo = typologicalMock.getAllEventCategories().get(0);
+		return bo;
 	}
 
 	@Override

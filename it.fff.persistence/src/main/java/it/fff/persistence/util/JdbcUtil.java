@@ -20,6 +20,17 @@ public class JdbcUtil {
     private static final Logger logger = LogManager.getLogger(JdbcUtil.class);
 
     public static final String QY_GET_EVENT_BY_ID = "SELECT * FROM evento WHERE id = ?";
+    public static final String QY_GET_PLACE_BY_ID = "SELECT * FROM luogo WHERE id = ?";
+    public static final String QY_GET_CITY_BY_ID = "SELECT * FROM citta WHERE id = ?";
+    public static final String QY_GET_COUNTRY_BY_ID = "SELECT * FROM nazione WHERE id = ?";
+    public static final String QY_GET_EVENTCATEGORY_BY_ID = "SELECT * FROM categoria_evento WHERE id = ?";
+    public static final String QY_GET_MESSAGES_BY_EVENT = "SELECT * FROM .... id = ?";
+    public static final String QY_GET_STDMSG_BY_ID = "SELECT * FROM ... WHERE id = ?";
+
+    public static final String QY_SEARCH_EVENTS = "SELECT * FROM ... WHERE id = ? and ? ? ? ?";
+
+    public static final String QY_LOGIN_CHECK_ACCOUNT = "SELECT * FROM ... WHERE id = ? and ? ? ? ?";
+    public static final String QY_LOGIN_NEWSESSION = "INSERT ... WHERE id = ? and ? ? ? ?";
 
     public static Connection buildConnection() throws SQLException{
         ConfigurationProvider cfgProvider = ConfigurationProvider.getInstance();
@@ -36,7 +47,7 @@ public class JdbcUtil {
         }
 
         Connection connection = null;
-
+        //TODO usa pool di connessioni
 
         String jdbcConnURL = jdbcConfigProperties.getProperty(Constants.PROP_JDBC_CONNECTION_URL);
         String jdbcConnUsr = jdbcConfigProperties.getProperty(Constants.PROP_JDBC_CONNECTION_USR);
