@@ -76,7 +76,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 		try {
 			eventBO = eventBusinessService.getEvent(eventId);
 		} catch (IntegrationException e) {
-			BusinessException.manageException(e,ErrorCodes.ERR_BUSIN_GETEVENT);
+			BusinessException.manageException(e, ErrorCodes.ERR_BUSIN_GETEVENT);
 		}
 		if(eventBO!=null){
 			logger.debug("Event successfully retrieved by business layer");
@@ -866,7 +866,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 			
 			WriteResultBO writeResultBO = null;
 			try {
-				//Controllo se l'utente già risulta registrato
+				//Controllo se l'utente giï¿½ risulta registrato
 				boolean isRegistered = false;
 				
 				userEmail = userBO.getAccount().getEmail();
@@ -900,7 +900,7 @@ public class BusinessServiceFacadeImpl implements BusinessServiceFacade{
 					isRegistered=true;
 					logger.debug("Nuovo utente creato su DB a partire dai dati facebook");
 				}
-				else{//Se l'utente già esiste, faccio un update dei suoi dati (ho recuperato il suo ID grazie al facebookId)
+				else{//Se l'utente giï¿½ esiste, faccio un update dei suoi dati (ho recuperato il suo ID grazie al facebookId)
 					
 					WriteResultBO logoutResult = securityBusinessService.logout(userBO.getId(), deviceId); //Faccio logout da tutte le sessioni precedenti
 					if(logoutResult.isSuccess()){

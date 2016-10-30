@@ -7,13 +7,15 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import it.fff.persistence.exception.PersistenceException;
+
 
 public class HibernateUtil {
 	
 	private static final Logger logger = LogManager.getLogger(HibernateUtil.class);
 	private static SessionFactory sessionFactory;
     
-    private static SessionFactory buildSessionFactory() {
+    private static SessionFactory buildSessionFactory() throws PersistenceException {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
             Configuration configuration = new Configuration();
@@ -30,11 +32,11 @@ public class HibernateUtil {
         catch (Throwable ex) {
         	logger.error("Initial SessionFactory creation failed." + ex);
             ex.printStackTrace();
-            throw new ExceptionInInitializerError(ex);
+            throw new PersistenceException(ex.getMessage());
         }
     }
      
-    public static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() throws PersistenceException {
         if(sessionFactory == null) sessionFactory = buildSessionFactory();
         return sessionFactory;
     }	

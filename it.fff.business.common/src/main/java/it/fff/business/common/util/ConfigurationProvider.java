@@ -24,12 +24,14 @@ public class ConfigurationProvider {
 	private Properties imagesConfigProperties;
 	private Properties placesConfigProperties;
 	private Properties facebookConfigProperties;
+	private Properties jdbcConfigProperties;
 	
 	String mailConfigPropertiesFileName;
 	String serverSecurityConfigPropertiesFileName;
 	String imagesPropertiesFileName;
 	String placesPropertiesFileName;
 	String facebookPropertiesFileName;
+	String jdbcPropertiesFileName;
 	
 	private ConfigurationProvider(){
 		 serverSecurityConfigProperties = new Properties();
@@ -40,8 +42,10 @@ public class ConfigurationProvider {
 		 imagesPropertiesFileName = Constants.FILENAME_CONFIG_IMAGE;
 		 placesConfigProperties = new Properties();
 		 placesPropertiesFileName = Constants.FILENAME_CONFIG_PLACES;
-		 facebookConfigProperties = new Properties();
-		 facebookPropertiesFileName = Constants.FILENAME_CONFIG_FACEBOOK;		 		 
+		facebookConfigProperties = new Properties();
+		facebookPropertiesFileName = Constants.FILENAME_CONFIG_FACEBOOK;
+		jdbcConfigProperties = new Properties();
+		jdbcPropertiesFileName = Constants.FILENAME_CONFIG_JDBC;
 		 try {
 			this.loadConfigurationFromFile();
 		} catch (FileNotFoundException e) {
@@ -64,6 +68,7 @@ public class ConfigurationProvider {
 		InputStream imagesInputStream = getClass().getClassLoader().getResourceAsStream(this.imagesPropertiesFileName);
 		InputStream placesInputStream = getClass().getClassLoader().getResourceAsStream(this.placesPropertiesFileName);
 		InputStream facebookInputStream = getClass().getClassLoader().getResourceAsStream(this.facebookPropertiesFileName);
+		InputStream jdbcInputStream = getClass().getClassLoader().getResourceAsStream(this.jdbcPropertiesFileName);
 		
 		if (serverSecurityInputStream != null) {
 			serverSecurityConfigProperties.load(serverSecurityInputStream);
@@ -103,7 +108,15 @@ public class ConfigurationProvider {
 		} else {
 			logger.error("error during loading file: "+this.facebookPropertiesFileName);
 			throw new FileNotFoundException("property file '" + facebookPropertiesFileName + "' not found in the classpath");
-		}		
+		}
+
+		if (jdbcInputStream != null) {
+			jdbcConfigProperties.load(jdbcInputStream);
+			logger.debug(this.jdbcPropertiesFileName+" loaded from file");
+		} else {
+			logger.error("error during loading file: "+this.jdbcPropertiesFileName);
+			throw new FileNotFoundException("property file '" + jdbcPropertiesFileName + "' not found in the classpath");
+		}
 	}
 	
 	public String loadStringFromFile(String fileName){
@@ -172,9 +185,7 @@ public class ConfigurationProvider {
 		return mailConfigProperties.getProperty(propertyName);	
 	}
 	
-	public Properties getEmailProperties(){
-		return this.mailConfigProperties;
-	}	
+	public Properties getEmailProperties(){return this.mailConfigProperties;}
 	
 	public String getImageConfigProperty(String propertyName){
 		return imagesConfigProperties.getProperty(propertyName);	
@@ -198,5 +209,13 @@ public class ConfigurationProvider {
 	
 	public Properties getFacebookConfigProperties(){
 		return this.facebookConfigProperties;
-	}	
+	}
+
+	public String getJdbcConfigProperty(String propertyName){
+		return jdbcConfigProperties.getProperty(propertyName);
+	}
+
+	public Properties getJdbcConfigProperties(){
+		return this.jdbcConfigProperties;
+	}
 }

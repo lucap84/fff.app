@@ -93,6 +93,8 @@ public class PlaceService extends ApplicationService{
 			places = businessServiceFacade.getPlacesByDescription(description, userGpsLat, userGpsLong);
 		} catch (BusinessException e) {
 			places = new ArrayList<PlaceDTO>();
+			places.add(new PlaceDTO());
+			super.manageErrors(e, places.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return places;
@@ -104,6 +106,7 @@ public class PlaceService extends ApplicationService{
 			city = businessServiceFacade.getCityByName(cityName, nationCode);
 		} catch (BusinessException e) {
 			city = new CityDTO();
+			super.manageErrors(e, city, request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return city;

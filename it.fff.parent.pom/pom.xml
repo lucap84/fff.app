@@ -5,15 +5,20 @@
   <version>1.0</version>
   <packaging>pom</packaging>
   <properties>
-  	<!-- 
+  	<!--
   	<fff.config.folder>C:\Users\lpelosi\git\fff.app\it.fff.build</fff.config.folder>
-  	 -->
-  	<fff.config.folder>C:\Users\Luca\git\fff.app\it.fff.build</fff.config.folder>
+  	-->
+		<!-- Mac -->
+		<!--
+		<fff.config.folder>C:\Users\Luca\git\fff.app\it.fff.build</fff.config.folder>
+		-->
+		<!-- Mac -->
+		<fff.config.folder>/Users/lpelosi/fffsociety/fff.app/it.fff.build</fff.config.folder>
   </properties>
   <build>
-<!-- 
+<!--
 				RIMUOVE I FILE DI CONFIGURAZIONE DAL WAR PRODOTTO
- -->  
+ -->
 	  <resources>
 	       <resource>
 	           <directory>${project.basedir}/src/main/resources</directory>
@@ -22,7 +27,7 @@
 	               <exclude>*.properties</exclude>
 	               <exclude>spring/*.xml</exclude>
 	           </excludes>
-	       </resource>       
+	       </resource>
 	  </resources>
 	  <plugins>
 		<plugin>
@@ -32,7 +37,7 @@
 			<executions>
 <!--
 				COPIA I FILE DI CONFIGURAZIONE contenuti src\main\resources
---> 
+-->
 				<execution>
 					<id>copy-resources-1</id>
 					<phase>package</phase>
@@ -40,8 +45,8 @@
 						<goal>copy-resources</goal>
 					</goals>
 					<configuration>
-						<outputDirectory>${fff.config.folder}\fff_configuration_files</outputDirectory>
-						<resources>								
+						<outputDirectory>${fff.config.folder}/fff_configuration_files</outputDirectory>
+						<resources>
 							<resource>
 								<directory>${project.basedir}/src/main/resources/</directory>
 								<includes>
@@ -53,7 +58,7 @@
 					</configuration>
 				</execution>
 <!--
-				COPIA I FILE DI CONTEXT SPRING contenuti src\main\resources\spring 
+				COPIA I FILE DI CONTEXT SPRING contenuti src\main\resources\spring
 -->
 				<execution>
 					<id>copy-resources-2</id>
@@ -63,7 +68,7 @@
 					</goals>
 					<configuration>
 						<outputDirectory>${fff.config.folder}\fff_configuration_files\spring</outputDirectory>
-						<resources>								
+						<resources>
 							<resource>
 								<directory>${project.basedir}/src/main/resources/spring</directory>
 								<includes>
@@ -72,9 +77,9 @@
 							</resource>
 						</resources>
 					</configuration>
-				</execution>				
-			</executions>				
-		</plugin>	  
+				</execution>
+			</executions>
+		</plugin>
 	  </plugins>
   </build>
 </project>

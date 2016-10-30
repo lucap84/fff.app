@@ -20,12 +20,13 @@ import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.UserBO;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.UserPersistenceService;
 
 public class UserPersistenceServiceMock implements UserPersistenceService {
 
 	@Override
-	public WriteResultBO registerUser(UserBO userBO) throws Exception {
+	public WriteResultBO registerUser(UserBO userBO) throws PersistenceException {
 		this.updateSecureConfiguration(userBO);
 		
 		WriteResultBO resultBO = new WriteResultBO();
@@ -36,7 +37,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO updateProfileImage(ProfileImageBO eoInput) throws Exception {
+	public WriteResultBO updateProfileImage(ProfileImageBO eoInput) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -45,7 +46,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public UserBO getUser(int userId) throws Exception {
+	public UserBO getUser(int userId) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		UserBO bo = new UserBO();
 
@@ -113,7 +114,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO updateUserData(UserBO bo) throws Exception {
+	public WriteResultBO updateUserData(UserBO bo) throws PersistenceException {
 		
 		this.updateSecureConfiguration(bo);
 		
@@ -125,7 +126,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception {
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -134,7 +135,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public EmailInfoBO getEmailInfo(String email) throws Exception {
+	public EmailInfoBO getEmailInfo(String email) throws PersistenceException {
 		EmailInfoBO bo = new EmailInfoBO();
 		bo.setEmail(email);
 		bo.setExisting(false);
@@ -144,7 +145,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception {
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws PersistenceException {
 		
 		List<FeedbackEnum> feedbacks = new ArrayList<FeedbackEnum>();
 		feedbacks.add(FeedbackEnum.POSITIVE);
@@ -158,7 +159,7 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public ProfileImageBO readProfileImage(int userId) throws Exception {
+	public ProfileImageBO readProfileImage(int userId) throws PersistenceException {
 		ProfileImageBO bo = new ProfileImageBO();
 		bo.setId(1); 
 		bo.setExtension("jpg");
@@ -176,21 +177,21 @@ public class UserPersistenceServiceMock implements UserPersistenceService {
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception {
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws PersistenceException {
 		EventPersistenceServiceMock mock = new EventPersistenceServiceMock();
 		List<AttendanceBO> attendances = mock.getAttendancesByEvent(userId);
 		return attendances;
 	}
 
 	@Override
-	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws PersistenceException {
 		AccountBO bo = this.getUserAccountByEmail("mailmock@mock.it");
 		bo.setFacebookId(facebookId);
 		return bo;
 	}
 
 	@Override
-	public AccountBO getUserAccountByEmail(String email) throws Exception {
+	public AccountBO getUserAccountByEmail(String email) throws PersistenceException {
 		AccountBO bo = new AccountBO();
 		
 		SessionBO sessionBO = new SessionBO();

@@ -1,4 +1,4 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +36,7 @@ import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.util.Constants;
 import it.fff.clientserver.common.util.FlokkerUtils;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.UserPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -44,7 +45,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	private static final Logger logger = LogManager.getLogger(UserPersistenceServiceHibernate.class);
 	
 	@Override
-	public WriteResultBO registerUser(UserBO userBO) throws Exception {
+	public WriteResultBO registerUser(UserBO userBO) throws PersistenceException {
 		logger.info("registering user");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -70,12 +71,12 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      catch(ConstraintViolationException e){
 		         if (tx!=null) tx.rollback();
 		         e.printStackTrace();
-		         throw new Exception("ConstraintViolationException during registerUser() ",e);
+		         throw new PersistenceException("ConstraintViolationException during registerUser() ",e);
 	      }
 	      catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during registerUser() ",e);
+	         throw new PersistenceException("HibernateException during registerUser() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -90,7 +91,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public UserBO getUser(int userId) throws Exception {
+	public UserBO getUser(int userId) throws PersistenceException {
 		UserBO bo = null;
 		UserEO eo = null;
 				
@@ -131,7 +132,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }catch (HibernateException e) {
 	    	  if(tx!=null)tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during getUser() ",e);
+	         throw new PersistenceException("HibernateException during getUser() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        
@@ -140,7 +141,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public WriteResultBO updateUserData(UserBO bo) throws Exception {
+	public WriteResultBO updateUserData(UserBO bo) throws PersistenceException {
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -160,7 +161,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during update() ",e);
+	         throw new PersistenceException("HibernateException during update() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        
@@ -174,7 +175,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}	
 
 	@Override
-	public WriteResultBO updateProfileImage(ProfileImageBO boInput) throws Exception {
+	public WriteResultBO updateProfileImage(ProfileImageBO boInput) throws PersistenceException {
 		logger.info("creando img user");
 		
 		
@@ -193,7 +194,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			logger.info("Img user created on FileSystem");
 		}
 		else{
-			throw new Exception("Errore creando su File system");
+			throw new PersistenceException("Errore creando su File system");
 		}
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -213,7 +214,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during updateProfileImage() ",e);
+	        throw new PersistenceException("HibernateException during updateProfileImage() ",e);
 	    }finally {
 	    	session.close(); 
 	    }		
@@ -227,7 +228,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 	
 	@Override
-	public ProfileImageBO readProfileImage(int userId) throws Exception {
+	public ProfileImageBO readProfileImage(int userId) throws PersistenceException {
 		logger.info("get metadati immagine da DB...");
 		
 		ProfileImageBO result = new ProfileImageBO();
@@ -254,7 +255,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during readProfileImageMetadata() ",e);
+	        throw new PersistenceException("HibernateException during readProfileImageMetadata() ",e);
 	    }finally {
 	    	session.close(); 
 	    }
@@ -272,7 +273,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 			result.setImageAsB64(imageAsB64);
 		}
 		else{
-			throw new Exception("Errore leggendo immagine da Filesystem");
+			throw new PersistenceException("Errore leggendo immagine da Filesystem");
 		}
 		
 		logger.info("...recuperata img user");
@@ -282,7 +283,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	
     
 	@Override
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception {
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException {
 		logger.info("abbandono evento (annullo partecipazione)...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -295,7 +296,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    	
 	    	String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
 	    	
-	    	String hqlUpdateAttendance = "UPDATE AttendanceEO set isValid = 0, dataAggiornamento=:dataAggiornamento  WHERE utente.id=:userId AND event.id=:eventId AND isValid=1";	    	  
+	    	String hqlUpdateAttendance = "UPDATE AttendanceEO set isValid = 0, dataAggiornamento=:dataAggiornamento  WHERE utente.id=:userId AND event.id=:eventId AND isValid=1";
 			Query queryUpdateEvent = session.createQuery(hqlUpdateAttendance);
 			queryUpdateEvent.setParameter("dataAggiornamento", dataAggiornamento);
 			queryUpdateEvent.setParameter("userId", userId);
@@ -316,7 +317,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during cancelAttendance() ",e);
+	        throw new PersistenceException("HibernateException during cancelAttendance() ",e);
 	    }finally {
 	    	session.close(); 
 	    }		
@@ -325,7 +326,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public EmailInfoBO getEmailInfo(String email) throws Exception {
+	public EmailInfoBO getEmailInfo(String email) throws PersistenceException {
 		logger.info("check mail esistente...");
 		
 		EmailInfoBO result = new EmailInfoBO();
@@ -365,7 +366,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	        throw new PersistenceException("HibernateException during isExistingEmail() ",e);
 	    }finally {
 	    	session.close(); 
 	    }		
@@ -374,7 +375,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 
 	@Override
-	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception {
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws PersistenceException {
 		List<FeedbackEnum> feedbacks = new ArrayList<FeedbackEnum>();
 		
 		List<AttendanceBO> attendances = this.getAttendancesByUser(userId);
@@ -389,7 +390,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 	
 	@Override
-	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception {
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws PersistenceException {
 		List<AttendanceBO> bos = null;
 		List<AttendanceEO> eos = null;
 		
@@ -409,7 +410,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAttendancesByUser() ",e);
+	        throw new PersistenceException("HibernateException during getAttendancesByUser() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -419,7 +420,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}
 	
 	@Override
-	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception {
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws PersistenceException {
 		logger.info("get account by facebook...");
 		
 		AccountBO result = null;
@@ -441,7 +442,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	        throw new PersistenceException("HibernateException during isExistingEmail() ",e);
 	    }finally {
 	    	session.close(); 
 	    }
@@ -454,7 +455,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	}	
 	
 	@Override
-	public AccountBO getUserAccountByEmail(String email) throws Exception {
+	public AccountBO getUserAccountByEmail(String email) throws PersistenceException {
 		logger.info("get account by facebook...");
 		
 		AccountBO result = null;
@@ -476,7 +477,7 @@ public class UserPersistenceServiceHibernate implements UserPersistenceService {
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during isExistingEmail() ",e);
+	        throw new PersistenceException("HibernateException during isExistingEmail() ",e);
 	    }finally {
 	    	session.close(); 
 	    }

@@ -16,12 +16,13 @@ import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.TypologicalPersistenceService;
 
 public class TypologicalPersistenceServiceMock implements TypologicalPersistenceService{
 
 	@Override
-	public List<EventCategoryBO> getAllEventCategories() throws Exception {
+	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
 		List<EventCategoryBO> bos = new ArrayList<EventCategoryBO>();
 		
 		EventCategoryBO bo1 = new EventCategoryBO();
@@ -88,7 +89,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<EventStateEnum> getAllEventStates() throws Exception {
+	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
 		
 		List<EventStateEO> eos = new ArrayList<EventStateEO>();
 		EventStateEO eo1 = new EventStateEO();
@@ -122,7 +123,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
 		List<AttendanceStateEO> eos = new ArrayList<AttendanceStateEO>();
 		
 		AttendanceStateEO eo1 = new AttendanceStateEO();
@@ -133,12 +134,12 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 		AttendanceStateEO eo2 = new AttendanceStateEO();
 		eo2.setId(2);
 		eo2.setNome("OUTPLACE");
-		eo2.setDescrizione("Posizione non coincidente a quella dell’evento");	
+		eo2.setDescrizione("Posizione non coincidente a quella dell evento");
 		
 		AttendanceStateEO eo3 = new AttendanceStateEO();
 		eo3.setId(3);
 		eo3.setNome("INPLACE");
-		eo3.setDescrizione("L’utente è situato nel luogo dell’evento");	
+		eo3.setDescrizione("L utente e situato nel luogo dell evento");
 		
 		eos.add(eo1);
 		eos.add(eo2);
@@ -149,7 +150,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<MessageStandardBO> getAllStandardMessages() throws Exception {
+	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
 		List<MessageStandardBO> bos = new ArrayList<MessageStandardBO>();
 		
 		MessageStandardBO bo1 = new MessageStandardBO();
@@ -170,7 +171,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<AchievementTypeBO> getAllAchievementTypes() throws Exception {
+	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
 		List<AchievementTypeBO> bos = new ArrayList<AchievementTypeBO>();
 		
 		AchievementTypeBO bo1 = new AchievementTypeBO();
@@ -196,7 +197,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws Exception {
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
 		List<SubscriptionTypeBO> bos = new ArrayList<SubscriptionTypeBO>();
 		
 		SubscriptionTypeBO bo1 = new SubscriptionTypeBO();
@@ -244,7 +245,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<LanguageBO> getAllLanguages() throws Exception {
+	public List<LanguageBO> getAllLanguages() throws PersistenceException {
 		List<LanguageBO> bos = new ArrayList<LanguageBO>();
 		LanguageBO bo1 = new LanguageBO();
 		bo1.setId(1);
@@ -273,7 +274,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<NationBO> getAllNations() throws Exception {
+	public List<NationBO> getAllNations() throws PersistenceException {
 		List<NationBO> bos = new ArrayList<NationBO>();
 		NationBO bo1 = new NationBO();
 		bo1.setId(1);
@@ -305,7 +306,7 @@ public class TypologicalPersistenceServiceMock implements TypologicalPersistence
 	}
 
 	@Override
-	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception {
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws PersistenceException {
 		
 		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_1.setId(1);
 		PlaceTypeEnum.ADMINISTRATIVE_AREA_LEVEL_2.setId(2);

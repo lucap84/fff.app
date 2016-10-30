@@ -22,6 +22,7 @@ import it.fff.business.facade.exception.BusinessException;
 import it.fff.business.facade.service.BusinessServiceFacade;
 import it.fff.clientserver.common.dto.AchievementTypeDTO;
 import it.fff.clientserver.common.dto.EventCategoryDTO;
+import it.fff.clientserver.common.dto.EventDTO;
 import it.fff.clientserver.common.dto.LanguageDTO;
 import it.fff.clientserver.common.dto.MessageStandardDTO;
 import it.fff.clientserver.common.dto.NationDTO;
@@ -166,6 +167,8 @@ public class TypologicalService extends ApplicationService {
 			languages = businessServiceFacade.getAllLanguages();
 		} catch (BusinessException e) {
 			languages = new ArrayList<LanguageDTO>();
+			languages.add(new LanguageDTO());
+			super.manageErrors(e, languages.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return languages;
@@ -177,6 +180,8 @@ public class TypologicalService extends ApplicationService {
 			subscriptionTypes = businessServiceFacade.getAllSubscriptionTypes();
 		} catch (BusinessException e) {
 			subscriptionTypes = new ArrayList<SubscriptionTypeDTO>();
+			subscriptionTypes.add(new SubscriptionTypeDTO());
+			super.manageErrors(e, subscriptionTypes.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return subscriptionTypes;
@@ -188,6 +193,8 @@ public class TypologicalService extends ApplicationService {
 			achievements = businessServiceFacade.getAllAchievementTypes();
 		} catch (BusinessException e) {
 			achievements = new ArrayList<AchievementTypeDTO>();
+			achievements.add(new AchievementTypeDTO());
+			super.manageErrors(e, achievements.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return achievements;
@@ -199,6 +206,8 @@ public class TypologicalService extends ApplicationService {
 			msgsStandard = businessServiceFacade.getAllStandardMessages();
 		} catch (BusinessException e) {
 			msgsStandard = new ArrayList<MessageStandardDTO>();
+			msgsStandard.add(new MessageStandardDTO());
+			super.manageErrors(e, msgsStandard.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return msgsStandard;
@@ -232,6 +241,8 @@ public class TypologicalService extends ApplicationService {
 			languages = businessServiceFacade.getAllEventCategories();
 		} catch (BusinessException e) {
 			languages = new ArrayList<EventCategoryDTO>();
+			languages.add(new EventCategoryDTO());
+			super.manageErrors(e, languages.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return languages;
@@ -243,6 +254,8 @@ public class TypologicalService extends ApplicationService {
 			nations = businessServiceFacade.getAllNations();
 		} catch (BusinessException e) {
 			nations = new ArrayList<NationDTO>();
+			nations.add(new NationDTO());
+			super.manageErrors(e, nations.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return nations;

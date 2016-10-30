@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.fff.business.common.bo.*;
+import it.fff.business.common.exception.ApplicationException;
 import it.fff.business.common.mapper.CustomMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.ErrorCodes;
@@ -48,9 +49,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_retrieveEvent);
 		}
 		return eventBO;
 	}
@@ -66,9 +65,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_updateProfileImage);
 		}
 		if(result!=null){
 			logger.debug("user img created");
@@ -86,9 +83,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_createEvent);
 		}
 
 		return resultBO;		
@@ -104,9 +99,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_cancelEvent);
 		}
 
 		return resultBO;		
@@ -122,9 +115,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_cancelAttendance);
 		}
 
 		return resultBO;		
@@ -140,9 +131,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_createEventMessage);
 		}
 
 		return resultBO;		
@@ -158,9 +147,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_createStandardEventMessage);
 		}
 
 		return resultBO;		
@@ -176,9 +163,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_joinEvent);
 		}
 
 		return resultBO;		
@@ -194,9 +179,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_addFeedback);
 		}
 
 		return resultBO;		
@@ -212,9 +195,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getEventMessages);
 		}
 
 		return bos;			
@@ -230,9 +211,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_searchEvents);
 		}
 
 		return bos;	
@@ -248,9 +227,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getEventsByUser);
 		}
 
 		return bos;		
@@ -267,9 +244,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAttendancesByEvent);
 		}
 		return bos;			
 	}
@@ -284,9 +259,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_setCurrentPosition);
 		}
 
 		return resultBO;		
@@ -308,13 +281,13 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
 		boolean writeToCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_UPDATE_CACHE));
 		
-		if(readFromCache){ //Prendo i place dalla cache solo se la cache è abilitata
+		if(readFromCache){ //Prendo i place dalla cache solo se la cache ï¿½ abilitata
 			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong);
 		}
 		
 		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos);
 		
-		//cerco su servizio esterno solo se la cache è disabilitata
+		//cerco su servizio esterno solo se la cache ï¿½ disabilitata
 		//OPPURE
 		//i risultati della cache sono vuoti (provo quindi su servizio ext)
 		//OPPURE
@@ -338,9 +311,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());
-				IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-				persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-				throw persistenceException;			
+				IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getPlacesByDescription);
 			}
 
 			if(writeToCache){ 
@@ -387,7 +358,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
 		
-		if(readFromCache){ //Prendo il place dalla cache solo se la cache è abilitata
+		if(readFromCache){ //Prendo il place dalla cache solo se la cache ï¿½ abilitata
 			userPlaceByGPS = this.getPlaceByGPSInCache(userGpsLat, userGpsLong);
 		}
 		if(!readFromCache || userPlaceByGPS==null){//Altrimenti cerco su servizio esterno
@@ -411,9 +382,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException exc = new IntegrationException(e.getMessage(),e);
-			exc.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw exc;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getPlaceByGPSInCache);
 		}
 		
 		return boCached;
@@ -428,9 +397,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException exc = new IntegrationException(e.getMessage(),e);
-			exc.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw exc;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getPlacesByDescriptionInCache);
 		}
 		
 		return bosCached;
@@ -463,9 +430,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_updatePassword);
 		}
 
 		return resultBO;			
@@ -481,9 +446,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_checkVerificationCode);
 		}
 
 		return resultBO;		
@@ -500,9 +463,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_saveVerficationCode);
 		}
 
 		return resultBO;		
@@ -518,9 +479,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_logout);
 		}
 
 		return resultBO;		
@@ -536,9 +495,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_upgradeToPremium);
 		}
 
 		return resultBO;		
@@ -554,9 +511,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_registerUser);
 		}
 		return resultBO;
 	}
@@ -571,9 +526,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_login);
 		}
 
 		return resultBO;	
@@ -589,9 +542,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_updateUserData);
 		}
 
 		return resultBO;		
@@ -607,9 +558,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getUser);
 		}
 
 		return boOutput;
@@ -624,9 +573,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			secrets = securityPersistenceService.retrieveClientSecrets();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_retrieveClientSecrets);
 		}
 		return secrets;
 	}
@@ -640,9 +587,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllLanguages();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllLanguages);
 		}
 		return bos;
 	}
@@ -656,9 +601,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllSubscriptionTypes();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllSubscriptionTypes);
 		}
 		return bos;
 	}
@@ -672,9 +615,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllAchievementTypes();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllAchievementTypes);
 		}
 		return bos;
 	}
@@ -688,9 +629,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllStandardMessages();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllStandardMessages);
 		}
 		return bos;
 	}
@@ -704,9 +643,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllAttendanceStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllAttendanceStates);
 		}
 		
 		return bos;
@@ -721,9 +658,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllEventStates();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllEventStates);
 		}
 		
 		return bos;
@@ -738,9 +673,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllEventCategories();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllEventCategories);
 		}
 		return bos;
 	}
@@ -754,9 +687,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			bos = typologicalPersistenceService.getAllNations();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;	
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAllNations);
 		}
 		return bos;
 	}
@@ -771,9 +702,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_resetPassword);
 		}
 
 		return resultBO;
@@ -789,9 +718,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getEmailInfo);
 		}
 		
 		return resultBO;
@@ -809,9 +736,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getCityByName);
 		}
 		logger.debug("...recuperate citta");
 		return resultBO;
@@ -828,9 +753,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getUserFeedbacks);
 		}
 		logger.debug("...recuperati feedbacks utente");
 		return resultBO;
@@ -848,9 +771,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_readProfileImage);
 		}
 		logger.debug("...recuperata immagine utente");
 		return resultBO;
@@ -935,8 +856,9 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
             graph = buff.toString();
         } catch (Exception e) {
             logger.error("error during facebook graph call");
-            throw new IntegrationException("error during facebook graph call", e);
-        }
+			IntegrationException iex = new IntegrationException("error during facebook graph call", e);
+			IntegrationException.manageException(new ApplicationException(iex), ErrorCodes.ERR_INTEGRATION_getFacebookUserData);
+		}
         
         UserBO userBO = CustomMapper.getInstance().mapFacebookData2BO(graph);
         
@@ -962,9 +884,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getAttendancesByUser);
 		}
 		
 		logger.debug("...partecipazioni per utente recuperate");
@@ -982,9 +902,7 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getUserAccountByFacebookId);
 		}
 		
 		logger.debug("...recuperato account flokker tramite facebookId");
@@ -1002,14 +920,12 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
-			IntegrationException persistenceException = new IntegrationException(e.getMessage(),e);
-			persistenceException.addErrorCode(ErrorCodes.ERR_PERSIST_GENERIC);
-			throw persistenceException;			
+			IntegrationException.manageException(new ApplicationException(e), ErrorCodes.ERR_INTEGRATION_getUserAccountByEmail);
 		}
 		
 		logger.debug("...recuperato account flokker tramite email");
 		return bo;
-	}	
-	
+	}
+
 
 }

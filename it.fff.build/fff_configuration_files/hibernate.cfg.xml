@@ -47,8 +47,8 @@
         <mapping class="it.fff.business.common.eo.CityEO" />
         <mapping class="it.fff.business.common.eo.EventCategoryEO" />
         <mapping class="it.fff.business.common.eo.EventEO" />
-		<mapping class="it.fff.business.common.eo.EventStateEO" />
-		<mapping class="it.fff.business.common.eo.KeywordEO" />
+		    <mapping class="it.fff.business.common.eo.EventStateEO" />
+		    <mapping class="it.fff.business.common.eo.KeywordEO" />
         <mapping class="it.fff.business.common.eo.LanguageEO" />
         <mapping class="it.fff.business.common.eo.MessageEO" />
         <mapping class="it.fff.business.common.eo.MessageStandardEO" />
@@ -56,10 +56,10 @@
         <mapping class="it.fff.business.common.eo.PlaceEO" />
         <mapping class="it.fff.business.common.eo.PlaceTypeEO" />
         <mapping class="it.fff.business.common.eo.PriceEO" />
-		<mapping class="it.fff.business.common.eo.ProfileImageEO" />
+		    <mapping class="it.fff.business.common.eo.ProfileImageEO" />
         <mapping class="it.fff.business.common.eo.SessionEO" />
-		<mapping class="it.fff.business.common.eo.SubscriptionEO" />
-		<mapping class="it.fff.business.common.eo.SubscriptionTypeEO" />        
+		    <mapping class="it.fff.business.common.eo.SubscriptionEO" />
+		    <mapping class="it.fff.business.common.eo.SubscriptionTypeEO" />
         <mapping class="it.fff.business.common.eo.UserEO" />
     </session-factory>
 </hibernate-configuration>

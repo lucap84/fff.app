@@ -238,6 +238,8 @@ public class EventService extends ApplicationService{
 			messages = businessServiceFacade.getEventMessages(eventId);
 		} catch (BusinessException e) {
 			messages = new ArrayList<MessageDTO>();
+			messages.add(new MessageDTO());
+			super.manageErrors(e, messages.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return messages;
@@ -321,6 +323,8 @@ public class EventService extends ApplicationService{
 			attendances = businessServiceFacade.getAttendancesByEvent(eventId);
 		} catch (BusinessException e) {
 			attendances = new ArrayList<AttendanceDTO>();
+			attendances.add(new AttendanceDTO());
+			super.manageErrors(e, attendances.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return attendances;
@@ -339,6 +343,8 @@ public class EventService extends ApplicationService{
 			events = businessServiceFacade.searchEvents(userGpsLat, userGpsLong, radiusKm, desideredGpsLat, desideredGpsLong, idCategoria, partecipanti);
 		} catch (BusinessException e) {
 			events = new ArrayList<EventDTO>();
+			events.add(new EventDTO());
+			super.manageErrors(e, events.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return events;

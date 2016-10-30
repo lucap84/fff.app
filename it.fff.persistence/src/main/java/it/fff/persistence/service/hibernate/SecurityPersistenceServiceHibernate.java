@@ -1,12 +1,10 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.PersistenceException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +19,8 @@ import it.fff.business.common.bo.WriteResultBO;
 import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.SessionEO;
 import it.fff.business.common.mapper.SessionMapper;
-import it.fff.clientserver.common.secure.DHSecureConfiguration;
 import it.fff.clientserver.common.util.Constants;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.SecurityPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -31,7 +29,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	private static final Logger logger = LogManager.getLogger(SecurityPersistenceServiceHibernate.class);
 
 	@Override
-	public WriteResultBO logout(int userId, String deviceId) throws Exception {
+	public WriteResultBO logout(int userId, String deviceId) throws PersistenceException {
 		logger.info("logout client and device...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -58,7 +56,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during logout() ",e);
+	        throw new PersistenceException("HibernateException during logout() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -67,7 +65,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 	
 	@Override
-	public WriteResultBO login(SessionBO sessionBO) throws Exception {
+	public WriteResultBO login(SessionBO sessionBO) throws PersistenceException {
 		logger.info("logout client and device...");
 		
 		
@@ -92,7 +90,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	Integer idAccount = (Integer)query.uniqueResult();
 
 	    	if(idAccount==null || idAccount<=0){
-	    		throw new Exception("Account non trovato!");
+	    		throw new PersistenceException("Account non trovato!");
 	    	}
 	    	sessionEO.getAccount().setId(idAccount);
 	    	Integer sessionId = (Integer)session.save(sessionEO);//insert nuovo record session
@@ -105,7 +103,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during login() ",e);
+	        throw new PersistenceException("HibernateException during login() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -114,7 +112,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 	
 	@Override
-	public WriteResultBO checkVerificationCode(String email, String verificationCode) throws Exception {
+	public WriteResultBO checkVerificationCode(String email, String verificationCode) throws PersistenceException {
 		logger.info("checkVerificationCode...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -133,7 +131,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    	
 	    	AccountEO accountEO = (AccountEO)query.uniqueResult();
 	    	if(accountEO==null){
-	    		throw new Exception("Verification Code non corretto!");
+	    		throw new PersistenceException("Verification Code non corretto!");
 	    	}
 	    	accountEO.setFlgVerificato(true);// imposto il codice verificato
 	    	session.update(accountEO);
@@ -146,7 +144,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during checkVerificationCode() ",e);
+	        throw new PersistenceException("HibernateException during checkVerificationCode() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -155,7 +153,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 
 	@Override
-	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws Exception {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
 		logger.info("update password...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -182,7 +180,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during updatePassword() ",e);
+	        throw new PersistenceException("HibernateException during updatePassword() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -192,7 +190,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 
 
 	@Override
-	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws Exception {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
 		logger.info("retrieving client secrets");
 		
 		Map<Integer, Map<String, String>> secrets = new HashMap<Integer, Map<String, String>>();
@@ -228,7 +226,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	      }catch (HibernateException e) {
 	    	  if(tx!=null)tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during retrieveClientSecrets() ",e);
+	         throw new PersistenceException("HibernateException during retrieveClientSecrets() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -239,7 +237,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 
 	@Override
-	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws Exception {
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException {
 		logger.info("reset Password...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -272,7 +270,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during resetPassword() ",e);
+	        throw new PersistenceException("HibernateException during resetPassword() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -281,7 +279,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	}
 
 	@Override
-	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws Exception {
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws PersistenceException {
 		logger.info("update password...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -307,7 +305,7 @@ public class SecurityPersistenceServiceHibernate implements SecurityPersistenceS
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during updatePassword() ",e);
+	        throw new PersistenceException("HibernateException during updatePassword() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			

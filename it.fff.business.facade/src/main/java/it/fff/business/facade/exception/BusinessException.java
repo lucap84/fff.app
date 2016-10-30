@@ -15,7 +15,7 @@ public class BusinessException extends ApplicationException {
 	}
 	
 	public static void manageException(ApplicationException e, String errorCode) throws BusinessException{
-		BusinessException businessException = new BusinessException(e.getMessage(),e);
+		BusinessException businessException = new BusinessException(e.getMessage(), e);
 		businessException.addErrorCodes(e.getErrorCodes());
 		businessException.addErrorCode(errorCode);
 		throw businessException;		

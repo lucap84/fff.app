@@ -78,8 +78,17 @@ public class Constants {
 	public static final String PROP_FACEBOOK_REDIRECT_URL		= "facebook.redirect.url";
 	public static final String PROP_FACEBOOK_ME_URL				= "facebook.me.url";
 	public static final String PROP_FACEBOOK_ME_FIELDS			= "facebook.me.fields";
-	
-	
+
+	/*
+	 * JDBC constants
+	 */
+	public static final String FILENAME_CONFIG_JDBC 			= "jdbc.cfg.properties";
+
+	public static final String PROP_JDBC_DRIVER				= "jdbc.driver";
+	public static final String PROP_JDBC_CONNECTION_URL		= "jdbc.connection.url";
+	public static final String PROP_JDBC_CONNECTION_USR		= "jdbc.connection.username";
+	public static final String PROP_JDBC_CONNECTION_PSW		= "jdbc.connection.password";
+
 	/*
 	 * Named Queries
 	 */

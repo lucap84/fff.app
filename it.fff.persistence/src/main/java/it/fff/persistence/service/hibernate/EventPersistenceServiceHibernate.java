@@ -1,4 +1,4 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +30,7 @@ import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.util.Constants;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.EventPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -39,7 +40,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceHibernate.class);
 	
 	@Override
-	public EventBO retrieveEvent(int eventId) throws Exception{
+	public EventBO retrieveEvent(int eventId) throws PersistenceException {
 
 		EventBO bo = null;
 		EventEO eo = null;
@@ -59,7 +60,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }catch (HibernateException e) {
 	    	 if(tx!=null)tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during retrieveEvent() ",e);
+	         throw new PersistenceException("HibernateException during retrieveEvent() ",e);
 	      }finally {
 	         session.close(); 
 	      }	        
@@ -68,7 +69,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
 		logger.info("annullo evento...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -110,7 +111,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during cancelEvent() ",e);
+	        throw new PersistenceException("HibernateException during cancelEvent() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -119,7 +120,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO createEvent(EventBO eventBO) throws Exception {
+	public WriteResultBO createEvent(EventBO eventBO) throws PersistenceException {
 		logger.info("creating event");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -154,7 +155,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during registerUser() ",e);
+	         throw new PersistenceException("HibernateException during registerUser() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -169,7 +170,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws PersistenceException {
 		logger.info("post messaggio custom...");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -192,7 +193,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		    	//Check attendee is the organizer
 		    	if(!attendanceEO.isOrganizer()){
 		    		if (tx!=null) tx.rollback();
-		    		throw new Exception("User is not the organizer!");
+		    		throw new PersistenceException("User is not the organizer!");
 		    	}
 		    	
 		    	EventEO eventEO = attendanceEO.getEvent();
@@ -202,14 +203,14 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		    	messageId = (Integer)session.save(messageEO);
 	    	}
 	    	else{
-	    		throw new Exception("Attendance ("+attendanceId+") not found");
+	    		throw new PersistenceException("Attendance ("+attendanceId+") not found");
 	    	}
 			
 	    	tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();	         
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during createEventMessage() ",e);
+	         throw new PersistenceException("HibernateException during createEventMessage() ",e);
 	      }finally {
 	         session.close(); 
 	      }	
@@ -223,7 +224,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
 		logger.info("post messaggio standard...");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -251,13 +252,13 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		    	messageId = (Integer)session.save(messageEO);
 	    	}
 	    	else{
-	    		throw new Exception("Attendance ("+attendanceId+") e/o Standard message ("+stdMsgId+")non trovati");
+	    		throw new PersistenceException("Attendance ("+attendanceId+") e/o Standard message ("+stdMsgId+")non trovati");
 	    	}
 	    	tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during createEventMessage() ",e);
+	         throw new PersistenceException("HibernateException during createEventMessage() ",e);
 	      }finally {
 	         session.close(); 
 	      }	
@@ -271,7 +272,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws Exception {
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
 		logger.info("addFeedback...");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -300,14 +301,14 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		    	  session.update(eo);
 	    	  }
 	    	  else{
-	    		  throw new Exception("Attendance ("+attendanceId+") non trovato");
+	    		  throw new PersistenceException("Attendance ("+attendanceId+") non trovato");
 	    	  }
 			
 	        tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during addFeedback() ",e);
+	         throw new PersistenceException("HibernateException during addFeedback() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -322,7 +323,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO createAttandance(AttendanceBO bo) throws Exception {
+	public WriteResultBO createAttandance(AttendanceBO bo) throws PersistenceException {
 		logger.info("creating attendance (join event)");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -342,7 +343,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during createAttandance() ",e);
+	         throw new PersistenceException("HibernateException during createAttandance() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -357,7 +358,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
 		List<AttendanceBO> bos = null;
 		List<AttendanceEO> eos = null;
 		
@@ -377,7 +378,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAttendancesByEvent() ",e);
+	        throw new PersistenceException("HibernateException during getAttendancesByEvent() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -387,7 +388,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userId) throws Exception {
+	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
 		List<EventBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -419,7 +420,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getEventsByUser() ",e);
+	        throw new PersistenceException("HibernateException during getEventsByUser() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -432,7 +433,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 										double gpsLongFrom,
 										double gpsLongTo, 
 										int idCategoria, 
-										int minPartecipanti)	throws Exception {
+										int minPartecipanti)	throws PersistenceException {
 
 		List<EventBO> bos = null;
 		List<EventEO> eos = null;
@@ -462,7 +463,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during searchEvents() ",e);
+	        throw new PersistenceException("HibernateException during searchEvents() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -474,7 +475,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventId) throws Exception {
+	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
 		List<MessageBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -496,7 +497,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getEventMessages() ",e);
+	        throw new PersistenceException("HibernateException during getEventMessages() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -504,7 +505,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	}
 
 	@Override
-	public WriteResultBO updateEventState(int eventId, EventStateEnum eventState) throws Exception {
+	public WriteResultBO updateEventState(int eventId, EventStateEnum eventState) throws PersistenceException {
 		logger.info("modifico stato evento...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -533,7 +534,7 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 	    }catch (HibernateException e) {
 	    	 if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during updateEventState() ",e);
+	        throw new PersistenceException("HibernateException during updateEventState() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			

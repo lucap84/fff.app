@@ -1,4 +1,4 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 
 import it.fff.business.common.bo.WriteResultBO;
@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.SubscriptionBO;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.PremiumPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -21,7 +22,7 @@ public class PremiumPersistenceServiceHibernate implements PremiumPersistenceSer
 	private static final Logger logger = LogManager.getLogger(PremiumPersistenceServiceHibernate.class);
 	
 	@Override
-	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO bo) throws Exception {
+	public WriteResultBO upgradeToPremium(int userId, SubscriptionBO bo) throws PersistenceException {
 		logger.info("upgradeToPremium...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -33,7 +34,7 @@ public class PremiumPersistenceServiceHibernate implements PremiumPersistenceSer
 	    try{
 	    	tx = session.beginTransaction();
 
-	    	//TODO check se utente ha già un premium nello stesso intervallo temporale (in caso sarebbe meglioaggiungere il premium a partire dalla data fine di quello corrente)
+	    	//TODO check se utente ha gia' un premium nello stesso intervallo temporale (in caso sarebbe meglioaggiungere il premium a partire dalla data fine di quello corrente)
 	    	SubscriptionMapper mapper = SubscriptionMapper.getInstance();
 	    	SubscriptionEO subscriptionEO = mapper.mergeBO2EO(bo, null, session);
 	    	subscriptionId = (Integer)session.save(subscriptionEO);
@@ -42,7 +43,7 @@ public class PremiumPersistenceServiceHibernate implements PremiumPersistenceSer
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during upgradeToPremium() ",e);
+	         throw new PersistenceException("HibernateException during upgradeToPremium() ",e);
 	      }finally {
 	         session.close(); 
 	      }	

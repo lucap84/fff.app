@@ -9,7 +9,6 @@ public class ApplicationException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Exception nestedException;
 	private List<String> errorCodes;
 	
 	public ApplicationException(){
@@ -17,14 +16,19 @@ public class ApplicationException extends Exception {
 		this.errorCodes = new ArrayList<String>();
 	}
 
-	public ApplicationException(Exception e){
-		this();
-		this.nestedException = e;
+	public ApplicationException(String errMsg){
+		super(errMsg);
+		this.errorCodes = new ArrayList<String>();
+	}
+
+	public ApplicationException(Exception originalException){
+		super(originalException);
+		this.errorCodes = new ArrayList<String>();
 	}
 	
 
-	public ApplicationException(String message, Exception innerException){
-		super(message, innerException);
+	public ApplicationException(String message, Exception originalException){
+		super(message, originalException);
 		this.errorCodes = new ArrayList<String>();
 	}
 	
@@ -43,7 +47,11 @@ public class ApplicationException extends Exception {
 	public void setErrorCodes(List<String> errorCodes) {
 		this.errorCodes = errorCodes;
 	}
-	
-	
+
+	public static void manageException(Exception e, String errorCode) throws ApplicationException{
+		ApplicationException ex = new ApplicationException(e.getMessage(), e);
+		ex.addErrorCode(errorCode);
+		throw ex;
+	}
 
 }

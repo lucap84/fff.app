@@ -10,12 +10,13 @@ import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.clientserver.common.util.Constants;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception {
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
@@ -24,7 +25,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		
 		PlaceBO bo1 = new PlaceBO();
@@ -96,7 +97,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws Exception {
+	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -105,7 +106,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+	public CityBO getCityByName(String cityName, String nationCode) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		CityBO c = new CityBO();
 		c.setId(1);
@@ -117,14 +118,14 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
+	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		NationBO n = typologicalMock.getAllNations().get(0);
 		return n;
 	}
 
 	@Override
-	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
+	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws PersistenceException {
 		Set<PlaceBO> placesByDescription = this.getPlacesByDescription("descrizione",gpsLat, gpsLong);
 		
 		double propability = 1 / placesByDescription.size();

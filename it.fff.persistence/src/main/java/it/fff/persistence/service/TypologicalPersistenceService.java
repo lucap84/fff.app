@@ -12,25 +12,26 @@ import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
+import it.fff.persistence.exception.PersistenceException;
 
 public interface TypologicalPersistenceService extends PersistenceService {
 
-	public List<EventCategoryBO> getAllEventCategories() throws Exception;
+	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException;
 
-	public List<EventStateEnum> getAllEventStates() throws Exception;
+	public List<EventStateEnum> getAllEventStates() throws PersistenceException;
 
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception;
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException;
 
-	public List<MessageStandardBO> getAllStandardMessages() throws Exception;
+	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException;
 
-	public List<AchievementTypeBO> getAllAchievementTypes() throws Exception;
+	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException;
 
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws Exception;
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException;
 
-	public List<LanguageBO> getAllLanguages() throws Exception;
+	public List<LanguageBO> getAllLanguages() throws PersistenceException;
 
-	public List<NationBO> getAllNations() throws Exception;
+	public List<NationBO> getAllNations() throws PersistenceException;
 	
-	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception;
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws PersistenceException;
 
 }
