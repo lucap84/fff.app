@@ -295,6 +295,8 @@ return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 			events = businessServiceFacade.getEventsByUser(userId);
 		} catch (BusinessException e) {
 			events = new ArrayList<EventDTO>();
+			events.add(new EventDTO());
+			super.manageErrors(e, events.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return events;
@@ -403,14 +405,15 @@ return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 	}
 	
 	private List<FeedbackEnum> getUserFeedbacks(HttpServletRequest request, String userId) {
-		List<FeedbackEnum> result = null;
+		List<FeedbackEnum> feedbacks = null;
 		try {
-			result = businessServiceFacade.getUserFeedbacks(userId);
+			feedbacks = businessServiceFacade.getUserFeedbacks(userId);
 		} catch (BusinessException e) {
-			result = new ArrayList<FeedbackEnum>();
+			feedbacks = new ArrayList<FeedbackEnum>();
+			//TODO Come gestire errore su enum???
 			logger.error(LogUtils.stackTrace2String(e));
 		}
-		return result;
+		return feedbacks;
 	}
 	
 	private List<AttendanceDTO> getAttendancesByUser(HttpServletRequest request, String userId) {
@@ -419,6 +422,8 @@ return getFacebookUserData(request, headers, socialToken, socialTokenExprires);
 			attendances = businessServiceFacade.getAttendancesByUser(userId);
 		} catch (BusinessException e) {
 			attendances = new ArrayList<AttendanceDTO>();
+			attendances.add(new AttendanceDTO());
+			super.manageErrors(e, attendances.get(0), request.getLocale());
 			logger.error(LogUtils.stackTrace2String(e));
 		}
 		return attendances;

@@ -44,6 +44,11 @@
 		<artifactId>mysql-connector-java</artifactId>
 		<version>5.1.37</version>
 	</dependency>
-	
+    <dependency>
+      <groupId>it.fff.clientserver.common</groupId>
+      <artifactId>it.fff.clientserver.common</artifactId>
+      <version>1.1</version>
+    </dependency>
+
   </dependencies>
 </project>

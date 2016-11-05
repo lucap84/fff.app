@@ -20,6 +20,7 @@ import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.FeedbackEnum;
 import it.fff.clientserver.common.util.Constants;
 import it.fff.clientserver.common.util.FlokkerUtils;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.EventPersistenceService;
 
 public class EventPersistenceServiceMock implements EventPersistenceService{
@@ -27,7 +28,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	private static final Logger logger = LogManager.getLogger(EventPersistenceServiceMock.class);
 	
 	@Override
-	public EventBO retrieveEvent(int eventId) throws Exception{
+	public EventBO retrieveEvent(int eventId) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 
 		EventBO bo1 = new EventBO();
@@ -51,7 +52,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO cancelEvent(int eventId, int organizerId) throws Exception {
+	public WriteResultBO cancelEvent(int eventId, int organizerId) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(eventId);
 		resultBO.setSuccess(true);
@@ -60,7 +61,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createEvent(EventBO bo) throws Exception {
+	public WriteResultBO createEvent(EventBO bo) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -69,7 +70,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createEventMessage(int attendanceId, String message) throws Exception {
+	public WriteResultBO createEventMessage(int attendanceId, String message) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
@@ -78,7 +79,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws Exception {
+	public WriteResultBO createStandardEventMessage(int attendanceId, int stdMsgId) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(stdMsgId);
 		resultBO.setSuccess(true);
@@ -87,7 +88,16 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws Exception {
+	public MessageStandardBO getStandardMessageById(int stdMsgId) throws PersistenceException {
+		MessageStandardBO bo = new MessageStandardBO();
+		bo.setId(stdMsgId);
+		bo.setText("Non vi vedo, dove state?");
+
+		return bo;
+	}
+
+	@Override
+	public WriteResultBO addFeedback(int attendanceId, FeedbackEnum feedback) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(attendanceId);
 		resultBO.setSuccess(true);
@@ -96,7 +106,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO createAttandance(AttendanceBO bo) throws Exception {
+	public WriteResultBO createAttandance(AttendanceBO bo) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -105,7 +115,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws Exception {
+	public List<AttendanceBO> getAttendancesByEvent(int eventId) throws PersistenceException {
 		List<AttendanceBO> attendances = new ArrayList<AttendanceBO>();
 		UserBO organizerUserBO1 = new UserPersistenceServiceMock().getUser(1);
 		UserBO organizerUserBO2 = new UserPersistenceServiceMock().getUser(2);
@@ -141,7 +151,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<EventBO> getEventsByUser(int userId) throws Exception {
+	public List<EventBO> getEventsByUser(int userId) throws PersistenceException {
 		List<EventBO> bos = new ArrayList<EventBO>();
 		
 		EventBO bo1 = this.retrieveEvent(1);
@@ -161,7 +171,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 										double gpsLongFrom,
 										double gpsLongTo, 
 										int idCategoria, 
-										int minPartecipanti)	throws Exception {
+										int minPartecipanti)	throws PersistenceException {
 
 		List<EventBO> bos = this.getEventsByUser(1);
 		
@@ -169,7 +179,7 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public List<MessageBO> getEventMessages(int eventId) throws Exception {
+	public List<MessageBO> getEventMessages(int eventId) throws PersistenceException {
 		EventBO event = new EventBO();
 		event.setId(1);
 		
@@ -207,7 +217,14 @@ public class EventPersistenceServiceMock implements EventPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws Exception {
+	public EventCategoryBO getEventCategoryById(int eventCategoryId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		EventCategoryBO bo = typologicalMock.getAllEventCategories().get(0);
+		return bo;
+	}
+
+	@Override
+	public WriteResultBO updateEventState(int eventId, EventStateEnum state) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);

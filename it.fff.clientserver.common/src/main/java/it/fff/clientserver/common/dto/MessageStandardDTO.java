@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class MessageStandardDTO {
+public class MessageStandardDTO extends DataTransferObject{
 	
 	private int id;
 	private String text;

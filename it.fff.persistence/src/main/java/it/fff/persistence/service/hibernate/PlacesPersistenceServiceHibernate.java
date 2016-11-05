@@ -1,4 +1,4 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,6 @@ import it.fff.business.common.bo.CityBO;
 import it.fff.business.common.bo.NationBO;
 import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
-import it.fff.business.common.eo.AccountEO;
 import it.fff.business.common.eo.CityEO;
 import it.fff.business.common.eo.KeywordEO;
 import it.fff.business.common.eo.NationEO;
@@ -28,11 +27,11 @@ import it.fff.business.common.mapper.CityMapper;
 import it.fff.business.common.mapper.KeywordMapper;
 import it.fff.business.common.mapper.NationMapper;
 import it.fff.business.common.mapper.PlaceMapper;
-import it.fff.business.common.mapper.UserMapper;
 import it.fff.business.common.util.ConfigurationProvider;
 import it.fff.business.common.util.DistanceCalculator;
 import it.fff.clientserver.common.util.Constants;
 import it.fff.clientserver.common.util.FlokkerUtils;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.PlacesPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
@@ -41,7 +40,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	private static final Logger logger = LogManager.getLogger(PlacesPersistenceServiceHibernate.class);
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception {
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws PersistenceException {
 		logger.debug("setCurrentPosition user");
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -63,12 +62,12 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	      catch(ConstraintViolationException e){
 		         if (tx!=null) tx.rollback();
 		         e.printStackTrace();
-		         throw new Exception("ConstraintViolationException during setCurrentPosition() ",e);
+		         throw new PersistenceException("ConstraintViolationException during setCurrentPosition() ",e);
 	      }
 	      catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
 	         e.printStackTrace();
-	         throw new Exception("HibernateException during setCurrentPosition() ",e);
+	         throw new PersistenceException("HibernateException during setCurrentPosition() ",e);
 	      }finally {
 	         session.close(); 
 	      }			
@@ -83,7 +82,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws PersistenceException {
 		Set<PlaceBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -114,7 +113,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during searchEvents() ",e);
+	        throw new PersistenceException("HibernateException during searchEvents() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -123,7 +122,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public WriteResultBO saveOrUpdatePlace(PlaceBO placeBO, String token) throws Exception {
+	public WriteResultBO saveOrUpdatePlace(PlaceBO placeBO, String token) throws PersistenceException {
 		logger.info("salvo Place e/o token associato...");
 		
 		WriteResultBO result = new WriteResultBO();
@@ -158,7 +157,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    	String hqlSelectPlace = "FROM PlaceEO WHERE placeKey = :placeKey";
 	    	Query querySelectPlace = session.createQuery(hqlSelectPlace);
 	    	querySelectPlace.setParameter("placeKey",placeBO.getPlaceKey());
-	    	querySelectPlace.setMaxResults(1); //La certezza che sia un solo risultato non c'e' perché placeKey non e' chiave della tabella
+	    	querySelectPlace.setMaxResults(1); //La certezza che sia un solo risultato non c'e' perche' placeKey non e' chiave della tabella
 	    	
 	    	PlaceEO placeEO = (PlaceEO)querySelectPlace.uniqueResult();
 	    	
@@ -228,7 +227,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }catch (HibernateException e) {
 	    	if (tx!=null) tx.rollback();
 	    	e.printStackTrace();
-	        throw new Exception("HibernateException during saveOrUpdatePlace() ",e);
+	        throw new PersistenceException("HibernateException during saveOrUpdatePlace() ",e);
 	    }finally {
 	    	session.close(); 
 	    }			
@@ -240,7 +239,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+	public CityBO getCityByName(String cityName, String nationCode) throws PersistenceException {
 		CityBO bo = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -263,15 +262,21 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getCityByName() ",e);
+	        throw new PersistenceException("HibernateException during getCityByName() ",e);
 	     }finally {
 	        session.close(); 
 	     }
 		return bo;
 	}
-	
+
 	@Override
-	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
+	public CityBO getCityById(int cityId) throws PersistenceException {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException {
 		NationBO bo = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -293,7 +298,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getNationByInternationalKey() ",e);
+	        throw new PersistenceException("HibernateException during getNationByInternationalKey() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -301,7 +306,19 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	}
 
 	@Override
-	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
+	public NationBO getNationById(int nationId) throws PersistenceException {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public PlaceBO getPlaceById(int placeId) throws PersistenceException {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws PersistenceException {
 		PlaceBO bo = null;
 		PlaceEO placeEO = null;
 		
@@ -331,7 +348,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getPlaceByGPS() ",e);
+	        throw new PersistenceException("HibernateException during getPlaceByGPS() ",e);
 	     }finally {
 	        session.close(); 
 	     }

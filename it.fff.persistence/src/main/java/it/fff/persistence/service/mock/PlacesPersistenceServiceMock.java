@@ -10,12 +10,13 @@ import it.fff.business.common.bo.PlaceBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
 import it.fff.clientserver.common.util.Constants;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.PlacesPersistenceService;
 
 public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 
 	@Override
-	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws Exception {
+	public WriteResultBO setCurrentPosition(int userId, double gpsLat, double gpsLong) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
@@ -24,7 +25,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws Exception {
+	public Set<PlaceBO> getPlacesByDescription(String token, double gpsLat, double gpsLong) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		
 		PlaceBO bo1 = new PlaceBO();
@@ -96,7 +97,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws Exception {
+	public WriteResultBO saveOrUpdatePlace(PlaceBO place, String token) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -105,7 +106,7 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public CityBO getCityByName(String cityName, String nationCode) throws Exception {
+	public CityBO getCityByName(String cityName, String nationCode) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		CityBO c = new CityBO();
 		c.setId(1);
@@ -117,14 +118,65 @@ public class PlacesPersistenceServiceMock implements PlacesPersistenceService{
 	}
 
 	@Override
-	public NationBO getNationByInternationalCode(String nationCode) throws Exception {
+	public CityBO getCityById(int cityId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		CityBO c = new CityBO();
+		c.setId(cityId);
+		c.setNome("city name");
+
+		NationBO n = typologicalMock.getAllNations().get(0);
+		c.setNazione(n);
+		return c;
+	}
+
+	@Override
+	public NationBO getNationByInternationalCode(String nationCode) throws PersistenceException {
 		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
 		NationBO n = typologicalMock.getAllNations().get(0);
 		return n;
 	}
 
 	@Override
-	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws Exception {
+	public NationBO getNationById(int nationId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+		NationBO n = typologicalMock.getAllNations().get(0);
+		n.setId(nationId);
+		return n;
+	}
+
+	@Override
+	public PlaceBO getPlaceById(int placeId) throws PersistenceException {
+		TypologicalPersistenceServiceMock typologicalMock = new TypologicalPersistenceServiceMock();
+
+		PlaceBO bo1 = new PlaceBO();
+		bo1.setId(1);
+		bo1.setNome("El Chiringuito Libre");
+
+		PlaceTypeEnum placeType = PlaceTypeEnum.POINT_OF_INTEREST;
+
+		NationBO nationBO = typologicalMock.getAllNations().get(0);
+
+		CityBO citta = new CityBO();
+		citta.setId(1);
+		citta.setNome("Roma");
+		citta.setNazione(nationBO);
+
+		bo1.setPlaceKey("ChIJrRMgU7ZhLxMRxAOFkC7I8Sg");
+		bo1.setGpsLat(41.856616);
+		bo1.setGpsLong(12.476971);
+		bo1.setAddressRoute("Largo Riccardi Beato Placido");
+		bo1.setCivico("1");
+		bo1.setCap("00154");
+		bo1.setPlaceType(placeType);
+		bo1.setCity(citta);
+		bo1.setDataCreazione(Constants.DATE_FORMATTER.format(new Date()));
+		bo1.setDataAggiornamento(Constants.DATE_FORMATTER.format(new Date()));
+
+		return bo1;
+	}
+
+	@Override
+	public PlaceBO getPlaceByGPS(double gpsLat, double gpsLong) throws PersistenceException {
 		Set<PlaceBO> placesByDescription = this.getPlacesByDescription("descrizione",gpsLat, gpsLong);
 		
 		double propability = 1 / placesByDescription.size();

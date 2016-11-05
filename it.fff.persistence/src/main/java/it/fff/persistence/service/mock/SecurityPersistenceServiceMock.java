@@ -6,6 +6,7 @@ import java.util.Map;
 
 import it.fff.business.common.bo.SessionBO;
 import it.fff.business.common.bo.WriteResultBO;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.SecurityPersistenceService;
 
 public class SecurityPersistenceServiceMock implements SecurityPersistenceService {
@@ -13,7 +14,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	public static Map<Integer, Map<String, String>> secrets = new HashMap<Integer, Map<String,String>>();
 
 	@Override
-	public WriteResultBO logout(int userId, String deviceId) throws SQLException {
+	public WriteResultBO logout(int userId, String deviceId) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
@@ -22,7 +23,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws SQLException {
+	public WriteResultBO saveVerficationCode(String email, String verificationCode) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -31,7 +32,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws SQLException {
+	public WriteResultBO checkVerificationCode(String email, String verificationcode) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -40,7 +41,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws SQLException {
+	public WriteResultBO updatePassword(int userId, String email, String encodedOldPassword, String encodedNewPassword) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(userId);
 		resultBO.setSuccess(true);
@@ -49,7 +50,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO login(SessionBO session) throws SQLException {
+	public WriteResultBO login(SessionBO session) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);
@@ -58,7 +59,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws Exception {
+	public Map<Integer, Map<String, String>> retrieveClientSecrets() throws PersistenceException {
 		
 //		Map<String, String> device2SharedKeyA = new HashMap<String, String>();
 //		device2SharedKeyA.put("device-01-mock", "24:2B:ED:10:17:A0:13:1E:3A:6C:19:63:81:DB:16:00:BD:02:10:86:71:A3:D4:E8:AE:EB:0E:C7:D7:B9:05:15:52:2F:62:C1:E3:37:A0:E4:AE:25:11:DE:1A:56:47:1A:16:FD:23:84:22:9E:71:D2:A8:FF:02:E2:85:25:3B:A6");
@@ -74,7 +75,7 @@ public class SecurityPersistenceServiceMock implements SecurityPersistenceServic
 	}
 
 	@Override
-	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws Exception {
+	public WriteResultBO resetPassword(String email, String newPassword, String verificationCode) throws PersistenceException {
 		WriteResultBO resultBO = new WriteResultBO();
 		resultBO.setWrittenKey(1);
 		resultBO.setSuccess(true);

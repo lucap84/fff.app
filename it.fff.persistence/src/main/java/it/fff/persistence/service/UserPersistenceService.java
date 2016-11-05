@@ -10,29 +10,30 @@ import it.fff.business.common.bo.ProfileImageBO;
 import it.fff.business.common.bo.UserBO;
 import it.fff.business.common.bo.WriteResultBO;
 import it.fff.clientserver.common.enums.FeedbackEnum;
+import it.fff.persistence.exception.PersistenceException;
 
 public interface UserPersistenceService  extends PersistenceService{
 
-	public WriteResultBO registerUser(UserBO userBO) throws Exception;
+	public WriteResultBO registerUser(UserBO userBO) throws PersistenceException;
 	
-	public UserBO getUser(int userId) throws Exception;
+	public UserBO getUser(int userId) throws PersistenceException;
 
-	public WriteResultBO updateUserData(UserBO eo) throws Exception;
+	public WriteResultBO updateUserData(UserBO eo) throws PersistenceException;
 
-	public WriteResultBO cancelAttendance(int eventId, int userId) throws Exception;
+	public WriteResultBO cancelAttendance(int eventId, int userId) throws PersistenceException;
 
-	public EmailInfoBO getEmailInfo(String email) throws Exception;
+	public EmailInfoBO getEmailInfo(String email) throws PersistenceException;
 
-	public List<FeedbackEnum> getUserFeedbacks(int userId) throws Exception;
+	public List<FeedbackEnum> getUserFeedbacks(int userId) throws PersistenceException;
 
-	public WriteResultBO updateProfileImage(ProfileImageBO imageBO) throws Exception;
+	public WriteResultBO updateProfileImage(ProfileImageBO imageBO) throws PersistenceException;
 
-	public ProfileImageBO readProfileImage(int userId) throws Exception;
+	public ProfileImageBO readProfileImage(int userId) throws PersistenceException;
 
-	public List<AttendanceBO> getAttendancesByUser(int userId) throws Exception;
+	public List<AttendanceBO> getAttendancesByUser(int userId) throws PersistenceException;
 
-	public AccountBO getUserAccountByFacebookId(long facebookId) throws Exception;
+	public AccountBO getUserAccountByFacebookId(long facebookId) throws PersistenceException;
 
-	public AccountBO getUserAccountByEmail(String email) throws Exception;
+	public AccountBO getUserAccountByEmail(String email) throws PersistenceException;
 
 }

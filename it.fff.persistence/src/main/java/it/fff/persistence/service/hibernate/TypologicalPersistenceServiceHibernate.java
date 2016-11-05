@@ -1,15 +1,13 @@
-package it.fff.persistence.service.impl;
+package it.fff.persistence.service.hibernate;
 
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import it.fff.business.common.bo.AchievementTypeBO;
-import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.bo.EventCategoryBO;
 import it.fff.business.common.bo.LanguageBO;
 import it.fff.business.common.bo.MessageStandardBO;
@@ -18,18 +16,15 @@ import it.fff.business.common.bo.SubscriptionTypeBO;
 import it.fff.business.common.eo.AchievementTypeEO;
 import it.fff.business.common.eo.AttendanceStateEO;
 import it.fff.business.common.eo.EventCategoryEO;
-import it.fff.business.common.eo.EventEO;
 import it.fff.business.common.eo.EventStateEO;
 import it.fff.business.common.eo.LanguageEO;
 import it.fff.business.common.eo.MessageStandardEO;
 import it.fff.business.common.eo.NationEO;
 import it.fff.business.common.eo.PlaceTypeEO;
 import it.fff.business.common.eo.SubscriptionTypeEO;
-import it.fff.business.common.mapper.AchievementMapper;
 import it.fff.business.common.mapper.AchievementTypeMapper;
 import it.fff.business.common.mapper.AttendanceStateMapper;
 import it.fff.business.common.mapper.EventCategoryMapper;
-import it.fff.business.common.mapper.EventMapper;
 import it.fff.business.common.mapper.EventStateMapper;
 import it.fff.business.common.mapper.LanguageMapper;
 import it.fff.business.common.mapper.MessageStandardMapper;
@@ -39,13 +34,14 @@ import it.fff.business.common.mapper.SubscriptionTypeMapper;
 import it.fff.clientserver.common.enums.AttendanceStateEnum;
 import it.fff.clientserver.common.enums.EventStateEnum;
 import it.fff.clientserver.common.enums.PlaceTypeEnum;
+import it.fff.persistence.exception.PersistenceException;
 import it.fff.persistence.service.TypologicalPersistenceService;
 import it.fff.persistence.util.HibernateUtil;
 
 public class TypologicalPersistenceServiceHibernate implements TypologicalPersistenceService {
 
 	@Override
-	public List<EventCategoryBO> getAllEventCategories() throws Exception {
+	public List<EventCategoryBO> getAllEventCategories() throws PersistenceException {
 		List<EventCategoryBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -61,7 +57,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllEventCategories() ",e);
+	        throw new PersistenceException("HibernateException during getAllEventCategories() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -69,7 +65,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<EventStateEnum> getAllEventStates() throws Exception {
+	public List<EventStateEnum> getAllEventStates() throws PersistenceException {
 		List<EventStateEnum> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -85,7 +81,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllEventStates() ",e);
+	        throw new PersistenceException("HibernateException during getAllEventStates() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -93,7 +89,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<AttendanceStateEnum> getAllAttendanceStates() throws Exception {
+	public List<AttendanceStateEnum> getAllAttendanceStates() throws PersistenceException {
 		List<AttendanceStateEnum> bos = null;
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -108,7 +104,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllAttendanceStates() ",e);
+	        throw new PersistenceException("HibernateException during getAllAttendanceStates() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -116,7 +112,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<MessageStandardBO> getAllStandardMessages() throws Exception {
+	public List<MessageStandardBO> getAllStandardMessages() throws PersistenceException {
 		List<MessageStandardBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -132,7 +128,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllStandardMessages() ",e);
+	        throw new PersistenceException("HibernateException during getAllStandardMessages() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -140,7 +136,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<AchievementTypeBO> getAllAchievementTypes() throws Exception {
+	public List<AchievementTypeBO> getAllAchievementTypes() throws PersistenceException {
 		List<AchievementTypeBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -156,7 +152,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllAchievementTypes() ",e);
+	        throw new PersistenceException("HibernateException during getAllAchievementTypes() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -164,7 +160,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws Exception {
+	public List<SubscriptionTypeBO> getAllSubscriptionTypes() throws PersistenceException {
 		List<SubscriptionTypeBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -180,7 +176,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllSubscriptionTypes() ",e);
+	        throw new PersistenceException("HibernateException during getAllSubscriptionTypes() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -188,7 +184,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<LanguageBO> getAllLanguages() throws Exception {
+	public List<LanguageBO> getAllLanguages() throws PersistenceException {
 		List<LanguageBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -204,7 +200,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllLanguages() ",e);
+	        throw new PersistenceException("HibernateException during getAllLanguages() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -212,7 +208,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<NationBO> getAllNations() throws Exception {
+	public List<NationBO> getAllNations() throws PersistenceException {
 		List<NationBO> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -228,7 +224,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllNations() ",e);
+	        throw new PersistenceException("HibernateException during getAllNations() ",e);
 	     }finally {
 	        session.close(); 
 	     }
@@ -236,7 +232,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	}
 
 	@Override
-	public List<PlaceTypeEnum> getAllPlaceTypes() throws Exception {
+	public List<PlaceTypeEnum> getAllPlaceTypes() throws PersistenceException {
 		List<PlaceTypeEnum> bos = null;
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -252,7 +248,7 @@ public class TypologicalPersistenceServiceHibernate implements TypologicalPersis
 	    }catch (HibernateException e) {
 	    	if(tx!=null)tx.rollback();
 	        e.printStackTrace();
-	        throw new Exception("HibernateException during getAllEventStates() ",e);
+	        throw new PersistenceException("HibernateException during getAllEventStates() ",e);
 	     }finally {
 	        session.close(); 
 	     }

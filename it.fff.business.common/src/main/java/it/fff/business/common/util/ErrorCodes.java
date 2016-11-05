@@ -2,33 +2,54 @@ package it.fff.business.common.util;
 
 public class ErrorCodes {
 	
-	//Codici errore persistenza
-	public static final String ERR_PERSIST_GENERIC = "1001";
-	public static final String ERR_PERSIST_GENERIC_ID_NOT_VALID = "1002";
-	public static final String ERR_PERSIST_IMG_INVALID_INPUT = "1003";
+	//Codici errore integration layer
+	public static final String ERR_INTEGRATION_GENERIC = "1001";
 
-	public static final String ERR_PERSIST_GETEVENT = "1004";
-	public static final String ERR_PERSIST_CREATEUSER = "1005";
-	public static final String ERR_PERSIST_GETATTENDANCES ="1006";
-	public static final String ERR_PERSIST_CREATEEVENT = "1007";
-	public static final String ERR_PERSIST_CANCELATTENDANCES = "1008";
-	public static final String ERR_PERSIST_POSTMSG = "1009";
-	public static final String ERR_PERSIST_POSTSTDMSG = "1010";
-	public static final String ERR_PERSIST_UPGRADE_TO_PREMIUM = "1011";
-	public static final String ERR_PERSIST_UPDATE_USERDATA = "1012";
-	public static final String ERR_PERSIST_JOINEVENT = "1013";
-	public static final String ERR_PERSIST_ADDFEEDBACK = "1014";
-	public static final String ERR_PERSIST_GETEVENTMSG = "1015";
-	public static final String ERR_PERSIST_SEACRHEVENTS =  "1016";
-	public static final String ERR_PERSIST_GETPLACES = "1017";
-	public static final String ERR_PERSIST_LOGIN = "1018";
-	public static final String ERR_PERSIST_CHECK_VERIFICATIONCODE = "1019";
-	public static final String ERR_PERSIST_UPDATEPSW = "1010";
-	public static final String ERR_PERSIST_SEND_VERIFICATIONCODE = "1021";
-	public static final String ERR_PERSIST_SET_CURRENTPOSITION = "1022";
-	public static final String ERR_PERSIST_GET_EVENTSBYUSER = "1023";
-	public static final String ERR_PERSIST_GET_USER = "1024";	
-	public static final String ERR_PERSIST_CANCELEVENT = "1025";
+	public static final String ERR_INTEGRATION_getAllStandardMessages = "1002";
+	public static final String ERR_INTEGRATION_retrieveEvent = "1003";
+	public static final String ERR_INTEGRATION_updateProfileImage = "1004";
+	public static final String ERR_INTEGRATION_createEvent = "1005";
+	public static final String ERR_INTEGRATION_cancelEvent = "1006";
+	public static final String ERR_INTEGRATION_cancelAttendance = "1007";
+	public static final String ERR_INTEGRATION_createEventMessage = "1008";
+	public static final String ERR_INTEGRATION_createStandardEventMessage = "1009";
+	public static final String ERR_INTEGRATION_joinEvent = "1010";
+	public static final String ERR_INTEGRATION_addFeedback = "1011";
+	public static final String ERR_INTEGRATION_getEventMessages = "1012";
+	public static final String ERR_INTEGRATION_searchEvents = "1013";
+	public static final String ERR_INTEGRATION_getEventsByUser = "1014";
+	public static final String ERR_INTEGRATION_getAttendancesByEvent = "1015";
+	public static final String ERR_INTEGRATION_setCurrentPosition = "1016";
+	public  static final String ERR_INTEGRATION_getPlacesByDescription = "1017";
+	public  static final String ERR_INTEGRATION_getPlaceByGPSInCache = "1018";
+	public  static final String ERR_INTEGRATION_getPlacesByDescriptionInCache = "1019";
+	public  static final String ERR_INTEGRATION_updatePassword = "1020";
+	public  static final String ERR_INTEGRATION_checkVerificationCode = "1021";
+	public  static final String ERR_INTEGRATION_saveVerficationCode = "1022";
+	public  static final String ERR_INTEGRATION_logout = "1023";
+	public  static final String ERR_INTEGRATION_upgradeToPremium = "1024";
+	public  static final String ERR_INTEGRATION_registerUser = "1025";
+	public  static final String ERR_INTEGRATION_login = "1026";
+	public  static final String ERR_INTEGRATION_updateUserData = "1027";
+	public  static final String ERR_INTEGRATION_getUser = "1028";
+	public  static final String ERR_INTEGRATION_retrieveClientSecrets = "1029";
+	public  static final String ERR_INTEGRATION_getAllLanguages = "1030";
+	public  static final String ERR_INTEGRATION_getAllSubscriptionTypes = "1031";
+	public  static final String ERR_INTEGRATION_getAllAchievementTypes = "1032";
+	public  static final String ERR_INTEGRATION_getAllAttendanceStates = "1033";
+	public  static final String ERR_INTEGRATION_getAllEventStates = "1034";
+	public  static final String ERR_INTEGRATION_getAllEventCategories = "1035";
+	public  static final String ERR_INTEGRATION_getAllNations = "1036";
+	public  static final String ERR_INTEGRATION_resetPassword = "1037";
+	public  static final String ERR_INTEGRATION_getEmailInfo = "1038";
+	public  static final String ERR_INTEGRATION_getCityByName = "1039";
+	public  static final String ERR_INTEGRATION_getUserFeedbacks = "1040";
+	public  static final String ERR_INTEGRATION_readProfileImage = "1041";
+	public  static final String ERR_INTEGRATION_getFacebookUserData = "1042";
+	public  static final String ERR_INTEGRATION_getAttendancesByUser = "1043";
+	public  static final String ERR_INTEGRATION_getUserAccountByFacebookId = "1044";
+	public  static final String ERR_INTEGRATION_getUserAccountByEmail = "1045";
+
 	
 	//Codici errore business
 	public static final String ERR_BUSIN_GENERIC = "2001";
@@ -65,6 +86,6 @@ public class ErrorCodes {
 	public static final String ERR_BUSIN_GET_FB_USERDATA = "2031";
 	public static final String ERR_BUSIN_GETATTENDANCES_BYUSER ="2032";
 	public static final String ERR_BUSIN_LOGIN_FACEBOOK ="2033";
-	
+
 
 }

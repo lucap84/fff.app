@@ -1,2 +1,6 @@
+/bin/
+/target/
+/.classpath
+/.project
 /org.eclipse.wst.common.project.facet.core.xml
 /org.eclipse.wst.common.component

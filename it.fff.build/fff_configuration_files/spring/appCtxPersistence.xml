@@ -6,24 +6,48 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-	
-	<bean name="typologicalLoader" class="it.fff.persistence.init.TypologicalLoader" />
 
-	<bean name="typologicalPersistenceService" class="it.fff.persistence.service.mock.TypologicalPersistenceServiceMock" scope="prototype" />
+
+	<bean name="typologicalLoader" class="it.fff.persistence.init.TypologicalCacheLoader" />
+
+
+	<!-- MOCK -->
+	<!--
+
 	<bean name="eventPersistenceService" class="it.fff.persistence.service.mock.EventPersistenceServiceMock" scope="prototype" />
+	-->
+	<bean name="typologicalPersistenceService" class="it.fff.persistence.service.mock.TypologicalPersistenceServiceMock" scope="prototype" />
 	<bean name="premiumPersistenceService" class="it.fff.persistence.service.mock.PremiumPersistenceServiceMock" scope="prototype" />
 	<bean name="securityPersistenceService" class="it.fff.persistence.service.mock.SecurityPersistenceServiceMock" scope="prototype" />
 	<bean name="userPersistenceService" class="it.fff.persistence.service.mock.UserPersistenceServiceMock" scope="prototype" />
-	<bean name="placesPersistenceService" class="it.fff.persistence.service.impl.PlacesPersistenceServiceHibernate" scope="prototype" />
-	<!-- 
 	<bean name="placesPersistenceService" class="it.fff.persistence.service.mock.PlacesPersistenceServiceMock" scope="prototype" />
 
-	<bean name="userPersistenceService" class="it.fff.persistence.service.impl.UserPersistenceServiceHibernate" scope="prototype" />
-	<bean name="securityPersistenceService" class="it.fff.persistence.service.impl.SecurityPersistenceServiceHibernate" scope="prototype" />
 
-	<bean name="typologicalPersistenceService" class="it.fff.persistence.service.impl.TypologicalPersistenceServiceHibernate" scope="prototype" />
-	<bean name="eventPersistenceService" class="it.fff.persistence.service.impl.EventPersistenceServiceHibernate" scope="prototype" />
-	<bean name="premiumPersistenceService" class="it.fff.persistence.service.impl.PremiumPersistenceServiceHibernate" scope="prototype" />
+
+	<!-- JDBC -->
+	<!--
+
+		<bean name="eventPersistenceService" class="it.fff.persistence.service.jdbc.EventPersistenceServiceJDBC" scope="prototype" />
+    <bean name="placesPersistenceService" class="it.fff.persistence.service.jdbc.PlacesPersistenceServiceJDBC" scope="prototype" />
+    <bean name="userPersistenceService" class="it.fff.persistence.service.jdbc.UserPersistenceServiceJDBC" scope="prototype" />
+    <bean name="securityPersistenceService" class="it.fff.persistence.service.jdbc.SecurityPersistenceServiceJDBC" scope="prototype" />
+    <bean name="typologicalPersistenceService" class="it.fff.persistence.service.jdbc.TypologicalPersistenceServiceJDBC" scope="prototype" />
+    <bean name="premiumPersistenceService" class="it.fff.persistence.service.jdbc.PremiumPersistenceServiceJDBC" scope="prototype" />
+
+  -->
+
+
+
+
+	<!-- HIBERNATE -->
+
+	<bean name="eventPersistenceService" class="it.fff.persistence.service.hibernate.EventPersistenceServiceHibernate" scope="prototype" />
+	<!--
+	<bean name="typologicalPersistenceService" class="it.fff.persistence.service.hibernate.TypologicalPersistenceServiceHibernate" scope="prototype" />
+	<bean name="placesPersistenceService" class="it.fff.persistence.service.hibernate.PlacesPersistenceServiceHibernate" scope="prototype" />
+	<bean name="userPersistenceService" class="it.fff.persistence.service.hibernate.UserPersistenceServiceHibernate" scope="prototype" />
+	<bean name="securityPersistenceService" class="it.fff.persistence.service.hibernate.SecurityPersistenceServiceHibernate" scope="prototype" />
+	<bean name="premiumPersistenceService" class="it.fff.persistence.service.hibernate.PremiumPersistenceServiceHibernate" scope="prototype" />
 	 -->
 
 	
