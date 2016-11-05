@@ -275,19 +275,17 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		PlacesExternalService placesExternalService = (PlacesExternalService)ExternalServiceProvider.getExternalService("placesExternalService");
 		PlacesPersistenceService placesPersistenceService = (PlacesPersistenceService)PersistenceServiceProvider.getPersistenceService("placesPersistenceService");
 		
-		PlaceBO userPlace = null;
-		String userRegion = null;
-		
 		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
 		boolean writeToCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_UPDATE_CACHE));
 		
-		if(readFromCache){ //Prendo i place dalla cache solo se la cache � abilitata
-			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong);
+		if(readFromCache){ //Prendo i place dalla cache (cache = DB e non servizio esterno) solo se la cache e' abilitata
+			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong); 
 		}
 		
-		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos);
+		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos); //tra i place trovati in cache alcuni potrebbero essere non piu validi (vecchi ad esempio)
 		
-		//cerco su servizio esterno solo se la cache � disabilitata
+		//cerco su servizio esterno solo se:
+		//la cache (cache = DB e non servizio esterno) e' disabilitata
 		//OPPURE
 		//i risultati della cache sono vuoti (provo quindi su servizio ext)
 		//OPPURE
@@ -300,6 +298,8 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			//rimuovo tutti i risultati non piu validi e quindi da sostituire
 			bos.removeAll(invalidPlaces);
 			
+			PlaceBO userPlace = null;
+			String userRegion = null;
 			try{
 				//recupero prima la Region del chiamante (partendo dalle sue coordinate) per raffinare la ricerca successiva
 				userPlace = this.getPlaceByGPS(userGpsLat, userGpsLong);
@@ -315,10 +315,10 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			}
 
 			if(writeToCache){ 
-				//Aggiorno su cache (DB interno) i risultati nuovi/aggiornati da servizio esterno
+				//Aggiorno la cache (DB interno Flokker) con i risultati nuovi/aggiornati da servizio esterno
 
 				try {
-					if(userPlace!=null){//Salvo o aggiorno i dati del luogo da cui e' partita la ricerca
+					if(userPlace!=null){//Salvo o aggiorno i dati del luogo da cui e' partita la ricerca (userGpsLat, userGpsLong)
 						placesPersistenceService.saveOrUpdatePlace(userPlace, null);  //non c'e' token perche' il place e' stato trovato tramite coordinate
 					}
 					
@@ -333,8 +333,6 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			}
 		}
 		
-
-
 		return bos;		
 	}
 	

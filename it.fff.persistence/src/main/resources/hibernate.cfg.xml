@@ -14,11 +14,20 @@
         <property name="hibernate.connection.password">businpsw</property>
         -->
 
-        <!-- openshift (127.6.253.2) 
-        NOTA: non e' possibile connettersi da remoto semplicemente con la URL dato che serve autenticazione con scambio di chiavi
+        <!-- openshift (127.6.253.2) OLD OPENSHIFT ACCOUNT
+        NOTA: non e' possibile connettersi da da un client semplicemente con la user/passw dato che serve autenticazione con scambio di chiavi
+        funziona invece se l'applicazione si trova sulla stessa macchina del DB
         <property name="hibernate.connection.url">jdbc:mysql://127.6.253.2:3306/jbossews2tomcat7</property>
-        <property name="hibernate.connection.username">businapp</property>
-        <property name="hibernate.connection.password">businpsw</property>
+        <property name="hibernate.connection.username">adminR6dEA7Z</property>
+        <property name="hibernate.connection.password">JXPcumvCI-vZ</property>
+		-->
+		
+		<!-- openshift (127.10.202.2) NUOVO OPENSHIFT ACCOUNT
+        NOTA: non e' possibile connettersi da da un client semplicemente con la user/passw dato che serve autenticazione con scambio di chiavi
+        funziona invece se l'applicazione si trova sulla stessa macchina del DB
+        <property name="hibernate.connection.url">jdbc:mysql://127.10.202.2:3306/jbossews</property>
+        <property name="hibernate.connection.username">admincXIfCJc</property>
+        <property name="hibernate.connection.password">FDGD54DpHCtw</property>
 		-->
 		
 		<!-- localhost
