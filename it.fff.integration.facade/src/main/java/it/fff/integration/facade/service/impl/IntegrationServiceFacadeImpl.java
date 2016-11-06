@@ -277,9 +277,10 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 		
 		boolean readFromCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_READ_FROM_CACHE));
 		boolean writeToCache = Boolean.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_UPDATE_CACHE));
-		
+
 		if(readFromCache){ //Prendo i place dalla cache (cache = DB e non servizio esterno) solo se la cache e' abilitata
 			bos = this.getPlacesByDescriptionInCache(token, userGpsLat, userGpsLong); 
+
 		}
 		
 		List<PlaceBO> invalidPlaces = this.getInvalidPlaces(bos); //tra i place trovati in cache alcuni potrebbero essere non piu validi (vecchi ad esempio)

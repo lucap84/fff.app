@@ -23,7 +23,7 @@ public class TypologicalCacheLoader {
 	public List<EventStateEnum> cachedEventStates;
 	public List<AttendanceStateEnum> cachedAttendanceStates;
 
-	private TypologicalCacheLoader() {
+	public TypologicalCacheLoader() {
 		logger.debug("Loading cached typological data...");
 		//Fetch data on startup
 		this.loadEventStates();
@@ -32,12 +32,12 @@ public class TypologicalCacheLoader {
 		logger.debug("...Typological cached data loaded");
 	}
 
-	public static TypologicalCacheLoader getInstance() {
-		if (typologicalLoader == null) {
-			typologicalLoader = new TypologicalCacheLoader();
-		}
-		return typologicalLoader;
-	}
+//	public static TypologicalCacheLoader getInstance() {
+//		if (typologicalLoader == null) {
+//			typologicalLoader = new TypologicalCacheLoader();
+//		}
+//		return typologicalLoader;
+//	}
 
 	private void loadPlaceTypes() {
 		TypologicalPersistenceService typologicalPersistenceService = (TypologicalPersistenceService) PersistenceServiceProvider.getPersistenceService("typologicalPersistenceService");
