@@ -92,9 +92,15 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			bo.setGpsLat(Double.valueOf(dto.getGpsLat()));
 			bo.setGpsLong(Double.valueOf(dto.getGpsLong()));
 			bo.setCap(dto.getCap());
+			bo.setPlaceKey(dto.getPlaceKey());
+			
+			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
+			bo.setPlaceType(placeTypeMapper.mapDTO2BO(dto.getPlaceType()));
 			
 			CityMapper cityMapper = CityMapper.getInstance();
 			bo.setCity(cityMapper.mapDTO2BO(dto.getCity()));
+			
+			
 			
 		}
 		return bo;

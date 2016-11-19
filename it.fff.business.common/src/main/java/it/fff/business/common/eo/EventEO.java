@@ -45,6 +45,9 @@ public class EventEO extends EntityObject{
 	@JoinColumn(name = "Luogo_ID", nullable = false)
 	private PlaceEO location;	
 	
+	@Column(name="Data_Creazione")
+	private String dataCreazione;
+	
 	@Column(name="Data_Aggiornamento")
 	private String dataAggiornamento;
 	
@@ -151,9 +154,19 @@ public class EventEO extends EntityObject{
 		this.dataAggiornamento = dataAggiornamento;
 	}
 	
+	public String getDataCreazione() {
+		return dataCreazione;
+	}
+	
+	public void setDataCreazione(String dataCreazione) {
+		this.dataCreazione = dataCreazione;
+	}
+	
+	
 	/*
 	 * IfNotEmpty
 	 */
+
 
 	public void setIdIfNotEmpty(Integer id) {
 		if(!isEmpty(id)) this.setId(id);
@@ -172,5 +185,8 @@ public class EventEO extends EntityObject{
 	}
 	public void setDataAggiornamentoIfNotEmpty(String dataAggiornamento) {
 		if(!isEmpty(dataAggiornamento)) this.setDataAggiornamento(dataAggiornamento);
-	}	
+	}
+	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
+		if(!isEmpty(dataCreazione)) this.setDataCreazione(dataCreazione);
+	}
 }

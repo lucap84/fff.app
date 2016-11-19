@@ -11,6 +11,7 @@ public class PlaceDTO extends DataTransferObject {
 	private static final long serialVersionUID = -6876900976330417334L;
 	
 	private int id;
+	private String placeKey;
 	private String nome;
 	private double gpsLat;
 	private double gpsLong;
@@ -74,4 +75,12 @@ public class PlaceDTO extends DataTransferObject {
 	public void setPlaceType(PlaceTypeEnum placeType) {
 		this.placeType = placeType;
 	}
+	@XmlElement public String getPlaceKey() {
+		return placeKey;
+	}
+	public void setPlaceKey(String placeKey) {
+		this.placeKey = placeKey;
+	}
+	
+	
 }

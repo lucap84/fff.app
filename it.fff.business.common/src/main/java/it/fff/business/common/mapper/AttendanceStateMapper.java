@@ -5,6 +5,8 @@ import static org.hibernate.Hibernate.isInitialized;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import it.fff.business.common.bo.AttendanceBO;
@@ -20,6 +22,7 @@ import it.fff.clientserver.common.enums.EventStateEnum;
 public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,AttendanceStateEnum,AttendanceStateEO>{
 
 	private static AttendanceStateMapper mapper;
+	private static final Logger logger = LogManager.getLogger(AttendanceStateMapper.class);
 	
 	private AttendanceStateMapper(){
 		
@@ -55,6 +58,7 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	@Override
 	public AttendanceStateEO mergeBO2EO(AttendanceStateEnum bo, AttendanceStateEO eo, Session session) {
 		if(bo!=null && bo!=AttendanceStateEnum.UNKNOW){
+			//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO (non uso setter sul EO)
 			eo = (AttendanceStateEO)session.load(AttendanceStateEO.class, bo.getId());
 		}
 		return eo;
@@ -77,8 +81,13 @@ public class AttendanceStateMapper implements Mapper<AttendanceStateEnum,Attenda
 	public AttendanceStateEnum mapEO2BO(AttendanceStateEO eo) {
 		AttendanceStateEnum bo = AttendanceStateEnum.UNKNOW;
 		if(eo!=null && isInitialized(eo)){
-			bo = AttendanceStateEnum.valueOf(eo.getNome());
-			bo.setId(eo.getId());
+			try{
+				bo = AttendanceStateEnum.valueOf(eo.getNome().toUpperCase());
+				bo.setId(eo.getId());
+			}
+			catch(IllegalArgumentException e){
+				logger.error("State not Recognized! :"+eo.getNome());
+			}
 		}
 		else{
 			bo = AttendanceStateEnum.UNKNOW;

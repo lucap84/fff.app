@@ -1,7 +1,10 @@
 package it.fff.clientserver.common.enums;
 
-import it.fff.clientserver.common.dto.DataTransferObject;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
 
+
+@XmlEnum
 public enum FeedbackEnum {
 	POSITIVE,
 	NEGATIVE,

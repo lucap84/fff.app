@@ -129,8 +129,15 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 		Session session = sessionFactory.openSession();
 	    Transaction tx = null;
 	    Integer eventId = null;
-	      try{
+	    
+	    String dataCreazione = Constants.DATE_FORMATTER.format(new Date());
+	    String dataAggiornamento = Constants.DATE_FORMATTER.format(new Date());
+
+	    try{
 				tx = session.beginTransaction();
+				
+				
+//				eventBO.getLocation().getPlaceType()
 				
 				EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null, session);
 				
@@ -141,6 +148,9 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				eventEO.setStato((EventStateEO) session.load(EventStateEO.class, eventStateId));
 				eventEO.setCategoria((EventCategoryEO) session.load(EventCategoryEO.class, eventEO.getCategoria().getId()));
 				
+				eventEO.setDataCreazione(dataCreazione);
+				eventEO.setDataAggiornamento(dataAggiornamento);
+				
 				//ora posso salvare l'evento
 				eventId = (Integer)session.save(eventEO);
 				
@@ -149,6 +159,8 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 					Integer attStateId = AttendanceStateEnum.valueOf(a.getStato().getNome()).getId();
 					a.getStato().setId(attStateId);
 					a.setEvent(eventEO);
+					a.setDataCreazione(dataCreazione);
+					a.setDataAggiornamento(dataAggiornamento);
 					session.save(a);
 			}
 			

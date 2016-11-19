@@ -1,5 +1,9 @@
 package it.fff.clientserver.common.enums;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
+
+@XmlEnum
 public enum PlaceTypeEnum {
 	STREET_ADDRESS,
 	ROUTE,
@@ -40,7 +44,7 @@ public enum PlaceTypeEnum {
 	
 	private int id;
 
-	public int getId() {
+	@XmlElement public int getId() {
 		return id;
 	}
 

@@ -5,6 +5,8 @@ import static org.hibernate.Hibernate.isInitialized;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import it.fff.business.common.eo.PlaceEO;
@@ -14,6 +16,7 @@ import it.fff.clientserver.common.enums.PlaceTypeEnum;
 public class PlaceTypeMapper implements Mapper<PlaceTypeEnum,PlaceTypeEnum,PlaceTypeEO>{
 
 	private static PlaceTypeMapper mapper;
+	private static final Logger logger = LogManager.getLogger(PlaceTypeMapper.class);
 	
 	private PlaceTypeMapper(){
 	}
@@ -42,7 +45,13 @@ public class PlaceTypeMapper implements Mapper<PlaceTypeEnum,PlaceTypeEnum,Place
 	public PlaceTypeEnum mapEO2BO(PlaceTypeEO eo) {
 		PlaceTypeEnum bo = PlaceTypeEnum.UNKNOW;
 		if(eo!=null && isInitialized(eo)){
-			bo = PlaceTypeEnum.valueOf(eo.getNome().toUpperCase());
+			try{
+				bo = PlaceTypeEnum.valueOf(eo.getNome().toUpperCase());
+				bo.setId(eo.getId());
+			}
+			catch(IllegalArgumentException e){
+				logger.error("State not Recognized! :"+eo.getNome());
+			}
 		}
 		else{
 			bo = PlaceTypeEnum.UNKNOW;
@@ -87,14 +96,9 @@ public class PlaceTypeMapper implements Mapper<PlaceTypeEnum,PlaceTypeEnum,Place
 
 	@Override
 	public PlaceTypeEO mergeBO2EO(PlaceTypeEnum bo, PlaceTypeEO eo, Session session) {
-		if(bo!=null){
-			if(bo.getId()>0){
-				eo = (PlaceTypeEO)session.load(PlaceTypeEO.class, bo.getId());
-			}
-			if(eo==null){
-				eo = new PlaceTypeEO();
-			}
-			eo.setNome(bo.name());
+		if(bo!=null && bo!=PlaceTypeEnum.UNKNOW){
+			//L'entita' non va mai creata/modificata quindi avro' sempre id valorizzato se ho il BO (non uso setter sul EO)
+			eo = (PlaceTypeEO)session.load(PlaceTypeEO.class, bo.getId());
 		}
 		return eo;
 	}

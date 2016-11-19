@@ -14,7 +14,6 @@ import it.fff.persistence.util.PersistenceServiceProvider;
 public class TypologicalCacheLoader {
 
 	private static final Logger logger = LogManager.getLogger(TypologicalCacheLoader.class);
-	private static TypologicalCacheLoader typologicalLoader;
 
 	//	public static Map<EventStateEnum,Integer> eventStateEnum2ID = new HashMap<EventStateEnum,Integer>();
 	//	public static Map<AttendanceStateEnum,Integer> attendanceStateEnum2ID = new HashMap<AttendanceStateEnum,Integer>();

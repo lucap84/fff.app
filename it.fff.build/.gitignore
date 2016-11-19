@@ -36,3 +36,4 @@ fabric.properties
 ### Intellij Patch ###
 *.iml
 /fff_configuration_files/
+/it.fff.clientserver.common.dto.json/
