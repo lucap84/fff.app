@@ -68,6 +68,7 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			dto.setCivico(bo.getCivico());
 			dto.setRoute(bo.getAddressRoute());
 			dto.setCap(bo.getCap());
+			dto.setPlaceKey(bo.getPlaceKey());
 			
 			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
 			dto.setPlaceType(placeTypeMapper.mapBO2DTO(bo.getPlaceType()));
@@ -125,9 +126,9 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			eo.setPlaceKeyIfNotEmpty(bo.getPlaceKey());
 			
 			if(eo.getDataCreazione()==null || "".equals(eo.getDataCreazione())){
-				eo.setDataCreazione(bo.getDataCreazione());
+				eo.setDataCreazione(bo.getDataCreazione()==null?Constants.DATE_FORMATTER.format(new Date()):bo.getDataCreazione());
 			}
-			eo.setDataAggiornamento(bo.getDataAggiornamento());
+			eo.setDataAggiornamento(bo.getDataAggiornamento()==null?Constants.DATE_FORMATTER.format(new Date()):bo.getDataAggiornamento());
 			
 			eo.setPlaceType(PlaceTypeMapper.getInstance().mergeBO2EO(bo.getPlaceType(), null, session));
 			
@@ -169,15 +170,15 @@ public class PlaceMapper implements Mapper<PlaceDTO,PlaceBO,PlaceEO>{
 			Date dataAggiornamento = null;
 //			DateFormat df = new SimpleDateFormat();
 			try {
-				dataCreazione = Constants.DATE_FORMATTER.parse(eo.getDataCreazione());
-				dataAggiornamento = Constants.DATE_FORMATTER.parse(eo.getDataAggiornamento());
+				dataCreazione = Constants.DATE_FORMATTER.parse(eo.getDataCreazione()!=null?eo.getDataCreazione():Constants.DATE_DEFAULT_YYYY_MM_DD);
+				dataAggiornamento = Constants.DATE_FORMATTER.parse(eo.getDataAggiornamento()!=null?eo.getDataAggiornamento():Constants.DATE_DEFAULT_YYYY_MM_DD);
 			} catch (ParseException e) {
 				logger.error("Errore durante il parsing delle date Luogo prese dal DB");
 				e.printStackTrace();
 			}
 			
-			bo.setDataCreazione(Constants.DATE_FORMATTER.format(dataCreazione));
-			bo.setDataAggiornamento(Constants.DATE_FORMATTER.format(dataAggiornamento));
+			bo.setDataCreazione(dataCreazione!=null?Constants.DATE_FORMATTER.format(dataCreazione):Constants.DATE_DEFAULT_YYYY_MM_DD);
+			bo.setDataAggiornamento(dataAggiornamento!=null?Constants.DATE_FORMATTER.format(dataAggiornamento):Constants.DATE_DEFAULT_YYYY_MM_DD);
 			
 			PlaceTypeMapper placeTypeMapper = PlaceTypeMapper.getInstance();
 			bo.setPlaceType(placeTypeMapper.mapEO2BO(eo.getPlaceType()));

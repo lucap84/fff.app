@@ -103,7 +103,7 @@ public class FlokkerUtils {
 	}
 	
 	public static boolean isDateStillValid(String dateToVerify, int expirationDays) {
-		if(dateToVerify==null){
+		if(dateToVerify==null || "".equals(dateToVerify)){
 			return false;
 		}
 		

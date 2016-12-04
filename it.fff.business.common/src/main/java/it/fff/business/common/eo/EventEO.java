@@ -2,6 +2,7 @@ package it.fff.business.common.eo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +42,7 @@ public class EventEO extends EntityObject{
 	@JoinColumn(name = "Categoria_ID", nullable = false)
 	private EventCategoryEO categoria;
 	
-	@ManyToOne	//Unidirectional
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})	//Unidirectional
 	@JoinColumn(name = "Luogo_ID", nullable = false)
 	private PlaceEO location;	
 	
@@ -56,6 +57,12 @@ public class EventEO extends EntityObject{
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private List<MessageEO> messages;
+	
+	@Column(name="Partecipanti_Utenti")
+	private Integer numUserAttendances;
+	
+	@Column(name="Partecipanti_Ospiti")
+	private Integer numGuestAttendances;
 	
 	public EventEO(){
 		
@@ -162,10 +169,28 @@ public class EventEO extends EntityObject{
 		this.dataCreazione = dataCreazione;
 	}
 	
+	public Integer getNumUserAttendances() {
+		return numUserAttendances;
+	}
+	
+	public void setNumUserAttendances(Integer numUserAttendances) {
+		this.numUserAttendances = numUserAttendances;
+	}
+	
+	public Integer getNumGuestAttendances() {
+		return numGuestAttendances;
+	}
+	
+	public void setNumGuestAttendances(Integer numGuestAttendances) {
+		this.numGuestAttendances = numGuestAttendances;
+	}
+	
+	
 	
 	/*
 	 * IfNotEmpty
 	 */
+
 
 
 	public void setIdIfNotEmpty(Integer id) {
@@ -189,4 +214,11 @@ public class EventEO extends EntityObject{
 	public void setDataCreazioneIfNotEmpty(String dataCreazione) {
 		if(!isEmpty(dataCreazione)) this.setDataCreazione(dataCreazione);
 	}
+	public void setNumUserAttendancesIfNotEmpty(Integer numUserAttendances) {
+		if(!isEmpty(numUserAttendances)) this.numUserAttendances = numUserAttendances;
+	}
+	public void setNumGuestAttendancesIfNotEmpty(Integer numGuestAttendances) {
+		if(!isEmpty(numGuestAttendances)) this.numGuestAttendances = numGuestAttendances;
+	}	
+	
 }

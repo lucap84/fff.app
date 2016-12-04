@@ -106,7 +106,7 @@ public class PlacesExternalServiceGoogle implements PlacesExternalService {
 			PlaceComparator comparator = new PlaceComparator(userGpsLat, userGpsLong);
 			Collections.sort(bos, comparator);
 			
-			placeBO = bos.get(0); //Restituisco solo il place piu' vicino all'utente (quindi attinente)
+			placeBO = bos.size()>0?bos.get(0):null; //Restituisco solo il place piu' vicino all'utente (quindi attinente), SE PRESENTE
 		}
 		
 		logger.debug("... return from External service getPlaceByGPS");

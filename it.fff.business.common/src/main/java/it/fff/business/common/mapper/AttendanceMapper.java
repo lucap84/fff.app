@@ -146,7 +146,7 @@ public class AttendanceMapper implements Mapper<AttendanceDTO,AttendanceBO,Atten
 			eo.setStato(attendanceMapper.mergeBO2EO(bo.getStato(), eo.getStato(), session));
 			
 			if(bo.getUtente()!=null && bo.getUtente().getId()>0 && eo.getUtente()==null){
-				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getEventId());
+				UserEO userEO = (UserEO)session.load(UserEO.class, bo.getUtente().getId());
 				eo.setUtente(userEO);
 			}
 		}

@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventBO;
 import it.fff.business.common.eo.EventEO;
+import it.fff.business.common.util.AttendancesUtil;
 import it.fff.clientserver.common.dto.EventDTO;
 import it.fff.clientserver.common.enums.EventStateEnum;
 
@@ -92,10 +93,16 @@ public class EventMapper implements Mapper<EventDTO,EventBO,EventEO>{
 			eo.setDataInizioIfNotEmpty(bo.getDataInizio());
 			
 			PlaceMapper placeMapper = PlaceMapper.getInstance();
-			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), null, session));
+			eo.setLocation(placeMapper.mergeBO2EO(bo.getLocation(), eo.getLocation(), session));
 			
 			AttendanceMapper attendanceMapper = AttendanceMapper.getInstance();
 			eo.setPartecipazioni(attendanceMapper.mergeBOs2EOs(bo.getPartecipazioni(),eo.getPartecipazioni(), session));
+			
+			int numUsers = AttendancesUtil.calculateTotalUserAttendances(bo.getPartecipazioni());
+			int numGuests = AttendancesUtil.calculateTotalGuestAttendances(bo.getPartecipazioni());
+			eo.setNumUserAttendancesIfNotEmpty(numUsers);
+			eo.setNumGuestAttendancesIfNotEmpty(numGuests);
+			
 			
 			EventCategoryMapper eventCategoryMapper = EventCategoryMapper.getInstance();
 			eo.setCategoria(eventCategoryMapper.mergeBO2EO(bo.getCategoria(),eo.getCategoria(), session));

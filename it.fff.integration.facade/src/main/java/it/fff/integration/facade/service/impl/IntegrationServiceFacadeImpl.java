@@ -301,14 +301,14 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 			
 			PlaceBO userPlace = null;
 			String userRegion = null;
+			List<PlaceBO> placesByDescrExtService = null;
 			try{
 				//recupero prima la Region del chiamante (partendo dalle sue coordinate) per raffinare la ricerca successiva
 				userPlace = this.getPlaceByGPS(userGpsLat, userGpsLong);
 				userRegion =  this.getRegionByPlace(userPlace);
 			
-				//Search on External service and add all results
-				List<PlaceBO> placesByDescription = placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong, userRegion);
-				bos.addAll(placesByDescription);	
+				//Search on External service
+				placesByDescrExtService = placesExternalService.getPlacesByDescription(token, userGpsLat, userGpsLong, userRegion);
 			}
 			catch(Exception e){
 				logger.error(e.getMessage());
@@ -323,14 +323,21 @@ public class IntegrationServiceFacadeImpl implements IntegrationServiceFacade{
 						placesPersistenceService.saveOrUpdatePlace(userPlace, null);  //non c'e' token perche' il place e' stato trovato tramite coordinate
 					}
 					
-					if(bos!=null && bos.size()>0){//Salvo o aggiorno tutti i luoghi ricavati dalla ricerca tramite token (a partire dalla coordinate gps utente)
-						for (PlaceBO placeBO : bos) {
-							placesPersistenceService.saveOrUpdatePlace(placeBO, token); 
+					if(placesByDescrExtService!=null && placesByDescrExtService.size()>0){//Salvo o aggiorno tutti i luoghi ricavati dalla ricerca tramite token (a partire dalla coordinate gps utente)
+						for (PlaceBO placeBO : placesByDescrExtService) {
+							WriteResultBO saveOrUpdatePlace = placesPersistenceService.saveOrUpdatePlace(placeBO, token);
+							if(saveOrUpdatePlace.isSuccess()){
+								//Se il place recuperato dai servizi esterni e' stato salvato correttmente, lo aggiungo i risultati da ritornare (compreso il suo ID)
+								placeBO.setId(saveOrUpdatePlace.getWrittenKey());
+								bos.add(placeBO);
+							}
 						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			} else { //se non salvo i risultati trovati da google su DB, li aggiungo ai risultati da ritornare (ma avranno id=0) non essendo su DB flokker
+				bos.addAll(placesByDescrExtService);
 			}
 		}
 		

@@ -36,7 +36,7 @@ public class PlacesBusinessServiceImpl implements PlacesBusinessService{
 		List<PlaceBO> bosList = new ArrayList<PlaceBO>(bos);
 		
 		//Ordinamento basato su coordinate uente
-		if(gpsUserLat!=0 && gpsUserLong!=0){
+		if(gpsUserLat !=0 && gpsUserLong !=0 && bosList.size() > 1){
 			PlaceComparator comparator = new PlaceComparator(gpsUserLat, gpsUserLong);
 			Collections.sort(bosList, comparator);
 		}

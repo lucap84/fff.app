@@ -201,7 +201,7 @@ public class PlacesPersistenceServiceHibernate implements PlacesPersistenceServi
 	    		//aggiorno il place esistente se e' "scaduto"
 	    		int ttlDays = Integer.valueOf(ConfigurationProvider.getInstance().getPlacesConfigProperty(Constants.PROP_PLACE_EXT_CACHING_TTL));
 	    		String dataAggiornamentoSuDB = placeEO.getDataAggiornamento();
-	    		if(!FlokkerUtils.isDateStillValid(dataAggiornamentoSuDB,ttlDays)){ //il place non e' piu' aggiornato
+	    		if(!FlokkerUtils.isDateStillValid(dataAggiornamentoSuDB, ttlDays)){ //il place non e' piu' aggiornato
 		    		placeBO.setDataAggiornamento(Constants.DATE_FORMATTER.format(new Date()));
 		    		placeEO = PlaceMapper.getInstance().mergeBO2EO(placeBO, placeEO, session);
 	    		}

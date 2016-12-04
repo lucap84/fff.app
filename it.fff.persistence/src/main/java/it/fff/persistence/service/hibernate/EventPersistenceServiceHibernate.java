@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.w3c.dom.events.EventException;
 
 import it.fff.business.common.bo.AttendanceBO;
 import it.fff.business.common.bo.EventCategoryBO;
@@ -141,12 +142,14 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				
 				EventEO eventEO = EventMapper.getInstance().mergeBO2EO(eventBO, null, session);
 				
-				Integer eventStateId = eventBO.getStato().getId();
-	    	
 				//Rendo managed tutti gli oggetti collegati all'evento
-				eventEO.setLocation((PlaceEO) session.load(PlaceEO.class, eventEO.getLocation().getId()));
-				eventEO.setStato((EventStateEO) session.load(EventStateEO.class, eventStateId));
-				eventEO.setCategoria((EventCategoryEO) session.load(EventCategoryEO.class, eventEO.getCategoria().getId()));
+				Hibernate.initialize(eventEO);
+				Hibernate.initialize(eventEO.getLocation()); //In teoria se la location non e' su DB deve essere creata insieme all'evento (cascade)
+				if(eventEO.getLocation().getId() == null || "".equals(eventEO.getLocation().getId()) ){
+					session.save(eventEO.getLocation());
+				}
+				Hibernate.initialize(eventEO.getStato());
+				Hibernate.initialize(eventEO.getCategoria());
 				
 				eventEO.setDataCreazione(dataCreazione);
 				eventEO.setDataAggiornamento(dataAggiornamento);
@@ -156,11 +159,14 @@ public class EventPersistenceServiceHibernate implements EventPersistenceService
 				
 				//salvo anche le sue partecipazioni ora che ho l'ID evento (non sono salvate in cascade)
 				for (AttendanceEO a : eventEO.getPartecipazioni()) {
-					Integer attStateId = AttendanceStateEnum.valueOf(a.getStato().getNome()).getId();
-					a.getStato().setId(attStateId);
-					a.setEvent(eventEO);
+					a.setEvent(eventEO); //ancora non erano legati dato che non avevo l'ID evento fino a questo momento
+					
+//					Integer attStateId = AttendanceStateEnum.valueOf(a.getStato().getNome()).getId();
+//					a.getStato().setId(attStateId);
+					Hibernate.initialize(a.getUtente());
 					a.setDataCreazione(dataCreazione);
 					a.setDataAggiornamento(dataAggiornamento);
+					
 					session.save(a);
 			}
 			

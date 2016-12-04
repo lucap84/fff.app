@@ -8,8 +8,9 @@ public class Constants {
 	/*
 	 * Date formatter constants
 	 */
-	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+	public final static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public final static DateFormat DATE_FORMATTER_FACEBOOK = new SimpleDateFormat("MM/dd/yyyy");
+	public final static String DATE_DEFAULT_YYYY_MM_DD = "1970-01-01 00:00:00";
 			
 	/*
 	 * Security constants
